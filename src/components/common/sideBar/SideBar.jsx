@@ -73,7 +73,6 @@ const StyledSideBar = styled.div`
     position: fixed;
     width: 75px;
     height: 100vh;
-    margin-top: 55px;
     padding: 5px;
 `
 
