@@ -5,16 +5,16 @@ import FloatSideBar from '../components/common/floatSideBar/FloatSideBar'
 import styled from 'styled-components'
 
 
-const Folowing = () => {
-    return (
+const CommonLayouts = (props) => {
+  return (
     <>
         <TopBar />
-        <FloatSideBar page="following"/>
+        <FloatSideBar page={props.page}/>
         <StyledMain>
-            <SideBar page="following"/>
+        <SideBar page={props.page}/>
         </StyledMain>
     </>
-    )
+  )
 }
 
 
@@ -23,4 +23,4 @@ const StyledMain = styled.div`
 `
 
 
-export default Folowing
+export default CommonLayouts

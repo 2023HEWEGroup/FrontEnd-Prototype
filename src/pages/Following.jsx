@@ -2,11 +2,10 @@ import React from 'react'
 import CommonLayouts from '../layouts/CommonLayout'
 
 
-const Profile = () => {
+const Following = () => {
   return (
-    <CommonLayouts page="profile"/>
+    <CommonLayouts page="following"/>
   )
 }
 
-
-export default Profile
+export default Following

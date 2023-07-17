@@ -5,7 +5,7 @@ import { lightBlueTheme } from "./layouts/theme";
 import Top from "./pages/Top";
 import Home from "./pages/Home";
 import Product from "./pages/product/Product";
-import Folowing from "./pages/Folowing";
+import Following from "./pages/Following";
 import Group from "./pages/Group";
 import Setting from "./pages/Setting";
 import Exhibit from "./pages/Exhibit";
@@ -28,7 +28,7 @@ function App() {
           <Route path="/product" element={<Product />}>
             <Route path="trading" element={<Trading />}></Route>
           </Route>
-          <Route path="/following" element={<Folowing />}></Route>
+          <Route path="/following" element={<Following />}></Route>
           <Route path="/group" element={<Group />}></Route>
           <Route path="/exhibit" element={<Exhibit />}></Route>
           <Route path="/notify" element={<Notify />}></Route>
