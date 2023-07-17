@@ -24,7 +24,7 @@ const SideBar = (props) => {
         <Tooltip title="ホーム" placement='right' arrow={true}>
           <StyledLink to={"/home"}>
             <StyledSideBarElements>
-              {props.page === "home" ? <StyledHomeIcon color='secondary' /> : <StyledHomeOutlinedIcon />}
+              {props.page === "/home" ? <StyledHomeIcon color='secondary' /> : <StyledHomeOutlinedIcon />}
               <StyledIconName>ホーム</StyledIconName>
             </StyledSideBarElements>
           </StyledLink>
@@ -35,7 +35,7 @@ const SideBar = (props) => {
         <Tooltip title="商品" placement='right' arrow={true}>
           <StyledLink to={"/product"}>
             <StyledSideBarElements>
-              {props.page === "product" ? <StyledShoppingCartIcon color='secondary' /> : <StyledShoppingCartOutlinedIcon />}
+              {props.page === "/product" ? <StyledShoppingCartIcon color='secondary' /> : <StyledShoppingCartOutlinedIcon />}
               <StyledIconName>商品</StyledIconName>
             </StyledSideBarElements>
           </StyledLink>
@@ -46,7 +46,7 @@ const SideBar = (props) => {
         <Tooltip title="フォロー中" placement='right' arrow={true}>
           <StyledLink to={"/following"}>
             <StyledSideBarElements>
-              {props.page === "following" ? <StyledGroupIcon color='secondary' /> : <StyledGroupOutlinedIcon />}
+              {props.page === "/following" ? <StyledGroupIcon color='secondary' /> : <StyledGroupOutlinedIcon />}
               <StyledIconName>フォロー中</StyledIconName>
             </StyledSideBarElements>
           </StyledLink>
@@ -57,7 +57,7 @@ const SideBar = (props) => {
         <Tooltip title="グループ" placement='right' arrow={true}>
           <StyledLink to={"/group"}>
             <StyledSideBarElements>
-              {props.page === "group" ? <StyledFolderSharedIcon color='secondary' /> : <StyledFolderSharedOutlinedIcon />}
+              {props.page === "/group" ? <StyledFolderSharedIcon color='secondary' /> : <StyledFolderSharedOutlinedIcon />}
               <StyledIconName>グループ</StyledIconName>
             </StyledSideBarElements>
           </StyledLink>

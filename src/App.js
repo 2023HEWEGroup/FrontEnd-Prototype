@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import { lightBlueTheme } from "./layouts/theme";
@@ -14,6 +14,7 @@ import Profile from "./pages/Profile";
 import Help from "./pages/Help";
 import Info from "./pages/Info";
 import Trading from "./pages/product/trading/Trading";
+import CommonLayouts from "./layouts/CommonLayout";
 
 
 function App() {
@@ -21,23 +22,23 @@ function App() {
   return (
     <ThemeProvider theme={lightBlueTheme}>
       <CssBaseline />
-      <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Top />}></Route>
-          <Route path="/home" element={<Home />}></Route>
-          <Route path="/product" element={<Product />}>
-            <Route path="trading" element={<Trading />}></Route>
+          <Route path="/" element={<CommonLayouts />}>
+            <Route index element={<Top />}></Route>
+            <Route path="home" element={<Home />}></Route>
+            <Route path="product" element={<Product />}>
+              <Route path="trading" element={<Trading />}></Route>
+            </Route>
+            <Route path="following" element={<Following />}></Route>
+            <Route path="group" element={<Group />}></Route>
+            <Route path="exhibit" element={<Exhibit />}></Route>
+            <Route path="notify" element={<Notify />}></Route>
+            <Route path="profile" element={<Profile />}></Route>
+            <Route path="setting" element={<Setting />}></Route>
+            <Route path="info" element={<Info />}></Route>
+            <Route path="help" element={<Help />}></Route>
           </Route>
-          <Route path="/following" element={<Following />}></Route>
-          <Route path="/group" element={<Group />}></Route>
-          <Route path="/exhibit" element={<Exhibit />}></Route>
-          <Route path="/notify" element={<Notify />}></Route>
-          <Route path="/profile" element={<Profile />}></Route>
-          <Route path="/setting" element={<Setting />}></Route>
-          <Route path="/info" element={<Info />}></Route>
-          <Route path="/help" element={<Help />}></Route>
         </Routes>
-      </BrowserRouter>
     </ThemeProvider>
   );
 }

@@ -4,17 +4,22 @@ import SideBar from '../components/common/sideBar/SideBar'
 import FloatSideBar from '../components/common/floatSideBar/FloatSideBar'
 import styled from 'styled-components'
 import { Box } from '@mui/material'
+import { Outlet, useLocation } from 'react-router-dom'
 
 
-const CommonLayouts = (props) => {
+const CommonLayouts = () => {
+
+  const location = useLocation();
+
   return (
     <>
         <Box sx={{height: "55px", width: "100vw"}} />
         <TopBar />
-        <FloatSideBar page={props.page}/>
+        <FloatSideBar page={location.pathname}/>
         <StyledMain>
           <Box sx={{width: "75px"}}/>
-        <SideBar page={props.page}/>
+          <Outlet />
+        <SideBar page={location.pathname}/>
         </StyledMain>
     </>
   )

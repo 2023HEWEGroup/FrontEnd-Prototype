@@ -129,8 +129,8 @@ const FloatSideBar = (props) => {
                 <StyledListItem>
                     <Tooltip title="ホーム" placement='right' arrow={true}>
                         <StyledLink to={"/home"}>
-                            <StyledListElements style={props.page === "home" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
-                                {props.page === "home" ? <StyledHomeIcon color='secondary' /> : <StyledHomeOutlinedIcon />}
+                            <StyledListElements style={props.page === "/home" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
+                                {props.page === "/home" ? <StyledHomeIcon color='secondary' /> : <StyledHomeOutlinedIcon />}
                                 <StyledListItemText primary="ホーム" />
                             </StyledListElements>
                         </StyledLink>
@@ -139,8 +139,8 @@ const FloatSideBar = (props) => {
                 <StyledListItem>
                     <Tooltip title="商品" placement='right' arrow={true}>
                         <StyledLink to={"/product"}>
-                            <StyledListElements style={props.page === "product" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
-                                {props.page === "product" ? <StyledShoppingCartIcon color='secondary' /> : <StyledShoppingCartOutlinedIcon />}
+                            <StyledListElements style={props.page === "/product" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
+                                {props.page === "/product" ? <StyledShoppingCartIcon color='secondary' /> : <StyledShoppingCartOutlinedIcon />}
                                 <StyledListItemText primary="商品" />
                             </StyledListElements>
                         </StyledLink>
@@ -149,8 +149,8 @@ const FloatSideBar = (props) => {
                 <StyledListItem>
                     <Tooltip title="出品" placement='right' arrow={true}>
                         <StyledLink to={"/exhibit"}>
-                            <StyledListElements style={props.page === "exhibit" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
-                                {props.page === "exhibit" ? <StyledAddBoxIcon color='secondary' /> : <StyledAddBoxOutlinedIcon />}
+                            <StyledListElements style={props.page === "/exhibit" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
+                                {props.page === "/exhibit" ? <StyledAddBoxIcon color='secondary' /> : <StyledAddBoxOutlinedIcon />}
                                 <StyledListItemText primary="出品" />
                             </StyledListElements>
                         </StyledLink>
@@ -159,8 +159,8 @@ const FloatSideBar = (props) => {
                 <StyledListItem>
                     <Tooltip title="通知" placement='right' arrow={true}>
                         <StyledLink to={"/notify"}>
-                            <StyledListElements style={props.page === "notify" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
-                                {props.page === "notify" ? <StyledNotificationsIcon color='secondary' /> : <StyledNotificationsOutlinedIcon />}
+                            <StyledListElements style={props.page === "/notify" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
+                                {props.page === "/notify" ? <StyledNotificationsIcon color='secondary' /> : <StyledNotificationsOutlinedIcon />}
                                 <StyledListItemText primary="通知" />
                             </StyledListElements>
                         </StyledLink>
@@ -169,8 +169,8 @@ const FloatSideBar = (props) => {
                 <StyledListItem>
                     <Tooltip title="プロフィール" placement='right' arrow={true}>
                         <StyledLink to={"/profile"}>
-                            <StyledListElements style={props.page === "profile" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
-                                {props.page === "profile" ? <StyledAccountCircleIcon color='secondary' /> : <StyledAccountCircleOutlinedIcon />}
+                            <StyledListElements style={props.page === "/profile" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
+                                {props.page === "/profile" ? <StyledAccountCircleIcon color='secondary' /> : <StyledAccountCircleOutlinedIcon />}
                                 <StyledListItemText primary="プロフィール" />
                             </StyledListElements>
                         </StyledLink>
@@ -179,8 +179,8 @@ const FloatSideBar = (props) => {
                 <StyledListItem>
                     <Tooltip title="フォロー中" placement='right' arrow={true}>
                         <StyledLink to={"/following"}>
-                            <StyledListElements style={props.page === "following" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
-                                {props.page === "following" ? <StyledGroupIcon color='secondary' /> : <StyledGroupOutlinedIcon />}
+                            <StyledListElements style={props.page === "/following" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
+                                {props.page === "/following" ? <StyledGroupIcon color='secondary' /> : <StyledGroupOutlinedIcon />}
                                 <StyledListItemText primary="フォロー中" />
                             </StyledListElements>
                         </StyledLink>
@@ -189,8 +189,8 @@ const FloatSideBar = (props) => {
                 <StyledListItem>
                     <Tooltip title="グループ" placement='right' arrow={true}>
                         <StyledLink to={"/group"}>
-                            <StyledListElements style={props.page === "group" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
-                                {props.page === "group" ? <StyledFolderSharedIcon color='secondary' /> : <StyledFolderSharedOutlinedIcon />}
+                            <StyledListElements style={props.page === "/group" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
+                                {props.page === "/group" ? <StyledFolderSharedIcon color='secondary' /> : <StyledFolderSharedOutlinedIcon />}
                                 <StyledListItemText primary="グループ" />
                             </StyledListElements>
                         </StyledLink>
@@ -276,8 +276,8 @@ const FloatSideBar = (props) => {
                 <StyledListItem>
                     <Tooltip title="設定" placement='right' arrow={true}>
                         <StyledLink to={"/setting"}>
-                            <StyledListElements style={props.page === "setting" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
-                                {props.page === "setting" ? <StyledSettingsIcon color='secondary' /> : <StyledSettingsOutlinedIcon />}
+                            <StyledListElements style={props.page === "/setting" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
+                                {props.page === "/setting" ? <StyledSettingsIcon color='secondary' /> : <StyledSettingsOutlinedIcon />}
                                 <StyledListItemText primary="設定" />
                             </StyledListElements>
                         </StyledLink>
@@ -286,8 +286,8 @@ const FloatSideBar = (props) => {
                 <StyledListItem>
                     <Tooltip title="インフォメーション" placement='right' arrow={true}>
                         <StyledLink to={"/info"}>
-                            <StyledListElements style={props.page === "info" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
-                                {props.page === "info" ? <StyledInfoIcon color='secondary' /> : <StyledInfoOutlinedIcon />}
+                            <StyledListElements style={props.page === "/info" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
+                                {props.page === "/info" ? <StyledInfoIcon color='secondary' /> : <StyledInfoOutlinedIcon />}
                                 <StyledListItemText primary="インフォメーション" />
                             </StyledListElements>
                         </StyledLink>
@@ -296,8 +296,8 @@ const FloatSideBar = (props) => {
                 <StyledListItem>
                     <Tooltip title="ヘルプ" placement='right' arrow={true}>
                         <StyledLink to={"/help"}>
-                            <StyledListElements style={props.page === "help" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
-                                {props.page === "help" ? <StyledHelpIcon color='secondary' /> : <StyledHelpOutlinedIcon />}
+                            <StyledListElements style={props.page === "/help" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
+                                {props.page === "/help" ? <StyledHelpIcon color='secondary' /> : <StyledHelpOutlinedIcon />}
                                 <StyledListItemText primary="ヘルプ" />
                             </StyledListElements>
                         </StyledLink>
