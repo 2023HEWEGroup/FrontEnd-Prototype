@@ -23,20 +23,20 @@ function App() {
     <ThemeProvider theme={lightBlueTheme}>
       <CssBaseline />
         <Routes>
+          <Route path="/" element={<Top />} />
           <Route path="/" element={<CommonLayouts />}>
-            <Route index element={<Top />}></Route>
-            <Route path="home" element={<Home />}></Route>
+            <Route path="home" element={<Home />} />
             <Route path="product" element={<Product />}>
-              <Route path="trading" element={<Trading />}></Route>
+              <Route path="trading" element={<Trading />} />
             </Route>
-            <Route path="following" element={<Following />}></Route>
-            <Route path="group" element={<Group />}></Route>
-            <Route path="exhibit" element={<Exhibit />}></Route>
-            <Route path="notify" element={<Notify />}></Route>
-            <Route path="profile" element={<Profile />}></Route>
-            <Route path="setting" element={<Setting />}></Route>
-            <Route path="info" element={<Info />}></Route>
-            <Route path="help" element={<Help />}></Route>
+            <Route path="following" element={<Following />} />
+            <Route path="group" element={<Group />} />
+            <Route path="exhibit" element={<Exhibit />} />
+            <Route path="notify" element={<Notify />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="setting" element={<Setting />} />
+            <Route path="info" element={<Info />} />
+            <Route path="help" element={<Help />} />
           </Route>
         </Routes>
     </ThemeProvider>
