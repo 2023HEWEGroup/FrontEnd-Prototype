@@ -91,7 +91,7 @@ const FloatSideBar = (props) => {
         id: 7,
         name: "group7",
     },]; 
-
+    
     const dispatch = useDispatch();
     const theme = useTheme();
     const isSideOpen = useSelector((state => state.floatSideBar.value));
@@ -121,8 +121,7 @@ const FloatSideBar = (props) => {
     })
 
     return (
-    <Drawer sx={{'& ::-webkit-scrollbar': {display: "none"}, '& :hover': {'::-webkit-scrollbar': {display: "inline"}}}}
-    variant='persistent' anchor='left' open={isSideOpen} PaperProps={{style: { borderRight: 'none', marginTop: "55px" }}} transitionDuration={0}>
+    <Drawer variant='persistent' anchor='left' open={isSideOpen} PaperProps={{style: { borderRight: 'none', marginTop: "55px" }}} transitionDuration={0}>
         <StyledList style={{backgroundColor: theme.palette.primary.main}}>
 
             <StyledListBlock>
@@ -130,7 +129,7 @@ const FloatSideBar = (props) => {
                     <Tooltip title="ホーム" placement='right' arrow={true}>
                         <StyledLink to={"/home"}>
                             <StyledListElements style={props.page === "/home" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
-                                {props.page === "/home" ? <StyledHomeIcon color='secondary' /> : <StyledHomeOutlinedIcon />}
+                                {props.page === "/home" ? <StyledHomeIcon color='secondary' /> : <StyledHomeOutlinedIcon color="icon"/>}
                                 <StyledListItemText primary="ホーム" />
                             </StyledListElements>
                         </StyledLink>
@@ -140,7 +139,7 @@ const FloatSideBar = (props) => {
                     <Tooltip title="商品" placement='right' arrow={true}>
                         <StyledLink to={"/product"}>
                             <StyledListElements style={props.page === "/product" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
-                                {props.page === "/product" ? <StyledShoppingCartIcon color='secondary' /> : <StyledShoppingCartOutlinedIcon />}
+                                {props.page === "/product" ? <StyledShoppingCartIcon color='secondary' /> : <StyledShoppingCartOutlinedIcon color="icon"/>}
                                 <StyledListItemText primary="商品" />
                             </StyledListElements>
                         </StyledLink>
@@ -150,7 +149,7 @@ const FloatSideBar = (props) => {
                     <Tooltip title="出品" placement='right' arrow={true}>
                         <StyledLink to={"/exhibit"}>
                             <StyledListElements style={props.page === "/exhibit" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
-                                {props.page === "/exhibit" ? <StyledAddBoxIcon color='secondary' /> : <StyledAddBoxOutlinedIcon />}
+                                {props.page === "/exhibit" ? <StyledAddBoxIcon color='secondary' /> : <StyledAddBoxOutlinedIcon color="icon"/>}
                                 <StyledListItemText primary="出品" />
                             </StyledListElements>
                         </StyledLink>
@@ -160,7 +159,7 @@ const FloatSideBar = (props) => {
                     <Tooltip title="通知" placement='right' arrow={true}>
                         <StyledLink to={"/notify"}>
                             <StyledListElements style={props.page === "/notify" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
-                                {props.page === "/notify" ? <StyledNotificationsIcon color='secondary' /> : <StyledNotificationsOutlinedIcon />}
+                                {props.page === "/notify" ? <StyledNotificationsIcon color='secondary' /> : <StyledNotificationsOutlinedIcon color="icon"/>}
                                 <StyledListItemText primary="通知" />
                             </StyledListElements>
                         </StyledLink>
@@ -170,7 +169,7 @@ const FloatSideBar = (props) => {
                     <Tooltip title="プロフィール" placement='right' arrow={true}>
                         <StyledLink to={"/profile"}>
                             <StyledListElements style={props.page === "/profile" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
-                                {props.page === "/profile" ? <StyledAccountCircleIcon color='secondary' /> : <StyledAccountCircleOutlinedIcon />}
+                                {props.page === "/profile" ? <StyledAccountCircleIcon color='secondary' /> : <StyledAccountCircleOutlinedIcon color="icon"/>}
                                 <StyledListItemText primary="プロフィール" />
                             </StyledListElements>
                         </StyledLink>
@@ -180,7 +179,7 @@ const FloatSideBar = (props) => {
                     <Tooltip title="フォロー中" placement='right' arrow={true}>
                         <StyledLink to={"/following"}>
                             <StyledListElements style={props.page === "/following" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
-                                {props.page === "/following" ? <StyledGroupIcon color='secondary' /> : <StyledGroupOutlinedIcon />}
+                                {props.page === "/following" ? <StyledGroupIcon color='secondary' /> : <StyledGroupOutlinedIcon color="icon"/>}
                                 <StyledListItemText primary="フォロー中" />
                             </StyledListElements>
                         </StyledLink>
@@ -190,7 +189,7 @@ const FloatSideBar = (props) => {
                     <Tooltip title="グループ" placement='right' arrow={true}>
                         <StyledLink to={"/group"}>
                             <StyledListElements style={props.page === "/group" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
-                                {props.page === "/group" ? <StyledFolderSharedIcon color='secondary' /> : <StyledFolderSharedOutlinedIcon />}
+                                {props.page === "/group" ? <StyledFolderSharedIcon color='secondary' /> : <StyledFolderSharedOutlinedIcon color="icon"/>}
                                 <StyledListItemText primary="グループ" />
                             </StyledListElements>
                         </StyledLink>
@@ -198,9 +197,9 @@ const FloatSideBar = (props) => {
                 </StyledListItem>
             </StyledListBlock>
 
-            <Divider>
+            <StyledDivider>
                 <StyledListTitle>フォロー中</StyledListTitle>
-            </Divider>
+            </StyledDivider>
 
             <StyledListBlockWithTitle>
                 {visibleAccounts.map((account) => 
@@ -217,7 +216,7 @@ const FloatSideBar = (props) => {
                         <Tooltip title="すべて表示" placement='right'>
                             <StyledListElements onClick={toggleFollowingShowAll}>
                                 <StyledListItemText primary="すべて表示"/>
-                                <StyledExpandMoreIcon />
+                                <StyledExpandMoreIcon color="icon"/>
                             </StyledListElements>
                         </Tooltip>
                     </StyledListItem>
@@ -227,16 +226,16 @@ const FloatSideBar = (props) => {
                     <Tooltip title="折りたたむ" placement='right'>
                         <StyledListElements onClick={toggleFollowingShowAll}>
                             <StyledListItemText primary="折りたたむ"/>
-                            <StyledExpandLessIcon />
+                            <StyledExpandLessIcon color="icon"/>
                         </StyledListElements>
                     </Tooltip>
                 </StyledListItem>
                 )}
             </StyledListBlockWithTitle>
 
-            <Divider>
+            <StyledDivider>
                 <StyledListTitle>グループ</StyledListTitle>
-            </Divider>
+            </StyledDivider>
 
             <StyledListBlockWithTitle>
                 {visibleGroups.map((group) => 
@@ -253,7 +252,7 @@ const FloatSideBar = (props) => {
                         <Tooltip title="すべて表示" placement='right'>
                             <StyledListElements onClick={toggleGroupShowAll}>
                                 <StyledListItemText primary="すべて表示"/>
-                                <StyledExpandMoreIcon />
+                                <StyledExpandMoreIcon color="icon"/>
                             </StyledListElements>
                         </Tooltip>
                     </StyledListItem>
@@ -263,7 +262,7 @@ const FloatSideBar = (props) => {
                     <Tooltip title="折りたたむ" placement='right'>
                         <StyledListElements onClick={toggleGroupShowAll}>
                             <StyledListItemText primary="折りたたむ"/>
-                            <StyledExpandLessIcon />
+                            <StyledExpandLessIcon color="icon"/>
                         </StyledListElements>
                     </Tooltip>
                 </StyledListItem>
@@ -277,7 +276,7 @@ const FloatSideBar = (props) => {
                     <Tooltip title="設定" placement='right' arrow={true}>
                         <StyledLink to={"/setting"}>
                             <StyledListElements style={props.page === "/setting" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
-                                {props.page === "/setting" ? <StyledSettingsIcon color='secondary' /> : <StyledSettingsOutlinedIcon />}
+                                {props.page === "/setting" ? <StyledSettingsIcon color='secondary' /> : <StyledSettingsOutlinedIcon color="icon"/>}
                                 <StyledListItemText primary="設定" />
                             </StyledListElements>
                         </StyledLink>
@@ -287,7 +286,7 @@ const FloatSideBar = (props) => {
                     <Tooltip title="インフォメーション" placement='right' arrow={true}>
                         <StyledLink to={"/info"}>
                             <StyledListElements style={props.page === "/info" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
-                                {props.page === "/info" ? <StyledInfoIcon color='secondary' /> : <StyledInfoOutlinedIcon />}
+                                {props.page === "/info" ? <StyledInfoIcon color='secondary' /> : <StyledInfoOutlinedIcon color="icon"/>}
                                 <StyledListItemText primary="インフォメーション" />
                             </StyledListElements>
                         </StyledLink>
@@ -297,7 +296,7 @@ const FloatSideBar = (props) => {
                     <Tooltip title="ヘルプ" placement='right' arrow={true}>
                         <StyledLink to={"/help"}>
                             <StyledListElements style={props.page === "/help" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
-                                {props.page === "/help" ? <StyledHelpIcon color='secondary' /> : <StyledHelpOutlinedIcon />}
+                                {props.page === "/help" ? <StyledHelpIcon color='secondary' /> : <StyledHelpOutlinedIcon color="icon"/>}
                                 <StyledListItemText primary="ヘルプ" />
                             </StyledListElements>
                         </StyledLink>
@@ -307,7 +306,7 @@ const FloatSideBar = (props) => {
                     <Tooltip title="トップページ" placement='right' arrow={true}>
                         <StyledLink to={"/"}>
                         <StyledListElements>
-                                <StyledArrowBackIcon/>
+                                <StyledArrowBackIcon color='icon'/>
                                 <StyledListItemText primary="トップページ" />
                             </StyledListElements>
                         </StyledLink>
@@ -316,7 +315,7 @@ const FloatSideBar = (props) => {
                 <StyledListItem>
                     <Tooltip title="ログアウト" placement='right' arrow={true}>
                         <StyledListElements>
-                            <StyledLogoutIcon/>
+                            <StyledLogoutIcon color='icon'/>
                             <StyledListItemText primary="ログアウト" />
                         </StyledListElements>
                     </Tooltip>
@@ -335,6 +334,15 @@ const StyledList = styled(List)`
         overflow-y: scroll;
         width: 240px;
         height: calc(100vh - 55px);
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+        &:hover {
+            &::-webkit-scrollbar {
+                display: inline;
+            }
+        }
     }
 `
 
@@ -342,6 +350,7 @@ const StyledListItem = styled(ListItem)`
     && {
         justify-content: center;
         height: 45px;
+        width: 230px;
         padding: 0;
     }
 `
@@ -407,6 +416,12 @@ const StyledListTitle = styled.div`
     color: #777;
 `
 
+const StyledDivider = styled(Divider)`
+    && {
+        width: 230px;
+    }
+`
+
 const StyledHomeIcon = styled(HomeIcon)`
     && {
         width: 25px;
@@ -417,7 +432,6 @@ const StyledHomeOutlinedIcon = styled(HomeOutlinedIcon)`
     && {
         width: 25px;
         height: 25px;
-        color: #777;
     }
 `
 
@@ -431,7 +445,6 @@ const StyledShoppingCartOutlinedIcon = styled(ShoppingCartOutlinedIcon)`
     && {
         width: 25px;
         height: 25px;
-        color: #777;
     }
 `
 
@@ -445,7 +458,6 @@ const StyledGroupOutlinedIcon = styled(GroupOutlinedIcon)`
     && {
         width: 25px;
         height: 25px;
-        color: #777;
     }
 `
 
@@ -459,7 +471,6 @@ const StyledFolderSharedOutlinedIcon = styled(FolderSharedOutlinedIcon)`
     && {
         width: 25px;
         height: 25px;
-        color: #777;
     }
 `
 
@@ -473,7 +484,6 @@ const StyledAddBoxOutlinedIcon = styled(AddBoxOutlinedIcon)`
     && {
         width: 25px;
         height: 25px;
-        color: #777;
     }
 `;
 
@@ -487,7 +497,6 @@ const StyledNotificationsOutlinedIcon = styled(NotificationsOutlinedIcon)`
     && {
         width: 25px;
         height: 25px;
-        color: #777;
     }
 `;
 
@@ -501,7 +510,6 @@ const StyledSettingsOutlinedIcon = styled(SettingsOutlinedIcon)`
     && {
         width: 25px;
         height: 25px;
-        color: #777;
     }
 `
 
@@ -515,7 +523,6 @@ const StyledAccountCircleOutlinedIcon = styled(AccountCircleOutlinedIcon)`
     && {
         width: 25px;
         height: 25px;
-        color: #777;
     }
 `
 
@@ -529,7 +536,6 @@ const StyledHelpOutlinedIcon = styled(HelpOutlineOutlinedIcon)`
     && {
         width: 25px;
         height: 25px;
-        color: #777;
     }
 `
 
@@ -537,7 +543,6 @@ const StyledLogoutIcon = styled(LogoutIcon)`
     && {
         width: 25px;
         height: 25px;
-        color: #777;
     }
 `
 
@@ -551,7 +556,6 @@ const StyledInfoOutlinedIcon = styled(InfoOutlinedIcon)`
     && {
         width: 25px;
         height: 25px;
-        color: #777;
     }
 `
 
@@ -559,7 +563,6 @@ const StyledArrowBackIcon = styled(ArrowBackIcon)`
     && {
         width: 25px;
         height: 25px;
-        color: #777;
     }
 `
 
@@ -567,7 +570,6 @@ const StyledAvatar = styled(Avatar)`
     && {
         width: 35px;
         height: 35px;
-        color: #777;
     }
 `
 
@@ -575,7 +577,6 @@ const StyledExpandMoreIcon = styled(ExpandMoreIcon)`
     && {
         width: 25px;
         height: 25px;
-        color: #777;
     }
 `
 
@@ -583,7 +584,6 @@ const StyledExpandLessIcon = styled(ExpandLessIcon)`
     && {
         width: 25px;
         height: 25px;
-        color: #777;
     }
 `
 

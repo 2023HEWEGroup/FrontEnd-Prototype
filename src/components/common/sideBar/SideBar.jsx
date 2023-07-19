@@ -24,7 +24,7 @@ const SideBar = (props) => {
         <Tooltip title="ホーム" placement='right' arrow={true}>
           <StyledLink to={"/home"}>
             <StyledSideBarElements>
-              {props.page === "/home" ? <StyledHomeIcon color='secondary' /> : <StyledHomeOutlinedIcon />}
+              {props.page === "/home" ? <StyledHomeIcon color='secondary' /> : <StyledHomeOutlinedIcon color="icon"/>}
               <StyledIconName>ホーム</StyledIconName>
             </StyledSideBarElements>
           </StyledLink>
@@ -35,7 +35,7 @@ const SideBar = (props) => {
         <Tooltip title="商品" placement='right' arrow={true}>
           <StyledLink to={"/product"}>
             <StyledSideBarElements>
-              {props.page === "/product" ? <StyledShoppingCartIcon color='secondary' /> : <StyledShoppingCartOutlinedIcon />}
+              {props.page === "/product" ? <StyledShoppingCartIcon color='secondary' /> : <StyledShoppingCartOutlinedIcon color="icon"/>}
               <StyledIconName>商品</StyledIconName>
             </StyledSideBarElements>
           </StyledLink>
@@ -46,7 +46,7 @@ const SideBar = (props) => {
         <Tooltip title="フォロー中" placement='right' arrow={true}>
           <StyledLink to={"/following"}>
             <StyledSideBarElements>
-              {props.page === "/following" ? <StyledGroupIcon color='secondary' /> : <StyledGroupOutlinedIcon />}
+              {props.page === "/following" ? <StyledGroupIcon color='secondary' /> : <StyledGroupOutlinedIcon color="icon"/>}
               <StyledIconName>フォロー中</StyledIconName>
             </StyledSideBarElements>
           </StyledLink>
@@ -57,7 +57,7 @@ const SideBar = (props) => {
         <Tooltip title="グループ" placement='right' arrow={true}>
           <StyledLink to={"/group"}>
             <StyledSideBarElements>
-              {props.page === "/group" ? <StyledFolderSharedIcon color='secondary' /> : <StyledFolderSharedOutlinedIcon />}
+              {props.page === "/group" ? <StyledFolderSharedIcon color='secondary' /> : <StyledFolderSharedOutlinedIcon color="icon"/>}
               <StyledIconName>グループ</StyledIconName>
             </StyledSideBarElements>
           </StyledLink>
@@ -122,7 +122,6 @@ const StyledHomeOutlinedIcon = styled(HomeOutlinedIcon)`
     && {
       width: 35px;
       height: 35px;
-      color: #777;
       margin-top: 10px;
       margin-bottom: -10px;
     }
@@ -140,7 +139,6 @@ const StyledShoppingCartOutlinedIcon = styled(ShoppingCartOutlinedIcon)`
     && {
       width: 35px;
       height: 35px;
-      color: #777;
       margin-top: 10px;
       margin-bottom: -10px;
     }
@@ -159,7 +157,6 @@ const StyledGroupOutlinedIcon = styled(GroupOutlinedIcon)`
     && {
       width: 35px;
       height: 35px;
-      color: #777;
       margin-top: 10px;
       margin-bottom: -10px;
     }
@@ -178,7 +175,6 @@ const StyledFolderSharedOutlinedIcon = styled(FolderSharedOutlinedIcon)`
     && {
       width: 35px;
       height: 35px;
-      color: #777;
       margin-top: 10px;
       margin-bottom: -10px;
     }

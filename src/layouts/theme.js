@@ -10,6 +10,16 @@ export const lightBlueTheme = createTheme({
         },
         secondary: {
             main: blue[600]
+        },
+        line: {
+            main: "#888"
+        },
+        text: {
+            main: "#000",
+            sub: "#777"
+        },
+        icon: {
+            main: "#666"
         }
     },
     components: {
