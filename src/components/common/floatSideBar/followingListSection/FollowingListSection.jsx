@@ -1,4 +1,4 @@
-import { Avatar, ListItem, ListItemText, Tooltip } from '@mui/material'
+import { Avatar, ListItem, Tooltip, useTheme } from '@mui/material'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components'
@@ -41,6 +41,7 @@ const FollowingListSection = () => {
     const dispatch = useDispatch();
     const isOpenFollowing = useSelector((state => state.floatSideBarFollowing.value));
     const visibleAccounts = isOpenFollowing ? accounts : accounts.slice(0, 5);
+    const theme = useTheme();
 
     const toggleFollowingShowAll = () => {
         dispatch(booleanFloatSideBarFollowing());
@@ -52,17 +53,17 @@ const FollowingListSection = () => {
                 {visibleAccounts.map((account) => 
                 <StyledListItem key={account.id}>
                     <Tooltip title={account.name} placement='right' arrow={true}>
-                        <StyledListElements>
+                        <StyledListElements theme={theme}>
                             <StyledAvatar />
-                            <StyledListItemText primary={account.name} />
+                            <StyledListItemText theme={theme.palette.text.main}>{account.name}</StyledListItemText>
                         </StyledListElements>
                     </Tooltip>
                 </StyledListItem>)}
                 {accounts.length > 5 && !isOpenFollowing && (
                     <StyledListItem>
                         <Tooltip title="すべて表示" placement='right'>
-                            <StyledListElements onClick={toggleFollowingShowAll}>
-                                <StyledListItemText primary="すべて表示"/>
+                            <StyledListElements theme={theme} onClick={toggleFollowingShowAll}>
+                            <StyledListItemText theme={theme.palette.text.sub}>すべて表示</StyledListItemText>
                                 <StyledExpandMoreIcon color="icon"/>
                             </StyledListElements>
                         </Tooltip>
@@ -71,8 +72,8 @@ const FollowingListSection = () => {
                 {accounts.length > 5 && isOpenFollowing && (
                     <StyledListItem>
                     <Tooltip title="折りたたむ" placement='right'>
-                        <StyledListElements onClick={toggleFollowingShowAll}>
-                            <StyledListItemText primary="折りたたむ"/>
+                        <StyledListElements theme={theme} onClick={toggleFollowingShowAll}>
+                            <StyledListItemText theme={theme.palette.text.sub}>折りたたむ</StyledListItemText>
                             <StyledExpandLessIcon color="icon"/>
                         </StyledListElements>
                     </Tooltip>
@@ -93,13 +94,14 @@ const StyledListItem = styled(ListItem)`
     }
 `
 
-const StyledListItemText = styled(ListItemText)`
-    && {
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
+const StyledListItemText = styled.div`
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: ${(props) => props.theme};
 `
+
 
 const StyledListBlockWithTitle = styled.div`
     padding-bottom 15px;
@@ -120,8 +122,7 @@ const StyledListElements = styled.div`
     cursor: pointer;
 
     &:hover {
-        background-color: rgba(0, 0, 0, 0.1);
-        transition: 0.2s;
+        background-color: ${(props) => props.theme.palette.background.hover};
     }
 `
 

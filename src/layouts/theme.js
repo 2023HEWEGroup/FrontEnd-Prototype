@@ -1,25 +1,31 @@
 import { createTheme } from "@mui/material/styles";
-import { blue, blueGrey } from "@mui/material/colors";
+import { blue } from "@mui/material/colors";
 
 
-export const lightBlueTheme = createTheme({
+export const darkBlueTheme = createTheme({
     palette: {
-        mode: "light",
         primary: {
-            main: "#aff"
+            main: "#111"
         },
         secondary: {
-            main: blue[600]
+            main: blue[500]
         },
         line: {
-            main: "#888"
+            main: "#888",
+            disable: "#555"
         },
         text: {
-            main: "#000",
+            main: "#fff",
             sub: "#777"
         },
         icon: {
-            main: "#666"
+            main: "#777"
+        },
+        background: {
+            default: "#111",
+            pop: "#282828",
+            search: "#111",
+            hover: "#383838"
         }
     },
     components: {
@@ -29,11 +35,11 @@ export const lightBlueTheme = createTheme({
                 width: 10px;
             },
             ::-webkit-scrollbar-thumb {
-                background-color: ${blueGrey[400]};
+                background-color: #444;
                 border-radius: 10px;
             },
             ::-webkit-scrollbar-track {
-                background-color: #aff;
+                background-color: #transparent;
             }
             `
         }

@@ -141,10 +141,10 @@ const NotifyPopper = () => {
         </Tooltip>
 
         <Popper open={isNotifyPopperOpen} anchorEl={notifyAnchorEl} placement='bottom-end' ref={notifyPopperRef}>
-            <StyledNotifyPopperPaper elevation={3}>
+            <StyledNotifyPopperPaper theme={theme} elevation={3}>
 
                 <StyledNotifyListHeader>
-                    <div>通知</div>
+                    <div style={{color: theme.palette.text.main}}>通知</div>
                     <StyledNotifyHeadText style={{color: theme.palette.secondary.main}}>すべて既読</StyledNotifyHeadText>
                 </StyledNotifyListHeader>
 
@@ -153,14 +153,14 @@ const NotifyPopper = () => {
                 <StyledNotifyList ref={notifyContainerRef} onScroll={handleScroll}>
                     {displayNotifies.map((notify) => 
                         <div key={notify.id}>
-                            <StyledNotifyListItemButton>
+                            <StyledNotifyListItemButton theme={theme}>
                                 <Badge color='secondary' variant='dot'>
                                     <StyledNotifyAvatar />
                                 </Badge>
                                 <div>
                                     <ListItemText primary={`${notify.src}があああああああああああああああああああああああああああああああああああああああああああああああああああああ`}
                                     primaryTypographyProps={{
-                                    fontWeight: 550,
+                                    color: theme.palette.text.main,
                                     fontSize: "0.9rem",
                                     }}/>
                                     <StyledTimeAgo style={{color: theme.palette.text.sub}}>NaN時間前</StyledTimeAgo>
@@ -189,6 +189,7 @@ const StyledNotifyPopperPaper = styled(Paper)`
         height: 600px;
         width: 425px;
         border-radius: 15px;
+        background-color: ${(props) => props.theme.palette.background.pop}
     }
 `
 
@@ -246,6 +247,10 @@ const StyledNotifyListItemButton = styled(ListItemButton)`
 
     &:nth-child(1) {
         margin-top: -8px;
+    }
+
+    &:hover {
+        background-color: ${(props) => props.theme.palette.background.hover}
     }
     }
 `
