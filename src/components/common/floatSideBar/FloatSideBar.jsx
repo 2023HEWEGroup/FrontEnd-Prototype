@@ -65,6 +65,9 @@ const StyledList = styled(List)`
         &::-webkit-scrollbar {
             display: none;
         }
+        &::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
         &:hover {
             &::-webkit-scrollbar {
                 display: inline;

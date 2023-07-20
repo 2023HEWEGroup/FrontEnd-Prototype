@@ -1,6 +1,6 @@
 import ImageSearchIcon from '@mui/icons-material/ImageSearch';
 import SearchIcon from '@mui/icons-material/Search';
-import { Divider, IconButton, InputBase, List, ListItem, ListItemText, Paper, Popper, Tooltip, useMediaQuery } from '@mui/material'
+import { Divider, IconButton, InputBase, List, ListItem, ListItemText, Paper, Popper, Tooltip, useMediaQuery, useTheme } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
@@ -12,6 +12,7 @@ const GridCenter = () => {
     const [activeSearchMode, setActiveSearchMode] = useState(1);
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
     const searchInput = useRef();
+    const theme = useTheme();
 
     const handleInputChange = (e) => {
         setInputWord(searchInput.current.value);
@@ -54,9 +55,9 @@ const GridCenter = () => {
     return (
     <>
     <div style={{ display: "flex", alignItems: "center" , width: "80%" }}>
-        <StyledPaper component="form">
+        <StyledPaper elevation={0} style={{backgroundColor: theme.palette.background.search}} component="form" theme={theme}>
             <StyledInputBase placeholder='キーワードで検索' onChange={handleInputChange} onKeyDown={handleKeyDown}
-            onFocus={handlePopperOpen} onBlur={handlePopperClose} inputRef={searchInput} color='secondary'/>
+            onFocus={handlePopperOpen} onBlur={handlePopperClose} inputRef={searchInput} theme={theme}/>
             <Tooltip title="検索" placement='bottom' arrow={true}>
                 <IconButton type='submit' size='small'>
                     <SearchIcon color="icon"/>
@@ -76,21 +77,21 @@ const GridCenter = () => {
         offset: [0, 12],
         },
     }]}>
-        <StyledPopperPaper elevation={3}>
+        <StyledPopperPaper elevation={3} theme={theme}>
             <List>
-                <StyledListItem key={1} style={activeSearchMode === 1 ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
+                <StyledListItem theme={theme} key={1} style={activeSearchMode === 1 ? { backgroundColor: theme.palette.background.hover } : null}>
                     <ListItemText primary={'"' + inputhWord + '" を商品で検索'} />
                 </StyledListItem>
                 <StyledDivider style={{width: "95%", margin: "0 auto"}}/>
-                <StyledListItem key={2} style={activeSearchMode === 2 ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
+                <StyledListItem theme={theme} key={2} style={activeSearchMode === 2 ? { backgroundColor: theme.palette.background.hover } : null}>
                     <ListItemText primary={'"' + inputhWord + '" をユーザーで検索'} />
                 </StyledListItem>
                 <StyledDivider style={{width: "95%", margin: "0 auto"}}/>
-                <StyledListItem key={3} style={activeSearchMode === 3 ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
+                <StyledListItem theme={theme} key={3} style={activeSearchMode === 3 ? { backgroundColor: theme.palette.background.hover } : null}>
                     <ListItemText primary={'"' + inputhWord + '" をグループで検索'} />
                 </StyledListItem>
                 <StyledDivider />
-                <StyledListItem key={4} style={activeSearchMode === 4 ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
+                <StyledListItem theme={theme} key={4} style={activeSearchMode === 4 ? { backgroundColor: theme.palette.background.hover } : null}>
                     <ListItemText primary={'"' + inputhWord + '" をタグで検索'} />
                 </StyledListItem>
             </List>
@@ -108,6 +109,11 @@ const StyledPaper = styled(Paper)`
         height: 40px;
         width: 100%;
         padding-right: 10px;
+        border: solid 1px ${(props) => props.theme.palette.line.disable};
+
+        &:focus-within {
+            outline: solid 2px ${(props) => props.theme.palette.secondary.main};
+        }
     }
 `
 
@@ -116,6 +122,10 @@ const StyledInputBase = styled(InputBase)`
         height: 100%;
         width: 100%;
         padding-left: 2%;
+        color: ${(props) => props.theme.palette.text.main};
+        & input::placeholder {
+            color: ${(props) => props.theme.palette.text.main};
+        }
     }
 `
 
@@ -137,6 +147,8 @@ const StyledPopper = styled(Popper)`
 const StyledPopperPaper = styled(Paper)`
     && {
         height: 200px;
+        color: ${(props) => props.theme.palette.text.main};
+        background-color: ${(props) => props.theme.palette.background.pop};
     }
 `
 
@@ -148,7 +160,7 @@ const StyledListItem = styled(ListItem)`
         cursor: pointer;
 
     &:hover {
-        background-color: rgba(0, 0, 0, 0.1);
+        background-color: ${(props) => props.theme.palette.background.hover};
     }
     &:nth-child(1) {
         margin-top: -8px;

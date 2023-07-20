@@ -23,9 +23,9 @@ const SideBar = (props) => {
       <StyledSideBarCell>
         <Tooltip title="ホーム" placement='right' arrow={true}>
           <StyledLink to={"/home"}>
-            <StyledSideBarElements>
+            <StyledSideBarElements theme={theme} style={props.page === "/home" ? {backgroundColor: theme.palette.background.hover} : null}>
               {props.page === "/home" ? <StyledHomeIcon color='secondary' /> : <StyledHomeOutlinedIcon color="icon"/>}
-              <StyledIconName>ホーム</StyledIconName>
+              <StyledIconName style={{color: theme.palette.text.main}}>ホーム</StyledIconName>
             </StyledSideBarElements>
           </StyledLink>
         </Tooltip>
@@ -34,9 +34,9 @@ const SideBar = (props) => {
       <StyledSideBarCell>
         <Tooltip title="商品" placement='right' arrow={true}>
           <StyledLink to={"/product"}>
-            <StyledSideBarElements>
+            <StyledSideBarElements theme={theme}  style={props.page === "/product" ? {backgroundColor: theme.palette.background.hover} : null}>
               {props.page === "/product" ? <StyledShoppingCartIcon color='secondary' /> : <StyledShoppingCartOutlinedIcon color="icon"/>}
-              <StyledIconName>商品</StyledIconName>
+              <StyledIconName style={{color: theme.palette.text.main}}>商品</StyledIconName>
             </StyledSideBarElements>
           </StyledLink>
         </Tooltip>
@@ -45,9 +45,9 @@ const SideBar = (props) => {
       <StyledSideBarCell>
         <Tooltip title="フォロー中" placement='right' arrow={true}>
           <StyledLink to={"/following"}>
-            <StyledSideBarElements>
+            <StyledSideBarElements theme={theme}  style={props.page === "/following" ? {backgroundColor: theme.palette.background.hover} : null}>
               {props.page === "/following" ? <StyledGroupIcon color='secondary' /> : <StyledGroupOutlinedIcon color="icon"/>}
-              <StyledIconName>フォロー中</StyledIconName>
+              <StyledIconName style={{color: theme.palette.text.main}}>フォロー中</StyledIconName>
             </StyledSideBarElements>
           </StyledLink>
         </Tooltip>
@@ -56,9 +56,9 @@ const SideBar = (props) => {
       <StyledSideBarCell>
         <Tooltip title="グループ" placement='right' arrow={true}>
           <StyledLink to={"/group"}>
-            <StyledSideBarElements>
+            <StyledSideBarElements theme={theme}  style={props.page === "/group" ? {backgroundColor: theme.palette.background.hover} : null}>
               {props.page === "/group" ? <StyledFolderSharedIcon color='secondary' /> : <StyledFolderSharedOutlinedIcon color="icon"/>}
-              <StyledIconName>グループ</StyledIconName>
+              <StyledIconName style={{color: theme.palette.text.main}}>グループ</StyledIconName>
             </StyledSideBarElements>
           </StyledLink>
         </Tooltip>
@@ -104,8 +104,7 @@ const StyledSideBarElements = styled.div`
     transition: 0.2s;
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.1);
-      transition: 0.2s;
+      background-color: ${(props) => props.theme.palette.background.hover};
     }
 `
 

@@ -14,20 +14,23 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import { ListItem, ListItemText, Tooltip } from '@mui/material';
+import { ListItem, ListItemText, Tooltip, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 
 const UpperListSection = (props) => {
+
+    const theme = useTheme();
+
     return (
         <>
             <StyledListBlock>
                 <StyledListItem>
                     <Tooltip title="ホーム" placement='right' arrow={true}>
                         <StyledLink to={"/home"}>
-                            <StyledListElements style={props.page === "/home" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
+                            <StyledListElements theme={theme} style={props.page === "/home" ? { backgroundColor: theme.palette.background.hover } : null}>
                                 {props.page === "/home" ? <StyledHomeIcon color='secondary' /> : <StyledHomeOutlinedIcon color="icon"/>}
-                                <StyledListItemText primary="ホーム" />
+                                <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="ホーム" />
                             </StyledListElements>
                         </StyledLink>
                     </Tooltip>
@@ -35,9 +38,9 @@ const UpperListSection = (props) => {
                 <StyledListItem>
                     <Tooltip title="商品" placement='right' arrow={true}>
                         <StyledLink to={"/product"}>
-                            <StyledListElements style={props.page === "/product" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
+                            <StyledListElements theme={theme} style={props.page === "/product" ? { backgroundColor: theme.palette.background.hover } : null}>
                                 {props.page === "/product" ? <StyledShoppingCartIcon color='secondary' /> : <StyledShoppingCartOutlinedIcon color="icon"/>}
-                                <StyledListItemText primary="商品" />
+                                <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="商品" />
                             </StyledListElements>
                         </StyledLink>
                     </Tooltip>
@@ -45,9 +48,9 @@ const UpperListSection = (props) => {
                 <StyledListItem>
                     <Tooltip title="出品" placement='right' arrow={true}>
                         <StyledLink to={"/exhibit"}>
-                            <StyledListElements style={props.page === "/exhibit" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
+                            <StyledListElements theme={theme} style={props.page === "/exhibit" ? { backgroundColor: theme.palette.background.hover } : null}>
                                 {props.page === "/exhibit" ? <StyledAddBoxIcon color='secondary' /> : <StyledAddBoxOutlinedIcon color="icon"/>}
-                                <StyledListItemText primary="出品" />
+                                <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="出品" />
                             </StyledListElements>
                         </StyledLink>
                     </Tooltip>
@@ -55,9 +58,9 @@ const UpperListSection = (props) => {
                 <StyledListItem>
                     <Tooltip title="通知" placement='right' arrow={true}>
                         <StyledLink to={"/notify"}>
-                            <StyledListElements style={props.page === "/notify" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
+                            <StyledListElements theme={theme} style={props.page === "/notify" ? { backgroundColor: theme.palette.background.hover } : null}>
                                 {props.page === "/notify" ? <StyledNotificationsIcon color='secondary' /> : <StyledNotificationsOutlinedIcon color="icon"/>}
-                                <StyledListItemText primary="通知" />
+                                <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="通知" />
                             </StyledListElements>
                         </StyledLink>
                     </Tooltip>
@@ -65,9 +68,9 @@ const UpperListSection = (props) => {
                 <StyledListItem>
                     <Tooltip title="プロフィール" placement='right' arrow={true}>
                         <StyledLink to={"/profile"}>
-                            <StyledListElements style={props.page === "/profile" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
+                            <StyledListElements theme={theme} style={props.page === "/profile" ? { backgroundColor: theme.palette.background.hover } : null}>
                                 {props.page === "/profile" ? <StyledAccountCircleIcon color='secondary' /> : <StyledAccountCircleOutlinedIcon color="icon"/>}
-                                <StyledListItemText primary="プロフィール" />
+                                <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="プロフィール" />
                             </StyledListElements>
                         </StyledLink>
                     </Tooltip>
@@ -75,9 +78,9 @@ const UpperListSection = (props) => {
                 <StyledListItem>
                     <Tooltip title="フォロー中" placement='right' arrow={true}>
                         <StyledLink to={"/following"}>
-                            <StyledListElements style={props.page === "/following" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
+                            <StyledListElements theme={theme} style={props.page === "/following" ? { backgroundColor: theme.palette.background.hover } : null}>
                                 {props.page === "/following" ? <StyledGroupIcon color='secondary' /> : <StyledGroupOutlinedIcon color="icon"/>}
-                                <StyledListItemText primary="フォロー中" />
+                                <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="フォロー中" />
                             </StyledListElements>
                         </StyledLink>
                     </Tooltip>
@@ -85,9 +88,9 @@ const UpperListSection = (props) => {
                 <StyledListItem>
                     <Tooltip title="グループ" placement='right' arrow={true}>
                         <StyledLink to={"/group"}>
-                            <StyledListElements style={props.page === "/group" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
+                            <StyledListElements theme={theme} style={props.page === "/group" ? { backgroundColor: theme.palette.background.hover } : null}>
                                 {props.page === "/group" ? <StyledFolderSharedIcon color='secondary' /> : <StyledFolderSharedOutlinedIcon color="icon"/>}
-                                <StyledListItemText primary="グループ" />
+                                <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="グループ" />
                             </StyledListElements>
                         </StyledLink>
                     </Tooltip>
@@ -145,8 +148,7 @@ const StyledListElements = styled.div`
     cursor: pointer;
 
     &:hover {
-        background-color: rgba(0, 0, 0, 0.1);
-        transition: 0.2s;
+        background-color: ${(props) => props.theme.palette.background.hover};
     }
 `
 

@@ -1,4 +1,4 @@
-import { Avatar, Chip, Divider, IconButton, List, ListItem, ListItemText, Paper, Popper, Tooltip, useTheme } from '@mui/material'
+import { Avatar, Chip, Divider, IconButton, List, ListItemText, Paper, Popper, Tooltip, useTheme } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -53,7 +53,7 @@ const ProfilePopper = () => {
             </StyledIconButtonRight>
         </Tooltip>
         <Popper open={isProfilePopperOpen} anchorEl={profileAnchorEl} placement='bottom-end' ref={profilePopperRef}>
-            <StyledProfilePopperPaper elevation={3}>
+            <StyledProfilePopperPaper elevation={3} theme={theme}>
                 <StyledLink to={"/profile"}>
                     <StyledProfileListHeader>
                         <StyledProfileAvatar />
@@ -69,53 +69,53 @@ const ProfilePopper = () => {
                 <Divider style={{borderBottom: `solid 0.25px ${theme.palette.line.main}`, width: "95%", margin: "0 auto"}}/>
                 <StyledProfileList>
                     <StyledProfileListBlock>
-                        <StyledProfileListElements>
+                        <StyledProfileListElements theme={theme}>
                             <FavoriteBorderIcon color='icon'/>
-                            <ListItemText primary="いいね"/>
+                            <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="いいね"/>
                         </StyledProfileListElements>
-                        <StyledProfileListElements>
+                        <StyledProfileListElements theme={theme}>
                             <CachedIcon color='icon'/>
-                            <ListItemText primary="取引中"/>
+                            <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="取引中"/>
                         </StyledProfileListElements>
                     </StyledProfileListBlock>
                 </StyledProfileList>
                 <Divider style={{borderBottom: `solid 0.25px ${theme.palette.line.main}`, width: "95%", margin: "0 auto"}}/>
                 <StyledProfileList>
                     <StyledProfileListBlock>
-                        <StyledProfileListElements>
+                        <StyledProfileListElements theme={theme}>
                             <AdsClickIcon color='icon'/>
-                            <ListItemText primary="広告"/>
+                            <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="広告"/>
                         </StyledProfileListElements>
-                        <StyledProfileListElements>
+                        <StyledProfileListElements theme={theme}>
                             <CreditCardIcon color='icon'/>
-                            <ListItemText primary="クレジットカード"/>
+                            <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="クレジットカード"/>
                         </StyledProfileListElements>
-                        <StyledProfileListElements>
+                        <StyledProfileListElements theme={theme}>
                             <AssessmentOutlinedIcon color='icon'/>
-                            <ListItemText primary="ログ"/>
+                            <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="ログ"/>
                         </StyledProfileListElements>
                     </StyledProfileListBlock>
                 </StyledProfileList>
                 <Divider style={{borderBottom: `solid 0.25px ${theme.palette.line.main}`, width: "95%", margin: "0 auto"}}/>
                 <StyledProfileList>
                     <StyledProfileListBlock>
-                        <StyledProfileListElements>
+                        <StyledProfileListElements theme={theme}>
                             <InfoOutlinedIcon color='icon'/>
-                            <ListItemText primary="インフォメーション" />
+                            <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="インフォメーション" />
                         </StyledProfileListElements>
-                        <StyledProfileListElements>
+                        <StyledProfileListElements theme={theme}>
                             <HelpOutlinedIcon color='icon'/>
-                            <ListItemText primary="ヘルプ" />
+                            <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="ヘルプ" />
                         </StyledProfileListElements>
                         <StyledLink to={"/"}>
-                            <StyledProfileListElements>
+                            <StyledProfileListElements theme={theme}>
                             <ArrowBackIcon color='icon'/>
                             <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="トップページ" />
                             </StyledProfileListElements>
                         </StyledLink>
-                        <StyledProfileListElements>
+                        <StyledProfileListElements theme={theme}>
                             <LogoutIcon color='icon'/>
-                            <ListItemText primary="ログアウト" />
+                            <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="ログアウト" />
                         </StyledProfileListElements>
                         </StyledProfileListBlock>
                 </StyledProfileList>
@@ -143,6 +143,7 @@ const StyledProfilePopperPaper = styled(Paper)`
     && {
         width: 325px;
         border-radius: 15px;
+        background-color: ${(props) => props.theme.palette.background.pop}
     }
 `
 
@@ -217,17 +218,18 @@ const StyledLink = styled(Link)`
     }
 `
 
-const StyledProfileListElements = styled(ListItem)`
-    && {
-        gap: 15px;
-        cursor: pointer;
-        height: 45px;
-        border-radius: 10px;
+const StyledProfileListElements = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    height: 45px;
+    width: 100%;
+    border-radius: 10px;
+    color: ${(props) => props.theme.palette.text.main};
 
     &:hover {
-        background-color: rgba(0, 0, 0, 0.1);
-        transition: 0.2s;
-    }
+        background-color: ${(props) => props.theme.palette.background.hover};
     }
 `
 

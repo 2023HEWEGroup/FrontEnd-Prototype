@@ -9,19 +9,22 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import InfoIcon from '@mui/icons-material/Info';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { ListItem, ListItemText, Tooltip } from '@mui/material';
+import { ListItem, ListItemText, Tooltip, useTheme } from '@mui/material';
 
 
 const LowerListSection = (props) => {
+
+    const theme = useTheme();
+
     return (
         <>
             <StyledListBlock>
                 <StyledListItem>
                     <Tooltip title="設定" placement='right' arrow={true}>
                         <StyledLink to={"/setting"}>
-                            <StyledListElements style={props.page === "/setting" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
+                            <StyledListElements theme={theme} style={props.page === "/setting" ? { backgroundColor: theme.palette.background.hover } : null}>
                                 {props.page === "/setting" ? <StyledSettingsIcon color='secondary' /> : <StyledSettingsOutlinedIcon color="icon"/>}
-                                <StyledListItemText primary="設定" />
+                                <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="設定" />
                             </StyledListElements>
                         </StyledLink>
                     </Tooltip>
@@ -29,9 +32,9 @@ const LowerListSection = (props) => {
                 <StyledListItem>
                     <Tooltip title="インフォメーション" placement='right' arrow={true}>
                         <StyledLink to={"/info"}>
-                            <StyledListElements style={props.page === "/info" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
+                            <StyledListElements theme={theme} style={props.page === "/info" ? { backgroundColor: theme.palette.background.hover } : null}>
                                 {props.page === "/info" ? <StyledInfoIcon color='secondary' /> : <StyledInfoOutlinedIcon color="icon"/>}
-                                <StyledListItemText primary="インフォメーション" />
+                                <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="インフォメーション" />
                             </StyledListElements>
                         </StyledLink>
                     </Tooltip>
@@ -39,9 +42,9 @@ const LowerListSection = (props) => {
                 <StyledListItem>
                     <Tooltip title="ヘルプ" placement='right' arrow={true}>
                         <StyledLink to={"/help"}>
-                            <StyledListElements style={props.page === "/help" ? { backgroundColor: "rgba(0,0,0,0.1)" } : null}>
+                            <StyledListElements theme={theme} style={props.page === "/help" ? { backgroundColor: theme.palette.background.hover } : null}>
                                 {props.page === "/help" ? <StyledHelpIcon color='secondary' /> : <StyledHelpOutlinedIcon color="icon"/>}
-                                <StyledListItemText primary="ヘルプ" />
+                                <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="ヘルプ" />
                             </StyledListElements>
                         </StyledLink>
                     </Tooltip>
@@ -49,18 +52,18 @@ const LowerListSection = (props) => {
                 <StyledListItem>
                     <Tooltip title="トップページ" placement='right' arrow={true}>
                         <StyledLink to={"/"}>
-                        <StyledListElements>
+                        <StyledListElements theme={theme}>
                                 <StyledArrowBackIcon color='icon'/>
-                                <StyledListItemText primary="トップページ" />
+                                <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="トップページ" />
                             </StyledListElements>
                         </StyledLink>
                     </Tooltip>
                 </StyledListItem>
                 <StyledListItem>
                     <Tooltip title="ログアウト" placement='right' arrow={true}>
-                        <StyledListElements>
+                        <StyledListElements theme={theme}>
                             <StyledLogoutIcon color='icon'/>
-                            <StyledListItemText primary="ログアウト" />
+                            <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="ログアウト" />
                         </StyledListElements>
                     </Tooltip>
                 </StyledListItem>
@@ -109,8 +112,7 @@ const StyledListElements = styled.div`
     cursor: pointer;
 
     &:hover {
-        background-color: rgba(0, 0, 0, 0.1);
-        transition: 0.2s;
+        background-color: ${(props) => props.theme.palette.background.hover};
     }
 `
 
