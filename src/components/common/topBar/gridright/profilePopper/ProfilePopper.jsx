@@ -2,16 +2,7 @@ import { Avatar, Chip, Divider, IconButton, List, ListItemText, Paper, Popper, T
 import React, { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import CreditCardIcon from '@mui/icons-material/CreditCard';
-import AdsClickIcon from '@mui/icons-material/AdsClick';
-import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
-import CachedIcon from '@mui/icons-material/Cached';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import HelpOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
-import LogoutIcon from '@mui/icons-material/Logout';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import { AccountCircleOutlined, AdsClick, ArrowBack, AssessmentOutlined, CachedOutlined, CreditCard, FavoriteBorder, HelpOutlined, InfoOutlined, Inventory2Outlined, Logout } from '@mui/icons-material';
 
 
 const ProfilePopper = () => {
@@ -78,11 +69,15 @@ const ProfilePopper = () => {
                 <StyledProfileList>
                     <StyledProfileListBlock>
                         <StyledProfileListElements theme={theme}>
-                            <FavoriteBorderIcon color='icon'/>
+                            <FavoriteBorder color='icon'/>
                             <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="いいね"/>
                         </StyledProfileListElements>
                         <StyledProfileListElements theme={theme}>
-                            <CachedIcon color='icon'/>
+                            <Inventory2Outlined color='icon'/>
+                            <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="出品中"/>
+                        </StyledProfileListElements>
+                        <StyledProfileListElements theme={theme}>
+                            <CachedOutlined color='icon'/>
                             <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="取引中"/>
                         </StyledProfileListElements>
                     </StyledProfileListBlock>
@@ -91,15 +86,15 @@ const ProfilePopper = () => {
                 <StyledProfileList>
                     <StyledProfileListBlock>
                         <StyledProfileListElements theme={theme}>
-                            <AdsClickIcon color='icon'/>
+                            <AdsClick color='icon'/>
                             <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="広告"/>
                         </StyledProfileListElements>
                         <StyledProfileListElements theme={theme}>
-                            <CreditCardIcon color='icon'/>
+                            <CreditCard color='icon'/>
                             <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="クレジットカード"/>
                         </StyledProfileListElements>
                         <StyledProfileListElements theme={theme}>
-                            <AssessmentOutlinedIcon color='icon'/>
+                            <AssessmentOutlined color='icon'/>
                             <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="ログ"/>
                         </StyledProfileListElements>
                     </StyledProfileListBlock>
@@ -108,21 +103,21 @@ const ProfilePopper = () => {
                 <StyledProfileList>
                     <StyledProfileListBlock>
                         <StyledProfileListElements theme={theme}>
-                            <InfoOutlinedIcon color='icon'/>
+                            <InfoOutlined color='icon'/>
                             <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="インフォメーション" />
                         </StyledProfileListElements>
                         <StyledProfileListElements theme={theme}>
-                            <HelpOutlinedIcon color='icon'/>
+                            <HelpOutlined color='icon'/>
                             <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="ヘルプ" />
                         </StyledProfileListElements>
                         <StyledLink to={"/"}>
                             <StyledProfileListElements theme={theme}>
-                            <ArrowBackIcon color='icon'/>
+                            <ArrowBack color='icon'/>
                             <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="トップページ" />
                             </StyledProfileListElements>
                         </StyledLink>
                         <StyledProfileListElements theme={theme}>
-                            <LogoutIcon color='icon'/>
+                            <Logout color='icon'/>
                             <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="ログアウト" />
                         </StyledProfileListElements>
                         </StyledProfileListBlock>
@@ -144,7 +139,7 @@ const StyledIconButtonRight = styled(IconButton)`
     }
 `
 
-const StyledAccountCircleOutlinedIcon = styled(AccountCircleOutlinedIcon)`
+const StyledAccountCircleOutlinedIcon = styled(AccountCircleOutlined)`
     && {
         width: 35px;
         height: 35px;
