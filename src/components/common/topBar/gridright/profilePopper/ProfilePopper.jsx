@@ -48,10 +48,11 @@ const ProfilePopper = () => {
     return (
         <>
         <Tooltip title="アカウント管理" placement='bottom' arrow={true}>
-            <StyledIconButtonRight size='small' onClick={handleProfilePopper}>
+            <StyledIconButtonRight size='small' onClick={handleProfilePopper} theme={theme}>
                 {isProfilePopperOpen ? <StyledAccountCircleOutlinedIcon color="secondary" /> : <StyledAccountCircleOutlinedIcon color="icon"/>}
             </StyledIconButtonRight>
         </Tooltip>
+
         <Popper open={isProfilePopperOpen} anchorEl={profileAnchorEl} placement='bottom-end' ref={profilePopperRef}>
             <StyledProfilePopperPaper elevation={3} theme={theme}>
                 <StyledLink to={"/profile"}>
@@ -63,9 +64,16 @@ const ProfilePopper = () => {
                         </StyledAccountIntro>
                     </StyledProfileListHeader>
                 </StyledLink>
+
+                <StyledFollowHeader>
+                    <StyledFollowings theme={theme}><Styledspan theme={theme}>NaN</Styledspan> following</StyledFollowings>
+                    <StyledFollowers theme={theme}><Styledspan theme={theme}>NaN</Styledspan> follower</StyledFollowers>
+                </StyledFollowHeader>
+
                 <StyledProfilePointHeader>
                     <StyledPointAmountLabel label="NaN ポイント" variant='outlined' color='secondary' clickable/>
                 </StyledProfilePointHeader>
+
                 <Divider style={{borderBottom: `solid 0.25px ${theme.palette.line.main}`, width: "95%", margin: "0 auto"}}/>
                 <StyledProfileList>
                     <StyledProfileListBlock>
@@ -129,7 +137,11 @@ const ProfilePopper = () => {
 const StyledIconButtonRight = styled(IconButton)`
     && {
         margin-right: -10px;
+
+        .MuiTouchRipple-child {
+            background-color: ${(props) => props.theme.palette.secondary.main};
         }
+    }
 `
 
 const StyledAccountCircleOutlinedIcon = styled(AccountCircleOutlinedIcon)`
@@ -186,11 +198,42 @@ const StyledProfileAccountId = styled.div`
     text-overflow: ellipsis;
 `
 
+const StyledFollowHeader = styled.div`
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 15px;
+    width: 85%;
+    margin: 10px auto;
+`
+
+const StyledFollowings = styled.div`
+    color: ${(props) => props.theme.palette.text.sub};
+    font-size: 0.9rem;
+`
+
+const StyledFollowers = styled.div`
+    color: ${(props) => props.theme.palette.text.sub};
+    font-size: 0.9rem;
+`
+
+const Styledspan = styled.span`
+    color: ${(props) => props.theme.palette.text.main};
+    font-size: 1rem;
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: underline;
+    }
+    &:active {
+        text-decoration: none;
+    }
+`
+
 const StyledProfilePointHeader = styled.div`
     display: flex;
     align-items: center;
     justify-content: end;
-    gap: 5px;
     margin: 10px;
 `
 
