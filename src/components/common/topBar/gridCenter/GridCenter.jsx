@@ -59,15 +59,15 @@ const GridCenter = () => {
             <StyledInputBase placeholder='キーワードで検索' onChange={handleInputChange} onKeyDown={handleKeyDown}
             onFocus={handlePopperOpen} onBlur={handlePopperClose} inputRef={searchInput} theme={theme}/>
             <Tooltip title="検索" placement='bottom' arrow={true}>
-                <IconButton type='submit' size='small'>
+                <StyledIconButton type='submit' size='small' theme={theme}>
                     <SearchIcon color="icon"/>
-                </IconButton>
+                </StyledIconButton>
             </Tooltip>
             <Divider orientation='vertical' style={{height: "30px", width: "5px", borderRightWidth: "2px", borderColor: "#aaa", margin: "0 10px"}}/>
             <Tooltip title="画像で検索" placement='bottom' arrow={true}>
-                <IconButton size='small'>
+                <StyledIconButton size='small' theme={theme}>
                     <StyledImageSearchIcon color="icon"/>
-                </IconButton>
+                </StyledIconButton>
             </Tooltip>
         </StyledPaper>
     </div>
@@ -125,6 +125,14 @@ const StyledInputBase = styled(InputBase)`
         color: ${(props) => props.theme.palette.text.main};
         & input::placeholder {
             color: ${(props) => props.theme.palette.text.main};
+        }
+    }
+`
+
+const StyledIconButton = styled(IconButton)`
+    && {
+        .MuiTouchRipple-child {
+            background-color: ${(props) => props.theme.palette.secondary.main};
         }
     }
 `
