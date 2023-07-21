@@ -16,7 +16,8 @@ export const darkBlueTheme = createTheme({
         },
         text: {
             main: "#fff",
-            sub: "#777"
+            sub: "#777",
+            categoryActive: "#fff",
         },
         icon: {
             main: "#777"
@@ -25,7 +26,11 @@ export const darkBlueTheme = createTheme({
             default: "#111",
             pop: "#282828",
             search: "#111",
-            hover: "#383838"
+            hover: "#383838",
+            opacity: "rgba(255, 255, 255, 0.1)",
+            opacityHover: "rgba(255, 255, 255, 0.3)",
+            opacityActive: "rgba(255, 255, 255, 0.5)",
+            categoryActive: "#000"
         }
     },
     components: {

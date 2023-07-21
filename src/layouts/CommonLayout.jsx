@@ -3,23 +3,26 @@ import TopBar from '../components/common/topBar/TopBar'
 import SideBar from '../components/common/sideBar/SideBar'
 import FloatSideBar from '../components/common/floatSideBar/FloatSideBar'
 import styled from 'styled-components'
-import { Box } from '@mui/material'
 import { Outlet, useLocation } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 
 const CommonLayouts = () => {
 
   const location = useLocation();
+  const isSideOpen = useSelector((state => state.floatSideBar.value));
 
   return (
     <>
-        <Box sx={{height: "55px", width: "100vw"}} />
         <TopBar page={location.pathname}/>
         <FloatSideBar page={location.pathname}/>
+        <div style={{width: "100vw", height: "55px"}}/>
         <StyledMain>
-          <Box sx={{width: "75px"}}/>
-          <Outlet />
-        <SideBar page={location.pathname}/>
+          <SideBar page={location.pathname}/>
+          <div style={isSideOpen ? {width: "240px", height: "100%"} : {width: "75px", height: "100%"}}/>
+          <div style={isSideOpen ? {width: "calc(100% - 240px)", height: "100%"} : {width: "calc(100% - 75px)", height: "100%"}}>
+            <Outlet />
+          </div>
         </StyledMain>
     </>
   )
@@ -27,7 +30,7 @@ const CommonLayouts = () => {
 
 
 const StyledMain = styled.div`
-    display:flex;
+  display: flex;
 `
 
 
