@@ -5,7 +5,7 @@ import GridCenter from './gridCenter/GridCenter';
 import GridRight from './gridright/GridRight';
 
 
-const TopBar = () => {
+const TopBar = (props) => {
 
   return (
     <StyledAppBar color='primary'>
@@ -23,7 +23,7 @@ const TopBar = () => {
           </Hidden>
 
           <StyledGrid item xs={3} sm={3}>
-            <GridRight />
+            <GridRight page={props.page}/>
           </StyledGrid>
 
         </Grid>

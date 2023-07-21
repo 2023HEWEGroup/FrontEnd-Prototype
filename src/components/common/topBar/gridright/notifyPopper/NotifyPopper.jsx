@@ -133,11 +133,11 @@ const NotifyPopper = () => {
         <>
 
         <Tooltip title="通知" placement='bottom' arrow={true}>
-            <IconButton size='small' onClick={handleNotifyPopper}>
+            <StyledIconButton size='small' onClick={handleNotifyPopper} theme={theme}>
                 <Badge color='secondary' badgeContent={5}>
                     {isNotifyPopperOpen ? <StyledNotificationsOutlinedIcon color='secondary'/> : <StyledNotificationsOutlinedIcon color="icon"/>}
                 </Badge>
-            </IconButton>
+            </StyledIconButton>
         </Tooltip>
 
         <Popper open={isNotifyPopperOpen} anchorEl={notifyAnchorEl} placement='bottom-end' ref={notifyPopperRef}>
@@ -181,6 +181,14 @@ const StyledNotificationsOutlinedIcon = styled(NotificationsOutlinedIcon)`
     && {
         width: 35px;
         height: 35px;
+    }
+`
+
+const StyledIconButton = styled(IconButton)`
+    && {
+        .MuiTouchRipple-child {
+            background-color: ${(props) => props.theme.palette.secondary.main};
+        }
     }
 `
 
@@ -244,6 +252,10 @@ const StyledNotifyListItemButton = styled(ListItemButton)`
     width: 415px;
     padding: 15px;
     cursor: pointer;
+
+    .MuiTouchRipple-child {
+        background-color: ${(props) => props.theme.palette.secondary.main};
+    }
 
     &:nth-child(1) {
         margin-top: -8px;

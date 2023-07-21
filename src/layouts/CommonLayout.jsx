@@ -14,7 +14,7 @@ const CommonLayouts = () => {
   return (
     <>
         <Box sx={{height: "55px", width: "100vw"}} />
-        <TopBar />
+        <TopBar page={location.pathname}/>
         <FloatSideBar page={location.pathname}/>
         <StyledMain>
           <Box sx={{width: "75px"}}/>

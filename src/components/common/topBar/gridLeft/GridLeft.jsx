@@ -1,6 +1,6 @@
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-import { IconButton, Tooltip } from '@mui/material'
+import { IconButton, Tooltip, useTheme } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -10,6 +10,7 @@ import { booleanFloatSideBar } from '../../../../redux/features/floatSideBarSlic
 const GridLeft = () => {
 
     const dispatch = useDispatch();
+    const theme = useTheme();
     const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
     const isSideOpen = useSelector((state => state.floatSideBar.value));
 
@@ -20,7 +21,7 @@ const GridLeft = () => {
     return (
     <>
     <Tooltip title="Esc" placement='right-end'>
-        <StyledIconButtonLeft onClick={handleMenuIconClick}>
+        <StyledIconButtonLeft onClick={handleMenuIconClick} theme={theme}>
         {isSideOpen ? <StyledCloseIcon color="icon"/> : <StyledMenuIcon color="icon"/>}
         </StyledIconButtonLeft>
     </Tooltip>
@@ -35,6 +36,10 @@ const GridLeft = () => {
 const StyledIconButtonLeft = styled(IconButton)`
     && {
         margin-left: -10px;
+
+        .MuiTouchRipple-child {
+            background-color: ${(props) => props.theme.palette.secondary.main};
+        }
     }
 `
 
