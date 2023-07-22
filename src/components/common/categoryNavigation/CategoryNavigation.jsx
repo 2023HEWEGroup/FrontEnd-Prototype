@@ -83,6 +83,7 @@ const CategoryNavigation = () => {
 const StyledAppBar = styled(AppBar)`
     && {
         z-index: 100;
+        box-shadow: none;
     }
 `
 
