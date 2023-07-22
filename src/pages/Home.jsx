@@ -5,7 +5,8 @@ import CategoryNavigation from '../components/common/categoryNavigation/Category
 const Home = () => {
   return (
     <>
-      <CategoryNavigation />
+      <CategoryNavigation/>
+      <div style={{backgroundColor: "#111", width: "100%", height: "1000px"}}></div>
     </>
   )
 }

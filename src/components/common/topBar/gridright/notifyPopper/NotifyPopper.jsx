@@ -140,7 +140,7 @@ const NotifyPopper = () => {
             </StyledIconButton>
         </Tooltip>
 
-        <Popper open={isNotifyPopperOpen} anchorEl={notifyAnchorEl} placement='bottom-end' ref={notifyPopperRef}>
+        <StyledPopper open={isNotifyPopperOpen} anchorEl={notifyAnchorEl} placement='bottom-end' ref={notifyPopperRef}>
             <StyledNotifyPopperPaper theme={theme} elevation={3}>
 
                 <StyledNotifyListHeader>
@@ -171,11 +171,17 @@ const NotifyPopper = () => {
                 </StyledNotifyList>
 
             </StyledNotifyPopperPaper>
-        </Popper>
+        </StyledPopper>
         </>
     )
 }
 
+
+const StyledPopper = styled(Popper)`
+    && {
+        z-index: 150;
+    }
+`
 
 const StyledNotificationsOutlinedIcon = styled(NotificationsOutlinedIcon)`
     && {

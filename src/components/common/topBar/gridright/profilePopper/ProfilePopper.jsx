@@ -2,7 +2,7 @@ import { Avatar, Chip, Divider, IconButton, List, ListItemText, Paper, Popper, T
 import React, { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { AccountCircleOutlined, AdsClick, ArrowBack, AssessmentOutlined, CachedOutlined, CreditCard, FavoriteBorder, HelpOutlined, InfoOutlined, Inventory2Outlined, Logout } from '@mui/icons-material';
+import { AccountCircleOutlined, AdsClick, ArrowBack, AssessmentOutlined, CachedOutlined, CreditCard, FavoriteBorder, HelpOutlineOutlined, InfoOutlined, Inventory2Outlined, Logout } from '@mui/icons-material';
 
 
 const ProfilePopper = () => {
@@ -44,7 +44,7 @@ const ProfilePopper = () => {
             </StyledIconButtonRight>
         </Tooltip>
 
-        <Popper open={isProfilePopperOpen} anchorEl={profileAnchorEl} placement='bottom-end' ref={profilePopperRef}>
+        <StyledPopper open={isProfilePopperOpen} anchorEl={profileAnchorEl} placement='bottom-end' ref={profilePopperRef}>
             <StyledProfilePopperPaper elevation={3} theme={theme}>
                 <StyledLink to={"/profile"}>
                     <StyledProfileListHeader>
@@ -107,7 +107,7 @@ const ProfilePopper = () => {
                             <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="インフォメーション" />
                         </StyledProfileListElements>
                         <StyledProfileListElements theme={theme}>
-                            <HelpOutlined color='icon'/>
+                            <HelpOutlineOutlined color='icon'/>
                             <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="ヘルプ" />
                         </StyledProfileListElements>
                         <StyledLink to={"/"}>
@@ -123,7 +123,7 @@ const ProfilePopper = () => {
                         </StyledProfileListBlock>
                 </StyledProfileList>
             </StyledProfilePopperPaper>
-        </Popper>
+        </StyledPopper>
         </>
     )
 }
@@ -143,6 +143,12 @@ const StyledAccountCircleOutlinedIcon = styled(AccountCircleOutlined)`
     && {
         width: 35px;
         height: 35px;
+    }
+`
+
+const StyledPopper = styled(Popper)`
+    && {
+        z-index: 150;
     }
 `
 
