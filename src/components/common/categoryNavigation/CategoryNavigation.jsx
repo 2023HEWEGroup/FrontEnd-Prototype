@@ -1,6 +1,7 @@
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
-import { Chip, IconButton, useTheme } from '@mui/material';
+import { AppBar, Chip, IconButton, useTheme } from '@mui/material';
 import React, { useRef, useState } from 'react'
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 
@@ -30,6 +31,7 @@ const CategoryNavigation = () => {
     const [selectedCategoryId, setSelectedCategoryId] = useState(1);
     const theme = useTheme();
     const navRef = useRef(null);
+    const isSideOpen = useSelector((state => state.floatSideBar.value));
 
     const handleScroll = (direction) => {
         const navBar = navRef.current;
@@ -45,7 +47,7 @@ const CategoryNavigation = () => {
     const handleIconVisible = () => {
         const navBar = navRef.current;
         setIsLeftButtonVisible(navBar.scrollLeft > 0);
-        setIsRightButtonVisible(navBar.scrollLeft < navBar.scrollWidth - navBar.clientWidth);
+        setIsRightButtonVisible(navBar.scrollLeft < navBar.scrollWidth - navBar.clientWidth - 10);
     }
 
     const handleSelectedCategory = (id) => {
@@ -54,27 +56,35 @@ const CategoryNavigation = () => {
 
     return (
         <>
-        <StyledCategoryBarParent>
-            <StyledIconButtonLeft onClick={() => handleScroll("left")} theme={theme} style={isLeftButtonVisible ? null : {display: "none"}}>
-                <ArrowBack />
-            </StyledIconButtonLeft>
-            <StyledCategoryBar onScroll={handleIconVisible} ref={navRef}>
-                {categories.map((category) => (
-                    <StyledChip key={category.id} label={category.categoryName} clickable theme={theme}
-                    style={selectedCategoryId === category.id ? {
-                        backgroundColor: theme.palette.text.categoryActive,
-                        color: theme.palette.background.categoryActive} : null}
-                    onClick={() => handleSelectedCategory(category.id)}/>
-                ))}
-            </StyledCategoryBar>
-            <StyledIconButtonRight onClick={() => handleScroll("right")} theme={theme} style={isRightButtonVisible ? null : {display: "none"}}>
-                <ArrowForward />
-            </StyledIconButtonRight>
-        </StyledCategoryBarParent>
+        <StyledAppBar style={ isSideOpen ? {top: "55px", left: "240px", width: "calc(100% - 240px)"} : {top: "55px", left: "75px", width: "calc(100% - 75px)"}}>
+            <StyledCategoryBarParent>
+                <StyledIconButtonLeft onClick={() => handleScroll("left")} theme={theme} style={isLeftButtonVisible ? null : {display: "none"}}>
+                    <ArrowBack />
+                </StyledIconButtonLeft>
+                <StyledCategoryBar onScroll={handleIconVisible} ref={navRef}>
+                    {categories.map((category) => (
+                        <StyledChip key={category.id} label={category.categoryName} clickable theme={theme}
+                        style={selectedCategoryId === category.id ? {
+                            backgroundColor: theme.palette.text.categoryActive,
+                            color: theme.palette.background.categoryActive} : null}
+                        onClick={() => handleSelectedCategory(category.id)}/>
+                    ))}
+                </StyledCategoryBar>
+                <StyledIconButtonRight onClick={() => handleScroll("right")} theme={theme} style={isRightButtonVisible ? null : {display: "none"}}>
+                    <ArrowForward />
+                </StyledIconButtonRight>
+            </StyledCategoryBarParent>
+        </StyledAppBar>
         </>
     )
 }
 
+
+const StyledAppBar = styled(AppBar)`
+    && {
+        z-index: 100;
+    }
+`
 
 const StyledCategoryBarParent = styled.div`
     position: relative;
