@@ -35,7 +35,7 @@ const TopBar = (props) => {
 
 const StyledAppBar = styled(AppBar)`
   && {
-    z-index: 50;
+    z-index: 150;
     justify-content: center;
     height: 55px;
     box-shadow: none;
