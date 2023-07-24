@@ -20,7 +20,7 @@ const CommonLayouts = () => {
         <StyledMain>
           <SideBar page={location.pathname}/>
           <div style={isSideOpen ? {width: "240px", height: "100%"} : {width: "75px", height: "100%"}}/>
-          <div style={isSideOpen ? {width: "calc(100% - 240px)", height: "100%"} : {width: "calc(100% - 75px)", height: "100%"}}>
+          <div style={isSideOpen ? {width: "calc(100vw - 240px)", height: "100%"} : {width: "calc(100vw - 75px)", height: "100%"}}>
             <Outlet />
           </div>
         </StyledMain>
