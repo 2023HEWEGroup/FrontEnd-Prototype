@@ -28,7 +28,7 @@ const FloatSideBar = (props) => {
     })
 
     return (
-    <Drawer variant='persistent' anchor='left' open={isSideOpen} PaperProps={{style: { borderRight: 'none', marginTop: "55px" }}} transitionDuration={0}>
+    <Drawer variant='persistent' anchor='left' open={isSideOpen} PaperProps={{style: { borderRight: 'none', marginTop: "55px", zIndex: 150}}} transitionDuration={0}>
         <StyledList style={{backgroundColor: theme.palette.primary.main}}>
 
             <UpperListSection page={props.page}/>
