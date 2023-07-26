@@ -61,7 +61,7 @@ const GroupListSection = () => {
                 </StyledListItem>)}
                 {groups.length > 5 && !isOpenGroup && (
                     <StyledListItem>
-                        <Tooltip title="すべて表示" placement='right'>
+                        <Tooltip title="すべて表示" placement='right' arrow>
                             <StyledListElements theme={theme} onClick={toggleGroupShowAll}>
                                 <StyledListItemText theme={theme.palette.text.sub}>すべて表示</StyledListItemText>
                                 <StyledExpandMoreIcon color="icon"/>
@@ -71,7 +71,7 @@ const GroupListSection = () => {
                 )}
                 {groups.length > 5 && isOpenGroup && (
                     <StyledListItem>
-                    <Tooltip title="折りたたむ" placement='right'>
+                    <Tooltip title="折りたたむ" placement='right' arrow>
                         <StyledListElements theme={theme} onClick={toggleGroupShowAll}>
                         <StyledListItemText theme={theme.palette.text.sub}>折りたたむ</StyledListItemText>
                             <StyledExpandLessIcon color="icon"/>
