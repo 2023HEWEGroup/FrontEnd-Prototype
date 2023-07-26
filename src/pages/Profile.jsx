@@ -104,10 +104,10 @@ const Profile = () => {
       </StyledUserInfoBar>
 
       <StyledTabs value={tabValue} onChange={handleTabChange} indicatorColor='secondary' $isSmallScreen={isSmallScreen} theme={theme}>
-        <StyledTab theme={theme} label="ユーザー"></StyledTab>
-        <StyledTab theme={theme} label="商品"></StyledTab>
-        <StyledTab theme={theme} label="グループ"></StyledTab>
-        <StyledTab theme={theme} label="いいね"></StyledTab>
+        <Tooltip title="ユーザー" placement='top' arrow><StyledTab theme={theme} label="ユーザー"></StyledTab></Tooltip>
+        <Tooltip title="商品" placement='top' arrow><StyledTab theme={theme} label="商品"></StyledTab></Tooltip>
+        <Tooltip title="グループ" placement='top' arrow><StyledTab theme={theme} label="グループ"></StyledTab></Tooltip>
+        <Tooltip title="いいね" placement='top' arrow><StyledTab theme={theme} label="いいね"></StyledTab></Tooltip>
       </StyledTabs>
     </StyledProfile>
 

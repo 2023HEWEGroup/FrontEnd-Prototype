@@ -1,5 +1,5 @@
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
-import { AppBar, Chip, IconButton, useTheme } from '@mui/material';
+import { AppBar, Chip, IconButton, Tooltip, useTheme } from '@mui/material';
 import React, { useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -63,11 +63,15 @@ const CategoryNavigation = () => {
                 </StyledIconButtonLeft>
                 <StyledCategoryBar onScroll={handleIconVisible} ref={navRef}>
                     {categories.map((category) => (
-                        <StyledChip key={category.id} label={category.categoryName} clickable theme={theme}
-                        style={selectedCategoryId === category.id ? {
-                            backgroundColor: theme.palette.text.categoryActive,
-                            color: theme.palette.background.categoryActive} : null}
-                        onClick={() => handleSelectedCategory(category.id)}/>
+                        <div key={category.id}>
+                            <Tooltip title={category.categoryName} placement='bottom' arrow>
+                                <StyledChip label={category.categoryName} clickable theme={theme}
+                                style={selectedCategoryId === category.id ? {
+                                    backgroundColor: theme.palette.text.categoryActive,
+                                    color: theme.palette.background.categoryActive} : null}
+                                onClick={() => handleSelectedCategory(category.id)}/>
+                            </Tooltip>
+                        </div>
                     ))}
                 </StyledCategoryBar>
                 <StyledIconButtonRight onClick={() => handleScroll("right")} theme={theme} style={isRightButtonVisible ? null : {display: "none"}}>
@@ -75,6 +79,7 @@ const CategoryNavigation = () => {
                 </StyledIconButtonRight>
             </StyledCategoryBarParent>
         </StyledAppBar>
+        <div style={{width: "100%", height: "75px"}}></div>
         </>
     )
 }
