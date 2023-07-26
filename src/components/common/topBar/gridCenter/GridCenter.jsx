@@ -147,7 +147,7 @@ const StyledImageSearchIcon = styled(ImageSearchIcon)`
 
 const StyledPopper = styled(Popper)`
     && {
-        width: 37%;
+        width: 36.5%;
         z-index: 100;
     }
 `

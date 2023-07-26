@@ -57,8 +57,8 @@ const ProfilePopper = () => {
                 </StyledLink>
 
                 <StyledFollowHeader>
-                    <StyledFollowings theme={theme}><Styledspan theme={theme}>NaN</Styledspan> following</StyledFollowings>
-                    <StyledFollowers theme={theme}><Styledspan theme={theme}>NaN</Styledspan> follower</StyledFollowers>
+                    <StyledFollowings theme={theme}><Styledspan theme={theme}>NaN</Styledspan> フォロー</StyledFollowings>
+                    <StyledFollowers theme={theme}><Styledspan theme={theme}>NaN</Styledspan> フォロワー</StyledFollowers>
                 </StyledFollowHeader>
 
                 <StyledProfilePointHeader>
@@ -148,7 +148,7 @@ const StyledAccountCircleOutlinedIcon = styled(AccountCircleOutlined)`
 
 const StyledPopper = styled(Popper)`
     && {
-        z-index: 150;
+        z-index: 200;
     }
 `
 

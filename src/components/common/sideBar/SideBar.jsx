@@ -70,6 +70,7 @@ const SideBar = (props) => {
 
 
 const StyledSideBar = styled.div`
+    z-index: 100;
     position: fixed;
     width: 75px;
     height: 100vh;

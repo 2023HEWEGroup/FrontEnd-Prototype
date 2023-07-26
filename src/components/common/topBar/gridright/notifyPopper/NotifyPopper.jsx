@@ -179,7 +179,7 @@ const NotifyPopper = () => {
 
 const StyledPopper = styled(Popper)`
     && {
-        z-index: 150;
+        z-index: 200;
     }
 `
 

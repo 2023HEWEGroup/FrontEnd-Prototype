@@ -12,12 +12,14 @@ export const darkBlueTheme = createTheme({
         },
         line: {
             main: "#888",
-            disable: "#555"
+            disable: "#555",
+            tab: "#333"
         },
         text: {
             main: "#fff",
             sub: "#777",
             categoryActive: "#fff",
+            tab: "#888"
         },
         icon: {
             main: "#777"
