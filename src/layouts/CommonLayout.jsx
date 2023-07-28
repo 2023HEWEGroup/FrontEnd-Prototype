@@ -30,7 +30,7 @@ const CommonLayouts = () => {
         <StyledMain>
           <SideBar page={location.pathname}/>
           <div style={isSideOpen ? (isSmallScreen ? {display: "none"} : {width: "240px", height: "100%"}) : (isSmallScreen ? {display: "none"} : {width: "75px", height: "100%"})}/>
-          <div style={isSideOpen ? (isSmallScreen ? {width: "calc(100vw - 75px)", height: "100%", marginLeft: "75px"} : {width: "calc(100vw - 240px)", height: "100%"}) : (isSmallScreen ? {width: "calc(100vw - 75px)", height: "100%", marginLeft: "75px"} : {width: "calc(100vw - 75px)", height: "100%"})}>
+          <div style={isSideOpen ? (isSmallScreen ? {width: "calc(100% - 75px)", height: "100%", marginLeft: "75px"} : {width: "calc(100% - 240px)", height: "100%"}) : (isSmallScreen ? {width: "calc(100% - 75px)", height: "100%", marginLeft: "75px"} : {width: "calc(100% - 75px)", height: "100%"})}>
             <StyledSmallScreenDarken $isSmallScreen={isSmallScreen} isSideOpen={isSideOpen}/>
             <Outlet />
           </div>

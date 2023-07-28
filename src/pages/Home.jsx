@@ -4,12 +4,15 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from 'styled-components';
-import { Button, useTheme } from '@mui/material';
-import { ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
+import { Avatar, Button, IconButton, useMediaQuery, useTheme } from '@mui/material';
+import { ArrowBackIosNew, ArrowForwardIos, MoreVert } from '@mui/icons-material';
 
 
 const Home = () => {
 
+  const isMiddleScreen = useMediaQuery((theme) => theme.breakpoints.down('lg'));
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
+  const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
   const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
   const theme = useTheme();
 
@@ -19,6 +22,22 @@ const Home = () => {
     {id: 3, imageUrl: `${siteAssetsPath}/tanoc_header.png`},
     {id: 4, imageUrl: `${siteAssetsPath}/tanoc_icon.png`},
   ];
+
+  const products = [
+    {id: 1, productName: "HARDCORE TANO*C", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon_black.png`, point: 300},
+    {id: 2, productName: "HARDCORE TANO*C", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon.png`, point: 300},
+    {id: 3, productName: "HARDCORE TANO*Cccccccccccccccccccccccccccccccccccccccc", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon.png`, point: 300},
+    {id: 4, productName: "HARDCORE TANO*Caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon.png`, point: 300},
+    {id: 5, productName: "HARDCORE TANO*Cあああああああああああああああ", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon_black.png`, point: 300},
+    {id: 6, productName: "そうだ、温泉旅行に行こう！", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon_black.png`, point: 300},
+    {id: 7, productName: "もう準備万タンです", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon_black.png`, point: 300},
+    {id: 8, productName: "HARDCORE TANO*C", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon_black.png`, point: 300},
+    {id: 9, productName: "ショウガにミソ付けて食べるの美味しいのにあまり理解されない", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon.png`, point: 300},
+    {id: 10, productName: "自分で作った回路に電気が流れてさ、チェストにものがどんどん貯まっていくってもうあり得ない快感なんだよね", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon.png`, point: 300},
+    {id: 11, productName: "HARDCORE TANO*C", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon.png`, point: 300},
+    {id: 12, productName: "HARDCORE TANO*C", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon.png`, point: 300},
+    {id: 13, productName: "伊勢エビ(戦闘力53万)", sallerId: "elonmusk", imageUrl: `${siteAssetsPath}/iseebi.png`, point: 4000},
+  ]
 
   const CustomArrow = ({ onClick, theme, direction }) => {
     return (
@@ -52,6 +71,29 @@ const Home = () => {
             <StyledSlide key={slide.id} slideUrl={slide.imageUrl} theme={theme}></StyledSlide>
             )}
         </StyledSlider>
+        <StyledHomeInnner>
+
+          <StyledProductZone>
+            {products.map(product =>
+              <StyledProduct key={product.id} $isMiddleScreen={isMiddleScreen} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
+                <StyledProductImgZone>
+                  <StyledAvatar variant='square' src={product.imageUrl} alt='商品画像' />
+                  <StyledProductOption theme={theme}>
+                    <StyledIconButton>
+                      <MoreVert />
+                    </StyledIconButton>
+                  </StyledProductOption>
+                </StyledProductImgZone>
+                <StyledProductDesc>
+                  <StyledProductName theme={theme}>{product.productName}</StyledProductName>
+                  <StyledSellerId theme={theme}>{`by @ ${product.sallerId}`}</StyledSellerId>
+                  <StyledPrice theme={theme}>{`${product.point} ポイント`}</StyledPrice>
+                </StyledProductDesc>
+              </StyledProduct>
+              )}
+          </StyledProductZone>
+
+        </StyledHomeInnner>
       </StyledHome>
     </>
   )
@@ -60,7 +102,6 @@ const Home = () => {
 
 const StyledHome = styled.div`
   width: 100%;
-  height: 2000px;
 `
 
 const StyledSlider = styled(Slider)`
@@ -123,11 +164,98 @@ const StyledButton = styled(Button)`
 const StyledHomeInnner = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 95%;
-  height: 1000px;
-  margin: 0 auto;
-  background-color: #333;
+  width: 90%;
+  margin: 50px auto 0 auto;
+`
+
+const StyledProductZone = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%;
+`
+
+const StyledProduct = styled.div`
+  width: calc(${(props) => (props.$isXsScreen ? "50%" : (props.$isSmallScreen ? "33%" : (props.$isMiddleScreen ? "25%" : "20%")))} - 20px);
+  height: fit-content;
+  cursor: pointer;
+  margin-bottom: 50px;
+`
+
+const StyledProductImgZone = styled.div`
+  position: relative;
+  aspect-ratio: 1/1;
+  width: 100%;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: #444;
+`
+
+const StyledAvatar = styled(Avatar)`
+  && {
+    width: 100%;
+    height: 100%;
+  }
+`
+
+const StyledProductOption = styled.div`
+  display: none;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: ${(props) => props.theme.palette.background.slideHover};
+  border-radius: 50%;
+
+  ${StyledProductImgZone}:hover & {
+    display: block;
+  }
+`
+
+const StyledIconButton = styled(IconButton)`
+  && {
+    color: #fff;
+  }
+`
+
+const StyledProductDesc = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 10px;
+  width: 100%;
+`
+
+const StyledProductName = styled.div`
+  font-weight: bold;
+  color: ${(props) => props.theme.palette.text.product};
+  overflow: hidden;
+  width: 100%;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+`
+
+const StyledSellerId = styled.div`
+  color: ${(props) => props.theme.palette.text.sub};
+  font-size: 0.9rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+  &:active {
+    text-decoration: none;
+  }
+`
+
+const StyledPrice = styled.div`
+  font-weight: bold;
+  color: ${(props) => props.theme.palette.secondary.main};
 `
 
 

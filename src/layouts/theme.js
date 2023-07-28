@@ -19,7 +19,8 @@ export const darkBlueTheme = createTheme({
             main: "#fff",
             sub: "#777",
             categoryActive: "#fff",
-            tab: "#888"
+            tab: "#888",
+            product: "#ccc"
         },
         icon: {
             main: "#777"
