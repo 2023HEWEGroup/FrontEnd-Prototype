@@ -91,9 +91,7 @@ const GridCenter = () => {
               margin: "0 10px",
             }}
           />
-          <Tooltip title="画像で検索" placement="bottom" arrow={true}>
             <Modal theme={theme} />
-          </Tooltip>
         </StyledPaper>
       </div>
       <StyledPopper

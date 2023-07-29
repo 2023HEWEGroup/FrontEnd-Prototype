@@ -2,7 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
-import Trimming from "./Trimming";
+import {Trimming} from "./Trimming";
 import styled from "styled-components";
 import { IconButton } from "@mui/material";
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
@@ -19,6 +19,8 @@ const style = {
   px: 4,
   pb: 3,
 };
+
+
 
 export default function BasicModal({ theme }) {
   const [open, setOpen] = React.useState(false);
@@ -57,3 +59,17 @@ const StyledIconButton = styled(IconButton)`
     }
   }
 `;
+
+//react-jsx-dev-runtime.development.js:87 Warning: Failed prop type: Invalid prop `children` supplied to `ForwardRef(Tooltip)`. Expected an element that can hold a ref. Did you accidentally use a plain function component for an element instead? For more information see https://mui.com/r/caveat-with-refs-guide
+
+
+//react-dom.development.js:67 Warning: validateDOMNesting(...): <div> cannot appear as a descendant of <p>.
+//    in div (created by ForwardRef(Tooltip))
+//    in ForwardRef(Tooltip) (created by WithStyles(ForwardRef(Tooltip)))
+//    in WithStyles(ForwardRef(Tooltip)) (created by ForwardRef(IconButton))
+//    in ForwardRef(IconButton) (created by WithStyles(ForwardRef(IconButton)))
+//    in WithStyles(ForwardRef(IconButton)) (created by BasicModal)
+//    in div (created by ForwardRef(Modal))
+//    in ForwardRef(Modal) (created by WithStyles(ForwardRef(Modal)))
+//    in WithStyles(ForwardRef(Modal)) (created by BasicModal)
+//    in BasicModal (created by WithStyles(BasicModal

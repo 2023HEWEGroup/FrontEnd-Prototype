@@ -1,23 +1,22 @@
-import ReactDOM from "react-dom";
-import React, { PureComponent } from "react";
-import ReactCrop from "react-image-crop";
-import "react-image-crop/dist/ReactCrop.css";
+import React, { PureComponent } from 'react';
+import ReactCrop from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
 
-//
+
 class Trimming extends PureComponent {
   state = {
     src: null,
     crop: {
-      unit: "%",
+      unit: '%',
       width: 30,
-      aspect: 16 / 9,
-    },
+      aspect: 16 / 9
+    }
   };
 
   onSelectFile = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const reader = new FileReader();
-      reader.addEventListener("load", () =>
+      reader.addEventListener('load', () =>
         this.setState({ src: reader.result })
       );
       reader.readAsDataURL(e.target.files[0]);
@@ -34,8 +33,7 @@ class Trimming extends PureComponent {
   };
 
   onCropChange = (crop, percentCrop) => {
-    // You could also use percentCrop:
-    // this.setState({ crop: percentCrop });
+
     this.setState({ crop });
   };
 
@@ -44,24 +42,24 @@ class Trimming extends PureComponent {
       const croppedImageUrl = await this.getCroppedImg(
         this.imageRef,
         crop,
-        "newFile.jpeg"
+        'newFile.jpeg'
       );
       this.setState({ croppedImageUrl });
     }
   }
 
   getCroppedImg(image, crop, fileName) {
-    const canvas = document.createElement("canvas");
+    const canvas = document.createElement('canvas');
     const pixelRatio = window.devicePixelRatio;
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext('2d');
 
     canvas.width = crop.width * pixelRatio * scaleX;
     canvas.height = crop.height * pixelRatio * scaleY;
 
     ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-    ctx.imageSmoothingQuality = "high";
+    ctx.imageSmoothingQuality = 'high';
 
     ctx.drawImage(
       image,
@@ -80,7 +78,7 @@ class Trimming extends PureComponent {
         (blob) => {
           if (!blob) {
             //reject(new Error('Canvas is empty'));
-            console.error("Canvas is empty");
+            console.error('Canvas is empty');
             return;
           }
           blob.name = fileName;
@@ -88,7 +86,7 @@ class Trimming extends PureComponent {
           this.fileUrl = window.URL.createObjectURL(blob);
           resolve(this.fileUrl);
         },
-        "image/jpeg",
+        'image/jpeg',
         1
       );
     });
@@ -98,7 +96,7 @@ class Trimming extends PureComponent {
     const { crop, croppedImageUrl, src } = this.state;
 
     return (
-      <div className="App">
+      <div>
         <div>
           <input type="file" accept="image/*" onChange={this.onSelectFile} />
         </div>
@@ -113,10 +111,11 @@ class Trimming extends PureComponent {
           />
         )}
         {croppedImageUrl && (
-          <img alt="Crop" style={{ maxWidth: "100%" }} src={croppedImageUrl} />
+          <img alt="Crop" style={{ maxWidth: '100%' }} src={croppedImageUrl} />
         )}
       </div>
     );
   }
 }
-export default Trimming;
+
+export { Trimming };
