@@ -1,7 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import Button from "@mui/material/Button";
 import {Trimming} from "./Trimming";
 import styled from "styled-components";
 import { IconButton } from "@mui/material";
@@ -33,11 +32,9 @@ export default function BasicModal({ theme }) {
 
   return (
     <>
-      <Button onClick={handleOpen}>
-        <StyledIconButton size="small" theme={theme}>
-          <ImageSearchIcon color="icon" />
-        </StyledIconButton>
-      </Button>
+      <StyledIconButton size="small" onClick={handleOpen} theme={theme}>
+        <ImageSearchIcon color="icon" />
+      </StyledIconButton>
       <Modal
         open={open}
         onClose={handleClose}

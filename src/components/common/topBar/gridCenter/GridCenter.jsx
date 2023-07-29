@@ -66,7 +66,7 @@ const GridCenter = () => {
   return (
     <>
       <div style={{ display: "flex", alignItems: "center", width: "80%" }}>
-        <StyledPaper elevation={0} component="form" theme={theme}>
+        <StyledPaper elevation={0} component="form" theme={theme} style={{backgroundColor: theme.palette.background.search}}>
           <StyledInputBase
             placeholder="キーワードで検索"
             onChange={handleInputChange}
@@ -190,9 +190,17 @@ const StyledInputBase = styled(InputBase)`
   }
 `;
 
+const StyledIconButton = styled(IconButton)`
+  && {
+    .MuiTouchRipple-child {
+      background-color: ${(props) => props.theme.palette.secondary.main};
+    }
+  }
+`;
+
 const StyledPopper = styled(Popper)`
   && {
-    width: 37%;
+    width: 36.5%;
     z-index: 100;
   }
 `;
@@ -225,13 +233,6 @@ const StyledDivider = styled(Divider)`
   && {
     margin: 0 auto;
     width: 95%;
-  }
-`;
-const StyledIconButton = styled(IconButton)`
-  && {
-    .MuiTouchRipple-child {
-      background-color: ${(props) => props.theme.palette.secondary.main};
-    }
   }
 `;
 
