@@ -34,7 +34,8 @@ export const darkBlueTheme = createTheme({
             opacityHover: "rgba(255, 255, 255, 0.3)",
             opacityActive: "rgba(255, 255, 255, 0.5)",
             categoryActive: "#000",
-            slideHover: "rgba(0, 0, 0, 0.3)"
+            slideHover: "rgba(0, 0, 0, 0.3)",
+            slideComment: "rgba(0, 0, 0, 0.5)",
         }
     },
     components: {

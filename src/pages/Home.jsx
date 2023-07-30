@@ -1,26 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
 import CategoryNavigation from '../components/common/categoryNavigation/CategoryNavigation'
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from 'styled-components';
-import { Avatar, Button, IconButton, useMediaQuery, useTheme } from '@mui/material';
+import { Avatar, Button, IconButton, Popper, useMediaQuery, useTheme } from '@mui/material';
 import { ArrowBackIosNew, ArrowForwardIos, MoreVert } from '@mui/icons-material';
 
 
 const Home = () => {
 
+  const [isProductPopperOpen, setIsProductPopperOpen] = useState(false);
+  const [productAnchorEl, setProductAnchorEl] = useState(null);
   const isMiddleScreen = useMediaQuery((theme) => theme.breakpoints.down('lg'));
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
   const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
   const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
   const theme = useTheme();
 
+  const handleProductPopper = (e) => {
+    if (!isProductPopperOpen) {
+      setIsProductPopperOpen(true);
+      setProductAnchorEl(e.currentTarget)
+    } else {
+      setIsProductPopperOpen(false);
+      setProductAnchorEl(null);
+    }
+  }
+
   const slides = [
-    {id: 1, imageUrl: `${siteAssetsPath}/LMAP_logo.svg`},
-    {id: 2, imageUrl: `${siteAssetsPath}/LMAP_logo_reversal.svg`},
-    {id: 3, imageUrl: `${siteAssetsPath}/tanoc_header.png`},
-    {id: 4, imageUrl: `${siteAssetsPath}/tanoc_icon.png`},
+    {id: 1, imageUrl: `${siteAssetsPath}/LMAP_logo.svg`, slideComment: "卵かけご飯最高"},
+    {id: 2, imageUrl: `${siteAssetsPath}/LMAP_logo_reversal.svg`, slideComment: "TKGTKGTKG"},
+    {id: 3, imageUrl: `${siteAssetsPath}/tanoc_header.png`, slideComment: "自分で作った回路に電気が流れてさ、チェストにものがどんどん貯まっていくってもうあり得ない快感なんだよね自分で作った回路に電気が流れてさ、チェストにものがどんどん貯まっていくってもうあり得ない快感なんだよね自分で作った回路に電気が流れてさ、チェストにものがどんどん貯まっていくってもうあり得ない快感なんだよね"},
+    {id: 4, imageUrl: `${siteAssetsPath}/iseebi.png`, slideComment: "朝っぱらから飲むEAAね、マジうまい"},
   ];
 
   const products = [
@@ -68,7 +80,9 @@ const Home = () => {
       <StyledHome>
         <StyledSlider {...slideSettings} theme={theme}>
           {slides.map(slide =>
-            <StyledSlide key={slide.id} slideUrl={slide.imageUrl} theme={theme}></StyledSlide>
+            <StyledSlide key={slide.id} slideUrl={slide.imageUrl} theme={theme}>
+              <StyledSlideComment theme={theme} $isXsScreen={isXsScreen}>{slide.slideComment}</StyledSlideComment>
+            </StyledSlide>
             )}
         </StyledSlider>
         <StyledHomeInnner>
@@ -79,7 +93,7 @@ const Home = () => {
                 <StyledProductImgZone>
                   <StyledAvatar variant='square' src={product.imageUrl} alt='商品画像' />
                   <StyledProductOption theme={theme}>
-                    <StyledIconButton>
+                    <StyledIconButton onClick={handleProductPopper}>
                       <MoreVert />
                     </StyledIconButton>
                   </StyledProductOption>
@@ -89,6 +103,10 @@ const Home = () => {
                   <StyledSellerId theme={theme}>{`by @ ${product.sallerId}`}</StyledSellerId>
                   <StyledPrice theme={theme}>{`${product.point} ポイント`}</StyledPrice>
                 </StyledProductDesc>
+
+                <StyledProductPopper open={isProductPopperOpen} anchorEl={productAnchorEl} placement='bottom'>
+                  aaa
+                </StyledProductPopper>
               </StyledProduct>
               )}
           </StyledProductZone>
@@ -123,12 +141,32 @@ const StyledSlider = styled(Slider)`
 `
 
 const StyledSlide = styled.div`
+  position: relative;
   aspect-ratio: 4/1;
   background-image: url(${(props => props.slideUrl)});
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   background-color: ${(props) => props.theme.palette.background.pop};
+`
+
+const StyledSlideComment = styled.div`
+  display: none;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: fit-content;
+  padding: 0 50px;
+  overflow: hidden;
+  color: ${(props) => props.theme.palette.text.main};
+  background-color: ${(props) => props.theme.palette.background.slideComment};
+  text-overflow: ellipsis;
+  -webkit-line-clamp: ${(props) => (props.$isXsScreen ? 1 : 2)};
+  -webkit-box-orient: vertical;
+
+  ${StyledSlider}:hover & {
+    display: -webkit-box;
+  }
 `
 
 const StyledCustomArrow = styled.div`
@@ -235,9 +273,17 @@ const StyledProductName = styled.div`
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+
+  ${StyledProduct}:hover &{
+    text-decoration: underline;
+  }
+  ${StyledProduct}:active &{
+    text-decoration: none;
+  }
 `
 
 const StyledSellerId = styled.div`
+  width: fit-content;
   color: ${(props) => props.theme.palette.text.sub};
   font-size: 0.9rem;
   overflow: hidden;
@@ -256,6 +302,12 @@ const StyledSellerId = styled.div`
 const StyledPrice = styled.div`
   font-weight: bold;
   color: ${(props) => props.theme.palette.secondary.main};
+`
+
+const StyledProductPopper = styled(Popper)`
+  && {
+
+  }
 `
 
 
