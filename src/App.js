@@ -46,6 +46,7 @@ function App() {
 
 const StyledApp = styled.div`
   overflow-x: hidden;
+  width: calc(100vw - 10px);
 `
 
 

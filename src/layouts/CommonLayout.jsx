@@ -13,14 +13,15 @@ const CommonLayouts = () => {
   const location = useLocation();
   const isSideOpen = useSelector((state => state.floatSideBar.value));
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
+  const isScrollable = useSelector((state => state.windowScrollable.value));
 
   useEffect(() => {
-    if (isSmallScreen && isSideOpen) {
+    if ((isSmallScreen && isSideOpen) || (!isScrollable)) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
     }
-  }, [isSmallScreen, isSideOpen]);
+  }, [isSmallScreen, isSideOpen, isScrollable]);
 
   return (
     <>
@@ -47,8 +48,9 @@ const StyledMain = styled.div`
 const StyledSmallScreenDarken = styled.div`
   z-index: 100;
   position: fixed;
+  bottom: 0;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 114px);
   background-color: rgba(0, 0, 0, 0.5);
   opacity: ${(props) => (props.$isSmallScreen && props.isSideOpen ? 1 : 0)};
   pointer-events: ${(props) => (props.$isSmallScreen && props.isSideOpen ? 'auto' : 'none')};

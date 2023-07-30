@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { AccountCircleOutlined, AdsClick, ArrowBack, AssessmentOutlined, CachedOutlined, CreditCard, FavoriteBorder, HelpOutlineOutlined, InfoOutlined, Inventory2Outlined, Logout } from '@mui/icons-material';
+import { isWindowScrollable } from '../../../../../redux/features/windowScrollaleSlice';
+import { useDispatch } from 'react-redux';
 
 
 const ProfilePopper = () => {
@@ -10,6 +12,7 @@ const ProfilePopper = () => {
     const [isProfilePopperOpen, setIsProfilePopperOpen] = useState(false);
     const [profileAnchorEl, setProfileAnchorEl] = useState(null);
     const profilePopperRef = useRef(null);
+    const dispatch = useDispatch();
     const theme = useTheme();
 
     const handleProfilePopper = (e) => {
@@ -35,6 +38,15 @@ const ProfilePopper = () => {
             document.removeEventListener('click', handleProfilePopperClose);
         }
     }, [profileAnchorEl]);
+
+    useEffect(() => {
+        if (isProfilePopperOpen) {
+          // ポッパーが展開されたときにスクロールを無効化
+            dispatch(isWindowScrollable());
+        } else {
+            dispatch(isWindowScrollable());
+        }
+    }, [isProfilePopperOpen, dispatch]);
 
     return (
         <>
