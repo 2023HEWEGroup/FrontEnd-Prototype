@@ -4,6 +4,7 @@ import { multipleTopBarNotifyScroll } from "../../../../../redux/features/topBar
 import styled from 'styled-components';
 import { Avatar, Badge, Divider, IconButton, List, ListItemButton, ListItemText, Paper, Popper, Tooltip, useTheme } from '@mui/material';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
+import { isWindowScrollable } from "../../../../../redux/features/windowScrollaleSlice";
 
 
 const NotifyPopper = () => {
@@ -128,6 +129,15 @@ const NotifyPopper = () => {
             document.removeEventListener('click', handleNotifyPopperClose);
         }
     }, [notifyAnchorEl]);
+
+    useEffect(() => {
+        if (isNotifyPopperOpen) {
+          // ポッパーが展開されたときにスクロールを無効化
+            dispatch(isWindowScrollable());
+        } else {
+            dispatch(isWindowScrollable());
+        }
+    }, [isNotifyPopperOpen, dispatch]);
 
     return (
         <>

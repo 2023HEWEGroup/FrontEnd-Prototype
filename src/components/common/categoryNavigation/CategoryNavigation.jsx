@@ -1,5 +1,5 @@
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
-import { AppBar, Chip, IconButton, Tooltip, useTheme } from '@mui/material';
+import { AppBar, Chip, IconButton, Tooltip, useMediaQuery, useTheme } from '@mui/material';
 import React, { useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -32,6 +32,8 @@ const CategoryNavigation = () => {
     const theme = useTheme();
     const navRef = useRef(null);
     const isSideOpen = useSelector((state => state.floatSideBar.value));
+    const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
+    const isScrollable = useSelector((state => state.windowScrollable.value));
 
     const handleScroll = (direction) => {
         const navBar = navRef.current;
@@ -56,7 +58,7 @@ const CategoryNavigation = () => {
 
     return (
         <>
-        <StyledAppBar style={ isSideOpen ? {top: "55px", left: "240px", width: "calc(100% - 240px)"} : {top: "55px", left: "75px", width: "calc(100% - 75px)"}}>
+        <StyledAppBar $isSideOpen={isSideOpen} $isSmallScreen={isSmallScreen} $isScrollable={isScrollable} style={ isSideOpen ? {top: "55px", left: "240px", width: "calc(100% - 240px)"} : {top: "55px", left: "75px", width: "calc(100% - 75px)"}}>
             <StyledCategoryBarParent>
                 <StyledIconButtonLeft onClick={() => handleScroll("left")} theme={theme} style={isLeftButtonVisible ? null : {display: "none"}}>
                     <ArrowBack />
@@ -89,6 +91,7 @@ const StyledAppBar = styled(AppBar)`
     && {
         z-index: 100;
         box-shadow: none;
+        padding-right: ${(props) => (props.$isSideOpen && props.$isSmallScreen) || !props.$isScrollable ? '10px' : '0'};
     }
 `
 

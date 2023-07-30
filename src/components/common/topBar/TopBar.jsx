@@ -3,14 +3,18 @@ import styled from "styled-components";
 import GridLeft from './gridLeft/GridLeft';
 import GridCenter from './gridCenter/GridCenter';
 import GridRight from './gridright/GridRight';
+import { useSelector } from 'react-redux';
 
 
 const TopBar = (props) => {
 
   const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+  const isSideOpen = useSelector((state => state.floatSideBar.value));
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
+  const isScrollable = useSelector((state => state.windowScrollable.value));
 
   return (
-    <StyledAppBar color='primary'>
+    <StyledAppBar color='primary' $isSideOpen={isSideOpen} $isSmallScreen={isSmallScreen} $isScrollable={isScrollable}>
       <Toolbar>
         <Grid container style={{justifyContent: "space-between"}}>
 
@@ -41,6 +45,7 @@ const StyledAppBar = styled(AppBar)`
     justify-content: center;
     height: 55px;
     box-shadow: none;
+    padding-right: ${(props) => (props.$isSideOpen && props.$isSmallScreen) || !props.$isScrollable ? '10px' : '0'};
   }
 `;
 
