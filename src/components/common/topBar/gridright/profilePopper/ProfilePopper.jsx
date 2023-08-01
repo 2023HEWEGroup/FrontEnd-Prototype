@@ -78,7 +78,7 @@ const ProfilePopper = () => {
                 </StyledProfilePointHeader>
 
                 <Divider style={{borderBottom: `solid 0.25px ${theme.palette.line.main}`, width: "95%", margin: "0 auto"}}/>
-                <StyledProfileList>
+                <List>
                     <StyledProfileListBlock>
                         <StyledProfileListElements theme={theme}>
                             <FavoriteBorder color='icon'/>
@@ -93,9 +93,9 @@ const ProfilePopper = () => {
                             <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="取引中"/>
                         </StyledProfileListElements>
                     </StyledProfileListBlock>
-                </StyledProfileList>
+                </List>
                 <Divider style={{borderBottom: `solid 0.25px ${theme.palette.line.main}`, width: "95%", margin: "0 auto"}}/>
-                <StyledProfileList>
+                <List>
                     <StyledProfileListBlock>
                         <StyledProfileListElements theme={theme}>
                             <AdsClick color='icon'/>
@@ -110,9 +110,9 @@ const ProfilePopper = () => {
                             <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="ログ"/>
                         </StyledProfileListElements>
                     </StyledProfileListBlock>
-                </StyledProfileList>
+                </List>
                 <Divider style={{borderBottom: `solid 0.25px ${theme.palette.line.main}`, width: "95%", margin: "0 auto"}}/>
-                <StyledProfileList>
+                <List>
                     <StyledProfileListBlock>
                         <StyledProfileListElements theme={theme}>
                             <InfoOutlined color='icon'/>
@@ -133,7 +133,7 @@ const ProfilePopper = () => {
                             <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="ログアウト" />
                         </StyledProfileListElements>
                         </StyledProfileListBlock>
-                </StyledProfileList>
+                </List>
             </StyledProfilePopperPaper>
         </StyledPopper>
         </>
@@ -257,15 +257,11 @@ const StyledPointAmountLabel = styled(Chip)`
     }
 `
 
-const StyledProfileList = styled(List)`
-    && {
-    }
-`
-
 const StyledProfileListBlock = styled.div`
     width: 95%;
     margin: 0 auto;
 `
+
 const StyledLink = styled(Link)`
     && {
         display: flex;
