@@ -1,21 +1,30 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import CategoryNavigation from '../components/common/categoryNavigation/CategoryNavigation'
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from 'styled-components';
-import { Avatar, Button, IconButton, Popper, useMediaQuery, useTheme } from '@mui/material';
-import { ArrowBackIosNew, ArrowForwardIos, MoreVert } from '@mui/icons-material';
+import { Alert, Avatar, Button, Chip, Grid, Hidden, IconButton, Paper, Popper, Slide, Snackbar, Tooltip, useMediaQuery, useTheme } from '@mui/material';
+import { ArrowBackIosNew, ArrowForwardIos, FavoriteBorder, MoreVert } from '@mui/icons-material';
+
+
+const SlideTransition = (props) => {
+  return <Slide {...props} direction="right" />;
+};
 
 
 const Home = () => {
 
   const [isProductPopperOpen, setIsProductPopperOpen] = useState(false);
   const [productAnchorEl, setProductAnchorEl] = useState(null);
+  const [isLinkSnack, setIsLinkSnack] = useState(false);
+  const [isFollowSnack, setIsFollowSnack] = useState(false);
+  const [userSlideIndex, setUserSlideIndex] = useState(0);
   const isMiddleScreen = useMediaQuery((theme) => theme.breakpoints.down('lg'));
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
   const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
   const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
+  const productPopperRef = useRef(null);
   const theme = useTheme();
 
   const handleProductPopper = (e) => {
@@ -27,6 +36,49 @@ const Home = () => {
       setProductAnchorEl(null);
     }
   }
+
+  const handleLinkCopy = () => {
+    const currentUrl = window.location.href;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(currentUrl)
+      .then(() => {
+        setIsLinkSnack(!isLinkSnack);
+      })
+    }
+  }
+
+  const handleLinkSnackClose = () => {
+    setIsLinkSnack(false)
+  };
+
+  const handleFollowSnack = () => {
+    setIsFollowSnack(true);
+  }
+
+  const handleFollowSnackClose = () => {
+    setIsFollowSnack(false);
+  }
+
+  useEffect(() => {
+    const handleProductPopperClose = (e) => {
+        if (productAnchorEl && !productAnchorEl.contains(e.target) && !productPopperRef.current.contains(e.target)) {
+            setProductAnchorEl(null);
+            setIsProductPopperOpen(false);
+        }
+    }
+    document.addEventListener('click', handleProductPopperClose);
+
+    return () => {
+        document.removeEventListener('click', handleProductPopperClose);
+    }
+  }, [productAnchorEl]);
+
+  useEffect(() => {
+    if (isSmallScreen || isXsScreen) {
+      setProductAnchorEl(null);
+      setIsProductPopperOpen(false);
+    }
+  }, [isSmallScreen, isXsScreen]);
 
   const slides = [
     {id: 1, imageUrl: `${siteAssetsPath}/LMAP_logo.svg`, slideComment: "卵かけご飯最高"},
@@ -43,12 +95,35 @@ const Home = () => {
     {id: 5, productName: "HARDCORE TANO*Cあああああああああああああああ", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon_black.png`, point: 300},
     {id: 6, productName: "そうだ、温泉旅行に行こう！", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon_black.png`, point: 300},
     {id: 7, productName: "もう準備万タンです", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon_black.png`, point: 300},
-    {id: 8, productName: "HARDCORE TANO*C", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon_black.png`, point: 300},
+    {id: 8, productName: "いーろん", sallerId: "twitter_japan", imageUrl: `${siteAssetsPath}/elon.png`, point: 9999999},
     {id: 9, productName: "ショウガにミソ付けて食べるの美味しいのにあまり理解されない", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon.png`, point: 300},
     {id: 10, productName: "自分で作った回路に電気が流れてさ、チェストにものがどんどん貯まっていくってもうあり得ない快感なんだよね", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon.png`, point: 300},
     {id: 11, productName: "HARDCORE TANO*C", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon.png`, point: 300},
     {id: 12, productName: "HARDCORE TANO*C", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon.png`, point: 300},
     {id: 13, productName: "伊勢エビ(戦闘力53万)", sallerId: "elonmusk", imageUrl: `${siteAssetsPath}/iseebi.png`, point: 4000},
+  ] 
+  const limitedProducts = isXsScreen ? products.slice(0, 6) : isSmallScreen ? products.slice(0, 9) : isMiddleScreen ? products.slice(0, 12) :products;
+
+  const userSlides = [
+    {id: 1, userIconUrl: `${siteAssetsPath}/demae.png`, userName: "demaescape", userId: "demae", products: [
+      {productName: "タノシーツアー", productImgUrl: `${siteAssetsPath}/tanoc_icon.png`},
+    ]
+      },
+    {id: 2, userIconUrl: `${siteAssetsPath}/elon.png`, userName: "HARDCORE TANO*C", userId: "tanoc_net2", products:[
+      {productName: "タカアシガニ", productImgUrl: `${siteAssetsPath}/takaasi.png`},
+      {productName: "タカアシガニ2", productImgUrl: `${siteAssetsPath}/takaasi.png`}
+    ]},
+    {id: 3, userIconUrl: `${siteAssetsPath}/tanoc_icon.png`, userName: "CODING KURU*Cんじゃこらwwwwwwwwwwwwwwwww", userId: "tanoc_nettttttttttttttttttttttttttttttttttttttttttttttttttt", products: [
+      {productName: "真実", productImgUrl: `${siteAssetsPath}/nensyu.png`},
+      {productName: "サトウキビの絞りカス", productImgUrl: `${siteAssetsPath}/satoukibi.png`},
+      {productName: "elon", productImgUrl: `${siteAssetsPath}/elon.png`}
+    ]},
+    {id: 4, userIconUrl: `${siteAssetsPath}/tanoc_icon_black.png`, userName: "明太子ご飯こそ至高", userId: "mentaiko_2b2c", products: [
+      {productName: "タノシーツアー", productImgUrl: `${siteAssetsPath}/tanoc_icon_black.png`},
+      {productName: "戦場", productImgUrl: `${siteAssetsPath}/senzyou.png`},
+      {productName: "SEIKIN TV", productImgUrl: `${siteAssetsPath}/seikin.png`},
+      {productName: "LMAP", productImgUrl: `${siteAssetsPath}/lmap_logo_filled.svg`},
+    ]},
   ]
 
   const CustomArrow = ({ onClick, theme, direction }) => {
@@ -58,6 +133,16 @@ const Home = () => {
           {direction === "prev" ? <ArrowBackIosNew /> : <ArrowForwardIos />}
         </StyledButton>
       </StyledCustomArrow>
+    );
+  };
+
+  const CustomUserArrow = ({ onClick, theme, direction }) => {
+    return (
+      <StyledCustomUserArrow theme={theme} onClick={onClick} style={direction === "prev" ? {left: "-30px"} : {right: "-30px"}}>
+        <StyledButton theme={theme}>
+          {direction === "prev" ? <ArrowBackIosNew /> : <ArrowForwardIos />}
+        </StyledButton>
+      </StyledCustomUserArrow>
     );
   };
 
@@ -74,6 +159,34 @@ const Home = () => {
     nextArrow: <CustomArrow theme={theme} direction="next"/>,
   };
 
+  const userSlideSettings = {
+    infinite: true,
+    speed: 350,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true,
+    prevArrow: <CustomUserArrow theme={theme} direction="prev"/>,
+    nextArrow: <CustomUserArrow theme={theme} direction="next"/>,
+    afterChange: (currentSlideIndex) => {
+      setUserSlideIndex(currentSlideIndex);
+    },
+  }
+
+  // const renderContent = () => {
+  //   switch (userSlideIndex) {
+  //     case 0:
+  //       return <div>コンテンツ1を表示</div>;
+  //     case 1:
+  //       return <div>コンテンツ2を表示</div>;
+  //     case 2:
+  //       return <div>コンテンツ3を表示</div>;
+  //     case 3:
+  //       return <div>コンテンツ4を表示</div>;
+  //     default:
+  //       return null;
+  //   }
+  // };
+
   return (
     <>
       <CategoryNavigation/>
@@ -88,11 +201,11 @@ const Home = () => {
         <StyledHomeInnner>
 
           <StyledProductZone>
-            {products.map(product =>
+            {limitedProducts.map(product =>
               <StyledProduct key={product.id} $isMiddleScreen={isMiddleScreen} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
                 <StyledProductImgZone>
                   <StyledAvatar variant='square' src={product.imageUrl} alt='商品画像' />
-                  <StyledProductOption theme={theme}>
+                  <StyledProductOption theme={theme} productAnchorEl={productAnchorEl}>
                     <StyledIconButton onClick={handleProductPopper}>
                       <MoreVert />
                     </StyledIconButton>
@@ -100,19 +213,131 @@ const Home = () => {
                 </StyledProductImgZone>
                 <StyledProductDesc>
                   <StyledProductName theme={theme}>{product.productName}</StyledProductName>
-                  <StyledSellerId theme={theme}>{`by @ ${product.sallerId}`}</StyledSellerId>
-                  <StyledPrice theme={theme}>{`${product.point} ポイント`}</StyledPrice>
+                  <StyledSellerId theme={theme}>{`by @${product.sallerId}`}</StyledSellerId>
+                  <StyledPriceAndLike>
+                    <StyledPrice theme={theme}>{`${product.point} ポイント`}</StyledPrice>
+                    <StyledFavoriteBorder theme={theme}/>
+                  </StyledPriceAndLike>
                 </StyledProductDesc>
 
-                <StyledProductPopper open={isProductPopperOpen} anchorEl={productAnchorEl} placement='bottom'>
-                  aaa
-                </StyledProductPopper>
+                <Popper open={isProductPopperOpen} anchorEl={productAnchorEl} placement="bottom-end" theme={theme} ref={productPopperRef}>
+                  <StyledPopperPaper elevation={3} theme={theme}>
+                    <StyledPopperItem theme={theme} onClick={handleLinkCopy}>リンクをコピー</StyledPopperItem>
+                    <StyledPopperItem theme={theme}>共有</StyledPopperItem>
+                    <StyledPopperItem theme={theme}>いいねする</StyledPopperItem>
+                  </StyledPopperPaper>
+                </Popper>
               </StyledProduct>
               )}
           </StyledProductZone>
 
+          <StyledHomeSection theme={theme}>ユーザーアプローチ</StyledHomeSection>
+
+          <StyledUserZone>
+            <StyledUserGrid container>
+              <StyledUserGridItemUser item xs={12} sm={12} md={4} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
+                <StyledUserSlider {...userSlideSettings} theme={theme}>
+                  {userSlides.map(userSlide =>
+                    <StyledUserSlide key={userSlide.id} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
+                      <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", gap: "20px"}}>
+                        <StyledUserSlideAvatar src={userSlide.userIconUrl} alt='出品者アイコン' $isMiddleScreen={isMiddleScreen} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}/>
+                        <Hidden only={["xs", "sm"]}>
+                          <div style={{display: "flex", flexDirection: "column", gap: "5px"}}>
+                            <StyledUserSlideName theme={theme}>{userSlide.userName}</StyledUserSlideName>
+                            <StyledUserSlideId theme={theme}>{`@${userSlide.userId}`}</StyledUserSlideId>
+                          </div>
+                        </Hidden>
+                        <Tooltip title="フォローする" placement='top' arrow={true}>
+                          <StyledFollowTab label="フォロー" variant="outlined" color="secondary" clickable onClick={handleFollowSnack} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}/>
+                        </Tooltip>
+                      </div>
+                    </StyledUserSlide>
+                    )}
+                </StyledUserSlider>
+              </StyledUserGridItemUser>
+              <StyledUserGridItemProduct item xs={12} sm={12} md={8} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
+                {userSlides[userSlideIndex].products.length === 1 && (
+                  <Tooltip title={userSlides[userSlideIndex].products[0].productName} placement='bottom' followCursor>
+                    <StyledUserProductSingle $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
+                      <StyledUserProductImg variant='square' src={userSlides[userSlideIndex].products[0].productImgUrl}/>
+                    </StyledUserProductSingle>
+                  </Tooltip>
+                )}
+                {userSlides[userSlideIndex].products.length === 2 && (
+                  <StyledUserProductDouble $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
+                    <Tooltip title={userSlides[userSlideIndex].products[0].productName} placement='bottom' followCursor>
+                      <StyledUserProductDoubleInner>
+                        <StyledUserProductImg variant='square' src={userSlides[userSlideIndex].products[0].productImgUrl}/>
+                      </StyledUserProductDoubleInner>
+                    </Tooltip>
+                    <Tooltip title={userSlides[userSlideIndex].products[1].productName} placement='bottom' followCursor>
+                      <StyledUserProductDoubleInner>
+                        <StyledUserProductImg variant='square' src={userSlides[userSlideIndex].products[1].productImgUrl}/>
+                      </StyledUserProductDoubleInner>
+                    </Tooltip>
+                  </StyledUserProductDouble>
+                )}
+                {userSlides[userSlideIndex].products.length === 3 && (
+                  <StyledUserProductDouble $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
+                    <Tooltip title={userSlides[userSlideIndex].products[0].productName} placement='bottom' followCursor>
+                      <StyledUserProductDoubleInner>
+                        <StyledUserProductImg variant='square' src={userSlides[userSlideIndex].products[0].productImgUrl}/>
+                      </StyledUserProductDoubleInner>
+                    </Tooltip>
+                    <StyledUserProductTripleInnerBlock $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
+                      <Tooltip title={userSlides[userSlideIndex].products[1].productName} placement='bottom' followCursor>
+                        <StyledUserProductTripleInnerChild>
+                          <StyledUserProductImg variant='square' src={userSlides[userSlideIndex].products[1].productImgUrl}/>
+                        </StyledUserProductTripleInnerChild>
+                      </Tooltip>
+                      <Tooltip title={userSlides[userSlideIndex].products[2].productName} placement='bottom' followCursor>
+                        <StyledUserProductTripleInnerChild>
+                          <StyledUserProductImg variant='square' src={userSlides[userSlideIndex].products[2].productImgUrl}/>
+                        </StyledUserProductTripleInnerChild>
+                      </Tooltip>
+                    </StyledUserProductTripleInnerBlock>
+                  </StyledUserProductDouble>
+                )}
+                {userSlides[userSlideIndex].products.length === 4 && (
+                  <StyledUserProductDouble $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
+                    <StyledUserProductTripleInnerBlock $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
+                      <Tooltip title={userSlides[userSlideIndex].products[0].productName} placement='bottom' followCursor>
+                        <StyledUserProductTripleInnerChild>
+                          <StyledUserProductImg variant='square' src={userSlides[userSlideIndex].products[0].productImgUrl}/>
+                        </StyledUserProductTripleInnerChild>
+                      </Tooltip>
+                      <Tooltip title={userSlides[userSlideIndex].products[1].productName} placement='bottom' followCursor>
+                        <StyledUserProductTripleInnerChild>
+                          <StyledUserProductImg variant='square' src={userSlides[userSlideIndex].products[1].productImgUrl}/>
+                        </StyledUserProductTripleInnerChild>
+                      </Tooltip>
+                    </StyledUserProductTripleInnerBlock>
+                    <StyledUserProductTripleInnerBlock $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
+                      <Tooltip title={userSlides[userSlideIndex].products[2].productName} placement='bottom' followCursor>
+                        <StyledUserProductTripleInnerChild>
+                          <StyledUserProductImg variant='square' src={userSlides[userSlideIndex].products[2].productImgUrl}/>
+                        </StyledUserProductTripleInnerChild>
+                      </Tooltip>
+                      <Tooltip title={userSlides[userSlideIndex].products[3].productName} placement='bottom' followCursor>
+                        <StyledUserProductTripleInnerChild>
+                          <StyledUserProductImg variant='square' src={userSlides[userSlideIndex].products[3].productImgUrl}/>
+                        </StyledUserProductTripleInnerChild>
+                      </Tooltip>
+                    </StyledUserProductTripleInnerBlock>
+                  </StyledUserProductDouble>
+                )}
+              </StyledUserGridItemProduct>
+            </StyledUserGrid>
+          </StyledUserZone>
         </StyledHomeInnner>
       </StyledHome>
+
+      <Snackbar open={isLinkSnack} onClose={handleLinkSnackClose} TransitionComponent={SlideTransition} autoHideDuration={3000}>
+        <Alert severity='success'>リンクをコピーしました</Alert>
+      </Snackbar>
+      <Snackbar open={isFollowSnack} onClose={handleFollowSnackClose} TransitionComponent={SlideTransition} autoHideDuration={10000}>
+        <Alert severity='info'>username さんをフォローしました</Alert>
+      </Snackbar>
     </>
   )
 }
@@ -120,6 +345,16 @@ const Home = () => {
 
 const StyledHome = styled.div`
   width: 100%;
+`
+
+const StyledHomeSection = styled.div`
+  width: 100%;
+  margin: 20px 0;
+  padding: 5px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: ${(props) => props.theme.palette.text.sub};
+  border-bottom: solid 0.5px ${(props) => props.theme.palette.text.sub};
 `
 
 const StyledSlider = styled(Slider)`
@@ -200,8 +435,6 @@ const StyledButton = styled(Button)`
 `
 
 const StyledHomeInnner = styled.div`
-  display: flex;
-  justify-content: center;
   width: 90%;
   margin: 50px auto 0 auto;
 `
@@ -218,7 +451,7 @@ const StyledProduct = styled.div`
   width: calc(${(props) => (props.$isXsScreen ? "50%" : (props.$isSmallScreen ? "33%" : (props.$isMiddleScreen ? "25%" : "20%")))} - 20px);
   height: fit-content;
   cursor: pointer;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 `
 
 const StyledProductImgZone = styled.div`
@@ -238,15 +471,16 @@ const StyledAvatar = styled(Avatar)`
 `
 
 const StyledProductOption = styled.div`
-  display: none;
+  opacity: 0;
   position: absolute;
   top: 5px;
   right: 5px;
   background-color: ${(props) => props.theme.palette.background.slideHover};
   border-radius: 50%;
+  pointer-events: ${(props) => (props.productAnchorEl !== null ? "none" : "auto")};
 
   ${StyledProductImgZone}:hover & {
-    display: block;
+    opacity: 1;
   }
 `
 
@@ -259,7 +493,7 @@ const StyledIconButton = styled(IconButton)`
 const StyledProductDesc = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
   padding-top: 10px;
   width: 100%;
 `
@@ -269,17 +503,11 @@ const StyledProductName = styled.div`
   color: ${(props) => props.theme.palette.text.product};
   overflow: hidden;
   width: 100%;
+  height: 50px;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-
-  ${StyledProduct}:hover &{
-    text-decoration: underline;
-  }
-  ${StyledProduct}:active &{
-    text-decoration: none;
-  }
 `
 
 const StyledSellerId = styled.div`
@@ -299,14 +527,203 @@ const StyledSellerId = styled.div`
   }
 `
 
+const StyledPriceAndLike = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
 const StyledPrice = styled.div`
   font-weight: bold;
   color: ${(props) => props.theme.palette.secondary.main};
 `
 
-const StyledProductPopper = styled(Popper)`
+const StyledFavoriteBorder = styled(FavoriteBorder)`
   && {
+    width: 30px;
+    height: 30px;
+    color: ${(props) => props.theme.palette.icon.main};
 
+    &:hover {
+      color: ${(props) => props.theme.palette.icon.like};
+    }
+  }
+`
+
+const StyledPopperPaper = styled(Paper)`
+  && {
+    width: 150px;
+    padding: 5px 0;
+    border-radius: 10px;
+    color: ${(props) => props.theme.palette.text.main};
+    background-color: ${(props) => props.theme.palette.background.pop};
+  }
+`
+
+const StyledPopperItem = styled.div`
+  width: 95%;
+  margin: 0 auto;
+  padding: 7px 0 7px 3px;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${(props) => props.theme.palette.background.hover};
+  }
+  &:active {
+    background-color: transparent;
+  }
+`
+
+const StyledUserZone = styled.div`
+  display: flex;
+  width: 100%;
+  height: 400px;
+`
+
+const StyledUserGrid = styled(Grid)`
+  && {
+    height: fit-content;
+  }
+`
+
+const StyledUserGridItemUser = styled(Grid)`
+  && {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: ${(props) => (props.$isXsScreen ? "200px" : (props.$isSmallScreen ? "200px" : "400px"))};
+  }
+`
+
+const StyledUserGridItemProduct = styled(Grid)`
+  && {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: ${(props) => (props.$isXsScreen ? "200px" : (props.$isSmallScreen ? "200px" : "400px"))};
+  }
+`
+
+const StyledUserSlider = styled(Slider)`
+  && {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    height: 100%;
+  }
+`
+
+const StyledUserSlide = styled.div`
+  height: ${(props) => (props.$isXsScreen ? "200px" : (props.$isSmallScreen ? "200px" : "400px"))};
+`
+
+const StyledUserSlideAvatar = styled(Avatar)`
+  && {
+    cursor: pointer;
+    width: ${(props) => (props.$isXsScreen ? "100px" : (props.$isSmallScreen ? "100px" : (props.$isMiddleScreen ? "125px" : "150px")))};
+    height: ${(props) => (props.$isXsScreen ? "100px" : (props.$isSmallScreen ? "100px" : (props.$isMiddleScreen ? "125px" : "150px")))};
+    margin: ${(props) => (props.$isXsScreen ? "20px" : (props.$isSmallScreen ? "20px" : "50px"))} auto 0 auto;
+  }
+`
+
+const StyledUserSlideName = styled.div`
+  color: ${(props) => props.theme.palette.text.main};
+  width: 80%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 0 auto;
+  text-align: center;
+`
+
+const StyledUserSlideId = styled.div`
+  color: ${(props) => props.theme.palette.text.sub};
+  width: 80%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin: 0 auto;
+  text-align: center;
+`
+
+const StyledFollowTab = styled(Chip)`
+  && {
+    width: 70%;
+    height: 45px;
+    font-size: 1rem;
+    font-weight: bold;
+    max-width: 250px;
+    margin: ${(props) => (props.$isXsScreen ? "0" : (props.$isSmallScreen ? "0" : "0px"))} auto 0 auto;
+  }
+`
+
+const StyledCustomUserArrow = styled.div`
+  z-index: 50;
+  top: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  border-radius: 50%;
+  background-color: transparent;
+
+  &: hover {
+    border: solid 1px ${(props) => props.theme.palette.line.main};
+  }
+`
+
+const StyledUserProductSingle = styled.div`
+  aspect-ratio: 1/1;
+  height: ${(props) => (props.$isXsScreen ? "100%" : (props.$isSmallScreen ? "100%" : "80%"))};
+  overflow: hidden;
+  border-radius: 5px;
+`
+
+const StyledUserProductDouble = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: ${(props) => (props.$isXsScreen ? "10px" : (props.$isSmallScreen ? "10px" : "20px"))};
+  aspect-ratio: 2/1;
+  width: ${(props) => (props.$isXsScreen ? "calc(100% - 20px)" : (props.$isSmallScreen ? "calc(100% - 20px)" : "90%"))};
+  max-height: 100%;
+`
+
+const StyledUserProductDoubleInner = styled.div`
+  aspect-ratio: 1/1;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 5px;
+`
+
+const StyledUserProductTripleInnerBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${(props) => (props.$isXsScreen ? "10px" : (props.$isSmallScreen ? "10px" : "20px"))};
+  aspect-ratio: 1/1;
+  height: 100%;
+  overflow: hidden;
+`
+
+const StyledUserProductTripleInnerChild = styled.div`
+  width: 100%;
+  height: 50%;
+  overflow: hidden;
+  border-radius: 5px;
+`
+
+const StyledUserProductImg = styled(Avatar)`
+  && {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
   }
 `
 

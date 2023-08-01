@@ -23,7 +23,8 @@ export const darkBlueTheme = createTheme({
             product: "#ccc"
         },
         icon: {
-            main: "#777"
+            main: "#777",
+            like: "#ff007f"
         },
         background: {
             default: "#111",
