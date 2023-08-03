@@ -74,11 +74,11 @@ const Home = () => {
   }, [productAnchorEl]);
 
   useEffect(() => {
-    if (isSmallScreen || isXsScreen) {
+    if (isMiddleScreen || isSmallScreen || isXsScreen) {
       setProductAnchorEl(null);
       setIsProductPopperOpen(false);
     }
-  }, [isSmallScreen, isXsScreen]);
+  }, [isMiddleScreen, isSmallScreen, isXsScreen]);
 
   const slides = [
     {id: 1, imageUrl: `${siteAssetsPath}/LMAP_logo.svg`, slideComment: "卵かけご飯最高"},
@@ -106,24 +106,42 @@ const Home = () => {
 
   const userSlides = [
     {id: 1, userIconUrl: `${siteAssetsPath}/demae.png`, userName: "demaescape", userId: "demae", products: [
-      {productName: "タノシーツアー", productImgUrl: `${siteAssetsPath}/tanoc_icon.png`},
+      {id: 1, productName: "タノシーツアー", productImgUrl: `${siteAssetsPath}/tanoc_icon.png`},
     ]
       },
     {id: 2, userIconUrl: `${siteAssetsPath}/elon.png`, userName: "HARDCORE TANO*C", userId: "tanoc_net2", products:[
-      {productName: "タカアシガニ", productImgUrl: `${siteAssetsPath}/takaasi.png`},
-      {productName: "タカアシガニ2", productImgUrl: `${siteAssetsPath}/takaasi.png`}
+      {id: 2, productName: "タカアシガニ", productImgUrl: `${siteAssetsPath}/lmap_logo_filled.svg`},
+      {id: 3, productName: "タカアシガニ2", productImgUrl: `${siteAssetsPath}/takaasi.png`}
     ]},
     {id: 3, userIconUrl: `${siteAssetsPath}/tanoc_icon.png`, userName: "CODING KURU*Cんじゃこらwwwwwwwwwwwwwwwww", userId: "tanoc_nettttttttttttttttttttttttttttttttttttttttttttttttttt", products: [
-      {productName: "真実", productImgUrl: `${siteAssetsPath}/nensyu.png`},
-      {productName: "サトウキビの絞りカス", productImgUrl: `${siteAssetsPath}/satoukibi.png`},
-      {productName: "elon", productImgUrl: `${siteAssetsPath}/elon.png`}
+      {id: 4, productName: "真実", productImgUrl: `${siteAssetsPath}/nensyu.png`},
+      {id: 5, productName: "サトウキビの絞りカス", productImgUrl: `${siteAssetsPath}/satoukibi.png`},
+      {id: 6, productName: "elon", productImgUrl: `${siteAssetsPath}/elon.png`}
     ]},
     {id: 4, userIconUrl: `${siteAssetsPath}/tanoc_icon_black.png`, userName: "明太子ご飯こそ至高", userId: "mentaiko_2b2c", products: [
-      {productName: "タノシーツアー", productImgUrl: `${siteAssetsPath}/tanoc_icon_black.png`},
-      {productName: "戦場", productImgUrl: `${siteAssetsPath}/senzyou.png`},
-      {productName: "SEIKIN TV", productImgUrl: `${siteAssetsPath}/seikin.png`},
-      {productName: "LMAP", productImgUrl: `${siteAssetsPath}/lmap_logo_filled.svg`},
+      {id: 7, productName: "タノシーツアー", productImgUrl: `${siteAssetsPath}/tanoc_icon_black.png`},
+      {id: 8, productName: "戦場", productImgUrl: `${siteAssetsPath}/senzyou.png`},
+      {id: 9, productName: "SEIKIN TV", productImgUrl: `${siteAssetsPath}/seikin.png`},
+      {id: 10, productName: "LMAP", productImgUrl: `${siteAssetsPath}/LMAP_logo_filled.svg`},
     ]},
+    {id: 5, userIconUrl: `${siteAssetsPath}/iseebi.png`, userName: "出品者イセエビ", userId: "gg_noob", products: [
+      {id: 11, productName: "えび", productImgUrl: `${siteAssetsPath}/iseebi.png`},
+      {id: 12, productName: "えび", productImgUrl: `${siteAssetsPath}/iseebi.png`},
+      {id: 13, productName: "えび", productImgUrl: `${siteAssetsPath}/iseebi.png`},
+      {id: 14, productName: "えび", productImgUrl: `${siteAssetsPath}/iseebi.png`},
+      {id: 15, productName: "えび", productImgUrl: `${siteAssetsPath}/iseebi.png`},
+      {id: 16, productName: "えび", productImgUrl: `${siteAssetsPath}/iseebi.png`},
+      {id: 17, productName: "えび", productImgUrl: `${siteAssetsPath}/iseebi.png`},
+      {id: 18, productName: "えび", productImgUrl: `${siteAssetsPath}/iseebi.png`},
+    ]},
+    {id: 6, userIconUrl: `${siteAssetsPath}/iseebi.png`, userName: "2代目出品者イセエビ", userId: "gg_noob2", products: [
+      {id: 19, productName: "elon", productImgUrl: `${siteAssetsPath}/elon.png`},
+      {id: 20, productName: "elon", productImgUrl: `${siteAssetsPath}/elon.png`},
+      {id: 21, productName: "elon", productImgUrl: `${siteAssetsPath}/elon.png`},
+      {id: 22, productName: "elon", productImgUrl: `${siteAssetsPath}/elon.png`},
+      {id: 23, productName: "elon", productImgUrl: `${siteAssetsPath}/elon.png`},
+      {id: 24, productName: "elon", productImgUrl: `${siteAssetsPath}/elon.png`}
+    ]}
   ]
 
   const CustomArrow = ({ onClick, theme, direction }) => {
@@ -172,6 +190,7 @@ const Home = () => {
     },
   }
 
+  // プロフィールページとかに使えそうなロジック
   // const renderContent = () => {
   //   switch (userSlideIndex) {
   //     case 0:
@@ -256,76 +275,13 @@ const Home = () => {
                 </StyledUserSlider>
               </StyledUserGridItemUser>
               <StyledUserGridItemProduct item xs={12} sm={12} md={8} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
-                {userSlides[userSlideIndex].products.length === 1 && (
-                  <Tooltip title={userSlides[userSlideIndex].products[0].productName} placement='bottom' followCursor>
-                    <StyledUserProductSingle $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
-                      <StyledUserProductImg variant='square' src={userSlides[userSlideIndex].products[0].productImgUrl}/>
-                    </StyledUserProductSingle>
-                  </Tooltip>
-                )}
-                {userSlides[userSlideIndex].products.length === 2 && (
-                  <StyledUserProductDouble $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
-                    <Tooltip title={userSlides[userSlideIndex].products[0].productName} placement='bottom' followCursor>
-                      <StyledUserProductDoubleInner>
-                        <StyledUserProductImg variant='square' src={userSlides[userSlideIndex].products[0].productImgUrl}/>
-                      </StyledUserProductDoubleInner>
+                {userSlides[userSlideIndex].products.map(product=>
+                  <StyledUserProduct key={product.id} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
+                    <Tooltip title={product.productName} followCursor placement='top'>
+                      <StyledUserProductImg variant='square' src={product.productImgUrl} alt='商品画像'/>
                     </Tooltip>
-                    <Tooltip title={userSlides[userSlideIndex].products[1].productName} placement='bottom' followCursor>
-                      <StyledUserProductDoubleInner>
-                        <StyledUserProductImg variant='square' src={userSlides[userSlideIndex].products[1].productImgUrl}/>
-                      </StyledUserProductDoubleInner>
-                    </Tooltip>
-                  </StyledUserProductDouble>
-                )}
-                {userSlides[userSlideIndex].products.length === 3 && (
-                  <StyledUserProductDouble $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
-                    <Tooltip title={userSlides[userSlideIndex].products[0].productName} placement='bottom' followCursor>
-                      <StyledUserProductDoubleInner>
-                        <StyledUserProductImg variant='square' src={userSlides[userSlideIndex].products[0].productImgUrl}/>
-                      </StyledUserProductDoubleInner>
-                    </Tooltip>
-                    <StyledUserProductTripleInnerBlock $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
-                      <Tooltip title={userSlides[userSlideIndex].products[1].productName} placement='bottom' followCursor>
-                        <StyledUserProductTripleInnerChild>
-                          <StyledUserProductImg variant='square' src={userSlides[userSlideIndex].products[1].productImgUrl}/>
-                        </StyledUserProductTripleInnerChild>
-                      </Tooltip>
-                      <Tooltip title={userSlides[userSlideIndex].products[2].productName} placement='bottom' followCursor>
-                        <StyledUserProductTripleInnerChild>
-                          <StyledUserProductImg variant='square' src={userSlides[userSlideIndex].products[2].productImgUrl}/>
-                        </StyledUserProductTripleInnerChild>
-                      </Tooltip>
-                    </StyledUserProductTripleInnerBlock>
-                  </StyledUserProductDouble>
-                )}
-                {userSlides[userSlideIndex].products.length === 4 && (
-                  <StyledUserProductDouble $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
-                    <StyledUserProductTripleInnerBlock $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
-                      <Tooltip title={userSlides[userSlideIndex].products[0].productName} placement='bottom' followCursor>
-                        <StyledUserProductTripleInnerChild>
-                          <StyledUserProductImg variant='square' src={userSlides[userSlideIndex].products[0].productImgUrl}/>
-                        </StyledUserProductTripleInnerChild>
-                      </Tooltip>
-                      <Tooltip title={userSlides[userSlideIndex].products[1].productName} placement='bottom' followCursor>
-                        <StyledUserProductTripleInnerChild>
-                          <StyledUserProductImg variant='square' src={userSlides[userSlideIndex].products[1].productImgUrl}/>
-                        </StyledUserProductTripleInnerChild>
-                      </Tooltip>
-                    </StyledUserProductTripleInnerBlock>
-                    <StyledUserProductTripleInnerBlock $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
-                      <Tooltip title={userSlides[userSlideIndex].products[2].productName} placement='bottom' followCursor>
-                        <StyledUserProductTripleInnerChild>
-                          <StyledUserProductImg variant='square' src={userSlides[userSlideIndex].products[2].productImgUrl}/>
-                        </StyledUserProductTripleInnerChild>
-                      </Tooltip>
-                      <Tooltip title={userSlides[userSlideIndex].products[3].productName} placement='bottom' followCursor>
-                        <StyledUserProductTripleInnerChild>
-                          <StyledUserProductImg variant='square' src={userSlides[userSlideIndex].products[3].productImgUrl}/>
-                        </StyledUserProductTripleInnerChild>
-                      </Tooltip>
-                    </StyledUserProductTripleInnerBlock>
-                  </StyledUserProductDouble>
-                )}
+                  </StyledUserProduct>
+                  )}
               </StyledUserGridItemProduct>
             </StyledUserGrid>
           </StyledUserZone>
@@ -579,6 +535,7 @@ const StyledUserZone = styled.div`
   display: flex;
   width: 100%;
   height: 400px;
+  margin-bottom: 50px;
 `
 
 const StyledUserGrid = styled(Grid)`
@@ -599,9 +556,12 @@ const StyledUserGridItemUser = styled(Grid)`
 const StyledUserGridItemProduct = styled(Grid)`
   && {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: ${(props) => (props.$isXsScreen ? "200px" : (props.$isSmallScreen ? "200px" : "400px"))};
+    flex-wrap: wrap;
+    justify-content: ${(props) => (props.$isXsScreen ? "center" : (props.$isSmallScreen ? "center" : "flex-start"))};
+    gap: 10px;
+    height: ${(props) => (props.$isXsScreen ? "100px" : (props.$isSmallScreen ? "100px" : "400px"))};
+    widht: 100%;
+    overflow: hidden;
   }
 `
 
@@ -679,42 +639,9 @@ const StyledCustomUserArrow = styled.div`
   }
 `
 
-const StyledUserProductSingle = styled.div`
+const StyledUserProduct = styled.div`
   aspect-ratio: 1/1;
-  height: ${(props) => (props.$isXsScreen ? "100%" : (props.$isSmallScreen ? "100%" : "80%"))};
-  overflow: hidden;
-  border-radius: 5px;
-`
-
-const StyledUserProductDouble = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: ${(props) => (props.$isXsScreen ? "10px" : (props.$isSmallScreen ? "10px" : "20px"))};
-  aspect-ratio: 2/1;
-  width: ${(props) => (props.$isXsScreen ? "calc(100% - 20px)" : (props.$isSmallScreen ? "calc(100% - 20px)" : "90%"))};
-  max-height: 100%;
-`
-
-const StyledUserProductDoubleInner = styled.div`
-  aspect-ratio: 1/1;
-  height: 100%;
-  overflow: hidden;
-  border-radius: 5px;
-`
-
-const StyledUserProductTripleInnerBlock = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${(props) => (props.$isXsScreen ? "10px" : (props.$isSmallScreen ? "10px" : "20px"))};
-  aspect-ratio: 1/1;
-  height: 100%;
-  overflow: hidden;
-`
-
-const StyledUserProductTripleInnerChild = styled.div`
-  width: 100%;
-  height: 50%;
+  height: ${(props) => (props.$isXsScreen ? "100%" : (props.$isSmallScreen ? "100%" : "calc(50% - 5px)"))};
   overflow: hidden;
   border-radius: 5px;
 `

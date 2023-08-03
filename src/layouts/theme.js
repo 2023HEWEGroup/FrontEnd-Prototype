@@ -37,6 +37,13 @@ export const darkBlueTheme = createTheme({
             categoryActive: "#000",
             slideHover: "rgba(0, 0, 0, 0.3)",
             slideComment: "rgba(0, 0, 0, 0.5)",
+        },
+        top: {
+            main: "#88f",
+            secondary: "#fff",
+            titleGradation: "#4158d0, #d3d3d3",
+            mainHover: "rgba(136, 136, 255, 0.1)",
+            secondaryHover: "rgba(255, 255, 255, 0.1)"
         }
     },
     components: {
@@ -50,7 +57,7 @@ export const darkBlueTheme = createTheme({
                 border-radius: 10px;
             },
             ::-webkit-scrollbar-track {
-                background-color: #transparent;
+                background-color: transparent;
             }
             `
         }

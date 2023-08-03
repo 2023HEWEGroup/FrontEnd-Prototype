@@ -50,7 +50,7 @@ const StyledSmallScreenDarken = styled.div`
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: calc(100% - 114px);
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   opacity: ${(props) => (props.$isSmallScreen && props.isSideOpen ? 1 : 0)};
   pointer-events: ${(props) => (props.$isSmallScreen && props.isSideOpen ? 'auto' : 'none')};
