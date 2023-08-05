@@ -12,9 +12,12 @@ export const windowScrollableSlice = createSlice({
     reducers: {
         isWindowScrollable: (state) => {
             state.value = !state.value;
+        },
+        setWindowScrollable: (state, actions) => {
+            state.value = actions.payload;
         }
     }
 })
 
-export const { isWindowScrollable } = windowScrollableSlice.actions;
+export const { isWindowScrollable, setWindowScrollable } = windowScrollableSlice.actions;
 export default windowScrollableSlice.reducer;
