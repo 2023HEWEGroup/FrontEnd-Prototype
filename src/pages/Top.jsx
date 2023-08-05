@@ -1,5 +1,5 @@
 import { ExitToApp, HighlightOff, Login, OpenInNew, Shop } from '@mui/icons-material'
-import { AppBar, Button, Chip, Grid, Modal, TextField, Toolbar, Tooltip, useMediaQuery, useTheme } from '@mui/material'
+import { AppBar, Button, Checkbox, Chip, FormControlLabel, Grid, Modal, TextField, Toolbar, Tooltip, useMediaQuery, useTheme } from '@mui/material'
 import { LoadingButton } from "@mui/lab"
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { setWindowScrollable } from '../redux/features/windowScrollaleSlice'
 import axios from 'axios'
+import { usePaymentInputs } from 'react-payment-inputs';
+import images from 'react-payment-inputs/images';
 
 
 const Top = () => {
@@ -33,6 +35,8 @@ const Top = () => {
   const [town, setTown] = useState("");
   const [houseNumber, setHouseNumber] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [cardChecked, setCardChecked] = useState(false);
+  const [creditCard, setCreditCard] = useState({number: "", expiry: "", cvc: ""});
   const [isUserIdLogin, setIsUserIdLogin] = useState(true);
   const isSideOpen = useSelector((state => state.floatSideBar.value));
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
@@ -160,6 +164,33 @@ const Top = () => {
     const value = e.target.value.replace(/[^0-9]/g, '');
     setPhoneNumber(value);
   }
+
+  const handleCardChecked = () => {
+    setCardChecked(!cardChecked);
+  }
+
+  const handleCreditCardNumberChange = (e) => {
+    const newCreditCard = { ...creditCard, number: e.target.value };
+    setCreditCard(newCreditCard);
+  }
+
+  const handleCreditCardExpiryChange = (e) => {
+    const newCreditCard = { ...creditCard, expiry: e.target.value };
+    setCreditCard(newCreditCard);
+  }
+
+  const handleCreditCardCVCChange = (e) => {
+    const newCreditCard = { ...creditCard, cvc: e.target.value };
+    setCreditCard(newCreditCard);
+  }
+
+  const {
+    meta,
+    getCardImageProps,
+    getCardNumberProps,
+    getExpiryDateProps,
+    getCVCProps
+  } = usePaymentInputs();
 
   // トップページでもCommonLayout同様、スクロール可否を問う。
   useEffect(() => {
@@ -302,6 +333,29 @@ const Top = () => {
                   <StyledNextStep variant='contained' color='top' onClick={handleNextStep}>次へ</StyledNextStep>
                 </StyledStep>
                 <Button color='top' onClick={handleIsLogin}><Login style={{marginRight: "5px"}}/>かわりにログインする</Button>
+                </>
+              )}
+              {currentStep === 2 && (
+                <>
+                  <div style={{width: "100%", height: "50px", display: "flex", alignItems: "center", gap: "20px", marginBottom: "40px"}}>
+                    <StyledCardImg {...getCardImageProps({ images })} />
+                    <StyledCardType>{meta.cardType ? meta.cardType.displayName : "クレジットカードが選択されていません"}</StyledCardType>
+                  </div>
+                  <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="カード番号" autoComplete='new-off' variant='outlined'
+                      inputProps={{...getCardNumberProps(), placeholder: ""}} value={creditCard.number} onChange={handleCreditCardNumberChange}/>
+                  <div style={{width: "100%", display: "flex", gap: "20px"}}>
+                    <StyledTextField style={{marginBottom: "15px", width: "50%"}} helperText=" " theme={theme} fullWidth label="有効期限 (MM/YY)" autoComplete='new-off' variant='outlined'
+                        inputProps={{...getExpiryDateProps(), placeholder: ""}} value={creditCard.expiry} onChange={handleCreditCardExpiryChange}/>
+                    <StyledTextField style={{marginBottom: "15px",  width: "50%"}} helperText=" " theme={theme} fullWidth label="CVC" autoComplete='new-off' variant='outlined'
+                        inputProps={{...getCVCProps(), placeholder: ""}} value={creditCard.cvc} onChange={handleCreditCardCVCChange}/>
+                  </div>
+                  <StyledFormControlLabel control={<Checkbox color='top' checked={cardChecked} onChange={handleCardChecked} sx={{ color: "#777", '& .MuiSvgIcon-root': { fontSize: 28 } }}/>}
+                      label="お支払い方法にクレジットカードを追加します (任意)"/>
+                  <StyledStep>
+                    <StyledBackStep variant='outlined' color='top' onClick={handleBackStep}>戻る</StyledBackStep>
+                    <StyledNextStep variant='contained' color='top' onClick={handleNextStep}>次へ</StyledNextStep>
+                  </StyledStep>
+                  <Button color='top' onClick={handleIsLogin}><Login style={{marginRight: "5px"}}/>かわりにログインする</Button>
                 </>
               )}
             </Styledform>
@@ -538,6 +592,22 @@ const StyledPostalComment = styled.div`
   width: 50%;
   color: #777;
   font-size: 0.9rem;
+`
+
+const StyledCardImg = styled.svg`
+  width: 75px;
+  height: fit-content;
+`
+
+const StyledCardType = styled.div`
+  color: #777;
+`
+
+const StyledFormControlLabel = styled(FormControlLabel)`
+  && {
+    color: #777;
+    margin-bottom: 40px;
+  }
 `
 
 
