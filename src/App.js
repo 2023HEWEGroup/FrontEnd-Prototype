@@ -18,37 +18,34 @@ import CommonLayouts from "./layouts/CommonLayout";
 import styled from "styled-components";
 
 function App() {
-
   return (
     <ThemeProvider theme={darkBlueTheme}>
       <CssBaseline />
       <StyledApp>
-          <Routes>
-            <Route path="/" element={<Top />} />
-            <Route path="/" element={<CommonLayouts />}>
-              <Route path="home" element={<Home />} />
-              <Route path="product" element={<Product />} />
-              <Route path="following" element={<Following />} />
-              <Route path="group" element={<Group />} />
-              <Route path="exhibit" element={<Exhibit />} />
-              <Route path="notify" element={<Notify />} />
-              <Route path="profile" element={<Profile />} />
-              <Route path="setting" element={<Setting />} />
-              <Route path="info" element={<Info />} />
-              <Route path="help" element={<Help />} />
-              <Route path="productDetail" element={<ProductDetail />} />
-            </Route>
-          </Routes>
-        </StyledApp>
+        <Routes>
+          <Route path="/" element={<Top />} />
+          <Route path="/" element={<CommonLayouts />}>
+            <Route path="home" element={<Home />} />
+            <Route path="product" element={<Product />} />
+            <Route path="following" element={<Following />} />
+            <Route path="group" element={<Group />} />
+            <Route path="exhibit" element={<Exhibit />} />
+            <Route path="notify" element={<Notify />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="setting" element={<Setting />} />
+            <Route path="info" element={<Info />} />
+            <Route path="help" element={<Help />} />
+            <Route path="productDetail" element={<ProductDetail />} />
+          </Route>
+        </Routes>
+      </StyledApp>
     </ThemeProvider>
   );
 }
 
-
 const StyledApp = styled.div`
   overflow-x: hidden;
   width: calc(100vw - 10px);
-`
-
+`;
 
 export default App;
