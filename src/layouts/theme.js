@@ -8,7 +8,8 @@ export const darkBlueTheme = createTheme({
             main: "#111"
         },
         secondary: {
-            main: blue[500]
+            main: blue[500],
+            progressed: blue[900]
         },
         line: {
             main: "#888",

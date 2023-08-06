@@ -1,5 +1,5 @@
-import { ExitToApp, HighlightOff, Login, OpenInNew, Shop } from '@mui/icons-material'
-import { AppBar, Button, Checkbox, Chip, FormControlLabel, Grid, Modal, TextField, Toolbar, Tooltip, useMediaQuery, useTheme } from '@mui/material'
+import { ExitToApp, HighlightOff, Login, OpenInNew, Shop, Visibility, VisibilityOff } from '@mui/icons-material'
+import { AppBar, Button, Checkbox, Chip, FormControlLabel, Grid, InputAdornment, Modal, Step, StepLabel, Stepper, TextField, Toolbar, Tooltip, useMediaQuery, useTheme } from '@mui/material'
 import { LoadingButton } from "@mui/lab"
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -19,9 +19,11 @@ const Top = () => {
   const [userId, setUserId] = useState("");
   const [mailAddress, setMailAddress] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const [registUserName, setRegistUserName] = useState("");
   const [registUserId, setRegistUserId] = useState("");
   const [registPassword, setRegistPassword] = useState("");
+  const [registPasswordVisible, setRegistPasswordVisible] = useState(false);
   const [registConfirmPassword, setRegistConfirmPassword] = useState("");
   const [registMailAddress, setRegistMailAddress] = useState("");
   const [registConfirmMailAddress, setRegistConfirmMailAddress] = useState("");
@@ -37,6 +39,9 @@ const Top = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [cardChecked, setCardChecked] = useState(false);
   const [creditCard, setCreditCard] = useState({number: "", expiry: "", cvc: ""});
+  const [CVCVisible, setCVCVisible] = useState(false);
+  const [recognitionPasswordVisible, setRecognitionPasswordVisible] = useState(false);
+  const [recognitionCVCVisible, setRecognitionCVCVisible] = useState(false);
   const [isUserIdLogin, setIsUserIdLogin] = useState(true);
   const isSideOpen = useSelector((state => state.floatSideBar.value));
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
@@ -60,7 +65,6 @@ const Top = () => {
 
   const handleNextStep = () => {
     setCurrentStep(currentStep + 1);
-    // 次の入力画面に移動でスクロール量を0に
     if (modalContainerRef.current) {
       modalContainerRef.current.scrollTop = 0;
     }
@@ -68,10 +72,8 @@ const Top = () => {
 
   const handleBackStep = () => {
     setCurrentStep(currentStep - 1);
-    // 前の入力画面に戻るとスクロール量をmaxに
     if (modalContainerRef.current) {
-      const maxScrollTop = modalContainerRef.current.scrollHeight - modalContainerRef.current.clientHeight;
-      modalContainerRef.current.scrollTop = maxScrollTop;
+      modalContainerRef.current.scrollTop = 0;
     }
   }
 
@@ -91,6 +93,10 @@ const Top = () => {
     setPassword(e.target.value);
   }
 
+  const handlePasswordVisible = () => {
+    setPasswordVisible(!passwordVisible);
+  }
+
   const handleRegistUserNameInput = (e) => {
     setRegistUserName(e.target.value)
   }
@@ -101,6 +107,10 @@ const Top = () => {
 
   const handleRegistPasswordInput = (e) => {
     setRegistPassword(e.target.value)
+  }
+
+  const handleRegistPasswordVisible = () => {
+    setRegistPasswordVisible(!registPasswordVisible);
   }
 
   const handleRegistConfirmPasswordInput = (e) => {
@@ -184,6 +194,25 @@ const Top = () => {
     setCreditCard(newCreditCard);
   }
 
+  const handleCVCVisible = () => {
+    setCVCVisible(!CVCVisible);
+  }
+
+  const handleRecognitionPasswordVisible = () => {
+    setRecognitionPasswordVisible(!recognitionPasswordVisible);
+  }
+
+  const handleRecognitionCVCVisible = () => {
+    setRecognitionCVCVisible(!recognitionCVCVisible);
+  }
+
+  const steps = [
+    "ユーザー情報の入力",
+    "個人情報の入力",
+    "お支払い方法の追加 (任意)",
+    "入力内容のご確認"
+  ];
+
   const {
     meta,
     getCardImageProps,
@@ -250,7 +279,7 @@ const Top = () => {
             <Tooltip title="閉じる" placement='top'>
               <StyledHighlightOff onClick={handleTopModalClose}/>
             </Tooltip>
-            <StyledModalIntro>
+            <StyledModalIntro $isLogin={isLogin}>
               マーケットにログインしましょう
             </StyledModalIntro>
             <Styledform noValidate>
@@ -258,11 +287,12 @@ const Top = () => {
               <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="ユーザーID (3~20字)"
                 autoComplete='new-off' variant='outlined' inputProps={{maxLength: 20}} value={userId} onChange={handleUserIdInput}/>
               :
-              <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="メールアドレス (3~20字)"
+              <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="メールアドレス"
                 autoComplete='new-off' variant='outlined' value={mailAddress} onChange={handleMailAddressInput}/>
               }
               <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="パスワード (8~20字)"
-                autoComplete='new-off' variant='outlined' value={password} type='password' inputProps={{maxLength: 20}} onChange={handlePasswordInput}/>
+                autoComplete='new-off' variant='outlined' value={password} type={passwordVisible ? "text" : 'password'} onChange={handlePasswordInput}
+                inputProps={{maxLength: 20}} InputProps={{endAdornment: (<InputAdornment position="end" onClick={handlePasswordVisible}>{passwordVisible ? <StyledVisibility /> : <StyledVisibilityOff />}</InputAdornment>)}}/>
               <div style={{width: "100%"}}>
                 <StyledOptionChange onClick={handleUserIdLogin}>または{isUserIdLogin ? "メールアドレス" : "ユーザーID"}でログインする</StyledOptionChange>
               </div>
@@ -275,23 +305,41 @@ const Top = () => {
             <Tooltip title="閉じる" placement='top'>
               <StyledHighlightOff onClick={handleTopModalClose}/>
             </Tooltip>
-            <StyledModalIntro>
+            <StyledModalIntro $isLogin={isLogin}>
               アカウントを作成する
             </StyledModalIntro>
             <Styledform autoComplete='off'>
               {currentStep === 0 && (
                 <>
-                <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="ユーザーネーム (1~30字)"
+                <div style={{width: "130%", marginBottom: "60px"}}>
+                  <StyledStepper activeStep={currentStep} alternativeLabel>
+                  {steps.map((label) => (
+                    <Step key={label} sx={{
+                      '& .MuiStepLabel-root .Mui-completed': {color: 'secondary.progressed'},
+                      '& .MuiStepLabel-root .Mui-active': {color: 'secondary.main'},
+                      '& .MuiStepLabel-label.Mui-completed.MuiStepLabel-alternativeLabel': {color: '#777'},
+                      '& .MuiStepLabel-label.MuiStepLabel-alternativeLabel': {color: '#777'},
+                      '& .MuiStepLabel-label.Mui-active.MuiStepLabel-alternativeLabel': {color: '#fff'},
+                      '& .MuiStepLabel-root .Mui-active .MuiStepIcon-text': {fill: '#000'}
+                    }}>
+                      <StepLabel>{label}</StepLabel>
+                    </Step>
+                  ))}
+                  </StyledStepper>
+                </div>
+                <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="ユーザーネーム (1~30字)" required
                     autoComplete='new-off' variant='outlined' inputProps={{maxLength: 30}} value={registUserName} onChange={handleRegistUserNameInput}/>
-                <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="ユーザーID (3~20字)"
+                <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="ユーザーID (3~20字)" required
                     autoComplete='new-off' variant='outlined' inputProps={{maxLength: 20}} value={registUserId} onChange={handleRegistUserIdInput}/>
-                <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="パスワード (8~20字)"
-                    autoComplete='new-off' type='password' variant='outlined' inputProps={{maxLength: 20}} value={registPassword} onChange={handleRegistPasswordInput}/>
-                <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="確認用パスワード (8~20字)"
-                    autoComplete='new-off' type='password' variant='outlined' inputProps={{maxLength: 20}} value={registConfirmPassword} onChange={handleRegistConfirmPasswordInput}/>
-                <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="メールアドレス"
+                <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="パスワード (8~20字)" required
+                    autoComplete='new-off' type={registPasswordVisible ? "text" : 'password'} variant='outlined' inputProps={{maxLength: 20}} value={registPassword} onChange={handleRegistPasswordInput}
+                    InputProps={{endAdornment: (<InputAdornment position="end" onClick={handleRegistPasswordVisible}>{registPasswordVisible ? <StyledVisibility /> : <StyledVisibilityOff />}</InputAdornment>)}}/>
+                <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="確認用パスワード (8~20字)" required
+                    autoComplete='new-off' type={registPasswordVisible ? "text" : 'password'} variant='outlined' inputProps={{maxLength: 20}} value={registConfirmPassword} onChange={handleRegistConfirmPasswordInput}
+                    InputProps={{endAdornment: (<InputAdornment position="end" onClick={handleRegistPasswordVisible}>{registPasswordVisible ? <StyledVisibility /> : <StyledVisibilityOff />}</InputAdornment>)}}/>
+                <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="メールアドレス" required
                     autoComplete='new-off' type='email' variant='outlined' value={registMailAddress} onChange={handleRegistMailAddressInput}/>
-                <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="確認用メールアドレス"
+                <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="確認用メールアドレス" required
                     autoComplete='new-off' type='email' variant='outlined' value={registConfirmMailAddress} onChange={handleRegistConfirmMailAddressInput}/>
                 <StyledStep>
                   <StyledNextStep variant='contained' color='top' onClick={handleNextStep}>次へ</StyledNextStep>
@@ -301,20 +349,36 @@ const Top = () => {
               )}
               {currentStep === 1 && (
                 <>
+                <div style={{width: "130%", marginBottom: "60px"}}>
+                  <StyledStepper activeStep={currentStep} alternativeLabel>
+                  {steps.map((label) => (
+                    <Step key={label} sx={{
+                      '& .MuiStepLabel-root .Mui-completed': {color: 'secondary.progressed'},
+                      '& .MuiStepLabel-root .Mui-active': {color: 'secondary.main'},
+                      '& .MuiStepLabel-label.Mui-completed.MuiStepLabel-alternativeLabel': {color: '#777'},
+                      '& .MuiStepLabel-label.MuiStepLabel-alternativeLabel': {color: '#777'},
+                      '& .MuiStepLabel-label.Mui-active.MuiStepLabel-alternativeLabel': {color: '#fff'},
+                      '& .MuiStepLabel-root .Mui-active .MuiStepIcon-text': {fill: '#000'}
+                    }}>
+                      <StepLabel>{label}</StepLabel>
+                    </Step>
+                  ))}
+                  </StyledStepper>
+                </div>
                 <StyledName>
-                  <StyledTextField style={{marginBottom: "15px", width: "50%"}} helperText=" " theme={theme} fullWidth label="姓 (全角)"
+                  <StyledTextField style={{marginBottom: "15px", width: "50%"}} helperText=" " theme={theme} fullWidth label="姓 (全角)" required
                       autoComplete='new-off' variant='outlined' inputProps={{maxLength: 20}} value={upperName} onChange={handleUpperNameInput}/>
-                  <StyledTextField style={{marginBottom: "15px", width: "50%"}} helperText=" " theme={theme} fullWidth label="名 (全角)"
+                  <StyledTextField style={{marginBottom: "15px", width: "50%"}} helperText=" " theme={theme} fullWidth label="名 (全角)" required
                       autoComplete='new-off' variant='outlined' inputProps={{maxLength: 20}} value={lowerName} onChange={handleLowerNameInput}/>
                 </StyledName>
                 <StyledName>
-                  <StyledTextField style={{marginBottom: "15px", width: "50%"}} helperText=" " theme={theme} fullWidth label="姓 (カナ)"
+                  <StyledTextField style={{marginBottom: "15px", width: "50%"}} helperText=" " theme={theme} fullWidth label="姓 (カナ)" required
                       autoComplete='new-off' variant='outlined' inputProps={{maxLength: 20}} value={upperNameKana} onChange={handleUpperNameKanaInput}/>
-                  <StyledTextField style={{marginBottom: "15px", width: "50%"}} helperText=" " theme={theme} fullWidth label="名 (カナ)"
+                  <StyledTextField style={{marginBottom: "15px", width: "50%"}} helperText=" " theme={theme} fullWidth label="名 (カナ)" required
                       autoComplete='new-off' variant='outlined' inputProps={{maxLength: 20}} value={lowerNameKana} onChange={handleLowerNameKanaInput}/>
                 </StyledName>
                 <StyledPostalCode>
-                  <StyledTextField style={{width: "50%"}} theme={theme} fullWidth label="郵便番号 (半角数字7ケタ)"
+                  <StyledTextField style={{width: "50%"}} theme={theme} fullWidth label="郵便番号" required
                       autoComplete='new-off' variant='outlined'inputProps={{maxLength: 7}} value={postalCode} onChange={handlePostalCodeInput}/>
                   <StyledPostalComment>郵便番号から住所が自動で入力されます</StyledPostalComment>
                 </StyledPostalCode>
@@ -326,7 +390,7 @@ const Top = () => {
                     autoComplete='new-off' variant='filled' value={town}/>
                 <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="番地・建物名など"
                     autoComplete='new-off' variant='outlined' inputProps={{maxLength: 50}} value={houseNumber} onChange={handleHouseNumberInput}/>
-                <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="電話番号 (半角数字11ケタ)"
+                <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="電話番号" required
                     autoComplete='new-off' variant='outlined' inputProps={{maxLength: 11}} value={phoneNumber} onChange={handlePhoneNumberInput}/>
                 <StyledStep>
                   <StyledBackStep variant='outlined' color='top' onClick={handleBackStep}>戻る</StyledBackStep>
@@ -337,6 +401,22 @@ const Top = () => {
               )}
               {currentStep === 2 && (
                 <>
+                <div style={{width: "130%", marginBottom: "60px"}}>
+                  <StyledStepper activeStep={currentStep} alternativeLabel>
+                  {steps.map((label) => (
+                    <Step key={label} sx={{
+                      '& .MuiStepLabel-root .Mui-completed': {color: 'secondary.progressed'},
+                      '& .MuiStepLabel-root .Mui-active': {color: 'secondary.main'},
+                      '& .MuiStepLabel-label.Mui-completed.MuiStepLabel-alternativeLabel': {color: '#777'},
+                      '& .MuiStepLabel-label.MuiStepLabel-alternativeLabel': {color: '#777'},
+                      '& .MuiStepLabel-label.Mui-active.MuiStepLabel-alternativeLabel': {color: '#fff'},
+                      '& .MuiStepLabel-root .Mui-active .MuiStepIcon-text': {fill: '#000'}
+                    }}>
+                      <StepLabel>{label}</StepLabel>
+                    </Step>
+                  ))}
+                  </StyledStepper>
+                </div>
                   <div style={{width: "100%", height: "50px", display: "flex", alignItems: "center", gap: "20px", marginBottom: "40px"}}>
                     <StyledCardImg {...getCardImageProps({ images })} />
                     <StyledCardType>{meta.cardType ? meta.cardType.displayName : "クレジットカードが選択されていません"}</StyledCardType>
@@ -347,13 +427,97 @@ const Top = () => {
                     <StyledTextField style={{marginBottom: "15px", width: "50%"}} helperText=" " theme={theme} fullWidth label="有効期限 (MM/YY)" autoComplete='new-off' variant='outlined'
                         inputProps={{...getExpiryDateProps(), placeholder: ""}} value={creditCard.expiry} onChange={handleCreditCardExpiryChange}/>
                     <StyledTextField style={{marginBottom: "15px",  width: "50%"}} helperText=" " theme={theme} fullWidth label="CVC" autoComplete='new-off' variant='outlined'
-                        inputProps={{...getCVCProps(), placeholder: ""}} value={creditCard.cvc} onChange={handleCreditCardCVCChange}/>
+                        inputProps={{...getCVCProps(), placeholder: "", type: (CVCVisible ? "text" : 'password')}} value={creditCard.cvc} onChange={handleCreditCardCVCChange}
+                        InputProps={{endAdornment: (<InputAdornment position="end" onClick={handleCVCVisible}>{CVCVisible ? <StyledVisibility /> : <StyledVisibilityOff />}</InputAdornment>)}}/>
                   </div>
                   <StyledFormControlLabel control={<Checkbox color='top' checked={cardChecked} onChange={handleCardChecked} sx={{ color: "#777", '& .MuiSvgIcon-root': { fontSize: 28 } }}/>}
                       label="お支払い方法にクレジットカードを追加します (任意)"/>
                   <StyledStep>
                     <StyledBackStep variant='outlined' color='top' onClick={handleBackStep}>戻る</StyledBackStep>
                     <StyledNextStep variant='contained' color='top' onClick={handleNextStep}>次へ</StyledNextStep>
+                  </StyledStep>
+                  <Button color='top' onClick={handleIsLogin}><Login style={{marginRight: "5px"}}/>かわりにログインする</Button>
+                </>
+              )}
+              {currentStep === 3 && (
+                <>
+                  <div style={{width: "130%", marginBottom: "60px"}}>
+                    <StyledStepper activeStep={currentStep} alternativeLabel>
+                    {steps.map((label) => (
+                      <Step key={label} sx={{
+                        '& .MuiStepLabel-root .Mui-completed': {color: 'secondary.progressed'},
+                        '& .MuiStepLabel-root .Mui-active': {color: 'secondary.main'},
+                        '& .MuiStepLabel-label.Mui-completed.MuiStepLabel-alternativeLabel': {color: '#777'},
+                        '& .MuiStepLabel-label.MuiStepLabel-alternativeLabel': {color: '#777'},
+                        '& .MuiStepLabel-label.Mui-active.MuiStepLabel-alternativeLabel': {color: '#fff'},
+                        '& .MuiStepLabel-root .Mui-active .MuiStepIcon-text': {fill: '#000'}
+                      }}>
+                        <StepLabel>{label}</StepLabel>
+                      </Step>
+                    ))}
+                    </StyledStepper>
+                  </div>
+                  <StyledRecognition style={{marginBottom: "30px"}}>
+                    <StyledRecognitionItem>
+                      <StyledRecognitionName>ユーザーネーム</StyledRecognitionName>
+                      <StyledRecognitionContent>{registUserName}</StyledRecognitionContent>
+                    </StyledRecognitionItem>
+                    <StyledRecognitionItem>
+                      <StyledRecognitionName>ユーザーID</StyledRecognitionName>
+                      <StyledRecognitionContent>{registUserId}</StyledRecognitionContent>
+                    </StyledRecognitionItem>
+                    <StyledRecognitionItem>
+                      <StyledRecognitionName>パスワード</StyledRecognitionName>
+                      <StyledRecognitionContent>{recognitionPasswordVisible ? registPassword : "*".repeat(registPassword.length)}{recognitionPasswordVisible ? <StyledVisibility onClick={handleRecognitionPasswordVisible}/> : <StyledVisibilityOff onClick={handleRecognitionPasswordVisible}/>}</StyledRecognitionContent>
+                    </StyledRecognitionItem>
+                    <StyledRecognitionItem>
+                      <StyledRecognitionName>メールアドレス</StyledRecognitionName>
+                      <StyledRecognitionContent>{registMailAddress}</StyledRecognitionContent>
+                    </StyledRecognitionItem>
+                  </StyledRecognition>
+                  <StyledRecognition style={{marginBottom: "30px"}}>
+                    <StyledRecognitionItem>
+                      <StyledRecognitionName>お名前</StyledRecognitionName>
+                      <StyledRecognitionContent>{upperName} {lowerName}</StyledRecognitionContent>
+                    </StyledRecognitionItem>
+                    <StyledRecognitionItem>
+                      <StyledRecognitionName>お名前 (フリガナ)</StyledRecognitionName>
+                      <StyledRecognitionContent>{upperNameKana} {lowerNameKana}</StyledRecognitionContent>
+                    </StyledRecognitionItem>
+                    <StyledRecognitionItem>
+                      <StyledRecognitionName>郵便番号</StyledRecognitionName>
+                      <StyledRecognitionContent>{postalCode}</StyledRecognitionContent>
+                    </StyledRecognitionItem>
+                    <StyledRecognitionItem>
+                      <StyledRecognitionName>住所</StyledRecognitionName>
+                      <StyledRecognitionContent>{prefecture} {city} {town} {houseNumber}</StyledRecognitionContent>
+                    </StyledRecognitionItem>
+                    <StyledRecognitionItem>
+                      <StyledRecognitionName>電話番号</StyledRecognitionName>
+                      <StyledRecognitionContent>{phoneNumber}</StyledRecognitionContent>
+                    </StyledRecognitionItem>
+                  </StyledRecognition>
+                  <StyledRecognition style={{marginBottom: "60px"}}>
+                    <StyledRecognitionItem>
+                      <StyledRecognitionName><StyledRecognitionCardImg {...getCardImageProps({ images })} /></StyledRecognitionName>
+                      <StyledRecognitionContent>{meta.cardType ? meta.cardType.displayName : "クレジットカードが選択されていません"}</StyledRecognitionContent>
+                    </StyledRecognitionItem>
+                    <StyledRecognitionItem>
+                      <StyledRecognitionName>カード番号</StyledRecognitionName>
+                      <StyledRecognitionContent>{creditCard.number}</StyledRecognitionContent>
+                    </StyledRecognitionItem>
+                    <StyledRecognitionItem>
+                      <StyledRecognitionName>有効期限</StyledRecognitionName>
+                      <StyledRecognitionContent>{creditCard.expiry}</StyledRecognitionContent>
+                    </StyledRecognitionItem>
+                    <StyledRecognitionItem>
+                      <StyledRecognitionName>CVC</StyledRecognitionName>
+                      <StyledRecognitionContent>{recognitionCVCVisible ? creditCard.cvc : "*".repeat(creditCard.cvc.length)} {recognitionCVCVisible ? <StyledVisibility onClick={handleRecognitionCVCVisible}/> : <StyledVisibilityOff onClick={handleRecognitionCVCVisible}/>}</StyledRecognitionContent>
+                    </StyledRecognitionItem>
+                  </StyledRecognition>
+                  <StyledStep>
+                    <StyledBackStep variant='outlined' color='top' onClick={handleBackStep}>戻る</StyledBackStep>
+                    <StyledNextStep variant='contained' color='top'>アカウント作成</StyledNextStep>
                   </StyledStep>
                   <Button color='top' onClick={handleIsLogin}><Login style={{marginRight: "5px"}}/>かわりにログインする</Button>
                 </>
@@ -465,6 +629,7 @@ const StyledTopModalInner = styled.div`
   min-width: 35vw;
   height: 75%;
   overflow-y: scroll;
+  overflow-x: hidden;
   border-radius: 15px;
   border: solid 1px #444;
   background-color: #111;
@@ -496,7 +661,13 @@ const StyledModalIntro = styled.div`
   font-size: 1.5rem;
   font-weight: bold;
   width: 70%;
-  margin: 60px 0;
+  margin: ${(props) => (props.$isLogin) ? "60px 0" : "60px 0 30px 0"};
+`
+
+const StyledStepper = styled(Stepper)`
+  && {
+    width: 100%
+  }
 `
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
@@ -527,6 +698,20 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
     },
   },
 }));
+
+const StyledVisibility = styled(Visibility)`
+  && {
+    color: #777;
+    cursor: pointer;
+  }
+`
+
+const StyledVisibilityOff = styled(VisibilityOff)`
+  && {
+    color: #777;
+    cursor: pointer;
+  }
+`
 
 const StyledOptionChange = styled.div`
   margin-bottom: 15px;
@@ -599,6 +784,12 @@ const StyledCardImg = styled.svg`
   height: fit-content;
 `
 
+const StyledRecognitionCardImg = styled.svg`
+  width: 50%;
+  max-width: 100px;
+  height: fit-content;
+`
+
 const StyledCardType = styled.div`
   color: #777;
 `
@@ -608,6 +799,41 @@ const StyledFormControlLabel = styled(FormControlLabel)`
     color: #777;
     margin-bottom: 40px;
   }
+`
+
+const StyledRecognition = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: solid 0.5px #333;
+  border-radius: 5px;
+  background-color: #000;
+`
+
+const StyledRecognitionItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 50px;
+  padding: 5px;
+  color: #777;
+`
+
+const StyledRecognitionName = styled.div`
+  display: flex;
+  align-items: center;
+  width: 30%;
+  word-wrap: break-word;
+`
+
+const StyledRecognitionContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 60%;
+  word-break: break-all;
+  overflow: hidden;
 `
 
 
