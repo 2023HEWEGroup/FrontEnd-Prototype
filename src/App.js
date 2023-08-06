@@ -15,6 +15,7 @@ import Help from "./pages/Help";
 import Info from "./pages/Info";
 import CommonLayouts from "./layouts/CommonLayout";
 import styled from "styled-components";
+import ProductDetail from "./pages/ProductDetail";
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
               <Route path="setting" element={<Setting />} />
               <Route path="info" element={<Info />} />
               <Route path="help" element={<Help />} />
+              <Route path="productDetail" element={<ProductDetail />} />
             </Route>
           </Routes>
         </StyledApp>
