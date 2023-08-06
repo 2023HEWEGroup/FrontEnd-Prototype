@@ -13,10 +13,9 @@ import Notify from "./pages/Notify";
 import Profile from "./pages/Profile";
 import Help from "./pages/Help";
 import Info from "./pages/Info";
+import ProductDetail from "./pages/ProductDetail";
 import CommonLayouts from "./layouts/CommonLayout";
 import styled from "styled-components";
-import ProductDetail from "./pages/ProductDetail";
-
 
 function App() {
 
