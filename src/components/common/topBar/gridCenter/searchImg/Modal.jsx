@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import {Trimming} from "./Trimming";
 import styled from "styled-components";
-import { IconButton } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 const style = {
   position: "absolute",
@@ -32,9 +32,11 @@ export default function BasicModal({ theme }) {
 
   return (
     <>
-      <StyledIconButton size="small" onClick={handleOpen} theme={theme}>
-        <ImageSearchIcon color="icon" />
-      </StyledIconButton>
+      <Tooltip title="画像で検索" placement="bottom" arrow>
+        <StyledIconButton size="small" onClick={handleOpen} theme={theme}>
+          <ImageSearchIcon color="icon" />
+        </StyledIconButton>
+      </Tooltip>
       <Modal
         open={open}
         onClose={handleClose}

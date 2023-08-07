@@ -1,20 +1,9 @@
 import SearchIcon from "@mui/icons-material/Search";
-import {
-  Divider,
-  IconButton,
-  InputBase,
-  List,
-  ListItem,
-  ListItemText,
-  Paper,
-  Popper,
-  Tooltip,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import {Divider, IconButton, InputBase, List, ListItem, ListItemText, Paper, Popper, Tooltip, useMediaQuery, useTheme } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Modal from "./searchImg/Modal";
+import { useNavigate } from "react-router-dom";
 
 const GridCenter = () => {
   const [isPopperOpen, setIsPopperOpen] = useState(false);
@@ -23,6 +12,8 @@ const GridCenter = () => {
   const [activeSearchMode, setActiveSearchMode] = useState(1);
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const searchInput = useRef();
+  const popperRef = useRef();
+  const navigate = useNavigate();
   const theme = useTheme();
 
   const handleInputChange = (e) => {
@@ -57,103 +48,73 @@ const GridCenter = () => {
     }
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (!inputhWord) return;
+    const url = `/result?word=${encodeURIComponent(inputhWord)}&mode=${encodeURIComponent(activeSearchMode)}`;
+    handlePopperClose();
+    searchInput.current.blur();
+    navigate(url);
+  }
+
+  const handleModeClickSubmit = (event, mode) => {
+    event.preventDefault();
+    if (!inputhWord) return;
+    const url = `/result?word=${encodeURIComponent(inputhWord)}&mode=${encodeURIComponent(mode)}`;
+    handlePopperClose();
+    navigate(url);
+  }
+
   useEffect(() => {
     if (isSmallScreen) {
       handlePopperClose();
     }
   }, [isSmallScreen]);
 
+  useEffect(() => {
+    const handlePopperClose = (e) => {
+        if (anchorEl && !anchorEl.contains(e.target) && !popperRef.current.contains(e.target)) {
+            setAnchorEl(null);
+            setIsPopperOpen(false);
+        }
+    }
+    document.addEventListener('click', handlePopperClose);
+
+    return () => {
+        document.removeEventListener('click', handlePopperClose);
+    }
+}, [anchorEl])
+
   return (
     <>
       <div style={{ display: "flex", alignItems: "center", width: "80%" }}>
-        <StyledPaper elevation={0} component="form" theme={theme} style={{backgroundColor: theme.palette.background.search}}>
-          <StyledInputBase
-            placeholder="キーワードで検索"
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
-            onFocus={handlePopperOpen}
-            onBlur={handlePopperClose}
-            inputRef={searchInput}
-            theme={theme}
-          />
+        <StyledPaper elevation={0} component="form" theme={theme} style={{backgroundColor: theme.palette.background.search}} onSubmit={handleSubmit} ref={popperRef}>
+          <StyledInputBase placeholder="キーワードで検索" onChange={handleInputChange} onKeyDown={handleKeyDown} onFocus={handlePopperOpen} inputRef={searchInput} theme={theme} />
           <Tooltip title="検索" placement="bottom" arrow={true}>
             <StyledIconButton type="submit" size="small" theme={theme}>
               <SearchIcon color="icon" />
             </StyledIconButton>
           </Tooltip>
-          <Divider
-            orientation="vertical"
-            style={{
-              height: "30px",
-              width: "5px",
-              borderRightWidth: "2px",
-              borderColor: "#aaa",
-              margin: "0 10px",
-            }}
-          />
-            <Modal theme={theme} />
+          <Divider orientation="vertical" style={{height: "30px", width: "5px", borderRightWidth: "2px", borderColor: "#aaa", margin: "0 10px", }}/>
+          <Modal theme={theme} />
         </StyledPaper>
       </div>
-      <StyledPopper
-        open={isPopperOpen}
-        anchorEl={anchorEl}
-        placement="bottom-start"
-        modifiers={[
-          {
-            name: "offset",
-            options: {
-              offset: [0, 12],
-            },
-          },
-        ]}
-      >
+      <StyledPopper open={isPopperOpen} anchorEl={anchorEl} placement="bottom-start" modifiers={[{name: "offset", options: {offset: [0, 12] }}]}>
         <StyledPopperPaper elevation={3} theme={theme}>
           <List>
-            <StyledListItem
-              theme={theme}
-              key={1}
-              style={
-                activeSearchMode === 1
-                  ? { backgroundColor: theme.palette.background.hover }
-                  : null
-              }
-            >
+            <StyledListItem onClick={(event) => handleModeClickSubmit(event, 1)} theme={theme} style={activeSearchMode === 1 ? { backgroundColor: theme.palette.background.hover } : null}>
               <ListItemText primary={'"' + inputhWord + '" を商品で検索'} />
             </StyledListItem>
             <StyledDivider style={{ width: "95%", margin: "0 auto" }} />
-            <StyledListItem
-              theme={theme}
-              key={2}
-              style={
-                activeSearchMode === 2
-                  ? { backgroundColor: theme.palette.background.hover }
-                  : null
-              }
-            >
+            <StyledListItem onClick={(event) => handleModeClickSubmit(event, 2)} theme={theme} style={activeSearchMode === 2 ? { backgroundColor: theme.palette.background.hover } : null}>
               <ListItemText primary={'"' + inputhWord + '" をユーザーで検索'} />
             </StyledListItem>
             <StyledDivider style={{ width: "95%", margin: "0 auto" }} />
-            <StyledListItem
-              theme={theme}
-              key={3}
-              style={
-                activeSearchMode === 3
-                  ? { backgroundColor: theme.palette.background.hover }
-                  : null
-              }
-            >
+            <StyledListItem onClick={(event) => handleModeClickSubmit(event, 3)} theme={theme} style={ activeSearchMode === 3 ? { backgroundColor: theme.palette.background.hover } : null}>
               <ListItemText primary={'"' + inputhWord + '" をグループで検索'} />
             </StyledListItem>
             <StyledDivider />
-            <StyledListItem
-              theme={theme}
-              key={4}
-              style={
-                activeSearchMode === 4
-                  ? { backgroundColor: theme.palette.background.hover }
-                  : null
-              }
-            >
+            <StyledListItem onClick={(event) => handleModeClickSubmit(event, 4)} theme={theme} style={activeSearchMode === 4 ? { backgroundColor: theme.palette.background.hover } : null}>
               <ListItemText primary={'"' + inputhWord + '" をタグで検索'} />
             </StyledListItem>
           </List>
