@@ -38,6 +38,7 @@ export const darkBlueTheme = createTheme({
             categoryActive: "#000",
             slideHover: "rgba(0, 0, 0, 0.3)",
             slideComment: "rgba(0, 0, 0, 0.5)",
+            uploadImgHover: "rgba(255, 255, 255, 0.05)",
         },
         top: {
             main: "#88f",
