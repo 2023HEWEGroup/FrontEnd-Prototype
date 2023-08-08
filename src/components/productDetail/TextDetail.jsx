@@ -1,8 +1,10 @@
-import { Box, Typography, Button, Grid } from "@mui/material";
+import { Box, Typography, Button, Grid, Avatar, Rating } from "@mui/material";
 import React from "react";
 import { useState } from "react";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import styled from "styled-components";
+import VerifiedUserOutlinedIcon from "@mui/icons-material/VerifiedUserOutlined";
+import BookmarkAddOutlinedIcon from "@mui/icons-material/BookmarkAddOutlined";
 
 const TextDetail = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,7 +13,9 @@ const TextDetail = () => {
     setIsOpen(!isOpen);
   };
   return (
-    <Box sx={{ width: "450px", height: "500px", overflow: "auto" }}>
+    <Box
+      sx={{ width: "450px", height: "500px", overflow: "auto", pb: 3, pr: 2 }}
+    >
       <Grid>
         <Typography color="#fff" fontSize={"32px"}>
           商品名
@@ -82,7 +86,26 @@ const TextDetail = () => {
         >
           出品者
         </Typography>
-        <Grid></Grid>
+        <Grid sx={{ mt: 3, display: "flex", alignItems: "center" }}>
+          <Avatar sx={{ m: 2 }}>
+            <img
+              style={{ width: "100%" }}
+              src="https://source.unsplash.com/random"
+              alt=""
+            />
+          </Avatar>
+          <Box display={"flex"} flexDirection={"column"}>
+            <Typography sx={{ color: "#fff", mb: 1 }}>ユーザー名</Typography>
+            <Box display={"flex"} sx={{ mb: 1 }}>
+              <Rating name="read-only" value={5} readOnly />
+              <Typography sx={{ ml: 2.5, color: "#fff" }}>10000000</Typography>
+            </Box>
+            <Box display={"flex"}>
+              <VerifiedUserOutlinedIcon sx={{ color: "#fff", mr: 0.5 }} />
+              <Typography sx={{ color: "#fff" }}>本人確認済み</Typography>
+            </Box>
+          </Box>
+        </Grid>
       </Grid>
 
       <Grid
@@ -103,7 +126,7 @@ const TextDetail = () => {
           sx={{ display: "row", flexDirection: "row", width: 100 }}
           textAlign={"center"}
         >
-          <StyledFavoriteBorder />
+          <StyledBookmark sx={{ color: "#fff" }} />
           <Typography color="#fff" fontSize={"8px"}>
             保存
           </Typography>
@@ -131,6 +154,18 @@ const StyledFavoriteBorder = styled(FavoriteBorder)`
 
     &:hover {
       color: #ff0000;
+    }
+  }
+`;
+
+const StyledBookmark = styled(BookmarkAddOutlinedIcon)`
+  && {
+    width: 30px;
+    height: 30px;
+    color: #fff;
+
+    &:hover {
+      color: #00ffff;
     }
   }
 `;

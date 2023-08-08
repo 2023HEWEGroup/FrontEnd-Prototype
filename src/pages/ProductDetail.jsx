@@ -5,7 +5,7 @@ import { Box } from "@mui/material";
 const ProductDetail = () => {
   return (
     <>
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
+      <Box sx={{ display: "flex", mt: 5 }}>
         <ImgCard />
         <TextDetail />
       </Box>

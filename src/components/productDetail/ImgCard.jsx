@@ -53,7 +53,7 @@ const ImgCard = () => {
     >
       <Box
         sx={{
-          width: "20%",
+          width: "15%",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
