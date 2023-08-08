@@ -35,7 +35,7 @@ function App() {
             <Route path="setting" element={<Setting />} />
             <Route path="info" element={<Info />} />
             <Route path="help" element={<Help />} />
-            <Route path="productDetail" element={<ProductDetail />} />
+            <Route path="result" element={<Resulet />} />
           </Route>
         </Routes>
       </StyledApp>
