@@ -2,7 +2,6 @@ import { Checkbox, FormControlLabel, InputAdornment, TextField, useTheme } from 
 import images from 'react-payment-inputs/images';
 import React from 'react'
 import styled from 'styled-components';
-import { usePaymentInputs } from 'react-payment-inputs';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 
@@ -10,27 +9,19 @@ const RegistCreditCard = (props) => {
 
     const theme = useTheme();
 
-    const {
-        meta,
-        getCardImageProps,
-        getCardNumberProps,
-        getExpiryDateProps,
-        getCVCProps
-    } = usePaymentInputs();
-
     return (
         <>
         <div style={{width: "100%", height: "50px", display: "flex", alignItems: "center", gap: "20px", marginBottom: "40px"}}>
-            <StyledCardImg {...getCardImageProps({ images })} />
-            <StyledCardType>{meta.cardType ? meta.cardType.displayName : "クレジットカードが選択されていません"}</StyledCardType>
+            <StyledCardImg {...props.getCardImageProps({ images })} />
+            <StyledCardType>{props.meta.cardType ? props.meta.cardType.displayName : "クレジットカードが選択されていません"}</StyledCardType>
         </div>
         <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="カード番号" autoComplete='new-off' variant='outlined'
-            inputProps={{...getCardNumberProps(), placeholder: ""}} value={props.creditCard.number} onChange={props.handleCreditCardNumberChange}/>
+            inputProps={{...props.getCardNumberProps(), placeholder: ""}} value={props.creditCard.number} onChange={props.handleCreditCardNumberChange}/>
         <div style={{width: "100%", display: "flex", gap: "20px"}}>
             <StyledTextField style={{marginBottom: "15px", width: "50%"}} helperText=" " theme={theme} fullWidth label="有効期限 (MM/YY)" autoComplete='new-off' variant='outlined'
-                inputProps={{...getExpiryDateProps(), placeholder: ""}} value={props.creditCard.expiry} onChange={props.handleCreditCardExpiryChange}/>
+                inputProps={{...props.getExpiryDateProps(), placeholder: ""}} value={props.creditCard.expiry} onChange={props.handleCreditCardExpiryChange}/>
             <StyledTextField style={{marginBottom: "15px",  width: "50%"}} helperText=" " theme={theme} fullWidth label="CVC" autoComplete='new-off' variant='outlined'
-                inputProps={{...getCVCProps(), placeholder: "", type: (props.CVCVisible ? "text" : 'password')}} value={props.creditCard.cvc} onChange={props.handleCreditCardCVCChange}
+                inputProps={{...props.getCVCProps(), placeholder: "", type: (props.CVCVisible ? "text" : 'password')}} value={props.creditCard.cvc} onChange={props.handleCreditCardCVCChange}
                 InputProps={{endAdornment: (<InputAdornment position="end" onClick={props.handleCVCVisible}>{props.CVCVisible ? <StyledVisibility /> : <StyledVisibilityOff />}</InputAdornment>)}}/>
         </div>
         <StyledFormControlLabel control={<Checkbox color='top' checked={props.cardChecked} onChange={props.handleCardChecked} sx={{ color: "#777", '& .MuiSvgIcon-root': { fontSize: 28 } }}/>}
