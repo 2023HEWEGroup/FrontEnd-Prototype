@@ -1,16 +1,10 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import React from 'react'
-import { usePaymentInputs } from 'react-payment-inputs';
 import styled from 'styled-components'
 import images from 'react-payment-inputs/images';
 
 
 const RegistRecognition = (props) => {
-
-    const {
-        meta,
-        getCardImageProps
-    } = usePaymentInputs();
 
     return (
         <>
@@ -56,8 +50,8 @@ const RegistRecognition = (props) => {
         </StyledRecognition>
         <StyledRecognition style={{marginBottom: "60px"}}>
             <StyledRecognitionItem>
-            <StyledRecognitionName><StyledRecognitionCardImg {...getCardImageProps({ images })} /></StyledRecognitionName>
-            <StyledRecognitionContent>{meta.cardType ? meta.cardType.displayName : "クレジットカードが選択されていません"}</StyledRecognitionContent>
+            <StyledRecognitionName><StyledRecognitionCardImg {...props.getCardImageProps({ images })} /></StyledRecognitionName>
+            <StyledRecognitionContent>{props.meta.cardType ? props.meta.cardType.displayName : "クレジットカードが選択されていません"}</StyledRecognitionContent>
             </StyledRecognitionItem>
             <StyledRecognitionItem>
             <StyledRecognitionName>カード番号</StyledRecognitionName>

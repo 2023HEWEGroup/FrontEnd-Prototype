@@ -26,12 +26,12 @@ function App() {
       <StyledApp>
           <Routes>
             <Route path="/" element={<Top />} />
+            <Route path="/exhibit" element={<Exhibit />} />
             <Route path="/" element={<CommonLayouts />}>
               <Route path="home" element={<Home />} />
               <Route path="product" element={<Product />} />
               <Route path="following" element={<Following />} />
               <Route path="group" element={<Group />} />
-              <Route path="exhibit" element={<Exhibit />} />
               <Route path="notify" element={<Notify />} />
               <Route path="profile" element={<Profile />} />
               <Route path="setting" element={<Setting />} />

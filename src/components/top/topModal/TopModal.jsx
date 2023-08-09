@@ -10,6 +10,7 @@ import RegistChangeStep from './registChangeStep/RegistChangeStep';
 import RegistPersonalInfo from './registPersonalInfo/RegistPersonalInfo';
 import RegistCreditCard from './registCreditCard/RegistCreditCard';
 import RegistRecognition from './registRecognition/RegistRecognition';
+import { usePaymentInputs } from 'react-payment-inputs';
 
 
 const TopModal = (props) => {
@@ -40,6 +41,14 @@ const TopModal = (props) => {
     const modalContainerRef = useRef(null);
     const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
+
+    const {
+        meta,
+        getCardImageProps,
+        getCardNumberProps,
+        getExpiryDateProps,
+        getCVCProps
+    } = usePaymentInputs();
     
     const handleIsLogin = () => {
         setIsLogin(!isLogin);
@@ -215,7 +224,8 @@ const TopModal = (props) => {
                     <>
                     <RegistStepper currentStep={currentStep}/>
                     <RegistCreditCard creditCard={creditCard} handleCreditCardNumberChange={handleCreditCardNumberChange} handleCreditCardExpiryChange={handleCreditCardExpiryChange} handleCreditCardCVCChange={handleCreditCardCVCChange}
-                        CVCVisible={CVCVisible} handleCVCVisible={handleCVCVisible} handleCardChecked={handleCardChecked}/>
+                        CVCVisible={CVCVisible} handleCVCVisible={handleCVCVisible} handleCardChecked={handleCardChecked}
+                        meta={meta} getCardImageProps={getCardImageProps} getCardNumberProps={getCardNumberProps} getExpiryDateProps={getExpiryDateProps} getCVCProps={getCVCProps}/>
                     <RegistChangeStep currentStep={currentStep} handleBackStep={handleBackStep} handleNextStep={handleNextStep} handleIsLogin={handleIsLogin}/>
                     </>
                 )}
@@ -226,7 +236,8 @@ const TopModal = (props) => {
                         upperName={upperName} lowerName={lowerName} upperNameKana={upperNameKana} lowerNameKana={lowerNameKana} postalCode={postalCode}
                         prefecture={prefecture} city={city} town={town} houseNumber={houseNumber} phoneNumber={phoneNumber}
                         creditCard={creditCard} recognitionPasswordVisible={recognitionPasswordVisible} handleRecognitionPasswordVisible={handleRecognitionPasswordVisible}
-                        recognitionCVCVisible={recognitionCVCVisible} handleRecognitionCVCVisible={handleRecognitionCVCVisible}/>
+                        recognitionCVCVisible={recognitionCVCVisible} handleRecognitionCVCVisible={handleRecognitionCVCVisible}
+                        meta={meta} getCardImageProps={getCardImageProps}/>
                     <RegistChangeStep currentStep={currentStep} handleBackStep={handleBackStep} handleNextStep={handleNextStep} handleIsLogin={handleIsLogin}/>
                     </>
                 )}
