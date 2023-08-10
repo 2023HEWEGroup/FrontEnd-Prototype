@@ -1,5 +1,5 @@
-import { useTheme } from '@mui/material'
-import React, { useState } from 'react'
+import { Button, useTheme } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import ImageUpload from '../components/exhibit/imageUpload/ImageUpload';
 import ProducNameInput from '../components/exhibit/productNameInput/ProducNameInput';
@@ -10,6 +10,9 @@ import ProductDeliveryCostInput from '../components/exhibit/productDeliveryCostI
 import ProductShippingAreaInput from '../components/exhibit/productShippingArea/ProductShippingAreaInput';
 import ProductCategorySelect from '../components/exhibit/productCategorySelect/ProductCategorySelect';
 import ProductAddTag from '../components/exhibit/productAddTag/ProductAddTag';
+import ProductRecognitionModal from '../components/exhibit/prodiuctRecognitionModal/ProductRecognitionModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { setWindowScrollable } from '../redux/features/windowScrollaleSlice';
 
 
 const Exhibit = () => {
@@ -18,6 +21,9 @@ const Exhibit = () => {
   const [uploadImages, setUploadImages] = useState([]);
   const [product, setProduct] = useState({name: "", detail: "", price: "", benefit: 0, status: "", deliveryCost: "", shippingArea: "", category: "", tags: []});
   const [tag, setTag] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const isScrollable = useSelector((state => state.windowScrollable.value));
+  const dispatch = useDispatch();
   const theme = useTheme();
   const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
 
@@ -66,6 +72,52 @@ const Exhibit = () => {
     const tagWithoutSpaces = event.target.value.replace(/\s/g, "");
     setTag(tagWithoutSpaces);
   }
+
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  }
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  }
+
+  // 同様にスクロール可否を問う。Poppr展開中に遷移した場合ポッパーは遷移に伴って強制的にデフォルトの閉じ状態になる(正式な閉じる手順を踏まない)
+  // ため、ページマウント時にスクロールをuseEffectで可能とセットして、もう一つのseEffectでスクロール状態をdispatchする。
+  // ページマウント時は必ずスクロール可能とする
+  useEffect(() => {
+    dispatch(setWindowScrollable(true));
+  }, [dispatch])
+
+  useEffect(() => {
+    if (!isScrollable) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isScrollable]);
+
+
+  const status = [
+    "新品、未使用", "未使用に近い", "目立った傷や汚れなし", "やや傷や汚れあり", "傷や汚れあり", "全体的に状態が悪い"
+]
+
+  const prefectures = [
+    "北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県",
+    "茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県",
+    "新潟県", "富山県", "石川県", "福井県", "山梨県", "長野県", "岐阜県",
+    "静岡県", "愛知県", "三重県", "滋賀県", "京都府", "大阪府", "兵庫県",
+    "奈良県", "和歌山県", "鳥取県", "島根県", "岡山県", "広島県", "山口県",
+    "徳島県", "香川県", "愛媛県", "高知県", "福岡県", "佐賀県", "長崎県",
+    "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県"
+];
+
+  const deliveryCost = [
+    "送料込み（出品者負担）", "着払い（購入者負担）"
+  ]
+
+  const categories = [
+    "キムチ", "カクテキ", "elon"
+]
 
   return (
     <>
@@ -117,7 +169,7 @@ const Exhibit = () => {
           <div>⑤ 商品の状態</div>
           <StyledRequired theme={theme}>必須</StyledRequired>
         </StyledSubTitle>
-        <ProductStatusInput product={product} handleOptionChange={handleOptionChange}/>
+        <ProductStatusInput product={product} handleOptionChange={handleOptionChange} status={status}/>
         <StyledErrorMessage theme={theme}>エラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージ</StyledErrorMessage>
       </StyledInputContent>
 
@@ -126,7 +178,7 @@ const Exhibit = () => {
           <div>⑥ 発送元地域</div>
           <StyledRequired theme={theme}>必須</StyledRequired>
         </StyledSubTitle>
-        <ProductShippingAreaInput product={product} handleShippingAreaChange={handleShippingAreaChange}/>
+        <ProductShippingAreaInput product={product} handleShippingAreaChange={handleShippingAreaChange} prefectures={prefectures}/>
         <StyledErrorMessage theme={theme}>エラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージ</StyledErrorMessage>
       </StyledInputContent>
 
@@ -135,7 +187,7 @@ const Exhibit = () => {
           <div>⑦ 配送料の負担</div>
           <StyledRequired theme={theme}>必須</StyledRequired>
         </StyledSubTitle>
-        <ProductDeliveryCostInput product={product} handleDeliveryCostChange={handleDeliveryCostChange}/>
+        <ProductDeliveryCostInput product={product} handleDeliveryCostChange={handleDeliveryCostChange} deliveryCost={deliveryCost}/>
         <StyledErrorMessage theme={theme}>エラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージ</StyledErrorMessage>
       </StyledInputContent>
 
@@ -143,7 +195,7 @@ const Exhibit = () => {
         <StyledSubTitle theme={theme}>
           <div>⑧ 商品カテゴリー</div>
         </StyledSubTitle>
-        <ProductCategorySelect product={product} handleCategoryChange={handleCategoryChange}/>
+        <ProductCategorySelect product={product} handleCategoryChange={handleCategoryChange} categories={categories}/>
       </StyledInputContent>
 
       <StyledInputContent>
@@ -152,6 +204,11 @@ const Exhibit = () => {
         </StyledSubTitle>
         <ProductAddTag product={product} tag={tag} handleTagAdd={handleTagAdd} handleTagInput={handleTagInput} handleTagDelete={handleTagDelete}/>
       </StyledInputContent>
+
+      <ProductRecognitionModal product={product} isModalOpen={isModalOpen} handleModalClose={handleModalClose} prefectures={prefectures}
+        status={status} deliveryCost={deliveryCost} categories={categories}/>
+
+      <Button variant='outlined' size='large' color='secondary' fullWidth sx={{p: 1, mb: 15}} onClick={handleModalOpen}>確認</Button>
 
     </StyledExhibit>
     </>
@@ -209,7 +266,6 @@ const StyledLmapLogo = styled.img`
 
 const StyledExhibit = styled.div`
   width: 1000px;
-  height: 3500px;
   max-width: 90vw;
   margin: 0 auto;
 `
