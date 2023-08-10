@@ -1,5 +1,5 @@
 import { ExitToApp, Shop } from '@mui/icons-material'
-import { AppBar, Chip, Grid, Toolbar, useMediaQuery, useTheme } from '@mui/material'
+import { AppBar, Chip, Grid, Toolbar, useTheme } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -11,8 +11,6 @@ import TopModal from '../components/top/topModal/TopModal'
 const Top = () => {
 
   const [isTopModalOpen, setIsTopModalOpen] = useState(false);
-  const isSideOpen = useSelector((state => state.floatSideBar.value));
-  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
   const isScrollable = useSelector((state => state.windowScrollable.value));
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -21,14 +19,20 @@ const Top = () => {
     setIsTopModalOpen(true);
   }
 
-  // トップページでもCommonLayout同様、スクロール可否を問う。
+  // 同様にスクロール可否を問う。Poppr展開中に遷移した場合ポッパーは遷移に伴って強制的にデフォルトの閉じ状態になる(正式な閉じる手順を踏まない)
+  // ため、ページマウント時にスクロールをuseEffectで可能とセットして、もう一つのseEffectでスクロール状態をdispatchする。
+  // ページマウント時は必ずスクロール可能とする
   useEffect(() => {
-    if ((isSmallScreen && isSideOpen) || (!isScrollable)) {
+    dispatch(setWindowScrollable(true));
+  }, [dispatch])
+
+  useEffect(() => {
+    if (!isScrollable) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
     }
-  }, [isSmallScreen, isSideOpen, isScrollable]);
+  }, [isScrollable]);
 
   useEffect(() => {
     // Topページがマウントされたときに限定してスクロールバーのトラック部分の色を変更する
@@ -44,11 +48,6 @@ const Top = () => {
       document.head.removeChild(style);
     };
   }, []);
-
-  // トップページマウント時は必ずスクロール可能とする
-  useEffect(() => {
-    dispatch(setWindowScrollable(true));
-  }, [dispatch])
 
   return (
     <StyledFullScrean>
@@ -82,7 +81,7 @@ const Top = () => {
 
 const StyledFullScrean = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 2000px;
   overflow-y: scroll;
 `
 

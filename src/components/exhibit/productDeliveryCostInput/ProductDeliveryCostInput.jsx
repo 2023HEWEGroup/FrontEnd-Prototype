@@ -10,7 +10,7 @@ const ProductDeliveryCostInput = (props) => {
     return (
         <StyledInput>
             <FormControl fullWidth>
-                <InputLabel shrink={false} sx={{color: theme.palette.text.sub}}>{props.product.deliveryCost ? null : "選択してください"}</InputLabel>
+                <InputLabel shrink={false} sx={{color: theme.palette.text.sub}}>{props.product.deliveryCost === "" ? "選択してください" : null }</InputLabel>
                 <Select theme={theme} value={props.product.deliveryCost} onChange={props.handleDeliveryCostChange}
                 sx={{
                     '& .MuiInputBase-input': {
@@ -40,8 +40,11 @@ const ProductDeliveryCostInput = (props) => {
                         }
                     }
                 }}>
-                    <MenuItem value={1}>送料込み（出品者負担）</MenuItem>
-                    <MenuItem value={2}>着払い（購入者負担）</MenuItem>
+                    {props.deliveryCost.map((delivery, index) => (
+                        <MenuItem key={index} value={index}>
+                        {delivery}
+                        </MenuItem>
+                    ))}
                 </Select>
             </FormControl>
         </StyledInput>

@@ -10,7 +10,7 @@ const ProductStatusInput = (props) => {
     return (
         <StyledInput>
             <FormControl fullWidth>
-                <InputLabel shrink={false} sx={{color: theme.palette.text.sub}}>{props.product.status ? null : "選択してください"}</InputLabel>
+                <InputLabel shrink={false} sx={{color: theme.palette.text.sub}}>{props.product.status === "" ? "選択してください" : null }</InputLabel>
                 <Select theme={theme} value={props.product.status} onChange={props.handleOptionChange}
                 sx={{
                     '& .MuiInputBase-input': {
@@ -40,12 +40,9 @@ const ProductStatusInput = (props) => {
                         }
                     }
                 }}>
-                    <MenuItem value={1}>新品、未使用</MenuItem>
-                    <MenuItem value={2}>未使用に近い</MenuItem>
-                    <MenuItem value={3}>目立った傷や汚れなし</MenuItem>
-                    <MenuItem value={4}>やや傷や汚れあり</MenuItem>
-                    <MenuItem value={5}>傷や汚れあり</MenuItem>
-                    <MenuItem value={6}>全体的に状態が悪い</MenuItem>
+                    {props.status.map((state, index) =>
+                        <MenuItem key={index} value={index}>{state}</MenuItem>
+                    )}
                 </Select>
             </FormControl>
         </StyledInput>
