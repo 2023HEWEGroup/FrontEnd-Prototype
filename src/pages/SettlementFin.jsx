@@ -7,16 +7,17 @@ const SettlementFin = () => {
     <Box>
       <Box
         sx={{
-          height: "100%",
           display: "flex",
           flexDirection: "column",
-          transform: "translate(-50%,100%)",
+          justifyContent: "center",
           alignItems: "center",
-          overflow: "hidden",
+          height: "70vh",
         }}
       >
-        <Typography sx={{ color: "#fff" }}>決済完了</Typography>
-        <TaskAltIcon sx={{ color: "#fff", fontSize: 100 }} />
+        <Typography sx={{ mb: 2, color: "#fff", fontSize: 40 }}>
+          決済完了
+        </Typography>
+        <TaskAltIcon sx={{ color: "#fff", fontSize: 200 }} />
       </Box>
     </Box>
   );
