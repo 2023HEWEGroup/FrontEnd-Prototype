@@ -19,6 +19,7 @@ const Exhibit = () => {
 
   const [isDragging, setIsDragging] = useState(false);
   const [uploadImages, setUploadImages] = useState([]);
+  const [originalImages, setOriginalImages] = useState([]);
   const [product, setProduct] = useState({name: "", detail: "", price: "", benefit: 0, status: "", deliveryCost: "", shippingArea: "", category: "", tags: []});
   const [tag, setTag] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -133,7 +134,8 @@ const Exhibit = () => {
           <div>① 商品画像</div>
           <StyledRequired theme={theme}>必須</StyledRequired>
         </StyledSubTitle>
-        <ImageUpload isDragging={isDragging} setIsDragging={setIsDragging} uploadImages={uploadImages} setUploadImages={setUploadImages}/>
+        <ImageUpload isDragging={isDragging} setIsDragging={setIsDragging} uploadImages={uploadImages} setUploadImages={setUploadImages}
+          originalImages={originalImages} setOriginalImages={setOriginalImages}/>
         <StyledErrorMessage theme={theme}>エラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージ</StyledErrorMessage>
       </StyledInputContent>
 

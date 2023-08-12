@@ -1,7 +1,8 @@
-import { AddBox, AddPhotoAlternateOutlined, MoreVert } from '@mui/icons-material';
-import { Avatar, IconButton, useMediaQuery, useTheme } from '@mui/material'
+import { AddBox, AddPhotoAlternateOutlined } from '@mui/icons-material';
+import { useMediaQuery, useTheme } from '@mui/material'
 import React, { useRef } from 'react'
 import styled from 'styled-components';
+import StagingImage from './stadingImage/StagingImage';
 
 
 const ImageUpload = (props) => {
@@ -30,7 +31,9 @@ const ImageUpload = (props) => {
         const file = event.dataTransfer.files[0];
         const allowedFormats = ['image/png', 'image/jpeg', 'image/jpg'];
         if (allowedFormats.includes(file.type)) {
-            props.setUploadImages([...props.uploadImages, URL.createObjectURL(file)]);
+            const fileUrl = URL.createObjectURL(file)
+            props.setUploadImages([...props.uploadImages, fileUrl]);
+            props.setOriginalImages([...props.uploadImages, fileUrl]);
             props.setIsDragging(false);
         } else {
             console.log("許可されていない形式");
@@ -42,7 +45,10 @@ const ImageUpload = (props) => {
         if (props.uploadImages.length >= 4) return;
         const file = event.target.files[0];
         if (file) {
-            props.setUploadImages([...props.uploadImages, URL.createObjectURL(file)]);
+            const fileUrl = URL.createObjectURL(file)
+            props.setUploadImages([...props.uploadImages, fileUrl]);
+            props.setOriginalImages([...props.uploadImages, fileUrl]);
+            event.target.value = '';
         }
     };
 
@@ -61,14 +67,8 @@ const ImageUpload = (props) => {
         {props.uploadImages.length !== 0 && (
             <>
             {props.uploadImages.map((image, index) => (
-                <StyledProductImg key={index} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
-                    <StyledAvatar variant="square" src={image} />
-                    <StyledUploadOption theme={theme}>
-                        <StyledIconButton>
-                            <MoreVert />
-                        </StyledIconButton>
-                    </StyledUploadOption>
-                </StyledProductImg>
+                <StagingImage key={index} image={image} index={index} uploadImages={props.uploadImages} setUploadImages={props.setUploadImages}
+                    originalImages={props.originalImages} />
             ))}
             {props.uploadImages.length < 4 && (
                 <StyledAddProductImg theme={theme} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen} $isDragging={props.isDragging} imageLength={props.uploadImages.length}
@@ -100,36 +100,6 @@ const StyledImgs = styled.div`
     border: dashed 2px ${(props) => props.theme.palette.line.main};
 `
 
-const StyledProductImg = styled.div`
-    position: relative;
-    aspect-ratio: 1/1;
-    width: calc(${(props) => (props.$isXsScreen ? "50% - 10px" : (props.$isSmallScreen ? "25% - 10px" : "25% - 10px"))});
-    border-radius: 5px;
-    overflow: hidden;
-    margin: 0 0 10px 10px;
-`
-
-const StyledUploadOption = styled.div`
-    && {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        opacity: 0;
-        border-radius: 50%;
-        background-color: ${(props) => props.theme.palette.background.slideHover};
-
-        ${StyledProductImg}:hover & {
-            opacity: 1;
-        }
-    }
-`
-
-const StyledIconButton = styled(IconButton)`
-    && {
-        color: #fff;
-    }
-`
-
 const StyledAddProductImg = styled.div`
     display: flex;
     flex-direction: column;
@@ -149,13 +119,6 @@ const StyledAddProductImg = styled.div`
 
     &:hover {
         background-color: ${(props) => props.theme.palette.background.uploadImgHover};
-    }
-`
-
-const StyledAvatar = styled(Avatar)`
-    && {
-        width: 100%;
-        height: 100%;
     }
 `
 
@@ -196,7 +159,7 @@ const StyledAddPhotoAlternateOutlined = styled(AddPhotoAlternateOutlined)`
 
 const HiddenInput = styled.input`
     display: none;
-`;
+`
 
 
 
