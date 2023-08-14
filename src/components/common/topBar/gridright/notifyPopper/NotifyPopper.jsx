@@ -107,7 +107,7 @@ const NotifyPopper = () => {
 
     const handleScroll = () => {
         const notifyContainer = notifyContainerRef.current;
-        if (Math.ceil(notifyContainer.scrollHeight - notifyContainer.scrollTop) === Math.ceil(notifyContainer.offsetHeight)) {
+        if (Math.floor(notifyContainer.scrollHeight - notifyContainer.scrollTop) === Math.floor(notifyContainer.offsetHeight)) {
             dispatch(multipleTopBarNotifyScroll());
         }
     }
