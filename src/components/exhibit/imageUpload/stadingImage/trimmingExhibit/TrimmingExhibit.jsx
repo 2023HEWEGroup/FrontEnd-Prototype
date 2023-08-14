@@ -12,9 +12,11 @@ const TrimmingExhibit = (props) => {
     const canvasRef = useRef(null);
     const theme = useTheme();
 
-    const handleModalKeyCommand = (event) => {
+    const handleModalKeyCommand = (event, index) => {
         if (event.key === 'Escape') {
             props.setTrimmingModal(false);
+        } else if (event.key === 'Enter') {
+            handleTrimmingComplete(index);
         }
     }
 
@@ -71,7 +73,7 @@ const TrimmingExhibit = (props) => {
     return (
         <>
         <Modal open={props.trimmingModal}>
-            <StyledModalInner onKeyDown={handleModalKeyCommand}>
+            <StyledModalInner onKeyDown={(event) => handleModalKeyCommand(event, props.index)}>
             <Tooltip title="キャンセル (Esc)" placement='bottom'>
                 <StyledIconButton onClick={() => props.setTrimmingModal(false)} theme={theme}>
                     <StyledClose theme={theme}/>
