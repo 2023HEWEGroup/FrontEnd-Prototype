@@ -210,7 +210,7 @@ const StyledIconButton = styled(IconButton)`
 
 const StyledNotifyPopperPaper = styled(Paper)`
     && {
-        height: 600px;
+        height: calc(90vh - 55px);
         width: 425px;
         border-radius: 15px;
         background-color: ${(props) => props.theme.palette.background.pop}
@@ -241,7 +241,7 @@ const StyledNotifyHeadText = styled.div`
 
 const StyledNotifyList = styled(List)`
     && {
-        height: 550px;
+        height: calc(100% - 50px);
         overflow-y: scroll;
 
         &::-webkit-scrollbar {

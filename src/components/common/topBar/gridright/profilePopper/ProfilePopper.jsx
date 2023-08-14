@@ -58,82 +58,84 @@ const ProfilePopper = () => {
 
         <StyledPopper open={isProfilePopperOpen} anchorEl={profileAnchorEl} placement='bottom-end' ref={profilePopperRef}>
             <StyledProfilePopperPaper elevation={3} theme={theme}>
-                <StyledLink to={"/profile"}>
-                    <StyledProfileListHeader>
-                        <StyledProfileAvatar />
-                        <StyledAccountIntro>
-                            <StyledProfileAccountName style={{color: theme.palette.text.main}}>aaaaaあああああああaaあああああああああああああああああああああああああああああ</StyledProfileAccountName>
-                            <StyledProfileAccountId style={{color: theme.palette.text.sub}}>@xyzyxyxZZZZZZ____________</StyledProfileAccountId>
-                        </StyledAccountIntro>
-                    </StyledProfileListHeader>
-                </StyledLink>
+                <StyledPopperInner>
+                    <StyledLink to={"/profile"}>
+                        <StyledProfileListHeader>
+                            <StyledProfileAvatar />
+                            <StyledAccountIntro>
+                                <StyledProfileAccountName style={{color: theme.palette.text.main}}>aaaaaあああああああaaあああああああああああああああああああああああああああああ</StyledProfileAccountName>
+                                <StyledProfileAccountId style={{color: theme.palette.text.sub}}>@xyzyxyxZZZZZZ____________</StyledProfileAccountId>
+                            </StyledAccountIntro>
+                        </StyledProfileListHeader>
+                    </StyledLink>
 
-                <StyledFollowHeader>
-                    <StyledFollowings theme={theme}><Styledspan theme={theme}>NaN</Styledspan> フォロー</StyledFollowings>
-                    <StyledFollowers theme={theme}><Styledspan theme={theme}>NaN</Styledspan> フォロワー</StyledFollowers>
-                </StyledFollowHeader>
+                    <StyledFollowHeader>
+                        <StyledFollowings theme={theme}><Styledspan theme={theme}>NaN</Styledspan> フォロー</StyledFollowings>
+                        <StyledFollowers theme={theme}><Styledspan theme={theme}>NaN</Styledspan> フォロワー</StyledFollowers>
+                    </StyledFollowHeader>
 
-                <StyledProfilePointHeader>
-                    <StyledPointAmountLabel label="NaN ポイント" variant='outlined' color='secondary' clickable/>
-                </StyledProfilePointHeader>
+                    <StyledProfilePointHeader>
+                        <StyledPointAmountLabel label="NaN ポイント" variant='outlined' color='secondary' clickable/>
+                    </StyledProfilePointHeader>
 
-                <Divider style={{borderBottom: `solid 0.25px ${theme.palette.line.main}`, width: "95%", margin: "0 auto"}}/>
-                <List>
-                    <StyledProfileListBlock>
-                        <StyledProfileListElements theme={theme}>
-                            <FavoriteBorder color='icon'/>
-                            <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="いいね"/>
-                        </StyledProfileListElements>
-                        <StyledProfileListElements theme={theme}>
-                            <Inventory2Outlined color='icon'/>
-                            <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="出品中"/>
-                        </StyledProfileListElements>
-                        <StyledProfileListElements theme={theme}>
-                            <CachedOutlined color='icon'/>
-                            <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="取引中"/>
-                        </StyledProfileListElements>
-                    </StyledProfileListBlock>
-                </List>
-                <Divider style={{borderBottom: `solid 0.25px ${theme.palette.line.main}`, width: "95%", margin: "0 auto"}}/>
-                <List>
-                    <StyledProfileListBlock>
-                        <StyledProfileListElements theme={theme}>
-                            <AdsClick color='icon'/>
-                            <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="広告"/>
-                        </StyledProfileListElements>
-                        <StyledProfileListElements theme={theme}>
-                            <CreditCard color='icon'/>
-                            <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="クレジットカード"/>
-                        </StyledProfileListElements>
-                        <StyledProfileListElements theme={theme}>
-                            <AssessmentOutlined color='icon'/>
-                            <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="ログ"/>
-                        </StyledProfileListElements>
-                    </StyledProfileListBlock>
-                </List>
-                <Divider style={{borderBottom: `solid 0.25px ${theme.palette.line.main}`, width: "95%", margin: "0 auto"}}/>
-                <List>
-                    <StyledProfileListBlock>
-                        <StyledProfileListElements theme={theme}>
-                            <InfoOutlined color='icon'/>
-                            <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="インフォメーション" />
-                        </StyledProfileListElements>
-                        <StyledProfileListElements theme={theme}>
-                            <HelpOutlineOutlined color='icon'/>
-                            <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="ヘルプ" />
-                        </StyledProfileListElements>
-                        <StyledLink to={"/"}>
+                    <Divider style={{borderBottom: `solid 0.25px ${theme.palette.line.main}`, width: "95%", margin: "0 auto"}}/>
+                    <List>
+                        <StyledProfileListBlock>
                             <StyledProfileListElements theme={theme}>
-                            <ArrowBack color='icon'/>
-                            <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="トップページ" />
+                                <FavoriteBorder color='icon'/>
+                                <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="いいね"/>
                             </StyledProfileListElements>
-                        </StyledLink>
-                        <StyledProfileListElements theme={theme}>
-                            <Logout color='icon'/>
-                            <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="ログアウト" />
-                        </StyledProfileListElements>
+                            <StyledProfileListElements theme={theme}>
+                                <Inventory2Outlined color='icon'/>
+                                <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="出品中"/>
+                            </StyledProfileListElements>
+                            <StyledProfileListElements theme={theme}>
+                                <CachedOutlined color='icon'/>
+                                <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="取引中"/>
+                            </StyledProfileListElements>
                         </StyledProfileListBlock>
-                </List>
+                    </List>
+                    <Divider style={{borderBottom: `solid 0.25px ${theme.palette.line.main}`, width: "95%", margin: "0 auto"}}/>
+                    <List>
+                        <StyledProfileListBlock>
+                            <StyledProfileListElements theme={theme}>
+                                <AdsClick color='icon'/>
+                                <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="広告"/>
+                            </StyledProfileListElements>
+                            <StyledProfileListElements theme={theme}>
+                                <CreditCard color='icon'/>
+                                <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="クレジットカード"/>
+                            </StyledProfileListElements>
+                            <StyledProfileListElements theme={theme}>
+                                <AssessmentOutlined color='icon'/>
+                                <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="ログ"/>
+                            </StyledProfileListElements>
+                        </StyledProfileListBlock>
+                    </List>
+                    <Divider style={{borderBottom: `solid 0.25px ${theme.palette.line.main}`, width: "95%", margin: "0 auto"}}/>
+                    <List>
+                        <StyledProfileListBlock>
+                            <StyledProfileListElements theme={theme}>
+                                <InfoOutlined color='icon'/>
+                                <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="インフォメーション" />
+                            </StyledProfileListElements>
+                            <StyledProfileListElements theme={theme}>
+                                <HelpOutlineOutlined color='icon'/>
+                                <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="ヘルプ" />
+                            </StyledProfileListElements>
+                            <StyledLink to={"/"}>
+                                <StyledProfileListElements theme={theme}>
+                                <ArrowBack color='icon'/>
+                                <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="トップページ" />
+                                </StyledProfileListElements>
+                            </StyledLink>
+                            <StyledProfileListElements theme={theme}>
+                                <Logout color='icon'/>
+                                <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="ログアウト" />
+                            </StyledProfileListElements>
+                            </StyledProfileListBlock>
+                    </List>
+                </StyledPopperInner>
             </StyledProfilePopperPaper>
         </StyledPopper>
         </>
@@ -167,9 +169,27 @@ const StyledPopper = styled(Popper)`
 const StyledProfilePopperPaper = styled(Paper)`
     && {
         width: 325px;
+        max-height: calc(100vh - 55px);
+        overflow-x: hidden;
+        overflow-y: scroll;
         border-radius: 15px;
-        background-color: ${(props) => props.theme.palette.background.pop}
+        background-color: ${(props) => props.theme.palette.background.pop};
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    
+        &:hover {
+            &::-webkit-scrollbar {
+                display: inline;
+            }
+        }
     }
+`
+
+const StyledPopperInner = styled.div`
+    width: 315px;
+    height: 100%;
 `
 
 const StyledProfileListHeader = styled.div`
