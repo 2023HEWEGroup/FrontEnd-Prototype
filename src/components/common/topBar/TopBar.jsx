@@ -29,7 +29,7 @@ const TopBar = (props) => {
           </Hidden>
 
           <StyledGridRight item xs={3} sm={3} style={{display: "flex", justifyContent: "flex-end", gap: "5px"}} $isXsScreen={isXsScreen}>
-            <GridRight page={props.page}/>
+            <GridRight />
           </StyledGridRight>
 
         </Grid>

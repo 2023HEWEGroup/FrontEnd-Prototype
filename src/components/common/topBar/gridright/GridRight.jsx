@@ -7,7 +7,7 @@ import NotifyPopper from './notifyPopper/NotifyPopper';
 import ProfilePopper from './profilePopper/ProfilePopper';
 
 
-const GridRight = (props) => {
+const GridRight = () => {
 
     const theme = useTheme();
 
@@ -16,7 +16,7 @@ const GridRight = (props) => {
     <Tooltip title="出品する" placement='bottom' arrow={true}>
         <StyledLink to={"/exhibit"}>
             <StyledIconButton size='small' theme={theme}>
-                {props.page === "/exhibit" ? <StyledAddBoxOutlinedIcon color='secondary' /> : <StyledAddBoxOutlinedIcon color="icon"/>}
+                <StyledAddBoxOutlinedIcon color="icon"/>
             </StyledIconButton>
         </StyledLink>
     </Tooltip>
