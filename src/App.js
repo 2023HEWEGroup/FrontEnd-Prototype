@@ -17,6 +17,7 @@ import CommonLayouts from "./layouts/CommonLayout";
 import styled from "styled-components";
 import Resulet from "./pages/Resulet";
 import SettlementFin from "./pages/SettlementFin";
+import Admin from "./pages/Admin";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Top />} />
           <Route path="/exhibit" element={<Exhibit />} />
+          <Route path="admin" element={<Admin />} />
           <Route path="/" element={<CommonLayouts />}>
             <Route path="home" element={<Home />} />
             <Route path="product" element={<Product />} />

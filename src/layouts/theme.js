@@ -22,11 +22,13 @@ export const darkBlueTheme = createTheme({
             categoryActive: "#fff",
             tab: "#888",
             product: "#ccc",
-            error: "#f00"
+            error: "#f00",
+            admin: "#f0f"
         },
         icon: {
             main: "#777",
-            like: "#ff007f"
+            like: "#ff007f",
+            admin: "#f0f"
         },
         background: {
             default: "#111",
@@ -40,6 +42,7 @@ export const darkBlueTheme = createTheme({
             slideHover: "rgba(0, 0, 0, 0.3)",
             slideComment: "rgba(0, 0, 0, 0.5)",
             uploadImgHover: "rgba(255, 255, 255, 0.05)",
+            scrollBar: "#444"
         },
         top: {
             main: "#88f",

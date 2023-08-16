@@ -14,6 +14,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import { ListItem, ListItemText, Tooltip, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { Dashboard } from '@mui/icons-material';
 
 
 const UpperListSection = (props) => {
@@ -79,6 +80,16 @@ const UpperListSection = (props) => {
                             <StyledListElements theme={theme} style={props.page === "/group" ? { backgroundColor: theme.palette.background.hover } : null}>
                                 {props.page === "/group" ? <StyledFolderSharedIcon color='secondary' /> : <StyledFolderSharedOutlinedIcon color="icon"/>}
                                 <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="グループ" />
+                            </StyledListElements>
+                        </StyledLink>
+                    </Tooltip>
+                </StyledListItem>
+                <StyledListItem>
+                    <Tooltip title="アドミン" placement='right' arrow={true}>
+                        <StyledLink to={"/admin"}>
+                            <StyledListElements theme={theme}>
+                                <StyledDashboard theme={theme}/>
+                                <StyledListItemText primaryTypographyProps={{color: theme.palette.text.admin}} primary="アドミン" />
                             </StyledListElements>
                         </StyledLink>
                     </Tooltip>
@@ -215,6 +226,14 @@ const StyledAccountCircleOutlinedIcon = styled(AccountCircleOutlinedIcon)`
     && {
         width: 25px;
         height: 25px;
+    }
+`
+
+const StyledDashboard = styled(Dashboard)`
+    && {
+        width: 25px;
+        height: 25px;
+        color: ${(props) => props.theme.palette.icon.admin};
     }
 `
 

@@ -63,6 +63,8 @@ const Home = () => {
 
 const StyledHome = styled.div`
   width: 100%;
+  max-width: 3000px;
+  margin: 0 auto;
 `
 
 const StyledHomeSection = styled.div`
