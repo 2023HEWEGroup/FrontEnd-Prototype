@@ -22,7 +22,7 @@ const AdminNav = () => {
                     <div style={{width: "26px", height: "26px"}}>
                         <Avatar style={{width: "100%", height: "100%"}}/>
                     </div>
-                    <StyledSpan style={{color: theme.palette.text.sub}}>example</StyledSpan>
+                    <StyledSpan style={{color: theme.palette.text.sub}}>Example</StyledSpan>
                 </StyledUser>
                 <Apps color='icon'/>
             </StyledIcons>

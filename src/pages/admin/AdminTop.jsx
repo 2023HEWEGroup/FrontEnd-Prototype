@@ -1,13 +1,13 @@
-import { useMediaQuery, useTheme } from '@mui/material'
+import { AccountCircle, AdsClick, AttachMoney, CurrencyExchange, FolderShared, Inventory2 } from '@mui/icons-material';
+import { useMediaQuery, useTheme } from '@mui/material';
 import React from 'react'
 import styled from 'styled-components'
-import TopBox from './topBox/TopBox';
-import ChartBox from './chartBox/ChartBox';
-import { AccountCircle, AdsClick, AttachMoney, CurrencyExchange, FolderShared, Inventory2 } from '@mui/icons-material';
-import PieChartBox from './pieChartBox/PieChartBox';
+import PieChartBox from '../../components/adminTop/pieChartBox/PieChartBox';
+import ChartBox from '../../components/adminTop/chartBox/ChartBox';
+import TopBox from '../../components/adminTop/topBox/TopBox';
 
 
-const AdminMainTop = () => {
+const AdminTop = () => {
 
     const isLargeScreen = useMediaQuery((theme) => theme.breakpoints.down('xl'));
     const isMiddleScreen = useMediaQuery((theme) => theme.breakpoints.down('lg'));
@@ -118,7 +118,7 @@ const AdminMainTop = () => {
     }
 
     return (
-        <StyledMainTop $isLargeScreen={isLargeScreen} $isMiddleScreen={isMiddleScreen} $isSmallScreen={isSmallScreen}>
+        <StyledAdminTop $isLargeScreen={isLargeScreen} $isMiddleScreen={isMiddleScreen} $isSmallScreen={isSmallScreen}>
             <StyledBox1 theme={theme}>
                 <TopBox />
             </StyledBox1>
@@ -143,12 +143,12 @@ const AdminMainTop = () => {
             <StyledBox8 theme={theme} $isSmallScreen={isSmallScreen}>
                 <ChartBox {...chartDataBenefit}/>
             </StyledBox8>
-        </StyledMainTop>
+        </StyledAdminTop>
     )
 }
 
 
-const StyledMainTop = styled.div`
+const StyledAdminTop = styled.div`
     display: grid;
     gap: 20px;
     grid-template-columns: ${(props) => (props.$isSmallScreen ? "repeat(1, calc(100% - 20px))" : (props.$isMiddleScreen ? "repeat(2, calc(50% - 20px))" : (props.$isLargeScreen ? "repeat(3, calc(33% - 20px))" : "repeat(4, calc(25% - 20px))")))};
@@ -218,4 +218,4 @@ const StyledBox8 = styled.div`
 `
 
 
-export default AdminMainTop
+export default AdminTop

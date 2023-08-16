@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 
-const AdminMenu = () => {
+const AdminMenu = (props) => {
 
     const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
     const theme = useTheme();
@@ -14,12 +14,12 @@ const AdminMenu = () => {
         <StyledMenu>
             <StyledItem>
                 <StyledTitle theme={theme} $isXsScreen={isXsScreen}>管理</StyledTitle>
-                <StyledLink theme={theme} to="/home">
-                    <Dashboard />
+                <StyledLink theme={theme} to="/admin" style={{backgroundColor: props.page === "/admin" ? theme.palette.background.hover : ""}}>
+                    <Dashboard color={props.page === "/admin" ? 'secondary' : ""}/>
                     <StyledListItemTitle $isXsScreen={isXsScreen}>管理トップ</StyledListItemTitle>
                 </StyledLink>
-                <StyledLink theme={theme} to="/home">
-                    <AccountCircleOutlined />
+                <StyledLink theme={theme} to="/admin/user" style={{backgroundColor: props.page === "/admin/user" ? theme.palette.background.hover : ""}}>
+                    <AccountCircleOutlined color={props.page === "/admin/user" ? 'secondary' : ""}/>
                     <StyledListItemTitle $isXsScreen={isXsScreen}>ユーザー管理</StyledListItemTitle>
                 </StyledLink>
                 <StyledLink theme={theme} to="/home">
@@ -71,7 +71,7 @@ const AdminMenu = () => {
 
 
 const StyledMenu = styled.div`
-
+    width: 100%;
 `
 
 const StyledItem = styled.div`

@@ -15,9 +15,11 @@ import Help from "./pages/Help";
 import Info from "./pages/Info";
 import CommonLayouts from "./layouts/CommonLayout";
 import styled from "styled-components";
-import Resulet from "./pages/Resulet";
+import Result from "./pages/Result";
 import SettlementFin from "./pages/SettlementFin";
-import Admin from "./pages/Admin";
+import AdminLayouts from "./layouts/AdminLayouts";
+import AdminTop from "./pages/admin/AdminTop";
+import UserManage from "./pages/admin/UserManage";
 
 function App() {
   return (
@@ -25,9 +27,10 @@ function App() {
       <CssBaseline />
       <StyledApp>
         <Routes>
+
           <Route path="/" element={<Top />} />
           <Route path="/exhibit" element={<Exhibit />} />
-          <Route path="admin" element={<Admin />} />
+
           <Route path="/" element={<CommonLayouts />}>
             <Route path="home" element={<Home />} />
             <Route path="product" element={<Product />} />
@@ -38,9 +41,15 @@ function App() {
             <Route path="setting" element={<Setting />} />
             <Route path="info" element={<Info />} />
             <Route path="help" element={<Help />} />
-            <Route path="result" element={<Resulet />} />
+            <Route path="result" element={<Result />} />
             <Route path="settlementFin" element={<SettlementFin />} />
           </Route>
+
+          <Route path="/admin" element={<AdminLayouts />}>
+            <Route index element={<AdminTop />} />
+            <Route path="user" element={<UserManage />} />
+          </Route>
+
         </Routes>
       </StyledApp>
     </ThemeProvider>
