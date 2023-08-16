@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import Tooltip from '@mui/material/Tooltip';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/material';
+import { Dashboard } from '@mui/icons-material';
 
 
 const SideBar = (props) => {
@@ -59,6 +60,17 @@ const SideBar = (props) => {
             <StyledSideBarElements theme={theme}  style={props.page === "/group" ? {backgroundColor: theme.palette.background.hover} : null}>
               {props.page === "/group" ? <StyledFolderSharedIcon color='secondary' /> : <StyledFolderSharedOutlinedIcon color="icon"/>}
               <StyledIconName style={{color: theme.palette.text.main}}>グループ</StyledIconName>
+            </StyledSideBarElements>
+          </StyledLink>
+        </Tooltip>
+      </StyledSideBarCell>
+
+      <StyledSideBarCell>
+        <Tooltip title="アドミン" placement='right' arrow={true}>
+          <StyledLink to={"/admin"}>
+            <StyledSideBarElements theme={theme}>
+              <StyledDashboard theme={theme}/>
+              <StyledIconName style={{color: theme.palette.text.admin}}>アドミン</StyledIconName>
             </StyledSideBarElements>
           </StyledLink>
         </Tooltip>
@@ -177,6 +189,16 @@ const StyledFolderSharedOutlinedIcon = styled(FolderSharedOutlinedIcon)`
       height: 35px;
       margin-top: 10px;
       margin-bottom: -10px;
+    }
+`
+
+const StyledDashboard = styled(Dashboard)`
+    && {
+      width: 35px;
+      height: 35px;
+      margin-top: 10px;
+      margin-bottom: -10px;
+      color: ${(props) => props.theme.palette.icon.admin};
     }
 `
 
