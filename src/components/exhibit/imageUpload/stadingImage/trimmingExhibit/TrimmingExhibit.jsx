@@ -70,6 +70,17 @@ const TrimmingExhibit = (props) => {
         props.setTrimmingModal(false);
     };
 
+    const handleCropChange = (crop) => {
+        const newCrops = [...props.crops];
+        newCrops[props.index] = crop;
+        props.setCrops(newCrops);
+    }
+
+    const handleZoomChange = (zoom) => {
+        const newZooms = [...props.zooms];
+        newZooms[props.index] = zoom;
+        props.setZooms(newZooms);
+    }
     return (
         <>
         <Modal open={props.trimmingModal}>
@@ -80,8 +91,8 @@ const TrimmingExhibit = (props) => {
                 </StyledIconButton>
             </Tooltip>
 
-            <Cropper image={props.originalImages[props.index]} crop={props.crop} zoom={props.zoom} minZoom={1} maxZoom={4} aspect={ASPECT_RATIO} onCropChange={props.setCrop}
-            onCropComplete={onCropComplete} onZoomChange={props.setZoom} cropSize={getCropSize()}
+            <Cropper image={props.originalImages[props.index]} crop={props.crops[props.index]} zoom={props.zooms[props.index]} minZoom={1} maxZoom={4} aspect={ASPECT_RATIO} onCropChange={handleCropChange}
+            onCropComplete={onCropComplete} onZoomChange={handleZoomChange} cropSize={getCropSize()}
             classes={{containerClassName: "container", cropAreaClassName: "crop-area", mediaClassName: "media"}} onMediaLoaded={onMediaLoaded}
             showGrid />
 

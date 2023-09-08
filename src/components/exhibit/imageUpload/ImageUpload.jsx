@@ -68,7 +68,7 @@ const ImageUpload = (props) => {
             <>
             {props.uploadImages.map((image, index) => (
                 <StagingImage key={index} image={image} index={index} uploadImages={props.uploadImages} setUploadImages={props.setUploadImages}
-                    originalImages={props.originalImages} />
+                    originalImages={props.originalImages} setOriginalImages={props.setOriginalImages} crops={props.crops} setCrops={props.setCrops} zooms={props.zooms} setZooms={props.setZooms}/>
             ))}
             {props.uploadImages.length < 4 && (
                 <StyledAddProductImg theme={theme} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen} $isDragging={props.isDragging} imageLength={props.uploadImages.length}

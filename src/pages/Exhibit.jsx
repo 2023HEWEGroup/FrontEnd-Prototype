@@ -20,6 +20,8 @@ const Exhibit = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [uploadImages, setUploadImages] = useState([]);
   const [originalImages, setOriginalImages] = useState([]);
+  const [crops, setCrops] = useState([{x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}]);
+  const [zooms, setZooms] = useState([1, 1, 1, 1]);
   const [product, setProduct] = useState({name: "", detail: "", price: "", benefit: 0, status: "", deliveryCost: "", shippingArea: "", category: "", tags: []});
   const [tag, setTag] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,6 +29,8 @@ const Exhibit = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
+  console.log(crops);
+  console.log(zooms);
 
   const handleProductNameInput = (event) => {
     setProduct({...product, name: event.target.value});
@@ -135,7 +139,7 @@ const Exhibit = () => {
           <StyledRequired theme={theme}>必須</StyledRequired>
         </StyledSubTitle>
         <ImageUpload isDragging={isDragging} setIsDragging={setIsDragging} uploadImages={uploadImages} setUploadImages={setUploadImages}
-          originalImages={originalImages} setOriginalImages={setOriginalImages}/>
+          originalImages={originalImages} setOriginalImages={setOriginalImages} crops={crops} setCrops={setCrops} zooms={zooms} setZooms={setZooms}/>
         <StyledErrorMessage theme={theme}>エラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージ</StyledErrorMessage>
       </StyledInputContent>
 
