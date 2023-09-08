@@ -11,8 +11,6 @@ const StagingImage = (props) => {
     const [isPopperOpen, setIsPopperOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const [trimmingModal, setTrimmingModal] = useState(false);
-    const [crop, setCrop] = useState({x: 0, y: 0}); // トリミングの開始座標を親で管理
-    const [zoom, setZoom] = useState(1); // トリミングのズーム量を親で管理
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
     const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
     const popperRef = useRef();
@@ -54,11 +52,12 @@ const StagingImage = (props) => {
         </StyledProductImg>
 
         <StagingImagePopper isPopperOpen={isPopperOpen} anchorEl={anchorEl} popperRef={popperRef} index={props.index}
-            uploadImages={props.uploadImages} setUploadImages={props.setUploadImages} setIsPopperOpen={setIsPopperOpen} setAnchorEl={setAnchorEl}
-            setTrimmingModal={setTrimmingModal}/>
+            uploadImages={props.uploadImages} setUploadImages={props.setUploadImages} originalImages={props.originalImages} setOriginalImages={props.setOriginalImages}
+            setIsPopperOpen={setIsPopperOpen} setAnchorEl={setAnchorEl} setTrimmingModal={setTrimmingModal}
+            crops={props.crops} setCrops={props.setCrops} zooms={props.zooms} setZooms={props.setZooms}/>
         
         <TrimmingExhibit trimmingModal={trimmingModal} setTrimmingModal={setTrimmingModal} image={props.image} uploadImages={props.uploadImages} setUploadImages={props.setUploadImages}
-            originalImages={props.originalImages} index={props.index} crop={crop} setCrop={setCrop} zoom={zoom} setZoom={setZoom}/>
+            originalImages={props.originalImages} index={props.index} crops={props.crops} setCrops={props.setCrops} zooms={props.zooms} setZooms={props.setZooms}/>
         </>
     )
 }
