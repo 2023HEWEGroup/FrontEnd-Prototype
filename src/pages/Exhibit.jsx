@@ -29,8 +29,6 @@ const Exhibit = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
-  console.log(crops);
-  console.log(zooms);
 
   const handleProductNameInput = (event) => {
     setProduct({...product, name: event.target.value});
