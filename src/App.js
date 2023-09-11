@@ -1,7 +1,8 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import { darkBlueTheme } from "./layouts/theme";
+import React, { useEffect } from 'react'
 import Top from "./pages/Top";
 import Home from "./pages/Home";
 import Product from "./pages/Product";
@@ -22,6 +23,14 @@ import AdminTop from "./pages/admin/AdminTop";
 import UserManage from "./pages/admin/UserManage";
 
 function App() {
+
+  const location = useLocation();
+
+  // 遷移で画面トップにスクロール
+  useEffect(() => {
+    window.scrollTo(0, 0); // 画面のトップにスクロール
+  }, [location]);
+
   return (
     <ThemeProvider theme={darkBlueTheme}>
       <CssBaseline />
