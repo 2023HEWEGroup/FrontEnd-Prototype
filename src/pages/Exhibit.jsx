@@ -13,6 +13,7 @@ import ProductAddTag from '../components/exhibit/productAddTag/ProductAddTag';
 import ProductRecognitionModal from '../components/exhibit/prodiuctRecognitionModal/ProductRecognitionModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { setWindowScrollable } from '../redux/features/windowScrollaleSlice';
+import ExhibitCommands from '../components/exhibit/exhibitCommands/ExhibitCommands';
 
 
 const Exhibit = () => {
@@ -124,6 +125,9 @@ const Exhibit = () => {
 
   return (
     <>
+
+    <ExhibitCommands />
+
     <StyledExhibit>
 
       <StyledTitle theme={theme}>
@@ -271,7 +275,7 @@ const StyledLmapLogo = styled.img`
 const StyledExhibit = styled.div`
   width: 1000px;
   max-width: 90vw;
-  margin: 0 auto;
+  margin: 50px auto 0 auto;
 `
 
 

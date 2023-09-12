@@ -47,7 +47,7 @@ const Profile = () => {
 
   return (
     <>
-    <StyledProfile>
+    <StyledProfile $isSmallScreen={isSmallScreen}>
       <StyledHeaderZone backHeader={`${siteAssetsPath}/tanoc_header.png`} theme={theme}>
         <StyledButtons $isSmallScreen={isSmallScreen}>
           <Tooltip title="リンクコピー" placement='top' arrow={true}>
@@ -91,7 +91,7 @@ const Profile = () => {
         </Grid>
       </StyledUserInfo>
 
-      <StyledUserInfoBar $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
+      <StyledUserInfoBar $isXsScreen={isXsScreen}>
         <Grid container>
           <Hidden only={["xs"]}>
             <Grid item xs={0} sm={2}></Grid>
@@ -103,7 +103,7 @@ const Profile = () => {
         </Grid>
       </StyledUserInfoBar>
 
-      <StyledTabs value={tabValue} onChange={handleTabChange} indicatorColor='secondary' $isSmallScreen={isSmallScreen} theme={theme}>
+      <StyledTabs value={tabValue} onChange={handleTabChange} indicatorColor='secondary' theme={theme}>
         <Tooltip title="ユーザー" placement='top' arrow><StyledTab theme={theme} label="ユーザー"></StyledTab></Tooltip>
         <Tooltip title="商品" placement='top' arrow><StyledTab theme={theme} label="商品"></StyledTab></Tooltip>
         <Tooltip title="グループ" placement='top' arrow><StyledTab theme={theme} label="グループ"></StyledTab></Tooltip>
@@ -123,8 +123,10 @@ const Profile = () => {
 
 
 const StyledProfile = styled.div`
-  width: 100%;
+  width: ${(props) => (props.$isSmallScreen ? "100%" : "90%")};
+  max-width: 3000px;
   height: 2000px;
+  margin: 0 auto;
 `
 
 const StyledHeaderZone = styled.div`
@@ -169,7 +171,7 @@ const StyledIconButton = styled(IconButton)`
 `
 
 const StyledUserInfo = styled.div`
-  width: ${(props) => (props.$isSmallScreen ? "100%" : "90%")};
+  width: 100%;
   height: ${(props) => (props.$isXsScreen ? "100px" : "150px")};
   margin: ${(props) => (props.$isSmallScreen ? "15px" : "30px")} auto 0 auto;
 `
@@ -266,7 +268,7 @@ const StyledNotifyIconButton = styled(IconButton)`
 `
 
 const StyledUserInfoBar = styled.div`
-  width: ${(props) => (props.$isSmallScreen ? "100%" : "90%")};
+  width: 100%;
   height: fit-content;
   margin: ${(props) => (props.$isXsScreen ? "20px" : 0)} auto;
 `
@@ -301,7 +303,7 @@ const StyledSpan = styled.span`
 
 const StyledTabs = styled(Tabs)`
     && {
-      width: ${(props) => (props.$isSmallScreen ? "100%" : "90%")};
+      width: 100%;
       margin: 30px auto 0 auto;
       .MuiTabs-indicator {
         bottom: 0;
@@ -311,7 +313,8 @@ const StyledTabs = styled(Tabs)`
 
 const StyledTab = styled(Tab)`
     && {
-      width: 25%;
+      flex: 1 1 0;
+      max-width: 25%;
       color: ${(props) => props.theme.palette.text.tab};
       border-bottom: solid 1px ${(props) => props.theme.palette.line.tab};
 

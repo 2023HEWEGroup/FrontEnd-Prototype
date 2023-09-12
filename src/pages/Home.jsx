@@ -47,7 +47,7 @@ const Home = () => {
               )}
           </StyledProductZone>
 
-          <StyledHomeSection theme={theme}>ユーザーアプローチ</StyledHomeSection>
+          <StyledHomeSection theme={theme}>ユーザーを見つける</StyledHomeSection>
 
           <StyledUserZone>
             <UserApproach />
@@ -71,7 +71,7 @@ const StyledHomeSection = styled.div`
   width: 100%;
   margin: 20px 0;
   padding: 5px;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: bold;
   color: ${(props) => props.theme.palette.text.sub};
   border-bottom: solid 0.5px ${(props) => props.theme.palette.text.sub};
