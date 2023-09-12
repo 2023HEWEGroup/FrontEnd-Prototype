@@ -25,7 +25,9 @@ const CommonLayouts = () => {
 
   return (
     <>
-        <TopBar page={location.pathname}/>
+        <div style={{width: "100%"}}>
+          <TopBar page={location.pathname}/>
+        </div>
         <FloatSideBar page={location.pathname}/>
         <div style={{width: "100vw", height: "55px"}}/>
         <StyledMain>
