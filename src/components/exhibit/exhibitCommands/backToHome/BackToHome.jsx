@@ -24,7 +24,7 @@ const BackToHome = () => {
 const StyledAvatar = styled(Avatar)`
     cursor: pointer;
     &:hover {
-        opacity: 0.9;
+        opacity: 0.8;
     }
 `
 

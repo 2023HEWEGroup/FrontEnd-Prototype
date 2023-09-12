@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Save } from '@mui/icons-material';
-import { Alert, Avatar, Slide, Snackbar, Tooltip } from '@mui/material'
+import { Alert, Avatar, CircularProgress, Fade, Slide, Snackbar, Tooltip, useTheme } from '@mui/material'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
@@ -14,6 +14,7 @@ const SaveInput = () => {
 
     const [isSave, setIsSave] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const theme = useTheme();
     const navigate = useNavigate();
 
     const handleSave = () => {
@@ -34,7 +35,11 @@ const SaveInput = () => {
 
     return (
         <>
-            <StyledDarkWrap isSave={isSave}/>
+            <StyledDarkWrap isSave={isSave}>
+                <Fade in unmountOnExit>
+                    <CircularProgress color="secondary" />
+                </Fade>
+            </StyledDarkWrap>
 
             <Tooltip title="下書きを保存" placement='bottom' arrow>
                 <StyledAvatar sx={{width:"50px", height: "50px"}} variant='circular' onClick={handleSave}>
@@ -51,7 +56,9 @@ const SaveInput = () => {
 
 
 const StyledDarkWrap = styled.div`
-    display: ${(props) => props.isSave ? "inline" : "none"};
+    display: ${(props) => props.isSave ? "flex" : "none"};
+    justify-content: center;
+    align-items: center;
     z-index: 150;
     position: fixed;
     top: 0;
@@ -64,7 +71,7 @@ const StyledDarkWrap = styled.div`
 const StyledAvatar = styled(Avatar)`
     cursor: pointer;
     &:hover {
-        opacity: 0.9;
+        opacity: 0.8;
     }
 `
 
