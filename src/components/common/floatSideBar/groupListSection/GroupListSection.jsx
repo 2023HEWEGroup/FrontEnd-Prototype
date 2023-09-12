@@ -63,7 +63,7 @@ const GroupListSection = () => {
                     <StyledListItem>
                         <Tooltip title="すべて表示" placement='right' arrow>
                             <StyledListElements theme={theme} onClick={toggleGroupShowAll}>
-                                <StyledListItemText theme={theme.palette.text.sub}>すべて表示</StyledListItemText>
+                                <StyledListItemText theme={theme.palette.text.sub2}>すべて表示</StyledListItemText>
                                 <StyledExpandMoreIcon color="icon"/>
                             </StyledListElements>
                         </Tooltip>
@@ -73,7 +73,7 @@ const GroupListSection = () => {
                     <StyledListItem>
                     <Tooltip title="折りたたむ" placement='right' arrow>
                         <StyledListElements theme={theme} onClick={toggleGroupShowAll}>
-                        <StyledListItemText theme={theme.palette.text.sub}>折りたたむ</StyledListItemText>
+                        <StyledListItemText theme={theme.palette.text.sub2}>折りたたむ</StyledListItemText>
                             <StyledExpandLessIcon color="icon"/>
                         </StyledListElements>
                     </Tooltip>

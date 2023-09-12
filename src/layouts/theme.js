@@ -19,10 +19,12 @@ export const darkBlueTheme = createTheme({
         text: {
             main: "#fff",
             sub: "#777",
+            sub2: "#999",
             categoryActive: "#fff",
             tab: "#888",
             product: "#ccc",
             error: "#f00",
+            error2: "#a00",
             admin: "#f0f"
         },
         icon: {
@@ -35,6 +37,7 @@ export const darkBlueTheme = createTheme({
             pop: "#282828",
             search: "#111",
             hover: "#383838",
+            hover2: "#222",
             opacity: "rgba(255, 255, 255, 0.1)",
             opacityHover: "rgba(255, 255, 255, 0.3)",
             opacityActive: "rgba(255, 255, 255, 0.5)",
