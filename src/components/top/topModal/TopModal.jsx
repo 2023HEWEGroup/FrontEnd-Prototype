@@ -16,7 +16,14 @@ import { usePaymentInputs } from 'react-payment-inputs';
 const TopModal = (props) => {
 
     const [isLogin, setIsLogin] = useState(true);
+    const [userId, setUserId] = useState("");
+    const [mailAddress, setMailAddress] = useState("");
+    const [password, setPassword] = useState("");
+    
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [isUserIdLogin, setIsUserIdLogin] = useState(true);
     const [currentStep, setCurrentStep] = useState(0);
+
     const [registUserName, setRegistUserName] = useState("");
     const [registUserId, setRegistUserId] = useState("");
     const [registPassword, setRegistPassword] = useState("");
@@ -35,12 +42,19 @@ const TopModal = (props) => {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [cardChecked, setCardChecked] = useState(false);
     const [creditCard, setCreditCard] = useState({number: "", expiry: "", cvc: ""});
+
     const [CVCVisible, setCVCVisible] = useState(false);
     const [recognitionPasswordVisible, setRecognitionPasswordVisible] = useState(false);
     const [recognitionCVCVisible, setRecognitionCVCVisible] = useState(false);
     const modalContainerRef = useRef(null);
     const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
+
+    const handleModalClose = () => {
+        props.setIsTopModalOpen(false);
+        handleDeleteInput();
+        setCurrentStep(0);
+    }
 
     const {
         meta,
@@ -49,6 +63,27 @@ const TopModal = (props) => {
         getExpiryDateProps,
         getCVCProps
     } = usePaymentInputs();
+
+    const handleDeleteInput = () => {
+        setUserId("");
+        setMailAddress("");
+        setPassword("");
+        setRegistUserName("");
+        setRegistUserId("");
+        setRegistPassword("");
+        setRegistConfirmPassword("");
+        setRegistMailAddress("");
+        setRegistConfirmMailAddress("");
+        setUpperName("");
+        setLowerName("");
+        setUpperNameKana("");
+        setLowerNameKana("");
+        setPostalCode("");
+        setHouseNumber("");
+        setPhoneNumber("");
+        const newCreditCard = { ...creditCard, number: "", expiry: "", cvc: ""};
+        setCreditCard(newCreditCard);
+    }
     
     const handleIsLogin = () => {
         setIsLogin(!isLogin);
@@ -66,6 +101,26 @@ const TopModal = (props) => {
         if (modalContainerRef.current) {
         modalContainerRef.current.scrollTop = 0;
         }
+    }
+
+    const handleUserIdLogin = () => {
+        setIsUserIdLogin(!isUserIdLogin);
+    }
+    
+    const handleUserIdInput = (e) => {
+        setUserId(e.target.value);
+    }
+    
+    const handleMailAddressInput = (e) => {
+        setMailAddress(e.target.value);
+    }
+    
+    const handlePasswordInput = (e) => {
+        setPassword(e.target.value);
+    }
+    
+    const handlePasswordVisible = () => {
+        setPasswordVisible(!passwordVisible);
     }
     
     const handleRegistUserNameInput = (e) => {
@@ -181,19 +236,21 @@ const TopModal = (props) => {
 
             <StyledTopModalInner $isLogin={isLogin} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
                 <Tooltip title="閉じる" placement='top'>
-                <StyledHighlightOff onClick={() => props.setIsTopModalOpen(false)}/>
+                <StyledHighlightOff onClick={handleModalClose}/>
                 </Tooltip>
                 <StyledModalIntro $isLogin={isLogin}>
                 マーケットにログインしましょう
                 </StyledModalIntro>
-                <LoginForm handleIsLogin={handleIsLogin}/>
+                <LoginForm isUserIdLogin={isUserIdLogin} handleIsLogin={handleIsLogin} userId={userId} mailAddress={mailAddress} password={password}
+                handleUserIdInput={handleUserIdInput} handleMailAddressInput={handleMailAddressInput} handlePasswordInput={handlePasswordInput}
+                handleUserIdLogin={handleUserIdLogin} handlePasswordVisible={handlePasswordVisible} passwordVisible={passwordVisible}/>
             </StyledTopModalInner>
 
             :
 
             <StyledTopModalInner $isLogin={isLogin} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen} ref={modalContainerRef}>
                 <Tooltip title="閉じる" placement='top'>
-                <StyledHighlightOff onClick={() => props.setIsTopModalOpen(false)}/>
+                <StyledHighlightOff onClick={handleModalClose}/>
                 </Tooltip>
                 <StyledModalIntro $isLogin={isLogin}>
                 アカウントを作成する

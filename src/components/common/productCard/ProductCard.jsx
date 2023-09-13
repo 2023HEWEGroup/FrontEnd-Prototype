@@ -157,6 +157,7 @@ const StyledProductName = styled.div`
     overflow: hidden;
     width: 100%;
     height: 50px;
+    word-break: break-all;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
