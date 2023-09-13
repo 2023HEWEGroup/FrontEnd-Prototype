@@ -220,6 +220,7 @@ const StyledNameAndId = styled.div`
 const StyledUsername = styled.div`
   font-size: ${(props) => (props.$isSmallScreen ? "1.5rem" : "1.7rem")};
   color: ${(props) => props.theme.palette.text.main};
+  word-break: break-all;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;

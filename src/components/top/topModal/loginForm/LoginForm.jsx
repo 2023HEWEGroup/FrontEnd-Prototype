@@ -1,53 +1,28 @@
 import { OpenInNew, Visibility, VisibilityOff } from '@mui/icons-material'
 import { LoadingButton } from '@mui/lab'
 import { Button, InputAdornment, TextField, useTheme } from '@mui/material'
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 
 const LoginForm = (props) => {
 
-    const [userId, setUserId] = useState("");
-    const [mailAddress, setMailAddress] = useState("");
-    const [password, setPassword] = useState("");
-    const [passwordVisible, setPasswordVisible] = useState(false);
-    const [isUserIdLogin, setIsUserIdLogin] = useState(true);
     const theme = useTheme();
-
-    const handleUserIdLogin = () => {
-        setIsUserIdLogin(!isUserIdLogin);
-    }
-    
-    const handleUserIdInput = (e) => {
-        setUserId(e.target.value);
-    }
-    
-    const handleMailAddressInput = (e) => {
-        setMailAddress(e.target.value);
-    }
-    
-    const handlePasswordInput = (e) => {
-        setPassword(e.target.value);
-    }
-    
-    const handlePasswordVisible = () => {
-        setPasswordVisible(!passwordVisible);
-    }
 
     return (
         <Styledform noValidate>
-        {isUserIdLogin ? 
+        {props.isUserIdLogin ? 
         <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="ユーザーID (3~20字)"
-            autoComplete='new-off' variant='outlined' inputProps={{maxLength: 20}} value={userId} onChange={handleUserIdInput}/>
+            autoComplete='new-off' variant='outlined' inputProps={{maxLength: 20}} value={props.userId} onChange={props.handleUserIdInput}/>
         :
         <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="メールアドレス"
-            autoComplete='new-off' variant='outlined' value={mailAddress} onChange={handleMailAddressInput}/>
+            autoComplete='new-off' variant='outlined' value={props.mailAddress} onChange={props.handleMailAddressInput}/>
         }
         <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="パスワード (8~20字)"
-            autoComplete='new-off' variant='outlined' value={password} type={passwordVisible ? "text" : 'password'} onChange={handlePasswordInput}
-            inputProps={{maxLength: 20}} InputProps={{endAdornment: (<InputAdornment position="end" onClick={handlePasswordVisible}>{passwordVisible ? <StyledVisibility /> : <StyledVisibilityOff />}</InputAdornment>)}}/>
+            autoComplete='new-off' variant='outlined' value={props.password} type={props.passwordVisible ? "text" : 'password'} onChange={props.handlePasswordInput}
+            inputProps={{maxLength: 20}} InputProps={{endAdornment: (<InputAdornment position="end" onClick={props.handlePasswordVisible}>{props.passwordVisible ? <StyledVisibility /> : <StyledVisibilityOff />}</InputAdornment>)}}/>
         <div style={{width: "100%"}}>
-            <StyledOptionChange onClick={handleUserIdLogin}>または{isUserIdLogin ? "メールアドレス" : "ユーザーID"}でログインする</StyledOptionChange>
+            <StyledOptionChange onClick={props.handleUserIdLogin}>または{props.isUserIdLogin ? "メールアドレス" : "ユーザーID"}でログインする</StyledOptionChange>
         </div>
         <LoadingButton color='top' fullWidth type='submit' variant='outlined'>ログイン</LoadingButton>
         <Button color='top' onClick={props.handleIsLogin}>アカウントをお持ちではありませんか？<OpenInNew style={{marginLeft: "5px"}}/>新規登録</Button>

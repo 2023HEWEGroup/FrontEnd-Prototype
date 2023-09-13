@@ -56,6 +56,7 @@ const Top = () => {
           
         </Toolbar>
       </StyledAppBar>
+      
         <StyledGridContainer container>
           <StyledGridItem item xs={12} sm={12} md={12} lg={6}>
             <StyledWelcomeZone>

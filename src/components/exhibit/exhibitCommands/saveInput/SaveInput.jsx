@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Save } from '@mui/icons-material';
-import { Alert, Avatar, CircularProgress, Fade, Slide, Snackbar, Tooltip, useTheme } from '@mui/material'
+import { Alert, Avatar, CircularProgress, Fade, Slide, Snackbar, Tooltip } from '@mui/material'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
@@ -14,7 +14,6 @@ const SaveInput = () => {
 
     const [isSave, setIsSave] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    const theme = useTheme();
     const navigate = useNavigate();
 
     const handleSave = () => {
