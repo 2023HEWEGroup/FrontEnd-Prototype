@@ -22,6 +22,7 @@ const StyledExhibitCommands = styled.div`
     z-index: 100;
     display: flex;
     align-items: center;
+    pointer-events: none;
     gap: 15px;
     width: 100vw;
     padding: 15px;
