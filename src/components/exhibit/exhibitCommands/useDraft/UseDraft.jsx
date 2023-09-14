@@ -29,6 +29,7 @@ const UseDraft = () => {
 
 const StyledAvatar = styled(Avatar)`
     cursor: pointer;
+    pointer-events: auto;
     &:hover {
         opacity: 0.8;
     }
