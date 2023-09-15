@@ -11,6 +11,7 @@ import RegistPersonalInfo from './registPersonalInfo/RegistPersonalInfo';
 import RegistCreditCard from './registCreditCard/RegistCreditCard';
 import RegistRecognition from './registRecognition/RegistRecognition';
 import { usePaymentInputs } from 'react-payment-inputs';
+import DestructionModal from '../../common/admin/destructionModal/DestructionModal';
 
 
 const TopModal = (props) => {
@@ -46,14 +47,28 @@ const TopModal = (props) => {
     const [CVCVisible, setCVCVisible] = useState(false);
     const [recognitionPasswordVisible, setRecognitionPasswordVisible] = useState(false);
     const [recognitionCVCVisible, setRecognitionCVCVisible] = useState(false);
+
+    const [isDestructOpen, setIsDestructOpen] = useState(false);
+
     const modalContainerRef = useRef(null);
     const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
     const handleModalClose = () => {
+        if (userId || mailAddress || password || registUserName || registUserId || registPassword || registConfirmPassword || registMailAddress ||
+            registConfirmMailAddress || upperName || lowerName || upperNameKana || lowerNameKana || postalCode || houseNumber || phoneNumber ||
+            creditCard.number || creditCard.cvc || creditCard.expiry) {
+                setIsDestructOpen(true);
+            } else {
+                handleInputDelete();
+            }
+    }
+
+    const handleInputDelete = () => {
         props.setIsTopModalOpen(false);
         handleDeleteInput();
         setCurrentStep(0);
+        setIsDestructOpen(false);
     }
 
     const {
@@ -230,6 +245,7 @@ const TopModal = (props) => {
     }
 
     return (
+        <>
             <Modal open={props.isTopModalOpen}>
                 
             {isLogin ? 
@@ -302,7 +318,12 @@ const TopModal = (props) => {
                 
             </StyledTopModalInner>
             }
+
             </Modal>
+
+            <DestructionModal isDestructOpen={isDestructOpen} handleInputDelete={handleInputDelete} setIsDestructOpen={setIsDestructOpen}
+            header="入力内容を破棄しますか？" desc="この操作は取り消しできません。変更は失われます。"/>
+        </>
     )
 }
 
