@@ -11,7 +11,7 @@ const ProductRecognitionModal = (props) => {
 
     return (
         <Modal open={props.isModalOpen}>
-            <StyledModalInner>
+            <StyledModalInner theme={theme}>
                 <Tooltip title="閉じる" placement='top'>
                 <StyledHighlightOff onClick={props.handleModalClose}/>
                 </Tooltip>
@@ -81,7 +81,7 @@ const StyledModalInner = styled.div`
     overflow-x: hidden;
     border-radius: 15px;
     border: solid 1px #444;
-    background-color: #111;
+    background-color: ${(props) => props.theme.palette.background.modal};
 `
 
 const StyledModalTitle = styled.div`

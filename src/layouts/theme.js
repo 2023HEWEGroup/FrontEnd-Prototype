@@ -45,7 +45,11 @@ export const darkBlueTheme = createTheme({
             slideHover: "rgba(0, 0, 0, 0.3)",
             slideComment: "rgba(0, 0, 0, 0.5)",
             uploadImgHover: "rgba(255, 255, 255, 0.05)",
-            scrollBar: "#444"
+            scrollBar: "#444",
+            modal: "#111",
+            destructDelete: "#f00",
+            destructDeleteHover: "#c00",
+            destructCancelHover: "#1a1a1a"
         },
         top: {
             main: "#88f",
