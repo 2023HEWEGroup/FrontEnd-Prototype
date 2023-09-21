@@ -1,69 +1,78 @@
-import { Avatar, useTheme } from '@mui/material'
-import React from 'react'
-import styled from 'styled-components'
-
+import { Avatar, useTheme } from "@mui/material";
+import React from "react";
+import styled from "styled-components";
 
 const TopBox = () => {
+  const theme = useTheme();
 
-    const theme = useTheme();
+  const users = [
+    {
+      key: 1,
+      name: "HARD CORDINGaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      id: "kurucccccccccccccccccccccccccc",
+      value: 555,
+    },
+    { key: 2, name: "CODING KURU*C", id: "kuruc_net", value: 555 },
+    { key: 3, name: "CODING KURU*C", id: "kuruc_net", value: 555 },
+    { key: 4, name: "CODING KURU*C", id: "kuruc_net", value: 555 },
+    { key: 5, name: "CODING KURU*C", id: "kuruc_net", value: 555 },
+    { key: 6, name: "CODING KURU*C", id: "kuruc_net", value: 555 },
+    { key: 7, name: "CODING KURU*C", id: "kuruc_net", value: 555 },
+    { key: 8, name: "CODING KURU*C", id: "kuruc_net", value: 555 },
+    { key: 9, name: "CODING KURU*C", id: "kuruc_net", value: 555 },
+    { key: 10, name: "CODING KURU*C", id: "kuruc_net", value: 555 },
+    { key: 11, name: "CODING KURU*C", id: "kuruc_net", value: 555 },
+    { key: 12, name: "CODING KURU*C", id: "kuruc_net", value: 555 },
+    { key: 13, name: "CODING KURU*C", id: "kuruc_net", value: 555 },
+    { key: 14, name: "CODING KURU*C", id: "kuruc_net", value: 555 },
+    { key: 15, name: "CODING KURU*C", id: "kuruc_net", value: 555 },
+    { key: 16, name: "CODING KURU*C", id: "kuruc_net", value: 555 },
+    { key: 17, name: "CODING KURU*C", id: "kuruc_net", value: 555 },
+    { key: 18, name: "CODING KURU*C", id: "kuruc_net", value: 555 },
+  ];
 
-    const users = [
-        {key: 1, name: "HARD CORDINGaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", id: "kurucccccccccccccccccccccccccc", value: 555},
-        {key: 2, name: "CODING KURU*C", id: "kuruc_net", value: 555},
-        {key: 3, name: "CODING KURU*C", id: "kuruc_net", value: 555},
-        {key: 4, name: "CODING KURU*C", id: "kuruc_net", value: 555},
-        {key: 5, name: "CODING KURU*C", id: "kuruc_net", value: 555},
-        {key: 6, name: "CODING KURU*C", id: "kuruc_net", value: 555},
-        {key: 7, name: "CODING KURU*C", id: "kuruc_net", value: 555},
-        {key: 8, name: "CODING KURU*C", id: "kuruc_net", value: 555},
-        {key: 9, name: "CODING KURU*C", id: "kuruc_net", value: 555},
-        {key: 10, name: "CODING KURU*C", id: "kuruc_net", value: 555},
-        {key: 11, name: "CODING KURU*C", id: "kuruc_net", value: 555},
-        {key: 12, name: "CODING KURU*C", id: "kuruc_net", value: 555},
-        {key: 13, name: "CODING KURU*C", id: "kuruc_net", value: 555},
-        {key: 14, name: "CODING KURU*C", id: "kuruc_net", value: 555},
-        {key: 15, name: "CODING KURU*C", id: "kuruc_net", value: 555},
-        {key: 16, name: "CODING KURU*C", id: "kuruc_net", value: 555},
-        {key: 17, name: "CODING KURU*C", id: "kuruc_net", value: 555},
-        {key: 18, name: "CODING KURU*C", id: "kuruc_net", value: 555},
-    ]
+  return (
+    <STopBox>
+      <STitle>トップユーザー</STitle>
 
-    return (
-        <StyledTopBox>
-            <StyledTitle>トップユーザー</StyledTitle>
+      <SList theme={theme}>
+        {users.map((user) => (
+          <SListItem key={user.key}>
+            <SUser>
+              <div
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  overflow: "hidden",
+                  flexShrink: 0,
+                }}
+              >
+                <SAvatar />
+              </div>
+              <SUserDesc>
+                <SUserName>{user.name}</SUserName>
+                <SUserId theme={theme}>@{user.id}</SUserId>
+                <SAmount theme={theme}>{user.value}</SAmount>
+              </SUserDesc>
+            </SUser>
+          </SListItem>
+        ))}
+      </SList>
+    </STopBox>
+  );
+};
 
-            <StyledList theme={theme}>
-                {users.map(user =>
-                    <StyledListItem key={user.key}>
-                        <StyledUser>
-                        <div style={{width: "40px", height: "40px", overflow: "hidden", flexShrink: 0}}>
-                        <StyledAvatar />
-                        </div>
-                        <StyledUserDesc>
-                            <StyledUserName>{user.name}</StyledUserName>
-                            <StyledUserId theme={theme}>@{user.id}</StyledUserId>
-                            <StyledAmount theme={theme}>{user.value}</StyledAmount>
-                        </StyledUserDesc>
-                        </StyledUser>
-                    </StyledListItem>
-                )}
-            </StyledList>
-        </StyledTopBox>
-    )
-}
-
-
-const StyledTopBox = styled.div`
+const STopBox = S.div`
     width: 100%;
-`
+`;
 
-const StyledTitle = styled.div`
+const STitle = S.div`
     margin-bottom: 20px;
     font-weight: bold;
     font-size: 1.2rem;
-`
+`;
 
-const StyledList = styled.div`
+const SList = S.div`
     display: flex;
     flex-direction: column;
     height: 600px;
@@ -76,46 +85,47 @@ const StyledList = styled.div`
 
     &:hover {
         &::-webkit-scrollbar-thumb {
-            background-color: ${(props) => props.theme.palette.background.scrollBar};
+            background-color: ${(props) =>
+              props.theme.palette.background.scrollBar};
         }
     }
-`
+`;
 
-const StyledListItem = styled.div`
+const SListItem = S.div`
     display: flex;
     gap: 10px;
     margin-bottom: 30px;
-`
+`;
 
-const StyledUser = styled.div`
+const SUser = S.div`
     display: flex;
     gap: 20px;
-`
+`;
 
-const StyledAvatar = styled(Avatar)`
+const SAvatar = S(Avatar)`
     && {
         width: 100%;
         height: 100%;
     }
-`
+`;
 
-const StyledUserDesc = styled.div`
+const SUserDesc = S.div`
     display: flex;
     flex-direction: column;
     gap: 5px;
     overflow: hidden;
-`
+`;
 
-const StyledUserName = styled.span`
+const SUserName = S.span`
     font-size: 14px;
     font-weight: 500;
     width: 100%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-`
+`;
 
-const StyledUserId = styled.span`
+const SUserId = S.span`
     font-size: 12px;
     font-weight: 500;
     color: ${(props) => props.theme.palette.text.sub};
@@ -123,9 +133,9 @@ const StyledUserId = styled.span`
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-`
+`;
 
-const StyledAmount = styled.span`
+const SAmount = S.span`
     font-size: 12px;
     font-weight: 500;
     color: ${(props) => props.theme.palette.secondary.main};
@@ -133,7 +143,6 @@ const StyledAmount = styled.span`
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-`
+`;
 
-
-export default TopBox
+export default TopBox;

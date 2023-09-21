@@ -1,22 +1,18 @@
-import styled from '@emotion/styled'
-import React from 'react'
-import BackToHome from './backToHome/BackToHome'
-import SaveInput from './saveInput/SaveInput'
-import UseDraft from './useDraft/UseDraft'
-
+import styled from "styled-components";
+import SaveInput from "./saveInput/SaveInput";
+import UseDraft from "./useDraft/UseDraft";
 
 const ExhibitCommands = () => {
-    return (
-        <StyledExhibitCommands>
-            <BackToHome />
-            <SaveInput />
-            <UseDraft />
-        </StyledExhibitCommands>
-    )
-}
+  return (
+    <SExhibitCommands>
+      <BackToHome />
+      <SaveInput />
+      <UseDraft />
+    </SExhibitCommands>
+  );
+};
 
-
-const StyledExhibitCommands = styled.div`
+const SExhibitCommands = S.div`
     position: fixed;
     top: 0;
     z-index: 100;
@@ -26,7 +22,6 @@ const StyledExhibitCommands = styled.div`
     gap: 15px;
     width: 100vw;
     padding: 15px;
-`
+`;
 
-
-export default ExhibitCommands
+export default ExhibitCommands;

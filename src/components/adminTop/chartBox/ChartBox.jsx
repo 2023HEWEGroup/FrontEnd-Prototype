@@ -1,118 +1,130 @@
-import { Avatar, useTheme } from '@mui/material'
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { Line, LineChart, ResponsiveContainer, Tooltip } from 'recharts'
-import styled from 'styled-components'
-
-
+import { Avatar, useTheme } from "@mui/material";
+import React from "react";
+import { Link } from "react-router-dom";
+import { Line, LineChart, ResponsiveContainer, Tooltip } from "recharts";
+import styled from "styled-components";
 const ChartBox = (props) => {
+  const theme = useTheme();
 
-    const theme = useTheme();
+  return (
+    <SChartBox>
+      <SBoxInfo>
+        <STitle>
+          <div style={{ width: "30px", height: "30px", flexShrink: 0 }}>
+            <Avatar
+              sx={{ bgcolor: props.color, width: "100%", height: "100%" }}
+            >
+              {props.icon}
+            </Avatar>
+          </div>
+          <SSpan>{props.title}</SSpan>
+        </STitle>
+        <SNum>{props.number}</SNum>
+        <Link
+          to="/home"
+          style={{
+            color: props.color,
+            textDecoration: "none",
+            fontSize: "14px",
+          }}
+        >
+          すべて見る
+        </Link>
+      </SBoxInfo>
+      <SChartInfo>
+        <SChart>
+          <ResponsiveContainer width="99%" height="100%">
+            <LineChart data={props.chartData}>
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: theme.palette.background.opacity,
+                  border: "none",
+                }}
+                labelStyle={{ display: "none" }}
+              />
+              <Line
+                type="monotone"
+                dataKey={props.dataKey}
+                stroke={props.color}
+                strokeWidth={2}
+                dot={false}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </SChart>
+        <SDesc>
+          <SPercentage
+            style={{ color: props.percentage > 0 ? "limegreen" : "tomato" }}
+          >
+            {props.percentage}%
+          </SPercentage>
+          <SDuration>過去7日</SDuration>
+        </SDesc>
+      </SChartInfo>
+    </SChartBox>
+  );
+};
 
-    return (
-        <StyledChartBox>
-            <StyledBoxInfo>
-                <StyledTitle>
-                    <div style={{width: "30px", height: "30px", flexShrink: 0}}>
-                        <Avatar sx={{ bgcolor: props.color, width: "100%", height: "100%" }}>{props.icon}</Avatar>
-                    </div>
-                    <StyledSpan>{props.title}</StyledSpan>
-                </StyledTitle>
-                <StyledNum>{props.number}</StyledNum>
-                <Link to="/home" style={{color: props.color, textDecoration: "none", fontSize: "14px"}}>すべて見る</Link>
-            </StyledBoxInfo>
-            <StyledChartInfo>
-                <StyledChart>
-                    <ResponsiveContainer width="99%" height="100%">
-                        <LineChart data={props.chartData}>
-                            <Tooltip 
-                            contentStyle={{
-                                backgroundColor: theme.palette.background.opacity,
-                                border: "none"
-                            }}
-                            labelStyle={{display: "none"}}
-                            />
-                            <Line 
-                            type="monotone"
-                            dataKey={props.dataKey}
-                            stroke={props.color}
-                            strokeWidth={2}
-                            dot={false}
-                            />
-                        </LineChart>
-                    </ResponsiveContainer>
-                </StyledChart>
-                <StyledDesc>
-                    <StyledPercentage style={{color: props.percentage > 0 ? "limegreen" : "tomato"}}>{props.percentage}%</StyledPercentage>
-                    <StyledDuration>過去7日</StyledDuration>
-                </StyledDesc>
-            </StyledChartInfo>
-        </StyledChartBox>
-    )
-}
-
-
-const StyledChartBox = styled.div`
+const SChartBox = S.div`
     display: flex;
     height: 100%;
-`
+`;
 
-const StyledBoxInfo = styled.div`
+const SBoxInfo = S.div`
     width: 50%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-`
+`;
 
-const StyledChartInfo = styled.div`
+const SChartInfo = S.div`
     width: 50%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-`
+`;
 
-const StyledTitle = styled.div`
+const STitle = S.div`
     display: flex;
     align-items: center;
     gap: 10px;
-`
+`;
 
-const StyledNum = styled.div`
+const SNum = S.div`
     font-size: 1.5rem;
     font-weight: bold;
     width: 100%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-`
+`;
 
-const StyledSpan = styled.span`
+const SSpan = S.span`
 
-`
+`;
 
-const StyledChart = styled.div`
+const SChart = S.div`
     width: 100%;
     height: 100%;
-`
+`;
 
-const StyledDesc = styled.div`
+const SDesc = S.div`
     display: flex;
     flex-direction: column;
     text-align: right;
-`
+`;
 
-const StyledPercentage = styled.span`
+const SPercentage = S.span`
     font-weight: bold;
     font-size: 20px;
     width: 100%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-`
+`;
 
-const StyledDuration = styled.span`
+const SDuration = S.span`
     font-size: 14px;
-`
+`;
 
-
-export default ChartBox
+export default ChartBox;

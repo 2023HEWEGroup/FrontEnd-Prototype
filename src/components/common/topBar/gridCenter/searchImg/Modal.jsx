@@ -1,7 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import {Trimming} from "./Trimming";
+import { Trimming } from "./Trimming";
 import styled from "styled-components";
 import { IconButton, Tooltip } from "@mui/material";
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
@@ -19,8 +19,6 @@ const style = {
   pb: 3,
 };
 
-
-
 export default function BasicModal({ theme }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
@@ -33,9 +31,9 @@ export default function BasicModal({ theme }) {
   return (
     <>
       <Tooltip title="画像で検索" placement="bottom" arrow>
-        <StyledIconButton size="small" onClick={handleOpen} theme={theme}>
+        <SIconButton size="small" onClick={handleOpen} theme={theme}>
           <ImageSearchIcon color="icon" />
-        </StyledIconButton>
+        </SIconButton>
       </Tooltip>
       <Modal
         open={open}
@@ -51,7 +49,7 @@ export default function BasicModal({ theme }) {
   );
 }
 
-const StyledIconButton = styled(IconButton)`
+const SIconButton = S(IconButton)`
   && {
     .MuiTouchRipple-child {
       background-color: ${(props) => props.theme.palette.secondary.main};
@@ -60,7 +58,6 @@ const StyledIconButton = styled(IconButton)`
 `;
 
 //react-jsx-dev-runtime.development.js:87 Warning: Failed prop type: Invalid prop `children` supplied to `ForwardRef(Tooltip)`. Expected an element that can hold a ref. Did you accidentally use a plain function component for an element instead? For more information see https://mui.com/r/caveat-with-refs-guide
-
 
 //react-dom.development.js:67 Warning: validateDOMNesting(...): <div> cannot appear as a descendant of <p>.
 //    in div (created by ForwardRef(Tooltip))

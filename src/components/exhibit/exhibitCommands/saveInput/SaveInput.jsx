@@ -1,61 +1,73 @@
-import styled from '@emotion/styled';
-import { Save } from '@mui/icons-material';
-import { Alert, Avatar, CircularProgress, Fade, Slide, Snackbar, Tooltip } from '@mui/material'
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-
+import styled from "styled-components";
+import {
+  Alert,
+  Avatar,
+  CircularProgress,
+  Fade,
+  Slide,
+  Snackbar,
+  Tooltip,
+} from "@mui/material";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SlideTransition = (props) => {
-    return <Slide {...props} direction="right" />;
+  return <Slide {...props} direction="right" />;
 };
 
-
 const SaveInput = () => {
+  const [isSave, setIsSave] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
-    const [isSave, setIsSave] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
-    const navigate = useNavigate();
+  const handleSave = () => {
+    document.body.style.pointerEvents = "none";
+    document.body.style.overflow = "hidden";
+    setIsSave(true);
+    setIsOpen(true);
+    setTimeout(() => {
+      navigate("/home");
+      document.body.style.pointerEvents = "auto";
+      document.body.style.overflow = "auto";
+    }, 2000);
+  };
 
-    const handleSave = () => {
-        document.body.style.pointerEvents = 'none';
-        document.body.style.overflow = 'hidden';
-        setIsSave(true);
-        setIsOpen(true);
-        setTimeout(() => {
-            navigate("/home");
-            document.body.style.pointerEvents = 'auto';
-            document.body.style.overflow = 'auto';
-        }, 2000);
-    }
+  const handleSnackClose = () => {
+    setIsOpen(false);
+  };
 
-    const handleSnackClose = () => {
-        setIsOpen(false)
-    };
+  return (
+    <>
+      <SDarkWrap isSave={isSave}>
+        <Fade in unmountOnExit>
+          <CircularProgress color="secondary" />
+        </Fade>
+      </SDarkWrap>
 
-    return (
-        <>
-            <StyledDarkWrap isSave={isSave}>
-                <Fade in unmountOnExit>
-                    <CircularProgress color="secondary" />
-                </Fade>
-            </StyledDarkWrap>
+      <Tooltip title="下書きを保存" placement="bottom" arrow>
+        <SAvatar
+          sx={{ width: "50px", height: "50px" }}
+          variant="circular"
+          onClick={handleSave}
+        >
+          <Save sx={{ width: "50%", height: "50%" }} />
+        </SAvatar>
+      </Tooltip>
 
-            <Tooltip title="下書きを保存" placement='bottom' arrow>
-                <StyledAvatar sx={{width:"50px", height: "50px"}} variant='circular' onClick={handleSave}>
-                    <Save sx={{width: "50%", height: "50%"}}/>
-                </StyledAvatar>
-            </Tooltip>
+      <Snackbar
+        open={isOpen}
+        onClose={handleSnackClose}
+        TransitionComponent={SlideTransition}
+        autoHideDuration={5000}
+      >
+        <Alert severity="info">下書きを保存しました</Alert>
+      </Snackbar>
+    </>
+  );
+};
 
-            <Snackbar open={isOpen} onClose={handleSnackClose} TransitionComponent={SlideTransition} autoHideDuration={5000}>
-                <Alert severity='info'>下書きを保存しました</Alert>
-            </Snackbar>
-        </>
-    )
-}
-
-
-const StyledDarkWrap = styled.div`
-    display: ${(props) => props.isSave ? "flex" : "none"};
+const SDarkWrap = S.div`
+    display: ${(props) => (props.isSave ? "flex" : "none")};
     justify-content: center;
     align-items: center;
     z-index: 150;
@@ -65,15 +77,14 @@ const StyledDarkWrap = styled.div`
     width: 100vw;
     height: 100vh;
     background: rgba(0, 0, 0, 0.5);
-`
+`;
 
-const StyledAvatar = styled(Avatar)`
+const SAvatar = S(Avatar)`
     cursor: pointer;
     pointer-events: auto;
     &:hover {
         opacity: 0.8;
     }
-`
+`;
 
-
-export default SaveInput
+export default SaveInput;

@@ -1,95 +1,130 @@
-import { AccountCircleOutlined, AdsClick, AttachMoney, CurrencyExchange, Dashboard, FolderSharedOutlined, HelpOutlineOutlined, HomeOutlined, InfoOutlined,  Inventory2Outlined, SettingsOutlined } from '@mui/icons-material'
-import { useMediaQuery, useTheme } from '@mui/material'
-import React from 'react'
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
-
+import {
+  AccountCircleOutlined,
+  AdsClick,
+  AttachMoney,
+  CurrencyExchange,
+  Dashboard,
+  FolderSharedOutlined,
+  HelpOutlineOutlined,
+  HomeOutlined,
+  InfoOutlined,
+  Inventory2Outlined,
+  SettingsOutlined,
+} from "@mui/icons-material";
+import { useMediaQuery, useTheme } from "@mui/material";
+import React from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 const AdminMenu = (props) => {
+  const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const theme = useTheme();
 
-    const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
-    const theme = useTheme();
+  return (
+    <SMenu>
+      <SItem>
+        <STitle theme={theme} $isXsScreen={isXsScreen}>
+          管理
+        </STitle>
+        <SLink
+          theme={theme}
+          to="/admin"
+          style={{
+            backgroundColor:
+              props.page === "/admin" ? theme.palette.background.hover : "",
+          }}
+        >
+          <Dashboard color={props.page === "/admin" ? "secondary" : ""} />
+          <SListItemTitle $isXsScreen={isXsScreen}>管理トップ</SListItemTitle>
+        </SLink>
+        <SLink
+          theme={theme}
+          to="/admin/user"
+          style={{
+            backgroundColor:
+              props.page === "/admin/user"
+                ? theme.palette.background.hover
+                : "",
+          }}
+        >
+          <AccountCircleOutlined
+            color={props.page === "/admin/user" ? "secondary" : ""}
+          />
+          <SListItemTitle $isXsScreen={isXsScreen}>ユーザー管理</SListItemTitle>
+        </SLink>
+        <SLink theme={theme} to="/home">
+          <Inventory2Outlined />
+          <SListItemTitle $isXsScreen={isXsScreen}>商品管理</SListItemTitle>
+        </SLink>
+        <SLink theme={theme} to="/home">
+          <CurrencyExchange />
+          <SListItemTitle $isXsScreen={isXsScreen}>取引管理</SListItemTitle>
+        </SLink>
+        <SLink theme={theme} to="/home">
+          <FolderSharedOutlined />
+          <SListItemTitle $isXsScreen={isXsScreen}>グループ管理</SListItemTitle>
+        </SLink>
+        <SLink theme={theme} to="/home">
+          <AttachMoney />
+          <SListItemTitle $isXsScreen={isXsScreen}>収益</SListItemTitle>
+        </SLink>
+      </SItem>
+      <SItem>
+        <STitle $isXsScreen={isXsScreen} theme={theme}>
+          サイトコンテンツ
+        </STitle>
+        <SLink theme={theme} to="/home">
+          <AdsClick />
+          <SListItemTitle $isXsScreen={isXsScreen}>広告</SListItemTitle>
+        </SLink>
+        <SLink theme={theme} to="/home">
+          <InfoOutlined />
+          <SListItemTitle $isXsScreen={isXsScreen}>
+            インフォメーション
+          </SListItemTitle>
+        </SLink>
+        <SLink theme={theme} to="/home">
+          <HelpOutlineOutlined />
+          <SListItemTitle $isXsScreen={isXsScreen}>ヘルプ</SListItemTitle>
+        </SLink>
+      </SItem>
+      <SItem>
+        <STitle $isXsScreen={isXsScreen} theme={theme}>
+          その他
+        </STitle>
+        <SLink theme={theme} to="/home">
+          <HomeOutlined />
+          <SListItemTitle $isXsScreen={isXsScreen}>ホーム</SListItemTitle>
+        </SLink>
+        <SLink theme={theme} to="/home">
+          <SettingsOutlined />
+          <SListItemTitle $isXsScreen={isXsScreen}>アドミン管理</SListItemTitle>
+        </SLink>
+      </SItem>
+    </SMenu>
+  );
+};
 
-    return (
-        <StyledMenu>
-            <StyledItem>
-                <StyledTitle theme={theme} $isXsScreen={isXsScreen}>管理</StyledTitle>
-                <StyledLink theme={theme} to="/admin" style={{backgroundColor: props.page === "/admin" ? theme.palette.background.hover : ""}}>
-                    <Dashboard color={props.page === "/admin" ? 'secondary' : ""}/>
-                    <StyledListItemTitle $isXsScreen={isXsScreen}>管理トップ</StyledListItemTitle>
-                </StyledLink>
-                <StyledLink theme={theme} to="/admin/user" style={{backgroundColor: props.page === "/admin/user" ? theme.palette.background.hover : ""}}>
-                    <AccountCircleOutlined color={props.page === "/admin/user" ? 'secondary' : ""}/>
-                    <StyledListItemTitle $isXsScreen={isXsScreen}>ユーザー管理</StyledListItemTitle>
-                </StyledLink>
-                <StyledLink theme={theme} to="/home">
-                    <Inventory2Outlined />
-                    <StyledListItemTitle $isXsScreen={isXsScreen}>商品管理</StyledListItemTitle>
-                </StyledLink>
-                <StyledLink theme={theme} to="/home">
-                    <CurrencyExchange />
-                    <StyledListItemTitle $isXsScreen={isXsScreen}>取引管理</StyledListItemTitle>
-                </StyledLink>
-                <StyledLink theme={theme} to="/home">
-                    <FolderSharedOutlined />
-                    <StyledListItemTitle $isXsScreen={isXsScreen}>グループ管理</StyledListItemTitle>
-                </StyledLink>
-                <StyledLink theme={theme} to="/home">
-                    <AttachMoney />
-                    <StyledListItemTitle $isXsScreen={isXsScreen}>収益</StyledListItemTitle>
-                </StyledLink>
-            </StyledItem>
-            <StyledItem>
-                <StyledTitle $isXsScreen={isXsScreen} theme={theme}>サイトコンテンツ</StyledTitle>
-                <StyledLink theme={theme} to="/home">
-                    <AdsClick />
-                    <StyledListItemTitle $isXsScreen={isXsScreen}>広告</StyledListItemTitle>
-                </StyledLink>
-                <StyledLink theme={theme} to="/home">
-                    <InfoOutlined />
-                    <StyledListItemTitle $isXsScreen={isXsScreen}>インフォメーション</StyledListItemTitle>
-                </StyledLink>
-                <StyledLink theme={theme} to="/home">
-                    <HelpOutlineOutlined />
-                    <StyledListItemTitle $isXsScreen={isXsScreen}>ヘルプ</StyledListItemTitle>
-                </StyledLink>
-            </StyledItem>
-            <StyledItem>
-                <StyledTitle $isXsScreen={isXsScreen} theme={theme}>その他</StyledTitle>
-                <StyledLink theme={theme} to="/home">
-                    <HomeOutlined />
-                    <StyledListItemTitle $isXsScreen={isXsScreen}>ホーム</StyledListItemTitle>
-                </StyledLink>
-                <StyledLink theme={theme} to="/home">
-                    <SettingsOutlined />
-                    <StyledListItemTitle $isXsScreen={isXsScreen}>アドミン管理</StyledListItemTitle>
-                </StyledLink>
-            </StyledItem>
-        </StyledMenu>
-    )
-}
-
-
-const StyledMenu = styled.div`
+const SMenu = S.div`
     width: 100%;
-`
+`;
 
-const StyledItem = styled.div`
+const SItem = S.div`
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
-`
+`;
 
-const StyledTitle = styled.span`
+const STitle = S.span`
     font-size: 12px;
     font-weight: 200;
     margin-bottom: 10px;
     color: ${(props) => props.theme.palette.text.sub};
     white-space: nowrap;
     ${(props) => (props.$isXsScreen ? "display: none" : null)};
-`
+`;
 
-const StyledLink = styled(Link)`
+const SLink = S(Link)`
     && {
         display: flex;
         align-items: center;
@@ -100,19 +135,19 @@ const StyledLink = styled(Link)`
         text-decoration: none;
 
         &:hover {
-            background-color: ${(props) => props.theme.palette.background.hover};
+            background-color: ${(props) =>
+              props.theme.palette.background.hover};
         }
     }
-`
+`;
 
-const StyledListItemTitle = styled.span`
+const SListItemTitle = S.span`
     white-space: nowrap;
     ${(props) => (props.$isXsScreen ? "display: none" : null)};
     width: 100%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-`
+`;
 
-
-export default AdminMenu
+export default AdminMenu;

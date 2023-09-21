@@ -1,51 +1,54 @@
-import { Close, EditNote } from '@mui/icons-material';
-import { Drawer, IconButton, Tooltip, useTheme } from '@mui/material'
-import React from 'react'
-import styled from 'styled-components'
-import DraftList from './draftList/DraftList';
-
+import { Close, EditNote } from "@mui/icons-material";
+import { Drawer, IconButton, Tooltip, useTheme } from "@mui/material";
+import React from "react";
+import styled from "styled-components";
+import DraftList from "./draftList/DraftList";
 
 const SelectDraft = (props) => {
+  const theme = useTheme();
 
-    const theme = useTheme();
+  const handleSideClose = () => {
+    props.setIsOpen(false);
+  };
 
-    const handleSideClose = () => {
-        props.setIsOpen(false);
-    }
+  return (
+    <Drawer
+      anchor="left"
+      open={props.isOpen}
+      onClose={handleSideClose}
+      PaperProps={{ style: { borderRight: "none" } }}
+    >
+      <SInner
+        theme={theme}
+        style={{ backgroundColor: theme.palette.primary.main }}
+      >
+        <SListHeader>
+          <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+            <SEditNote theme={theme} />
+            <SHeaderComment theme={theme}>下書き一覧</SHeaderComment>
+          </div>
+          <Tooltip title="閉じる(Esc)" placement="right" arrow>
+            <SIconButton onClick={handleSideClose}>
+              <SArrowBackIosNew theme={theme} />
+            </SIconButton>
+          </Tooltip>
+        </SListHeader>
 
-    return (
-        <Drawer anchor='left' open={props.isOpen} onClose={handleSideClose} PaperProps={{style: { borderRight: 'none'}}}>
-            <StyledInner theme={theme} style={{backgroundColor: theme.palette.primary.main}}>
+        <DraftList setIsOpen={props.setIsOpen} />
+      </SInner>
+    </Drawer>
+  );
+};
 
-            <StyledListHeader>
-                    <div style={{display: "flex", alignItems: "center", gap: "5px"}}>
-                        <StyledEditNote theme={theme}/>
-                        <StyledHeaderComment theme={theme}>下書き一覧</StyledHeaderComment>
-                    </div>
-                    <Tooltip title="閉じる(Esc)" placement='right' arrow>
-                        <StyledIconButton onClick={handleSideClose}>
-                            <StyledArrowBackIosNew theme={theme}/>
-                        </StyledIconButton>
-                    </Tooltip>
-            </StyledListHeader>
-
-            <DraftList setIsOpen={props.setIsOpen}/>
-
-            </StyledInner>
-        </Drawer>
-    )
-}
-
-
-const StyledInner = styled.div`
+const SInner = S.div`
     && {
         position: fixed;
         width: 350px;
         height: 100vw;
     }
-`
+`;
 
-const StyledListHeader = styled.div`
+const SListHeader = S.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -53,31 +56,30 @@ const StyledListHeader = styled.div`
     height: 50px;
     padding: 30px 15px;
     overflow: hidden;
-`
+`;
 
-const StyledEditNote = styled(EditNote)`
+const SEditNote = S(EditNote)`
     && {
         color: ${(props) => props.theme.palette.text.sub2};
     }
-`
+`;
 
-const StyledHeaderComment= styled.div`
+const SHeaderComment = S.div`
     color: ${(props) => props.theme.palette.text.sub2};
-`
+`;
 
-const StyledIconButton = styled(IconButton)`
+const SIconButton = S(IconButton)`
     && {
         .MuiTouchRipple-child {
             background-color: transparent;
         }
     }
-`
+`;
 
-const StyledArrowBackIosNew = styled(Close)`
+const SArrowBackIosNew = S(Close)`
     && {
         color: ${(props) => props.theme.palette.text.sub2};
     }
-`
+`;
 
-
-export default SelectDraft
+export default SelectDraft;

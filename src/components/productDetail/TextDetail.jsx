@@ -117,7 +117,7 @@ const TextDetail = () => {
         }}
       >
         <Grid sx={{ display: "row", width: 100 }} textAlign={"center"}>
-          <StyledFavoriteBorder />
+          <SFavoriteBorder />
           <Typography color="#fff" fontSize={"8px"}>
             お気に入り
           </Typography>
@@ -126,7 +126,7 @@ const TextDetail = () => {
           sx={{ display: "row", flexDirection: "row", width: 100 }}
           textAlign={"center"}
         >
-          <StyledBookmark sx={{ color: "#fff" }} />
+          <SBookmark sx={{ color: "#fff" }} />
           <Typography color="#fff" fontSize={"8px"}>
             保存
           </Typography>
@@ -146,7 +146,7 @@ const TextDetail = () => {
   );
 };
 
-const StyledFavoriteBorder = styled(FavoriteBorder)`
+const SFavoriteBorder = S(FavoriteBorder)`
   && {
     width: 30px;
     height: 30px;
@@ -158,7 +158,7 @@ const StyledFavoriteBorder = styled(FavoriteBorder)`
   }
 `;
 
-const StyledBookmark = styled(BookmarkAddOutlinedIcon)`
+const SBookmark = S(BookmarkAddOutlinedIcon)`
   && {
     width: 30px;
     height: 30px;

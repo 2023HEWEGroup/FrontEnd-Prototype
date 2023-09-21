@@ -1,24 +1,28 @@
-import { useTheme } from '@mui/system'
-import React from 'react'
-import styled from 'styled-components'
-
+import { useTheme } from "@mui/system";
+import React from "react";
+import styled from "styled-components";
 
 const ProductDetailInput = (props) => {
+  const theme = useTheme();
 
-    const theme = useTheme();
+  return (
+    <>
+      <STextArea
+        theme={theme}
+        value={props.product.detail}
+        placeholder="商品説明 (1~500字)"
+        maxLength={500}
+        autoComplete="off"
+        onChange={props.handleProductDetailInput}
+      ></STextArea>
+      <SInputLength
+        theme={theme}
+      >{`${props.product.detail.length}/500`}</SInputLength>
+    </>
+  );
+};
 
-    return (
-        <>
-        <StyledTextArea theme={theme} value={props.product.detail} placeholder='商品説明 (1~500字)' maxLength={500} autoComplete='off'
-            onChange={props.handleProductDetailInput}>
-        </StyledTextArea>
-        <StyledInputLength theme={theme}>{`${props.product.detail.length}/500`}</StyledInputLength>
-        </>
-    )
-}
-
-
-const StyledTextArea = styled.textarea`
+const STextArea = S.textarea`
     width: 100%;
     height: 200px;
     padding: 20px 15px;
@@ -35,13 +39,12 @@ const StyledTextArea = styled.textarea`
     &:focus-within {
         outline: solid 2px ${(props) => props.theme.palette.secondary.main};
     }
-`
+`;
 
-const StyledInputLength = styled.div`
+const SInputLength = S.div`
     width: 100%;
     text-align: right;
     color: ${(props) => props.theme.palette.text.sub};
-`
+`;
 
-
-export default ProductDetailInput
+export default ProductDetailInput;

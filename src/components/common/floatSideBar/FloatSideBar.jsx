@@ -1,61 +1,64 @@
-import { Divider, Drawer, List, useTheme } from '@mui/material'
-import styled from 'styled-components'
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { booleanFloatSideBar } from '../../../redux/features/floatSideBarSlice';
-import UpperListSection from './upperListSection/UpperListSection';
-import LowerListSection from './lowerListSection/LowerListSection';
-import FollowingListSection from './followingListSection/FollowingListSection';
-import GroupListSection from './groupListSection/GroupListSection';
-
+import { Divider, Drawer, List, useTheme } from "@mui/material";
+import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { booleanFloatSideBar } from "../../../redux/features/floatSideBarSlice";
+import UpperListSection from "./upperListSection/UpperListSection";
+import LowerListSection from "./lowerListSection/LowerListSection";
+import FollowingListSection from "./followingListSection/FollowingListSection";
+import GroupListSection from "./groupListSection/GroupListSection";
 
 const FloatSideBar = (props) => {
+  const dispatch = useDispatch();
+  const theme = useTheme();
+  const isSideOpen = useSelector((state) => state.floatSideBar.value);
 
-    const dispatch = useDispatch();
-    const theme = useTheme();
-    const isSideOpen = useSelector((state => state.floatSideBar.value));
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      if (event.key === "Escape") {
+        dispatch(booleanFloatSideBar());
+      }
+    };
+    window.addEventListener("keydown", handleKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  });
 
-    useEffect(() => {
-        const handleKeyPress = (event) => {
-        if (event.key === 'Escape') {
-            dispatch(booleanFloatSideBar());
-        }
-        }
-        window.addEventListener('keydown', handleKeyPress);
-        return () => {
-            window.removeEventListener('keydown', handleKeyPress);
-        };
-    })
+  return (
+    <Drawer
+      variant="persistent"
+      anchor="left"
+      open={isSideOpen}
+      PaperProps={{
+        style: { borderRight: "none", marginTop: "55px", zIndex: 150 },
+      }}
+      transitionDuration={0}
+    >
+      <SList style={{ backgroundColor: theme.palette.primary.main }}>
+        <UpperListSection page={props.page} />
 
-    return (
-    <Drawer variant='persistent' anchor='left' open={isSideOpen} PaperProps={{style: { borderRight: 'none', marginTop: "55px", zIndex: 150}}} transitionDuration={0}>
-        <StyledList style={{backgroundColor: theme.palette.primary.main}}>
+        <SDivider>
+          <SListTitle>フォロー中</SListTitle>
+        </SDivider>
 
-            <UpperListSection page={props.page}/>
+        <FollowingListSection />
 
-            <StyledDivider>
-                <StyledListTitle>フォロー中</StyledListTitle>
-            </StyledDivider>
+        <SDivider>
+          <SListTitle>グループ</SListTitle>
+        </SDivider>
 
-            <FollowingListSection />
+        <GroupListSection />
 
-            <StyledDivider>
-                <StyledListTitle>グループ</StyledListTitle>
-            </StyledDivider>
+        <Divider />
 
-            <GroupListSection />
-
-            <Divider />
-
-            <LowerListSection page={props.page}/>
-
-        </StyledList>
+        <LowerListSection page={props.page} />
+      </SList>
     </Drawer>
-    )
-}
+  );
+};
 
-
-const StyledList = styled(List)`
+const SList = S(List)`
     && {
         position: fixed;
         overflow-y: scroll;
@@ -74,9 +77,9 @@ const StyledList = styled(List)`
             }
         }
     }
-`
+`;
 
-const StyledListTitle = styled.div`
+const SListTitle = S.div`
     height: 50%;
     width: 95%;
     text-align: left;
@@ -84,13 +87,12 @@ const StyledListTitle = styled.div`
     font-size: 0.9rem;
     font-weight: bold;
     color: #777;
-`
+`;
 
-const StyledDivider = styled(Divider)`
+const SDivider = S(Divider)`
     && {
         width: 230px;
     }
-`
+`;
 
-
-export default FloatSideBar
+export default FloatSideBar;

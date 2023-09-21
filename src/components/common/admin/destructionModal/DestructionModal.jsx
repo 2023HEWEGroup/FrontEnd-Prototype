@@ -1,42 +1,59 @@
-import { Button, Grow, Modal, useTheme } from '@mui/material'
-import React from 'react'
-import styled from 'styled-components'
-
+import { Button, Grow, Modal, useTheme } from "@mui/material";
+import React from "react";
+import styled from "styled-components";
 
 const DestructionModal = (props) => {
+  const theme = useTheme();
 
-    const theme = useTheme();
+  return (
+    <SModal
+      open={props.isDestructOpen}
+      onClose={() => props.setIsDestructOpen(false)}
+    >
+      <Grow in={props.isDestructOpen}>
+        <SModalInner theme={theme}>
+          <SInner>
+            <SDetails>
+              <SHeader theme={theme}>{props.header}</SHeader>
+              <SDesc theme={theme}>{props.desc}</SDesc>
+            </SDetails>
+            <SButtons>
+              <SDeleteButton
+                fullWidth
+                size="large"
+                variant="contained"
+                onClick={props.handleInputDelete}
+                theme={theme}
+              >
+                破棄
+              </SDeleteButton>
+              <SCancelButton
+                fullWidth
+                size="large"
+                color="primary"
+                variant="contained"
+                onClick={() => props.setIsDestructOpen(false)}
+                theme={theme}
+              >
+                キャンセル
+              </SCancelButton>
+            </SButtons>
+          </SInner>
+        </SModalInner>
+      </Grow>
+    </SModal>
+  );
+};
 
-    return (
-            <StyledModal open={props.isDestructOpen} onClose={() => props.setIsDestructOpen(false)}>
-                <Grow in={props.isDestructOpen}>
-                    <StyledModalInner theme={theme}>
-                        <StyledInner>
-                            <StyledDetails>
-                                <StyledHeader theme={theme}>{props.header}</StyledHeader>
-                                <StyledDesc theme={theme}>{props.desc}</StyledDesc>
-                            </StyledDetails>
-                            <StyledButtons>
-                                <StyledDeleteButton fullWidth size='large' variant='contained' onClick={props.handleInputDelete} theme={theme}>破棄</StyledDeleteButton>
-                                <StyledCancelButton fullWidth size='large' color='primary' variant='contained' onClick={() => props.setIsDestructOpen(false)} theme={theme}>キャンセル</StyledCancelButton>
-                            </StyledButtons>
-                        </StyledInner>
-                    </StyledModalInner>
-                </Grow>
-            </StyledModal>
-    )
-}
-
-
-const StyledModal = styled(Modal)`
+const SModal = S(Modal)`
     && {
         display: flex;
         justify-content: center;
         align-items: center;
     }
-`
+`;
 
-const StyledModalInner = styled.div`
+const SModalInner = S.div`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -45,62 +62,64 @@ const StyledModalInner = styled.div`
     height: 270px;
     border-radius: 20px;
     border: solid 1px ${(props) => props.theme.palette.line.disable};
-`
+`;
 
-const StyledInner = styled.div`
+const SInner = S.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 20px;
     width: 80%;
-`
+`;
 
-const StyledDetails = styled.div`
+const SDetails = S.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 5px;
-`
+`;
 
-const StyledHeader = styled.div`
+const SHeader = S.div`
     width: 100%;
     color: ${(props) => props.theme.palette.text.main};
     font-size: 1.2rem;
     font-weight: bold;
     word-break: break-all;
-`
+`;
 
-const StyledDesc = styled.div`
+const SDesc = S.div`
     width: 100%;
     color: ${(props) => props.theme.palette.text.sub};
     font-size: 0.9rem;
     word-break: break-all;
-`
+`;
 
-const StyledButtons = styled.div`
+const SButtons = S.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 12px;
     align-items: center;
     width: 100%;
-`
+`;
 
-const StyledDeleteButton = styled(Button)`
+const SDeleteButton = S(Button)`
     && {
-        background-color: ${(props) => props.theme.palette.background.destructDelete};
+        background-color: ${(props) =>
+          props.theme.palette.background.destructDelete};
         border-radius: 50px;
         font-weight: bold;
 
         &:hover {
-            background-color: ${(props) => props.theme.palette.background.destructDeleteHover};
+            background-color: ${(props) =>
+              props.theme.palette.background.destructDeleteHover};
         }
     }
-`
+`;
 
-const StyledCancelButton = styled(Button)`
+const SCancelButton = S(Button)`
     && {
         border: solid 1px ${(props) => props.theme.palette.line.main};
         border-radius: 50px;
@@ -108,10 +127,10 @@ const StyledCancelButton = styled(Button)`
         // background-color: #000;
 
         &:hover {
-            background-color: ${(props) => props.theme.palette.background.destructCancelHover};
+            background-color: ${(props) =>
+              props.theme.palette.background.destructCancelHover};
         }
     }
-`
+`;
 
-
-export default DestructionModal
+export default DestructionModal;

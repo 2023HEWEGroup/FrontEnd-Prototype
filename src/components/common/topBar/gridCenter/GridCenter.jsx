@@ -1,5 +1,17 @@
 import SearchIcon from "@mui/icons-material/Search";
-import {Divider, IconButton, InputBase, List, ListItem, ListItemText, Paper, Popper, Tooltip, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Divider,
+  IconButton,
+  InputBase,
+  List,
+  ListItem,
+  ListItemText,
+  Paper,
+  Popper,
+  Tooltip,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Modal from "./searchImg/Modal";
@@ -51,19 +63,23 @@ const GridCenter = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!inputhWord) return;
-    const url = `/result?word=${encodeURIComponent(inputhWord)}&mode=${encodeURIComponent(activeSearchMode)}`;
+    const url = `/result?word=${encodeURIComponent(
+      inputhWord
+    )}&mode=${encodeURIComponent(activeSearchMode)}`;
     handlePopperClose();
     searchInput.current.blur();
     navigate(url);
-  }
+  };
 
   const handleModeClickSubmit = (event, mode) => {
     event.preventDefault();
     if (!inputhWord) return;
-    const url = `/result?word=${encodeURIComponent(inputhWord)}&mode=${encodeURIComponent(mode)}`;
+    const url = `/result?word=${encodeURIComponent(
+      inputhWord
+    )}&mode=${encodeURIComponent(mode)}`;
     handlePopperClose();
     navigate(url);
-  }
+  };
 
   useEffect(() => {
     if (isSmallScreen) {
@@ -73,58 +89,122 @@ const GridCenter = () => {
 
   useEffect(() => {
     const handlePopperClose = (e) => {
-        if (anchorEl && !anchorEl.contains(e.target) && !popperRef.current.contains(e.target)) {
-            setAnchorEl(null);
-            setIsPopperOpen(false);
-        }
-    }
-    document.addEventListener('click', handlePopperClose);
+      if (
+        anchorEl &&
+        !anchorEl.contains(e.target) &&
+        !popperRef.current.contains(e.target)
+      ) {
+        setAnchorEl(null);
+        setIsPopperOpen(false);
+      }
+    };
+    document.addEventListener("click", handlePopperClose);
 
     return () => {
-        document.removeEventListener('click', handlePopperClose);
-    }
-}, [anchorEl])
+      document.removeEventListener("click", handlePopperClose);
+    };
+  }, [anchorEl]);
 
   return (
     <>
       <div style={{ display: "flex", alignItems: "center", width: "80%" }}>
-        <StyledPaper elevation={0} component="form" theme={theme} style={{backgroundColor: theme.palette.background.search}} onSubmit={handleSubmit} ref={popperRef}>
-          <StyledInputBase placeholder="キーワードで検索" onChange={handleInputChange} onKeyDown={handleKeyDown} onFocus={handlePopperOpen} inputRef={searchInput} theme={theme} />
+        <SPaper
+          elevation={0}
+          component="form"
+          theme={theme}
+          style={{ backgroundColor: theme.palette.background.search }}
+          onSubmit={handleSubmit}
+          ref={popperRef}
+        >
+          <SInputBase
+            placeholder="キーワードで検索"
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+            onFocus={handlePopperOpen}
+            inputRef={searchInput}
+            theme={theme}
+          />
           <Tooltip title="検索" placement="bottom" arrow={true}>
-            <StyledIconButton type="submit" size="small" theme={theme}>
+            <SIconButton type="submit" size="small" theme={theme}>
               <SearchIcon color="icon" />
-            </StyledIconButton>
+            </SIconButton>
           </Tooltip>
-          <Divider orientation="vertical" style={{height: "30px", width: "5px", borderRightWidth: "2px", borderColor: "#aaa", margin: "0 10px", }}/>
+          <Divider
+            orientation="vertical"
+            style={{
+              height: "30px",
+              width: "5px",
+              borderRightWidth: "2px",
+              borderColor: "#aaa",
+              margin: "0 10px",
+            }}
+          />
           <Modal theme={theme} />
-        </StyledPaper>
+        </SPaper>
       </div>
-      <StyledPopper open={isPopperOpen} anchorEl={anchorEl} placement="bottom-start" modifiers={[{name: "offset", options: {offset: [0, 12] }}]}>
-        <StyledPopperPaper elevation={3} theme={theme}>
+      <SPopper
+        open={isPopperOpen}
+        anchorEl={anchorEl}
+        placement="bottom-start"
+        modifiers={[{ name: "offset", options: { offset: [0, 12] } }]}
+      >
+        <SPopperPaper elevation={3} theme={theme}>
           <List>
-            <StyledListItem onClick={(event) => handleModeClickSubmit(event, 1)} theme={theme} style={activeSearchMode === 1 ? { backgroundColor: theme.palette.background.hover } : null}>
+            <SListItem
+              onClick={(event) => handleModeClickSubmit(event, 1)}
+              theme={theme}
+              style={
+                activeSearchMode === 1
+                  ? { backgroundColor: theme.palette.background.hover }
+                  : null
+              }
+            >
               <ListItemText primary={'"' + inputhWord + '" を商品で検索'} />
-            </StyledListItem>
-            <StyledDivider style={{ width: "95%", margin: "0 auto" }} />
-            <StyledListItem onClick={(event) => handleModeClickSubmit(event, 2)} theme={theme} style={activeSearchMode === 2 ? { backgroundColor: theme.palette.background.hover } : null}>
+            </SListItem>
+            <SDivider style={{ width: "95%", margin: "0 auto" }} />
+            <SListItem
+              onClick={(event) => handleModeClickSubmit(event, 2)}
+              theme={theme}
+              style={
+                activeSearchMode === 2
+                  ? { backgroundColor: theme.palette.background.hover }
+                  : null
+              }
+            >
               <ListItemText primary={'"' + inputhWord + '" をユーザーで検索'} />
-            </StyledListItem>
-            <StyledDivider style={{ width: "95%", margin: "0 auto" }} />
-            <StyledListItem onClick={(event) => handleModeClickSubmit(event, 3)} theme={theme} style={ activeSearchMode === 3 ? { backgroundColor: theme.palette.background.hover } : null}>
+            </SListItem>
+            <SDivider style={{ width: "95%", margin: "0 auto" }} />
+            <SListItem
+              onClick={(event) => handleModeClickSubmit(event, 3)}
+              theme={theme}
+              style={
+                activeSearchMode === 3
+                  ? { backgroundColor: theme.palette.background.hover }
+                  : null
+              }
+            >
               <ListItemText primary={'"' + inputhWord + '" をグループで検索'} />
-            </StyledListItem>
-            <StyledDivider />
-            <StyledListItem onClick={(event) => handleModeClickSubmit(event, 4)} theme={theme} style={activeSearchMode === 4 ? { backgroundColor: theme.palette.background.hover } : null}>
+            </SListItem>
+            <SDivider />
+            <SListItem
+              onClick={(event) => handleModeClickSubmit(event, 4)}
+              theme={theme}
+              style={
+                activeSearchMode === 4
+                  ? { backgroundColor: theme.palette.background.hover }
+                  : null
+              }
+            >
               <ListItemText primary={'"' + inputhWord + '" をタグで検索'} />
-            </StyledListItem>
+            </SListItem>
           </List>
-        </StyledPopperPaper>
-      </StyledPopper>
+        </SPopperPaper>
+      </SPopper>
     </>
   );
 };
 
-const StyledPaper = styled(Paper)`
+const SPaper = S(Paper)`
   && {
     display: flex;
     align-items: center;
@@ -139,7 +219,7 @@ const StyledPaper = styled(Paper)`
   }
 `;
 
-const StyledInputBase = styled(InputBase)`
+const SInputBase = S(InputBase)`
   && {
     height: 100%;
     width: 100%;
@@ -151,7 +231,7 @@ const StyledInputBase = styled(InputBase)`
   }
 `;
 
-const StyledIconButton = styled(IconButton)`
+const SIconButton = S(IconButton)`
   && {
     .MuiTouchRipple-child {
       background-color: ${(props) => props.theme.palette.secondary.main};
@@ -159,14 +239,14 @@ const StyledIconButton = styled(IconButton)`
   }
 `;
 
-const StyledPopper = styled(Popper)`
+const SPopper = S(Popper)`
   && {
     width: 36.5%;
     z-index: 100;
   }
 `;
 
-const StyledPopperPaper = styled(Paper)`
+const SPopperPaper = S(Paper)`
   && {
     height: 200px;
     color: ${(props) => props.theme.palette.text.main};
@@ -174,7 +254,7 @@ const StyledPopperPaper = styled(Paper)`
   }
 `;
 
-const StyledListItem = styled(ListItem)`
+const SListItem = S(ListItem)`
   && {
     overflow: hidden;
     white-space: nowrap;
@@ -190,7 +270,7 @@ const StyledListItem = styled(ListItem)`
   }
 `;
 
-const StyledDivider = styled(Divider)`
+const SDivider = S(Divider)`
   && {
     margin: 0 auto;
     width: 95%;

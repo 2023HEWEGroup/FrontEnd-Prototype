@@ -1,154 +1,167 @@
-import { Delete } from '@mui/icons-material'
-import { Avatar, List, ListItemButton, Tooltip } from '@mui/material'
-import { useTheme } from '@mui/system'
-import React from 'react'
-import styled from 'styled-components'
-
+import { Delete } from "@mui/icons-material";
+import { Avatar, List, ListItemButton, Tooltip } from "@mui/material";
+import { useTheme } from "@mui/system";
+import React from "react";
+import styled from "styled-components";
 
 const DraftList = (props) => {
+  const theme = useTheme();
 
-    const theme = useTheme();
+  const handleDeleteClick = (e) => {
+    e.stopPropagation(); // イベント伝播を停止する
+  };
 
-    const handleDeleteClick = (e) => {
-        e.stopPropagation(); // イベント伝播を停止する
-      };
+  return (
+    <SList theme={theme}>
+      <SListItemButton theme={theme} onClick={() => props.setIsOpen(false)}>
+        <SInner>
+          <SImageArea theme={theme}>
+            <SNoImage theme={theme}>画像なし</SNoImage>
+          </SImageArea>
+          <SDesc>
+            <SProductName theme={theme}>
+              aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            </SProductName>
+            <SCreatedAt theme={theme}>xxxx年xx月xx日 xx:xx</SCreatedAt>
+          </SDesc>
+        </SInner>
+        <Tooltip title="削除" placement="right" arrow>
+          <SDelete theme={theme} onClick={handleDeleteClick} />
+        </Tooltip>
+      </SListItemButton>
+      <SListItemButton theme={theme} onClick={() => props.setIsOpen(false)}>
+        <SInner>
+          <SImageArea theme={theme}>
+            <SNoImage theme={theme}>画像なし</SNoImage>
+          </SImageArea>
+          <SDesc>
+            <SProductName theme={theme}>
+              aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            </SProductName>
+            <SCreatedAt theme={theme}>xxxx年xx月xx日 xx:xx</SCreatedAt>
+          </SDesc>
+        </SInner>
+        <Tooltip title="削除" placement="right" arrow>
+          <SDelete theme={theme} onClick={handleDeleteClick} />
+        </Tooltip>
+      </SListItemButton>
+      <SListItemButton theme={theme} onClick={() => props.setIsOpen(false)}>
+        <SInner>
+          <SImageArea theme={theme}>
+            <SAvatar variant="square" />
+          </SImageArea>
+          <SDesc>
+            <SProductName theme={theme}>
+              aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            </SProductName>
+            <SCreatedAt theme={theme}>xxxx年xx月xx日 xx:xx</SCreatedAt>
+          </SDesc>
+        </SInner>
+        <Tooltip title="削除" placement="right" arrow>
+          <SDelete theme={theme} onClick={handleDeleteClick} />
+        </Tooltip>
+      </SListItemButton>
+      <SListItemButton theme={theme} onClick={() => props.setIsOpen(false)}>
+        <SInner>
+          <SImageArea theme={theme}>
+            <SAvatar variant="square" />
+          </SImageArea>
+          <SDesc>
+            <SProductName theme={theme}>
+              aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            </SProductName>
+            <SCreatedAt theme={theme}>xxxx年xx月xx日 xx:xx</SCreatedAt>
+          </SDesc>
+        </SInner>
+        <Tooltip title="削除" placement="right" arrow>
+          <SDelete theme={theme} onClick={handleDeleteClick} />
+        </Tooltip>
+      </SListItemButton>
+      <SListItemButton theme={theme} onClick={() => props.setIsOpen(false)}>
+        <SInner>
+          <SImageArea theme={theme}>
+            <SAvatar variant="square" />
+          </SImageArea>
+          <SDesc>
+            <SProductName theme={theme}>
+              aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            </SProductName>
+            <SCreatedAt theme={theme}>xxxx年xx月xx日 xx:xx</SCreatedAt>
+          </SDesc>
+        </SInner>
+        <Tooltip title="削除" placement="right" arrow>
+          <SDelete theme={theme} onClick={handleDeleteClick} />
+        </Tooltip>
+      </SListItemButton>
+      <SListItemButton theme={theme} onClick={() => props.setIsOpen(false)}>
+        <SInner>
+          <SImageArea theme={theme}>
+            <SAvatar variant="square" />
+          </SImageArea>
+          <SDesc>
+            <SProductName theme={theme}>
+              aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            </SProductName>
+            <SCreatedAt theme={theme}>xxxx年xx月xx日 xx:xx</SCreatedAt>
+          </SDesc>
+        </SInner>
+        <Tooltip title="削除" placement="right" arrow>
+          <SDelete theme={theme} onClick={handleDeleteClick} />
+        </Tooltip>
+      </SListItemButton>
+      <SListItemButton theme={theme} onClick={() => props.setIsOpen(false)}>
+        <SInner>
+          <SImageArea theme={theme}>
+            <SAvatar variant="square" />
+          </SImageArea>
+          <SDesc>
+            <SProductName theme={theme}>
+              aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            </SProductName>
+            <SCreatedAt theme={theme}>xxxx年xx月xx日 xx:xx</SCreatedAt>
+          </SDesc>
+        </SInner>
+        <Tooltip title="削除" placement="right" arrow>
+          <SDelete theme={theme} onClick={handleDeleteClick} />
+        </Tooltip>
+      </SListItemButton>
+      <SListItemButton theme={theme} onClick={() => props.setIsOpen(false)}>
+        <SInner>
+          <SImageArea theme={theme}>
+            <SAvatar variant="square" />
+          </SImageArea>
+          <SDesc>
+            <SProductName theme={theme}>
+              aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            </SProductName>
+            <SCreatedAt theme={theme}>xxxx年xx月xx日 xx:xx</SCreatedAt>
+          </SDesc>
+        </SInner>
+        <Tooltip title="削除" placement="right" arrow>
+          <SDelete theme={theme} onClick={handleDeleteClick} />
+        </Tooltip>
+      </SListItemButton>
+      <SListItemButton theme={theme} onClick={() => props.setIsOpen(false)}>
+        <SInner>
+          <SImageArea theme={theme}>
+            <SAvatar variant="square" />
+          </SImageArea>
+          <SDesc>
+            <SProductName theme={theme}>
+              aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            </SProductName>
+            <SCreatedAt theme={theme}>xxxx年xx月xx日 xx:xx</SCreatedAt>
+          </SDesc>
+        </SInner>
+        <Tooltip title="削除" placement="right" arrow>
+          <SDelete theme={theme} onClick={handleDeleteClick} />
+        </Tooltip>
+      </SListItemButton>
+    </SList>
+  );
+};
 
-    return (
-        <StyledList theme={theme}>
-
-            <StyledListItemButton theme={theme} onClick={() => props.setIsOpen(false)}>
-                <StyledInner>
-                    <StyledImageArea theme={theme}>
-                        <StyledNoImage theme={theme}>画像なし</StyledNoImage>
-                    </StyledImageArea>
-                    <StyledDesc>
-                        <StyledProductName theme={theme}>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</StyledProductName>
-                        <StyledCreatedAt theme={theme}>xxxx年xx月xx日 xx:xx</StyledCreatedAt>
-                    </StyledDesc>
-                </StyledInner>
-                <Tooltip title="削除" placement='right' arrow>
-                    <StyledDelete theme={theme} onClick={handleDeleteClick}/>
-                </Tooltip>
-            </StyledListItemButton>
-            <StyledListItemButton theme={theme} onClick={() => props.setIsOpen(false)}>
-                <StyledInner>
-                    <StyledImageArea theme={theme}>
-                        <StyledNoImage theme={theme}>画像なし</StyledNoImage>
-                    </StyledImageArea>
-                    <StyledDesc>
-                        <StyledProductName theme={theme}>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</StyledProductName>
-                        <StyledCreatedAt theme={theme}>xxxx年xx月xx日 xx:xx</StyledCreatedAt>
-                    </StyledDesc>
-                </StyledInner>
-                <Tooltip title="削除" placement='right' arrow>
-                    <StyledDelete theme={theme} onClick={handleDeleteClick}/>
-                </Tooltip>
-            </StyledListItemButton>
-            <StyledListItemButton theme={theme} onClick={() => props.setIsOpen(false)}>
-                <StyledInner>
-                    <StyledImageArea theme={theme}>
-                        <StyledAvatar variant='square'/>
-                    </StyledImageArea>
-                    <StyledDesc>
-                        <StyledProductName theme={theme}>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</StyledProductName>
-                        <StyledCreatedAt theme={theme}>xxxx年xx月xx日 xx:xx</StyledCreatedAt>
-                    </StyledDesc>
-                </StyledInner>
-                <Tooltip title="削除" placement='right' arrow>
-                    <StyledDelete theme={theme} onClick={handleDeleteClick}/>
-                </Tooltip>
-            </StyledListItemButton>
-            <StyledListItemButton theme={theme} onClick={() => props.setIsOpen(false)}>
-                <StyledInner>
-                    <StyledImageArea theme={theme}>
-                        <StyledAvatar variant='square'/>
-                    </StyledImageArea>
-                    <StyledDesc>
-                        <StyledProductName theme={theme}>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</StyledProductName>
-                        <StyledCreatedAt theme={theme}>xxxx年xx月xx日 xx:xx</StyledCreatedAt>
-                    </StyledDesc>
-                </StyledInner>
-                <Tooltip title="削除" placement='right' arrow>
-                    <StyledDelete theme={theme} onClick={handleDeleteClick}/>
-                </Tooltip>
-            </StyledListItemButton>
-            <StyledListItemButton theme={theme} onClick={() => props.setIsOpen(false)}>
-                <StyledInner>
-                    <StyledImageArea theme={theme}>
-                        <StyledAvatar variant='square'/>
-                    </StyledImageArea>
-                    <StyledDesc>
-                        <StyledProductName theme={theme}>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</StyledProductName>
-                        <StyledCreatedAt theme={theme}>xxxx年xx月xx日 xx:xx</StyledCreatedAt>
-                    </StyledDesc>
-                </StyledInner>
-                <Tooltip title="削除" placement='right' arrow>
-                    <StyledDelete theme={theme} onClick={handleDeleteClick}/>
-                </Tooltip>
-            </StyledListItemButton>
-            <StyledListItemButton theme={theme} onClick={() => props.setIsOpen(false)}>
-                <StyledInner>
-                    <StyledImageArea theme={theme}>
-                        <StyledAvatar variant='square'/>
-                    </StyledImageArea>
-                    <StyledDesc>
-                        <StyledProductName theme={theme}>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</StyledProductName>
-                        <StyledCreatedAt theme={theme}>xxxx年xx月xx日 xx:xx</StyledCreatedAt>
-                    </StyledDesc>
-                </StyledInner>
-                <Tooltip title="削除" placement='right' arrow>
-                    <StyledDelete theme={theme} onClick={handleDeleteClick}/>
-                </Tooltip>
-            </StyledListItemButton>
-            <StyledListItemButton theme={theme} onClick={() => props.setIsOpen(false)}>
-                <StyledInner>
-                    <StyledImageArea theme={theme}>
-                        <StyledAvatar variant='square'/>
-                    </StyledImageArea>
-                    <StyledDesc>
-                        <StyledProductName theme={theme}>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</StyledProductName>
-                        <StyledCreatedAt theme={theme}>xxxx年xx月xx日 xx:xx</StyledCreatedAt>
-                    </StyledDesc>
-                </StyledInner>
-                <Tooltip title="削除" placement='right' arrow>
-                    <StyledDelete theme={theme} onClick={handleDeleteClick}/>
-                </Tooltip>
-            </StyledListItemButton>
-            <StyledListItemButton theme={theme} onClick={() => props.setIsOpen(false)}>
-                <StyledInner>
-                    <StyledImageArea theme={theme}>
-                        <StyledAvatar variant='square'/>
-                    </StyledImageArea>
-                    <StyledDesc>
-                        <StyledProductName theme={theme}>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</StyledProductName>
-                        <StyledCreatedAt theme={theme}>xxxx年xx月xx日 xx:xx</StyledCreatedAt>
-                    </StyledDesc>
-                </StyledInner>
-                <Tooltip title="削除" placement='right' arrow>
-                    <StyledDelete theme={theme} onClick={handleDeleteClick}/>
-                </Tooltip>
-            </StyledListItemButton>
-            <StyledListItemButton theme={theme} onClick={() => props.setIsOpen(false)}>
-                <StyledInner>
-                    <StyledImageArea theme={theme}>
-                        <StyledAvatar variant='square'/>
-                    </StyledImageArea>
-                    <StyledDesc>
-                        <StyledProductName theme={theme}>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</StyledProductName>
-                        <StyledCreatedAt theme={theme}>xxxx年xx月xx日 xx:xx</StyledCreatedAt>
-                    </StyledDesc>
-                </StyledInner>
-                <Tooltip title="削除" placement='right' arrow>
-                    <StyledDelete theme={theme} onClick={handleDeleteClick}/>
-                </Tooltip>
-            </StyledListItemButton>
-
-        </StyledList>
-    )
-}
-
-
-const StyledList = styled(List)`
+const SList = S(List)`
     && {
         overflow-y: scroll;
         height: calc(100vh - 50px);
@@ -162,13 +175,14 @@ const StyledList = styled(List)`
     
         &:hover {
             &::-webkit-scrollbar-thumb {
-                background-color: ${(props) => props.theme.palette.background.scrollBar};
+                background-color: ${(props) =>
+                  props.theme.palette.background.scrollBar};
             }
         }
     }
-`
+`;
 
-const StyledListItemButton = styled(ListItemButton)`
+const SListItemButton = S(ListItemButton)`
     && {
         width: 100%;
         padding: 25px 15px;
@@ -176,26 +190,27 @@ const StyledListItemButton = styled(ListItemButton)`
             background-color: traansparent;
         }
         &:hover {
-            background-color: ${(props) => props.theme.palette.background.hover2}
+            background-color: ${(props) =>
+              props.theme.palette.background.hover2}
         }
     }
-`
+`;
 
-const StyledInner = styled.div`
+const SInner = S.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 15px;
     width: 100%;
-`
+`;
 
-const StyledImageArea = styled.div`
+const SImageArea = S.div`
     width: 80px;
     height: 80px;
     outline: solid 1px ${(props) => props.theme.palette.text.sub};
-`
+`;
 
-const StyledNoImage = styled.div`
+const SNoImage = S.div`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -203,16 +218,16 @@ const StyledNoImage = styled.div`
     height: 100%;
     color: ${(props) => props.theme.palette.text.sub};
     font-size: 0.9rem;
-`
+`;
 
-const StyledAvatar = styled(Avatar)`
+const SAvatar = S(Avatar)`
     && {
         width: 100%;
         height: 100%;
     }
-`
+`;
 
-const StyledDesc = styled.div`
+const SDesc = S.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -220,9 +235,9 @@ const StyledDesc = styled.div`
     gap: 10px;
     width: calc(100% - 95px);
     height: 80px;
-`
+`;
 
-const StyledProductName = styled.div`
+const SProductName = S.div`
     overflow: hidden;
     text-overflow: ellipsis;
     word-break: break-all;
@@ -231,9 +246,9 @@ const StyledProductName = styled.div`
     -webkit-box-orient: vertical;
     color: ${(props) => props.theme.palette.text.sub};
     font-size: 0.9rem;
-`
+`;
 
-const StyledCreatedAt = styled.div`
+const SCreatedAt = S.div`
     overflow: hidden;
     text-overflow: ellipsis;
     word-break: break-all;
@@ -242,9 +257,9 @@ const StyledCreatedAt = styled.div`
     -webkit-box-orient: vertical;
     color: ${(props) => props.theme.palette.text.sub};
     font-size: 0.9rem;
-`
+`;
 
-const StyledDelete = styled(Delete)`
+const SDelete = S(Delete)`
     && {
         opacity: 0;
         position: absolute;
@@ -252,11 +267,10 @@ const StyledDelete = styled(Delete)`
         right: 10px;
         color: ${(props) => props.theme.palette.text.error2};
 
-        ${StyledListItemButton}:hover & {
+        ${SListItemButton}:hover & {
             opacity: 1;
         }
     }
-`
+`;
 
-
-export default DraftList
+export default DraftList;

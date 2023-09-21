@@ -1,56 +1,52 @@
-import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
-import { IconButton, Tooltip, useTheme } from '@mui/material'
-import React from 'react'
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import NotifyPopper from './notifyPopper/NotifyPopper';
-import ProfilePopper from './profilePopper/ProfilePopper';
-
+import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
+import { IconButton, Tooltip, useTheme } from "@mui/material";
+import React from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import NotifyPopper from "./notifyPopper/NotifyPopper";
+import ProfilePopper from "./profilePopper/ProfilePopper";
 
 const GridRight = () => {
+  const theme = useTheme();
 
-    const theme = useTheme();
-
-    return (
+  return (
     <>
-    <Tooltip title="出品する" placement='bottom' arrow={true}>
-        <StyledLink to={"/exhibit"}>
-            <StyledIconButton size='small' theme={theme}>
-                <StyledAddBoxOutlinedIcon color="icon"/>
-            </StyledIconButton>
-        </StyledLink>
-    </Tooltip>
+      <Tooltip title="出品する" placement="bottom" arrow={true}>
+        <SLink to={"/exhibit"}>
+          <SIconButton size="small" theme={theme}>
+            <SAddBoxOutlinedIcon color="icon" />
+          </SIconButton>
+        </SLink>
+      </Tooltip>
 
-    <NotifyPopper/> 
+      <NotifyPopper />
 
-    <ProfilePopper />
+      <ProfilePopper />
     </>
-    )
-}
+  );
+};
 
-
-const StyledAddBoxOutlinedIcon = styled(AddBoxOutlinedIcon)`
+const SAddBoxOutlinedIcon = S(AddBoxOutlinedIcon)`
     && {
         width: 35px;
         height: 35px;
     }
-`
+`;
 
-const StyledLink = styled(Link)`
+const SLink = S(Link)`
     && {
         display: flex;
         align-items: center;
         text-decoration: none;
     }
-`
+`;
 
-const StyledIconButton = styled(IconButton)`
+const SIconButton = S(IconButton)`
     && {
         .MuiTouchRipple-child {
             background-color: ${(props) => props.theme.palette.secondary.main};
         }
     }
-`
+`;
 
-
-export default GridRight
+export default GridRight;

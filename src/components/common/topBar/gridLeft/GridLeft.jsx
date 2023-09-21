@@ -1,39 +1,44 @@
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
-import { IconButton, Tooltip, useTheme } from '@mui/material'
-import React from 'react'
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
-import { useDispatch, useSelector } from 'react-redux';
-import { booleanFloatSideBar } from '../../../../redux/features/floatSideBarSlice';
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
+import { IconButton, Tooltip, useTheme } from "@mui/material";
+import React from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { booleanFloatSideBar } from "../../../../redux/features/floatSideBarSlice";
 
 const GridLeft = () => {
+  const dispatch = useDispatch();
+  const theme = useTheme();
+  const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
+  const isSideOpen = useSelector((state) => state.floatSideBar.value);
 
-    const dispatch = useDispatch();
-    const theme = useTheme();
-    const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
-    const isSideOpen = useSelector((state => state.floatSideBar.value));
+  const handleMenuIconClick = () => {
+    dispatch(booleanFloatSideBar());
+  };
 
-    const handleMenuIconClick = () =>{
-        dispatch(booleanFloatSideBar());
-    }
-
-    return (
+  return (
     <>
-    <Tooltip title="Esc" placement='right-end'>
-        <StyledIconButtonLeft onClick={handleMenuIconClick} theme={theme}>
-        {isSideOpen ? <StyledCloseIcon color="icon"/> : <StyledMenuIcon color="icon"/>}
-        </StyledIconButtonLeft>
-    </Tooltip>
-    <Link to={"/home"} style={{ display: 'inline-flex'}}>
-        <StyledLmapLogo src={`${siteAssetsPath}/LMAP_logo_reversal.svg`} alt='LMAPロゴ' />
-    </Link>
+      <Tooltip title="Esc" placement="right-end">
+        <SIconButtonLeft onClick={handleMenuIconClick} theme={theme}>
+          {isSideOpen ? (
+            <SCloseIcon color="icon" />
+          ) : (
+            <SMenuIcon color="icon" />
+          )}
+        </SIconButtonLeft>
+      </Tooltip>
+      <Link to={"/home"} style={{ display: "inline-flex" }}>
+        <SLmapLogo
+          src={`${siteAssetsPath}/LMAP_logo_reversal.svg`}
+          alt="LMAPロゴ"
+        />
+      </Link>
     </>
-    )
-}
+  );
+};
 
-
-const StyledIconButtonLeft = styled(IconButton)`
+const SIconButtonLeft = S(IconButton)`
     && {
         margin-left: -10px;
 
@@ -41,27 +46,26 @@ const StyledIconButtonLeft = styled(IconButton)`
             background-color: ${(props) => props.theme.palette.secondary.main};
         }
     }
-`
+`;
 
-const StyledMenuIcon = styled(MenuIcon)`
+const SMenuIcon = S(MenuIcon)`
     && {
     width: 30px;
     height: 30px;
     }
-`
+`;
 
-const StyledCloseIcon = styled(CloseIcon)`
+const SCloseIcon = S(CloseIcon)`
     && {
     width: 30px;
     height: 30px;
     }
-`
+`;
 
-const StyledLmapLogo = styled.img`
+const SLmapLogo = S.img`
     width: 150px;
     margin-left: 15px;
     cursor: pointer;
 `;
 
-
-export default GridLeft
+export default GridLeft;

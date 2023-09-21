@@ -4,7 +4,7 @@ import { CssBaseline } from "@mui/material";
 import { darkBlueTheme } from "./layouts/theme";
 import React, { useEffect } from "react";
 import Routing from "./Routing";
-import styled from "styled-components";
+import S from "S-components";
 
 function App() {
   const location = useLocation();
@@ -17,14 +17,14 @@ function App() {
   return (
     <ThemeProvider theme={darkBlueTheme}>
       <CssBaseline />
-      <StyledApp>
+      <SApp>
         <Routing />
-      </StyledApp>
+      </SApp>
     </ThemeProvider>
   );
 }
 
-const StyledApp = styled.div`
+const SApp = S.div`
   overflow-x: hidden;
   width: calc(100vw - 10px);
 `;
