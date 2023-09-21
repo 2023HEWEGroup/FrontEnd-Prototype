@@ -139,13 +139,13 @@ const Home = () => {
   );
 };
 
-const SHome = S.div`
+const SHome = styled.div`
   width: 100%;
   max-width: 3000px;
   margin: 0 auto;
 `;
 
-const SHomeSection = S.div`
+const SHomeSection = styled.div`
   width: 100%;
   margin: 20px 0;
   padding: 5px;
@@ -155,12 +155,12 @@ const SHomeSection = S.div`
   border-bottom: solid 0.5px ${(props) => props.theme.palette.text.sub};
 `;
 
-const SHomeInnner = S.div`
+const SHomeInnner = styled.div`
   width: 90%;
   margin: 50px auto 0 auto;
 `;
 
-const SProductZone = S.div`
+const SProductZone = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
@@ -168,7 +168,7 @@ const SProductZone = S.div`
   width: 100%;
 `;
 
-const SUserZone = S.div`
+const SUserZone = styled.div`
   display: flex;
   width: 100%;
   height: 400px;

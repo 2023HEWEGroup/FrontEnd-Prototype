@@ -62,74 +62,73 @@ const PieChartBox = () => {
   );
 };
 
-const SPieChartBox = S.div`
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+const SPieChartBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 `;
 
-const STitle = S.div`
-    width: 200px;
-    font-weight: bold;
-    font-size: 1.2rem;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+const STitle = styled.div`
+  width: 200px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
-const SChart = S.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
+const SChart = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
 `;
 
-const SOptions = S.div`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 10px;
-    height: 300px;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    font-size: 14px;
+const SOptions = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 10px;
+  height: 300px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  font-size: 14px;
 
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
+
+  &:hover {
     &::-webkit-scrollbar-thumb {
-        background-color: transparent;
+      background-color: ${(props) => props.theme.palette.background.scrollBar};
     }
-
-    &:hover {
-        &::-webkit-scrollbar-thumb {
-            background-color: ${(props) =>
-              props.theme.palette.background.scrollBar};
-        }
-    }
+  }
 `;
 
-const SOption = S.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    width: calc(33% - 10px);
-    margin-bottom: 20px;
+const SOption = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: calc(33% - 10px);
+  margin-bottom: 20px;
 `;
 
-const SOptionName = S.div`
-    display: flex;
-    gap: 10px;
-    align-items: start;
+const SOptionName = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: start;
 `;
 
-const SSpanName = S.span`
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+const SSpanName = styled.span`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 `;
 
-const SDot = S.div`
+const SDot = styled.div`
     width: 10px;
     height: 10px;
     border-radius 50%;

@@ -22,29 +22,30 @@ const ProductDetailInput = (props) => {
   );
 };
 
-const STextArea = S.textarea`
-    width: 100%;
-    height: 200px;
-    padding: 20px 15px;
-    color: ${(props) => props.theme.palette.text.main};
-    background-color: transparent;
-    outline: solid 1px ${(props) => props.theme.palette.line.main};
-    border-radius: 5px;
-    border: none;
-    resize: none;
-    font-size: 100%;
-    font-weight: normal;
-    font-family:'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif;
+const STextArea = styled.textarea`
+  width: 100%;
+  height: 200px;
+  padding: 20px 15px;
+  color: ${(props) => props.theme.palette.text.main};
+  background-color: transparent;
+  outline: solid 1px ${(props) => props.theme.palette.line.main};
+  border-radius: 5px;
+  border: none;
+  resize: none;
+  font-size: 100%;
+  font-weight: normal;
+  font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ",
+    Meiryo, "ＭＳ Ｐゴシック", sans-serif;
 
-    &:focus-within {
-        outline: solid 2px ${(props) => props.theme.palette.secondary.main};
-    }
+  &:focus-within {
+    outline: solid 2px ${(props) => props.theme.palette.secondary.main};
+  }
 `;
 
-const SInputLength = S.div`
-    width: 100%;
-    text-align: right;
-    color: ${(props) => props.theme.palette.text.sub};
+const SInputLength = styled.div`
+  width: 100%;
+  text-align: right;
+  color: ${(props) => props.theme.palette.text.sub};
 `;
 
 export default ProductDetailInput;

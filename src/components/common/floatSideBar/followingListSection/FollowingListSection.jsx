@@ -102,15 +102,15 @@ const SListItem = S(ListItem)`
     }
 `;
 
-const SListItemText = S.div`
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    color: ${(props) => props.theme};
+const SListItemText = styled.div`
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: ${(props) => props.theme};
 `;
 
-const SListBlockWithTitle = S.div`
+const SListBlockWithTitle = styled.div`
     padding-bottom 15px;
 
     &:nth-child(1) {
@@ -118,19 +118,19 @@ const SListBlockWithTitle = S.div`
     }
 `;
 
-const SListElements = S.div`
-    display: flex;
-    gap: 15px;
-    align-items: center;
-    height: 100%;
-    width: 95%;
-    padding-left: 5px;
-    border-radius: 5px;
-    cursor: pointer;
+const SListElements = styled.div`
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  height: 100%;
+  width: 95%;
+  padding-left: 5px;
+  border-radius: 5px;
+  cursor: pointer;
 
-    &:hover {
-        background-color: ${(props) => props.theme.palette.background.hover};
-    }
+  &:hover {
+    background-color: ${(props) => props.theme.palette.background.hover};
+  }
 `;
 
 const SAvatar = S(Avatar)`

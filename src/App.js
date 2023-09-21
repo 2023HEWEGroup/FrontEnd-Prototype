@@ -24,7 +24,7 @@ function App() {
   );
 }
 
-const SApp = S.div`
+const SApp = styled.div`
   overflow-x: hidden;
   width: calc(100vw - 10px);
 `;

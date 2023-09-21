@@ -61,8 +61,8 @@ const ProductCategorySelect = (props) => {
   );
 };
 
-const SInput = S.div`
-    width: 30%;
+const SInput = styled.div`
+  width: 30%;
 `;
 
 export default ProductCategorySelect;

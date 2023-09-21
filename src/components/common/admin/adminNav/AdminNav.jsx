@@ -31,12 +31,12 @@ const AdminNav = () => {
   );
 };
 
-const SNavBar = S.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    padding: 20px;
+const SNavBar = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
 `;
 
 const SLink = S(Link)`
@@ -46,33 +46,33 @@ const SLink = S(Link)`
     }
 `;
 
-const SLogo = S.div`
-    display: flex;
-    align-items: center;
+const SLogo = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
-const SLmapLogo = S.img`
-    height: 40px;
-    cursor: pointer;
+const SLmapLogo = styled.img`
+  height: 40px;
+  cursor: pointer;
 `;
 
-const SIcons = S.div`
-    display: flex;
-    align-items: center;
-    gap: 20px;
+const SIcons = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
 `;
 
-const SUser = S.div`
-    display: flex;
-    align-items: center;
-    gap: 10px;
+const SUser = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
 `;
 
-const SSpan = S.span`
-    max-width: 150px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+const SSpan = styled.span`
+  max-width: 150px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 export default AdminNav;

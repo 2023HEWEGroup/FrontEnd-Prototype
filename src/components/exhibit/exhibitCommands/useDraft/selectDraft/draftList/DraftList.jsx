@@ -161,7 +161,7 @@ const DraftList = (props) => {
   );
 };
 
-const SList = S(List)`
+const SList = Styled(List)`
     && {
         overflow-y: scroll;
         height: calc(100vh - 50px);
@@ -182,7 +182,7 @@ const SList = S(List)`
     }
 `;
 
-const SListItemButton = S(ListItemButton)`
+const SListItemButton = Styled(ListItemButton)`
     && {
         width: 100%;
         padding: 25px 15px;
@@ -196,70 +196,70 @@ const SListItemButton = S(ListItemButton)`
     }
 `;
 
-const SInner = S.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-    width: 100%;
+const SInner = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
 `;
 
-const SImageArea = S.div`
-    width: 80px;
-    height: 80px;
-    outline: solid 1px ${(props) => props.theme.palette.text.sub};
+const SImageArea = styled.div`
+  width: 80px;
+  height: 80px;
+  outline: solid 1px ${(props) => props.theme.palette.text.sub};
 `;
 
-const SNoImage = S.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    color: ${(props) => props.theme.palette.text.sub};
-    font-size: 0.9rem;
+const SNoImage = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  color: ${(props) => props.theme.palette.text.sub};
+  font-size: 0.9rem;
 `;
 
-const SAvatar = S(Avatar)`
+const SAvatar = Styled(Avatar)`
     && {
         width: 100%;
         height: 100%;
     }
 `;
 
-const SDesc = S.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: start;
-    gap: 10px;
-    width: calc(100% - 95px);
-    height: 80px;
+const SDesc = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+  gap: 10px;
+  width: calc(100% - 95px);
+  height: 80px;
 `;
 
-const SProductName = S.div`
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: break-all;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    color: ${(props) => props.theme.palette.text.sub};
-    font-size: 0.9rem;
+const SProductName = styled.div`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  color: ${(props) => props.theme.palette.text.sub};
+  font-size: 0.9rem;
 `;
 
-const SCreatedAt = S.div`
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: break-all;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    color: ${(props) => props.theme.palette.text.sub};
-    font-size: 0.9rem;
+const SCreatedAt = styled.div`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  color: ${(props) => props.theme.palette.text.sub};
+  font-size: 0.9rem;
 `;
 
-const SDelete = S(Delete)`
+const SDelete = Styled(Delete)`
     && {
         opacity: 0;
         position: absolute;

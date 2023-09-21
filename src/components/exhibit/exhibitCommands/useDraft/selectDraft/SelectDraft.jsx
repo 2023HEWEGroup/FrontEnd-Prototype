@@ -40,35 +40,35 @@ const SelectDraft = (props) => {
   );
 };
 
-const SInner = S.div`
-    && {
-        position: fixed;
-        width: 350px;
-        height: 100vw;
-    }
+const SInner = styled.div`
+  && {
+    position: fixed;
+    width: 350px;
+    height: 100vw;
+  }
 `;
 
-const SListHeader = S.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    height: 50px;
-    padding: 30px 15px;
-    overflow: hidden;
+const SListHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  padding: 30px 15px;
+  overflow: hidden;
 `;
 
-const SEditNote = S(EditNote)`
+const SEditNote = Styled(EditNote)`
     && {
         color: ${(props) => props.theme.palette.text.sub2};
     }
 `;
 
-const SHeaderComment = S.div`
-    color: ${(props) => props.theme.palette.text.sub2};
+const SHeaderComment = styled.div`
+  color: ${(props) => props.theme.palette.text.sub2};
 `;
 
-const SIconButton = S(IconButton)`
+const SIconButton = Styled(IconButton)`
     && {
         .MuiTouchRipple-child {
             background-color: transparent;
@@ -76,7 +76,7 @@ const SIconButton = S(IconButton)`
     }
 `;
 
-const SArrowBackIosNew = S(Close)`
+const SArrowBackIosNew = Styled(Close)`
     && {
         color: ${(props) => props.theme.palette.text.sub2};
     }

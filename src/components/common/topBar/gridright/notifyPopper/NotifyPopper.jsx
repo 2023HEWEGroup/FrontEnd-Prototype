@@ -219,20 +219,20 @@ const NotifyPopper = () => {
   );
 };
 
-const SPopper = S(Popper)`
+const SPopper = Styled(Popper)`
     && {
         z-index: 200;
     }
 `;
 
-const SNotificationsOutlinedIcon = S(NotificationsOutlinedIcon)`
+const SNotificationsOutlinedIcon = Styled(NotificationsOutlinedIcon)`
     && {
         width: 35px;
         height: 35px;
     }
 `;
 
-const SIconButton = S(IconButton)`
+const SIconButton = Styled(IconButton)`
     && {
         .MuiTouchRipple-child {
             background-color: ${(props) => props.theme.palette.secondary.main};
@@ -240,7 +240,7 @@ const SIconButton = S(IconButton)`
     }
 `;
 
-const SNotifyPopperPaper = S(Paper)`
+const SNotifyPopperPaper = Styled(Paper)`
     && {
         height: calc(90vh - 55px);
         width: 425px;
@@ -249,29 +249,29 @@ const SNotifyPopperPaper = S(Paper)`
     }
 `;
 
-const SNotifyListHeader = S.div`
-    && {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 50px;
-        width: 95%;
-        margin: 0 auto;
-    }
+const SNotifyListHeader = styled.div`
+  && {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    width: 95%;
+    margin: 0 auto;
+  }
 `;
 
-const SNotifyHeadText = S.div`
-    cursor: pointer;
+const SNotifyHeadText = styled.div`
+  cursor: pointer;
 
-    &:hover {
-        text-decoration: underline;
-    }
-    &:active {
-        text-decoration: none;
-    }
+  &:hover {
+    text-decoration: underline;
+  }
+  &:active {
+    text-decoration: none;
+  }
 `;
 
-const SNotifyList = S(List)`
+const SNotifyList = Styled(List)`
     && {
         height: calc(100% - 50px);
         overflow-y: scroll;
@@ -292,7 +292,7 @@ const SNotifyList = S(List)`
     }
 `;
 
-const SNotifyListItemButton = S(ListItemButton)`
+const SNotifyListItemButton = Styled(ListItemButton)`
     && {
     align-items: start;
     gap: 20px;
@@ -315,16 +315,16 @@ const SNotifyListItemButton = S(ListItemButton)`
     }
 `;
 
-const SNotifyAvatar = S(Avatar)`
+const SNotifyAvatar = Styled(Avatar)`
     && {
     width: 50px;
     height: 50px;
     }
 `;
 
-const STimeAgo = S.div`
-    font-size: 0.8rem;
-    margin-top: 15px;
+const STimeAgo = styled.div`
+  font-size: 0.8rem;
+  margin-top: 15px;
 `;
 
 export default NotifyPopper;

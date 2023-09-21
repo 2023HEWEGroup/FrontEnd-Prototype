@@ -347,12 +347,12 @@ const Exhibit = () => {
   );
 };
 
-const SInputContent = S.div`
+const SInputContent = styled.div`
   width: 100%;
   margin-bottom: 75px;
 `;
 
-const STitle = S.div`
+const STitle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -364,7 +364,7 @@ const STitle = S.div`
   font-weight: bold;
 `;
 
-const SSubTitle = S.div`
+const SSubTitle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -376,7 +376,7 @@ const SSubTitle = S.div`
   font-weight: bold;
 `;
 
-const SRequired = S.div`
+const SRequired = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -386,16 +386,16 @@ const SRequired = S.div`
   font-size: 1rem;
 `;
 
-const SErrorMessage = S.div`
+const SErrorMessage = styled.div`
   color: ${(props) => props.theme.palette.text.error};
   font-size: 0.9rem;
 `;
 
-const SLmapLogo = S.img`
+const SLmapLogo = styled.img`
   height: 50%;
 `;
 
-const SExhibit = S.div`
+const SExhibit = styled.div`
   width: 1000px;
   max-width: 90vw;
   margin: 50px auto 0 auto;

@@ -126,18 +126,20 @@ const ProductCard = (props) => {
   );
 };
 
-const SProduct = S.div`
-    width: calc(${(props) =>
-      props.$isXsScreen
-        ? "50%"
-        : props.$isSmallScreen
-        ? "33%"
-        : props.$isMiddleScreen
-        ? "25%"
-        : "20%"} - 20px);
-    height: fit-content;
-    cursor: pointer;
-    margin-bottom: 20px;
+const SProduct = styled.div`
+  width: calc(
+    ${(props) =>
+        props.$isXsScreen
+          ? "50%"
+          : props.$isSmallScreen
+          ? "33%"
+          : props.$isMiddleScreen
+          ? "25%"
+          : "20%"} - 20px
+  );
+  height: fit-content;
+  cursor: pointer;
+  margin-bottom: 20px;
 `;
 
 const SAvatar = S(Avatar)`
@@ -147,28 +149,28 @@ const SAvatar = S(Avatar)`
     }
 `;
 
-const SProductImgZone = S.div`
-    position: relative;
-    aspect-ratio: 1/1;
-    width: 100%;
-    border-radius: 5px;
-    overflow: hidden;
-    background-color: #444;
+const SProductImgZone = styled.div`
+  position: relative;
+  aspect-ratio: 1/1;
+  width: 100%;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: #444;
 `;
 
-const SProductOption = S.div`
-    opacity: 0;
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: ${(props) => props.theme.palette.background.slideHover};
-    border-radius: 50%;
-    pointer-events: ${(props) =>
-      props.productAnchorEl !== null ? "none" : "auto"};
+const SProductOption = styled.div`
+  opacity: 0;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: ${(props) => props.theme.palette.background.slideHover};
+  border-radius: 50%;
+  pointer-events: ${(props) =>
+    props.productAnchorEl !== null ? "none" : "auto"};
 
-    ${SProductImgZone}:hover & {
-        opacity: 1;
-    }
+  ${SProductImgZone}:hover & {
+    opacity: 1;
+  }
 `;
 
 const SIconButton = S(IconButton)`
@@ -177,53 +179,53 @@ const SIconButton = S(IconButton)`
     }
 `;
 
-const SProductDesc = S.div`
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    padding-top: 10px;
-    width: 100%;
+const SProductDesc = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-top: 10px;
+  width: 100%;
 `;
 
-const SProductName = S.div`
-    font-weight: bold;
-    color: ${(props) => props.theme.palette.text.product};
-    overflow: hidden;
-    width: 100%;
-    height: 50px;
-    word-break: break-all;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+const SProductName = styled.div`
+  font-weight: bold;
+  color: ${(props) => props.theme.palette.text.product};
+  overflow: hidden;
+  width: 100%;
+  height: 50px;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 `;
 
-const SSellerId = S.div`
-    width: fit-content;
-    color: ${(props) => props.theme.palette.text.sub};
-    font-size: 0.9rem;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    cursor: pointer;
+const SSellerId = styled.div`
+  width: fit-content;
+  color: ${(props) => props.theme.palette.text.sub};
+  font-size: 0.9rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
 
-    &:hover {
-        text-decoration: underline;
-    }
-    &:active {
-        text-decoration: none;
-    }
+  &:hover {
+    text-decoration: underline;
+  }
+  &:active {
+    text-decoration: none;
+  }
 `;
 
-const SPriceAndLike = S.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+const SPriceAndLike = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
-const SPrice = S.div`
-    font-weight: bold;
-    color: ${(props) => props.theme.palette.secondary.main};
+const SPrice = styled.div`
+  font-weight: bold;
+  color: ${(props) => props.theme.palette.secondary.main};
 `;
 
 const SFavoriteBorder = S(FavoriteBorder)`
@@ -248,19 +250,19 @@ const SPopperPaper = S(Paper)`
     }
 `;
 
-const SPopperItem = S.div`
-    width: 95%;
-    margin: 0 auto;
-    padding: 7px 0 7px 3px;
-    border-radius: 5px;
-    cursor: pointer;
+const SPopperItem = styled.div`
+  width: 95%;
+  margin: 0 auto;
+  padding: 7px 0 7px 3px;
+  border-radius: 5px;
+  cursor: pointer;
 
-    &:hover {
-        background-color: ${(props) => props.theme.palette.background.hover};
-    }
-    &:active {
-        background-color: transparent;
-    }
+  &:hover {
+    background-color: ${(props) => props.theme.palette.background.hover};
+  }
+  &:active {
+    background-color: transparent;
+  }
 `;
 
 export default ProductCard;

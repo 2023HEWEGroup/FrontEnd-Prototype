@@ -24,8 +24,8 @@ const ProducNameInput = (props) => {
   );
 };
 
-const SProductNameZone = S.div`
-    width: 100%;
+const SProductNameZone = styled.div`
+  width: 100%;
 `;
 
 const STextField = S(TextField)(({ theme }) => ({
@@ -54,10 +54,10 @@ const STextField = S(TextField)(({ theme }) => ({
   },
 }));
 
-const SInputLength = S.div`
-    width: 100%;
-    text-align: right;
-    color: ${(props) => props.theme.palette.text.sub};
+const SInputLength = styled.div`
+  width: 100%;
+  text-align: right;
+  color: ${(props) => props.theme.palette.text.sub};
 `;
 
 export default ProducNameInput;

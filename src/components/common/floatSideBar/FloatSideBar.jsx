@@ -79,14 +79,14 @@ const SList = S(List)`
     }
 `;
 
-const SListTitle = S.div`
-    height: 50%;
-    width: 95%;
-    text-align: left;
-    padding-left: 5px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    color: #777;
+const SListTitle = styled.div`
+  height: 50%;
+  width: 95%;
+  text-align: left;
+  padding-left: 5px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #777;
 `;
 
 const SDivider = S(Divider)`

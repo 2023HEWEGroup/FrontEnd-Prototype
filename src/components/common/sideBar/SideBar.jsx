@@ -130,19 +130,19 @@ const SideBar = (props) => {
   );
 };
 
-const SSideBar = S.div`
-    z-index: 100;
-    position: fixed;
-    width: 75px;
-    height: 100vh;
-    padding: 5px;
+const SSideBar = styled.div`
+  z-index: 100;
+  position: fixed;
+  width: 75px;
+  height: 100vh;
+  padding: 5px;
 `;
 
-const SSideBarCell = S.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 75px;
+const SSideBarCell = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 75px;
 `;
 
 const SLink = S(Link)`
@@ -154,20 +154,20 @@ const SLink = S(Link)`
   }
 `;
 
-const SSideBarElements = S.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.2s;
+const SSideBarElements = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
 
-    &:hover {
-      background-color: ${(props) => props.theme.palette.background.hover};
-    }
+  &:hover {
+    background-color: ${(props) => props.theme.palette.background.hover};
+  }
 `;
 
 const SHomeIcon = S(HomeIcon)`
@@ -251,7 +251,7 @@ const SDashboard = S(Dashboard)`
     }
 `;
 
-const SIconName = S.p`
+const SIconName = styled.p`
     width: 100%;
     font-size 0.7rem;
     text-align: center;

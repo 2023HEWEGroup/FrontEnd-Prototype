@@ -38,7 +38,7 @@ const GridLeft = () => {
   );
 };
 
-const SIconButtonLeft = S(IconButton)`
+const SIconButtonLeft = Styled(IconButton)`
     && {
         margin-left: -10px;
 
@@ -48,24 +48,24 @@ const SIconButtonLeft = S(IconButton)`
     }
 `;
 
-const SMenuIcon = S(MenuIcon)`
+const SMenuIcon = Styled(MenuIcon)`
     && {
     width: 30px;
     height: 30px;
     }
 `;
 
-const SCloseIcon = S(CloseIcon)`
+const SCloseIcon = Styled(CloseIcon)`
     && {
     width: 30px;
     height: 30px;
     }
 `;
 
-const SLmapLogo = S.img`
-    width: 150px;
-    margin-left: 15px;
-    cursor: pointer;
+const SLmapLogo = styled.img`
+  width: 150px;
+  margin-left: 15px;
+  cursor: pointer;
 `;
 
 export default GridLeft;

@@ -28,7 +28,7 @@ const UseDraft = () => {
   );
 };
 
-const SAvatar = S(Avatar)`
+const SAvatar = Styled(Avatar)`
     cursor: pointer;
     pointer-events: auto;
     &:hover {

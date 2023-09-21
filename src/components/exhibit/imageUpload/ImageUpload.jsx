@@ -128,58 +128,62 @@ const ImageUpload = (props) => {
   );
 };
 
-const SImgs = S.div`
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-wrap: wrap;
-    aspect-ratio: ${(props) =>
-      props.$isXsScreen
-        ? props.imageLength === 0 || props.imageLength === 1
-          ? "2/1"
-          : "1/1"
-        : props.$isSmallScreen
-        ? "4/1"
-        : "4/1"};
-    width: 100%;
-    padding: 10px 10px 0 0;
-    border: dashed 2px ${(props) => props.theme.palette.line.main};
+const SImgs = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  aspect-ratio: ${(props) =>
+    props.$isXsScreen
+      ? props.imageLength === 0 || props.imageLength === 1
+        ? "2/1"
+        : "1/1"
+      : props.$isSmallScreen
+      ? "4/1"
+      : "4/1"};
+  width: 100%;
+  padding: 10px 10px 0 0;
+  border: dashed 2px ${(props) => props.theme.palette.line.main};
 `;
 
-const SAddProductImg = S.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    height: calc(${(props) =>
+const SAddProductImg = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  height: calc(
+    ${(props) =>
       props.$isXsScreen
         ? props.imageLength === 1
           ? "100% - 10px"
           : "50% - 10px"
-        : "100%"});
-    width: calc(${(props) =>
+        : "100%"}
+  );
+  width: calc(
+    ${(props) =>
       props.$isXsScreen
         ? props.imageLength === 2
           ? "100% - 10px"
           : "50% - 10px"
-        : `${100 - props.imageLength * 25}% - 10px`});
-    padding: 10px;
-    margin: 0 0 10px 10px;
-    border-radius: 5px;
-    overflow: hidden;
-    color: ${(props) => props.theme.palette.text.sub};
-    background-color: ${(props) =>
-      props.$isDragging
-        ? props.theme.palette.background.uploadImgHover
-        : "transparent"};
-    transition: background-color 0.1s;
-    cursor: pointer;
+        : `${100 - props.imageLength * 25}% - 10px`}
+  );
+  padding: 10px;
+  margin: 0 0 10px 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  color: ${(props) => props.theme.palette.text.sub};
+  background-color: ${(props) =>
+    props.$isDragging
+      ? props.theme.palette.background.uploadImgHover
+      : "transparent"};
+  transition: background-color 0.1s;
+  cursor: pointer;
 
-    &:hover {
-        background-color: ${(props) =>
-          props.theme.palette.background.uploadImgHover};
-    }
+  &:hover {
+    background-color: ${(props) =>
+      props.theme.palette.background.uploadImgHover};
+  }
 `;
 
 const SAddBox = S(AddBox)`
@@ -190,29 +194,29 @@ const SAddBox = S(AddBox)`
     }
 `;
 
-const SLetsUpload = S.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    width: calc(100% - 10px);
-    height: 100%;
-    margin: 0 0 10px 10px;
-    cursor: pointer;
-    overflow: hidden;
-    word-break: break-all;
-    color: ${(props) => props.theme.palette.text.sub};
-    background-color: ${(props) =>
-      props.$isDragging
-        ? props.theme.palette.background.uploadImgHover
-        : "transparent"};
-    transition: background-color 0.1s;
+const SLetsUpload = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: calc(100% - 10px);
+  height: 100%;
+  margin: 0 0 10px 10px;
+  cursor: pointer;
+  overflow: hidden;
+  word-break: break-all;
+  color: ${(props) => props.theme.palette.text.sub};
+  background-color: ${(props) =>
+    props.$isDragging
+      ? props.theme.palette.background.uploadImgHover
+      : "transparent"};
+  transition: background-color 0.1s;
 
-    &:hover {
-        background-color: ${(props) =>
-          props.theme.palette.background.uploadImgHover};
-    }
+  &:hover {
+    background-color: ${(props) =>
+      props.theme.palette.background.uploadImgHover};
+  }
 `;
 
 const SAddPhotoAlternateOutlined = S(AddPhotoAlternateOutlined)`
@@ -221,8 +225,8 @@ const SAddPhotoAlternateOutlined = S(AddPhotoAlternateOutlined)`
     }
 `;
 
-const HiddenInput = S.input`
-    display: none;
+const HiddenInput = styled.input`
+  display: none;
 `;
 
 export default ImageUpload;

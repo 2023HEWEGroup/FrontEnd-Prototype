@@ -28,22 +28,22 @@ const AdminLayouts = () => {
   );
 };
 
-const SAdminMain = S.div`
-    display: flex;
+const SAdminMain = styled.div`
+  display: flex;
 `;
 
-const SMenuContainer = S.div`
-    width: ${(props) => (props.$isXsScreen ? "fit-content" : "250px")};
-    padding: 5px 20px;
-    border-right: solid 1px ${(props) => props.theme.palette.line.disable};
+const SMenuContainer = styled.div`
+  width: ${(props) => (props.$isXsScreen ? "fit-content" : "250px")};
+  padding: 5px 20px;
+  border-right: solid 1px ${(props) => props.theme.palette.line.disable};
 `;
 
-const SMainContainer = S.div`
-    display: flex;
-    justify-content: center;
-    padding: 5px 20px;
-    width: ${(props) =>
-      props.$isXsScreen ? "calc(100% - 70px)" : "calc(100% - 250px)"};
+const SMainContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 5px 20px;
+  width: ${(props) =>
+    props.$isXsScreen ? "calc(100% - 70px)" : "calc(100% - 250px)"};
 `;
 
 export default AdminLayouts;

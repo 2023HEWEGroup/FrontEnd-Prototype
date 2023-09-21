@@ -96,18 +96,18 @@ const STextField = S(TextField)(({ theme }) => ({
   },
 }));
 
-const SInputLength = S.div`
-    width: 100%;
-    text-align: right;
-    color: ${(props) => props.theme.palette.text.sub};
+const SInputLength = styled.div`
+  width: 100%;
+  text-align: right;
+  color: ${(props) => props.theme.palette.text.sub};
 `;
 
-const STagZone = S.div`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 10px;
-    width: 100%;
+const STagZone = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 10px;
+  width: 100%;
 `;
 
 const STagChip = S(Chip)`
@@ -118,13 +118,13 @@ const STagChip = S(Chip)`
     }
 `;
 
-const SStopTag = S.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100px;
-    color: ${(props) => props.theme.palette.text.sub};
+const SStopTag = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+  color: ${(props) => props.theme.palette.text.sub};
 `;
 
 export default ProductAddTag;

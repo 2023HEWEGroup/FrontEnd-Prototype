@@ -75,13 +75,13 @@ const RegistChangeStep = (props) => {
   );
 };
 
-const SStep = S.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    width: 100%;
-    margin-bottom: 10px;
+const SStep = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+  margin-bottom: 10px;
 `;
 
 const SBackStep = S(Button)`

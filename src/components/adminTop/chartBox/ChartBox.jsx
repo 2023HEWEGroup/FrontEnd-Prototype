@@ -65,66 +65,64 @@ const ChartBox = (props) => {
   );
 };
 
-const SChartBox = S.div`
-    display: flex;
-    height: 100%;
+const SChartBox = styled.div`
+  display: flex;
+  height: 100%;
 `;
 
-const SBoxInfo = S.div`
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+const SBoxInfo = styled.div`
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
-const SChartInfo = S.div`
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+const SChartInfo = styled.div`
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
-const STitle = S.div`
-    display: flex;
-    align-items: center;
-    gap: 10px;
+const STitle = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
 `;
 
-const SNum = S.div`
-    font-size: 1.5rem;
-    font-weight: bold;
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+const SNum = styled.div`
+  font-size: 1.5rem;
+  font-weight: bold;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
-const SSpan = S.span`
+const SSpan = styled.span``;
 
+const SChart = styled.div`
+  width: 100%;
+  height: 100%;
 `;
 
-const SChart = S.div`
-    width: 100%;
-    height: 100%;
+const SDesc = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: right;
 `;
 
-const SDesc = S.div`
-    display: flex;
-    flex-direction: column;
-    text-align: right;
+const SPercentage = styled.span`
+  font-weight: bold;
+  font-size: 20px;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
-const SPercentage = S.span`
-    font-weight: bold;
-    font-size: 20px;
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-`;
-
-const SDuration = S.span`
-    font-size: 14px;
+const SDuration = styled.span`
+  font-size: 14px;
 `;
 
 export default ChartBox;

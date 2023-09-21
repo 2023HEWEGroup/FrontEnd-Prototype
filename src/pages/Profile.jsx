@@ -192,14 +192,14 @@ const Profile = () => {
   );
 };
 
-const SProfile = S.div`
+const SProfile = styled.div`
   width: ${(props) => (props.$isSmallScreen ? "100%" : "90%")};
   max-width: 3000px;
   height: 2000px;
   margin: 0 auto;
 `;
 
-const SHeaderZone = S.div`
+const SHeaderZone = styled.div`
   position: relative;
   aspect-ratio: 6/1;
   width: 100%;
@@ -210,7 +210,7 @@ const SHeaderZone = S.div`
   background-color: ${(props) => props.theme.palette.background.pop};
 `;
 
-const SButtons = S.div`
+const SButtons = styled.div`
   position: absolute;
   bottom: ${(props) => (props.$isSmallScreen ? 0 : "15px")};
   right: ${(props) => (props.$isSmallScreen ? 0 : "15px")};
@@ -240,7 +240,7 @@ const SIconButton = S(IconButton)`
   }
 `;
 
-const SUserInfo = S.div`
+const SUserInfo = styled.div`
   width: 100%;
   height: ${(props) => (props.$isXsScreen ? "100px" : "150px")};
   margin: ${(props) => (props.$isSmallScreen ? "15px" : "30px")} auto 0 auto;
@@ -280,14 +280,14 @@ const SAvatar = S(Avatar)`
   }
 `;
 
-const SNameAndId = S.div`
+const SNameAndId = styled.div`
   height: fit-content;
   width: 100%;
   padding: 30px;
   margin: 0 auto;
 `;
 
-const SUsername = S.div`
+const SUsername = styled.div`
   font-size: ${(props) => (props.$isSmallScreen ? "1.5rem" : "1.7rem")};
   color: ${(props) => props.theme.palette.text.main};
   word-break: break-all;
@@ -298,7 +298,7 @@ const SUsername = S.div`
   -webkit-box-orient: vertical;
 `;
 
-const SUserId = S.div`
+const SUserId = styled.div`
   font-size: ${(props) => (props.$isSmallScreen ? "1.2rem" : "1.4rem")};
   color: ${(props) => props.theme.palette.text.sub};
   overflow: hidden;
@@ -306,7 +306,7 @@ const SUserId = S.div`
   text-overflow: ellipsis;
 `;
 
-const SFollowAndNotify = S.div`
+const SFollowAndNotify = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -338,7 +338,7 @@ const SNotifyIconButton = S(IconButton)`
   }
 `;
 
-const SUserInfoBar = S.div`
+const SUserInfoBar = styled.div`
   width: 100%;
   height: fit-content;
   margin: ${(props) => (props.$isXsScreen ? "20px" : 0)} auto;
@@ -354,22 +354,22 @@ const SStatusGrid = S(Grid)`
   }
 `;
 
-const SStatus = S.div`
+const SStatus = styled.div`
   color: ${(props) => props.theme.palette.text.sub};
   font-size: 0.9rem;
 `;
 
-const SSpan = S.span`
-    color: ${(props) => props.theme.palette.text.main};
-    font-size: 1rem;
-    cursor: pointer;
+const SSpan = styled.span`
+  color: ${(props) => props.theme.palette.text.main};
+  font-size: 1rem;
+  cursor: pointer;
 
-    &:hover {
-        text-decoration: underline;
-    }
-    &:active {
-        text-decoration: none;
-    }
+  &:hover {
+    text-decoration: underline;
+  }
+  &:active {
+    text-decoration: none;
+  }
 `;
 
 const STabs = S(Tabs)`

@@ -66,23 +66,23 @@ const SPopperPaper = S(Paper)`
     }
 `;
 
-const SPopperItem = S.div`
-    width: 95%;
-    margin: 0 auto;
-    padding: 7px 0 7px 3px;
-    border-radius: 5px;
-    cursor: pointer;
+const SPopperItem = styled.div`
+  width: 95%;
+  margin: 0 auto;
+  padding: 7px 0 7px 3px;
+  border-radius: 5px;
+  cursor: pointer;
 
-    &:hover {
-        background-color: ${(props) => props.theme.palette.background.hover};
-    }
-    &:active {
-        background-color: transparent;
-    }
+  &:hover {
+    background-color: ${(props) => props.theme.palette.background.hover};
+  }
+  &:active {
+    background-color: transparent;
+  }
 `;
 
-const SSpan = S.span`
-    color: ${(props) => props.theme.palette.text.error};
+const SSpan = styled.span`
+  color: ${(props) => props.theme.palette.text.error};
 `;
 
 export default StagingImagePopper;

@@ -21,25 +21,25 @@ const Resulet = () => {
   );
 };
 
-const SResults = S.div`
-    width: 90%;
-    margin: 0 auto;
+const SResults = styled.div`
+  width: 90%;
+  margin: 0 auto;
 `;
 
-const SResultHeader = S.div`
-    display: flex;
-    align-items: center;
-    width: 100%;
-    min-height: 50px;
-    color: ${(props) => props.theme.palette.text.main};
-    font-size: 1.1rem;
-    font-weight: bold;
-    word-break: break-all;
+const SResultHeader = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 50px;
+  color: ${(props) => props.theme.palette.text.main};
+  font-size: 1.1rem;
+  font-weight: bold;
+  word-break: break-all;
 `;
 
-const SSpan = S.span`
-    margin-right: 5px;
-    color: ${(props) => props.theme.palette.secondary.main};
+const SSpan = styled.span`
+  margin-right: 5px;
+  color: ${(props) => props.theme.palette.secondary.main};
 `;
 
 export default Resulet;

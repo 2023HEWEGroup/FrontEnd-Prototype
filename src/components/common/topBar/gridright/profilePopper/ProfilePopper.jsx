@@ -245,7 +245,7 @@ const ProfilePopper = () => {
   );
 };
 
-const SIconButtonRight = S(IconButton)`
+const SIconButtonRight = Styled(IconButton)`
   && {
     margin-right: -10px;
 
@@ -255,20 +255,20 @@ const SIconButtonRight = S(IconButton)`
   }
 `;
 
-const SAccountCircleOutlinedIcon = S(AccountCircleOutlined)`
+const SAccountCircleOutlinedIcon = Styled(AccountCircleOutlined)`
   && {
     width: 35px;
     height: 35px;
   }
 `;
 
-const SPopper = S(Popper)`
+const SPopper = Styled(Popper)`
   && {
     z-index: 200;
   }
 `;
 
-const SProfilePopperPaper = S(Paper)`
+const SProfilePopperPaper = Styled(Paper)`
   && {
     width: 325px;
     max-height: calc(100vh - 55px);
@@ -289,12 +289,12 @@ const SProfilePopperPaper = S(Paper)`
   }
 `;
 
-const SPopperInner = S.div`
+const SPopperInner = styled.div`
   width: 315px;
   height: 100%;
 `;
 
-const SProfileListHeader = S.div`
+const SProfileListHeader = styled.div`
   && {
     display: flex;
     gap: 15px;
@@ -305,18 +305,18 @@ const SProfileListHeader = S.div`
   }
 `;
 
-const SProfileAvatar = S(Avatar)`
+const SProfileAvatar = Styled(Avatar)`
   && {
     width: 45px;
     height: 45px;
   }
 `;
 
-const SAccountIntro = S.div`
+const SAccountIntro = styled.div`
   width: calc(100% - 45px);
 `;
 
-const SProfileAccountName = S.div`
+const SProfileAccountName = styled.div`
   font-weight: bold;
   width: 95%;
   overflow: hidden;
@@ -324,7 +324,7 @@ const SProfileAccountName = S.div`
   text-overflow: ellipsis;
 `;
 
-const SProfileAccountId = S.div`
+const SProfileAccountId = styled.div`
   font-weight: bold;
   font-size: 0.9rem;
   width: 95%;
@@ -333,7 +333,7 @@ const SProfileAccountId = S.div`
   text-overflow: ellipsis;
 `;
 
-const SFollowHeader = S.div`
+const SFollowHeader = styled.div`
   display: flex;
   justify-content: start;
   align-items: center;
@@ -342,17 +342,17 @@ const SFollowHeader = S.div`
   margin: 10px auto;
 `;
 
-const SFollowings = S.div`
+const SFollowings = styled.div`
   color: ${(props) => props.theme.palette.text.sub};
   font-size: 0.9rem;
 `;
 
-const SFollowers = S.div`
+const SFollowers = styled.div`
   color: ${(props) => props.theme.palette.text.sub};
   font-size: 0.9rem;
 `;
 
-const Sspan = S.span`
+const Sspan = styled.span`
   color: ${(props) => props.theme.palette.text.main};
   font-size: 1rem;
   cursor: pointer;
@@ -365,26 +365,26 @@ const Sspan = S.span`
   }
 `;
 
-const SProfilePointHeader = S.div`
+const SProfilePointHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: end;
   margin: 10px;
 `;
 
-const SPointAmountLabel = S(Chip)`
+const SPointAmountLabel = Styled(Chip)`
   && {
     font-size: 0.9rem;
     font-weight: bold;
   }
 `;
 
-const SProfileListBlock = S.div`
+const SProfileListBlock = styled.div`
   width: 95%;
   margin: 0 auto;
 `;
 
-const SLink = S(Link)`
+const SLink = Styled(Link)`
   && {
     display: flex;
     align-items: center;
@@ -392,7 +392,7 @@ const SLink = S(Link)`
   }
 `;
 
-const SProfileListElements = S.div`
+const SProfileListElements = styled.div`
   display: flex;
   align-items: center;
   gap: 15px;

@@ -442,33 +442,33 @@ const TopModal = (props) => {
   );
 };
 
-const STopModalInner = S.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: ${(props) =>
-      props.$isXsScreen
-        ? props.$isLogin
-          ? "450px"
-          : "550px"
-        : props.$isLogin
-        ? "550px"
-        : "650px"};
-    max-width: 90vw;
-    min-width: 35vw;
-    height: 75%;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    border-radius: 15px;
-    border: solid 1px #444;
-    background-color: #111;
+const STopModalInner = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: ${(props) =>
+    props.$isXsScreen
+      ? props.$isLogin
+        ? "450px"
+        : "550px"
+      : props.$isLogin
+      ? "550px"
+      : "650px"};
+  max-width: 90vw;
+  min-width: 35vw;
+  height: 75%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  border-radius: 15px;
+  border: solid 1px #444;
+  background-color: #111;
 `;
 
-const SHighlightOff = S(HighlightOff)`
+const SHighlightOff = Styled(HighlightOff)`
     && {
         position: absolute;
         top: 20px;
@@ -480,21 +480,21 @@ const SHighlightOff = S(HighlightOff)`
     }
 `;
 
-const Sform = S.form`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 70%;
+const Sform = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
 `;
 
-const SModalIntro = S.div`
-    text-align: center;
-    color: #aaa;
-    font-size: 1.5rem;
-    font-weight: bold;
-    width: 70%;
-    margin: ${(props) => (props.$isLogin ? "60px 0" : "60px 0 30px 0")};
+const SModalIntro = styled.div`
+  text-align: center;
+  color: #aaa;
+  font-size: 1.5rem;
+  font-weight: bold;
+  width: 70%;
+  margin: ${(props) => (props.$isLogin ? "60px 0" : "60px 0 30px 0")};
 `;
 
 export default TopModal;

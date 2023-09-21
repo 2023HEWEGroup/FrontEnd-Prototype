@@ -41,7 +41,7 @@ const RegistStepper = (props) => {
   );
 };
 
-const StyledStepper = styled(Stepper)`
+const StyledStepper = Styled(Stepper)`
   && {
     width: 100%;
   }

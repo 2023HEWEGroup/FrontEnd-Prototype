@@ -76,12 +76,12 @@ const LoginForm = (props) => {
   );
 };
 
-const Sform = S.form`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 70%;
+const Sform = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
 `;
 
 const STextField = S(TextField)(({ theme }) => ({
@@ -112,19 +112,19 @@ const STextField = S(TextField)(({ theme }) => ({
   },
 }));
 
-const SOptionChange = S.div`
-    margin-bottom: 15px;
-    width: fit-content;
-    color: #888;
-    font-size: 0.9rem;
-    cursor: pointer;
+const SOptionChange = styled.div`
+  margin-bottom: 15px;
+  width: fit-content;
+  color: #888;
+  font-size: 0.9rem;
+  cursor: pointer;
 
-    &:hover {
-        text-decoration: underline;
-    }
-    &:active {
-        text-decoration: none;
-    }
+  &:hover {
+    text-decoration: underline;
+  }
+  &:active {
+    text-decoration: none;
+  }
 `;
 
 const SVisibility = S(Visibility)`

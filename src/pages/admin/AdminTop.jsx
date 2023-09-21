@@ -156,80 +156,80 @@ const AdminTop = () => {
   );
 };
 
-const SAdminTop = S.div`
-    display: grid;
-    gap: 20px;
-    grid-template-columns: ${(props) =>
-      props.$isSmallScreen
-        ? "repeat(1, calc(100% - 20px))"
-        : props.$isMiddleScreen
-        ? "repeat(2, calc(50% - 20px))"
-        : props.$isLargeScreen
-        ? "repeat(3, calc(33% - 20px))"
-        : "repeat(4, calc(25% - 20px))"};
-    grid-auto-rows: minmax(180px, auto);
-    max-width: 3000px;
-    margin: 0 auto;
+const SAdminTop = styled.div`
+  display: grid;
+  gap: 20px;
+  grid-template-columns: ${(props) =>
+    props.$isSmallScreen
+      ? "repeat(1, calc(100% - 20px))"
+      : props.$isMiddleScreen
+      ? "repeat(2, calc(50% - 20px))"
+      : props.$isLargeScreen
+      ? "repeat(3, calc(33% - 20px))"
+      : "repeat(4, calc(25% - 20px))"};
+  grid-auto-rows: minmax(180px, auto);
+  max-width: 3000px;
+  margin: 0 auto;
 `;
 
-const SBox1 = S.div`
-    padding: 20px;
-    color: ${(props) => props.theme.palette.text.main};
-    border-radius: 10px;
-    border: solid 1px ${(props) => props.theme.palette.line.disable};
-    grid-column: span 1;
-    grid-row: span 3;
+const SBox1 = styled.div`
+  padding: 20px;
+  color: ${(props) => props.theme.palette.text.main};
+  border-radius: 10px;
+  border: solid 1px ${(props) => props.theme.palette.line.disable};
+  grid-column: span 1;
+  grid-row: span 3;
 `;
 
-const SBox2 = S.div`
-    padding: 20px;
-    color: ${(props) => props.theme.palette.text.main};
-    border-radius: 10px;
-    border: solid 1px ${(props) => props.theme.palette.line.disable};
+const SBox2 = styled.div`
+  padding: 20px;
+  color: ${(props) => props.theme.palette.text.main};
+  border-radius: 10px;
+  border: solid 1px ${(props) => props.theme.palette.line.disable};
 `;
 
-const SBox3 = S.div`
-    padding: 20px;
-    color: ${(props) => props.theme.palette.text.main};
-    border-radius: 10px;
-    border: solid 1px ${(props) => props.theme.palette.line.disable};
+const SBox3 = styled.div`
+  padding: 20px;
+  color: ${(props) => props.theme.palette.text.main};
+  border-radius: 10px;
+  border: solid 1px ${(props) => props.theme.palette.line.disable};
 `;
 
-const SBox4 = S.div`
-    padding: 20px;
-    color: ${(props) => props.theme.palette.text.main};
-    border-radius: 10px;
-    border: solid 1px ${(props) => props.theme.palette.line.disable};
-    grid-column: span 1;
-    grid-row: span 3
+const SBox4 = styled.div`
+  padding: 20px;
+  color: ${(props) => props.theme.palette.text.main};
+  border-radius: 10px;
+  border: solid 1px ${(props) => props.theme.palette.line.disable};
+  grid-column: span 1;
+  grid-row: span 3;
 `;
 
-const SBox5 = S.div`
-    padding: 20px;
-    color: ${(props) => props.theme.palette.text.main};
-    border-radius: 10px;
-    border: solid 1px ${(props) => props.theme.palette.line.disable};
+const SBox5 = styled.div`
+  padding: 20px;
+  color: ${(props) => props.theme.palette.text.main};
+  border-radius: 10px;
+  border: solid 1px ${(props) => props.theme.palette.line.disable};
 `;
 
-const SBox6 = S.div`
-    padding: 20px;
-    color: ${(props) => props.theme.palette.text.main};
-    border-radius: 10px;
-    border: solid 1px ${(props) => props.theme.palette.line.disable};
+const SBox6 = styled.div`
+  padding: 20px;
+  color: ${(props) => props.theme.palette.text.main};
+  border-radius: 10px;
+  border: solid 1px ${(props) => props.theme.palette.line.disable};
 `;
 
-const SBox7 = S.div`
-    padding: 20px;
-    color: ${(props) => props.theme.palette.text.main};
-    border-radius: 10px;
-    border: solid 1px ${(props) => props.theme.palette.line.disable};
+const SBox7 = styled.div`
+  padding: 20px;
+  color: ${(props) => props.theme.palette.text.main};
+  border-radius: 10px;
+  border: solid 1px ${(props) => props.theme.palette.line.disable};
 `;
 
-const SBox8 = S.div`
-    padding: 20px;
-    color: ${(props) => props.theme.palette.text.main};
-    border-radius: 10px;
-    border: solid 1px ${(props) => props.theme.palette.line.disable};
+const SBox8 = styled.div`
+  padding: 20px;
+  color: ${(props) => props.theme.palette.text.main};
+  border-radius: 10px;
+  border: solid 1px ${(props) => props.theme.palette.line.disable};
 `;
 
 export default AdminTop;

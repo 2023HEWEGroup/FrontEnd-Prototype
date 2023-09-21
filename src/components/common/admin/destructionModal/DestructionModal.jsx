@@ -53,56 +53,56 @@ const SModal = S(Modal)`
     }
 `;
 
-const SModalInner = S.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: ${(props) => props.theme.palette.background.modal};
-    width: 325px;
-    height: 270px;
-    border-radius: 20px;
-    border: solid 1px ${(props) => props.theme.palette.line.disable};
+const SModalInner = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${(props) => props.theme.palette.background.modal};
+  width: 325px;
+  height: 270px;
+  border-radius: 20px;
+  border: solid 1px ${(props) => props.theme.palette.line.disable};
 `;
 
-const SInner = S.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    width: 80%;
+const SInner = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 80%;
 `;
 
-const SDetails = S.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
+const SDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
 `;
 
-const SHeader = S.div`
-    width: 100%;
-    color: ${(props) => props.theme.palette.text.main};
-    font-size: 1.2rem;
-    font-weight: bold;
-    word-break: break-all;
+const SHeader = styled.div`
+  width: 100%;
+  color: ${(props) => props.theme.palette.text.main};
+  font-size: 1.2rem;
+  font-weight: bold;
+  word-break: break-all;
 `;
 
-const SDesc = S.div`
-    width: 100%;
-    color: ${(props) => props.theme.palette.text.sub};
-    font-size: 0.9rem;
-    word-break: break-all;
+const SDesc = styled.div`
+  width: 100%;
+  color: ${(props) => props.theme.palette.text.sub};
+  font-size: 0.9rem;
+  word-break: break-all;
 `;
 
-const SButtons = S.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 12px;
-    align-items: center;
-    width: 100%;
+const SButtons = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
 `;
 
 const SDeleteButton = S(Button)`

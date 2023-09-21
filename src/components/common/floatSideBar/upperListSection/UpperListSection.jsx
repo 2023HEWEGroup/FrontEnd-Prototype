@@ -201,7 +201,7 @@ const SListItemText = S(ListItemText)`
     }
 `;
 
-const SListBlock = S.div`
+const SListBlock = styled.div`
     padding 15px 0;
 
     &:nth-child(1) {
@@ -220,19 +220,19 @@ const SLink = S(Link)`
     }
 `;
 
-const SListElements = S.div`
-    display: flex;
-    gap: 15px;
-    align-items: center;
-    height: 100%;
-    width: 95%;
-    padding-left: 5px;
-    border-radius: 5px;
-    cursor: pointer;
+const SListElements = styled.div`
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  height: 100%;
+  width: 95%;
+  padding-left: 5px;
+  border-radius: 5px;
+  cursor: pointer;
 
-    &:hover {
-        background-color: ${(props) => props.theme.palette.background.hover};
-    }
+  &:hover {
+    background-color: ${(props) => props.theme.palette.background.hover};
+  }
 `;
 
 const SHomeIcon = S(HomeIcon)`

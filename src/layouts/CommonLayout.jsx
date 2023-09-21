@@ -71,11 +71,11 @@ const CommonLayouts = () => {
   );
 };
 
-const SMain = S.div`
+const SMain = styled.div`
   display: flex;
 `;
 
-const SSmallScreenDarken = S.div`
+const SSmallScreenDarken = styled.div`
   z-index: 100;
   position: fixed;
   bottom: 0;

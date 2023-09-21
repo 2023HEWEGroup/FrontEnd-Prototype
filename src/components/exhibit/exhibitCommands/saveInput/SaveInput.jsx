@@ -66,20 +66,20 @@ const SaveInput = () => {
   );
 };
 
-const SDarkWrap = S.div`
-    display: ${(props) => (props.isSave ? "flex" : "none")};
-    justify-content: center;
-    align-items: center;
-    z-index: 150;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
+const SDarkWrap = styled.div`
+  display: ${(props) => (props.isSave ? "flex" : "none")};
+  justify-content: center;
+  align-items: center;
+  z-index: 150;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
 `;
 
-const SAvatar = S(Avatar)`
+const SAvatar = Styled(Avatar)`
     cursor: pointer;
     pointer-events: auto;
     &:hover {

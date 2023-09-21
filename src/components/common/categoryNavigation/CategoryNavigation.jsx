@@ -130,25 +130,25 @@ const SAppBar = S(AppBar)`
     }
 `;
 
-const SCategoryBarParent = S.div`
-    position: relative;
-    display: flex;
-    align-items: center;
-    overflow-y: hidden;
+const SCategoryBarParent = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow-y: hidden;
 `;
 
-const SCategoryBar = S.div`
-    display: flex;
-    justify-content: start;
-    gap: 15px;
-    width: calc(100% - 120px);
-    margin: 0 auto;
-    padding: 10px;
-    overflow-x: scroll;
+const SCategoryBar = styled.div`
+  display: flex;
+  justify-content: start;
+  gap: 15px;
+  width: calc(100% - 120px);
+  margin: 0 auto;
+  padding: 10px;
+  overflow-x: scroll;
 
-    &::-webkit-scrollbar{
-        display: none;
-    }
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const SIconButtonLeft = S(IconButton)`

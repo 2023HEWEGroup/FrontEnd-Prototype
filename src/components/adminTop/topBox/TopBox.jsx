@@ -62,87 +62,86 @@ const TopBox = () => {
   );
 };
 
-const STopBox = S.div`
-    width: 100%;
+const STopBox = styled.div`
+  width: 100%;
 `;
 
-const STitle = S.div`
-    margin-bottom: 20px;
-    font-weight: bold;
-    font-size: 1.2rem;
+const STitle = styled.div`
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 1.2rem;
 `;
 
-const SList = S.div`
-    display: flex;
-    flex-direction: column;
-    height: 600px;
-    overflow-x: hidden;
-    overflow-y: scroll;
+const SList = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 600px;
+  overflow-x: hidden;
+  overflow-y: scroll;
 
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
+
+  &:hover {
     &::-webkit-scrollbar-thumb {
-        background-color: transparent;
+      background-color: ${(props) => props.theme.palette.background.scrollBar};
     }
-
-    &:hover {
-        &::-webkit-scrollbar-thumb {
-            background-color: ${(props) =>
-              props.theme.palette.background.scrollBar};
-        }
-    }
+  }
 `;
 
-const SListItem = S.div`
-    display: flex;
-    gap: 10px;
-    margin-bottom: 30px;
+const SListItem = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
 `;
 
-const SUser = S.div`
-    display: flex;
-    gap: 20px;
+const SUser = styled.div`
+  display: flex;
+  gap: 20px;
 `;
 
-const SAvatar = S(Avatar)`
+const SAvatar = Styled(Avatar)`
     && {
         width: 100%;
         height: 100%;
     }
 `;
 
-const SUserDesc = S.div`
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    overflow: hidden;
+const SUserDesc = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  overflow: hidden;
 `;
 
-const SUserName = S.span`
-    font-size: 14px;
-    font-weight: 500;
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+const SUserName = styled.span`
+  font-size: 14px;
+  font-weight: 500;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
-const SUserId = S.span`
-    font-size: 12px;
-    font-weight: 500;
-    color: ${(props) => props.theme.palette.text.sub};
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+const SUserId = styled.span`
+  font-size: 12px;
+  font-weight: 500;
+  color: ${(props) => props.theme.palette.text.sub};
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
-const SAmount = S.span`
-    font-size: 12px;
-    font-weight: 500;
-    color: ${(props) => props.theme.palette.secondary.main};
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+const SAmount = styled.span`
+  font-size: 12px;
+  font-weight: 500;
+  color: ${(props) => props.theme.palette.secondary.main};
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 export default TopBox;

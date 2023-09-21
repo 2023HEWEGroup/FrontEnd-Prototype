@@ -77,11 +77,11 @@ const ProductShippingAreaInput = (props) => {
   );
 };
 
-const SInput = S.div`
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    width: 100%;
+const SInput = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
 `;
 
 const SFormControlLabel = S(FormControlLabel)`

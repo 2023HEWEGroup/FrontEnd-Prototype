@@ -57,7 +57,7 @@ const TopBar = (props) => {
   );
 };
 
-const SAppBar = S(AppBar)`
+const SAppBar = Styled(AppBar)`
   && {
     z-index: 150;
     justify-content: center;
@@ -70,13 +70,13 @@ const SAppBar = S(AppBar)`
   }
 `;
 
-const SGridLeft = S(Grid)`
+const SGridLeft = Styled(Grid)`
   &&& {
     margin-left: ${(props) => (props.$isXsScreen ? "8px" : 0)};
   }
 `;
 
-const SGridRight = S(Grid)`
+const SGridRight = Styled(Grid)`
   &&& {
     margin-right: ${(props) => (props.$isXsScreen ? "8px" : 0)};
   }

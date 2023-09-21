@@ -114,45 +114,45 @@ const SVisibilityOff = S(VisibilityOff)`
     }
 `;
 
-const SRecognitionCardImg = S.svg`
-    width: 50%;
-    max-width: 100px;
-    height: fit-content;
+const SRecognitionCardImg = styled.svg`
+  width: 50%;
+  max-width: 100px;
+  height: fit-content;
 `;
 
-const SRecognition = S.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    border: solid 0.5px #333;
-    border-radius: 5px;
-    background-color: #000;
+const SRecognition = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: solid 0.5px #333;
+  border-radius: 5px;
+  background-color: #000;
 `;
 
-const SRecognitionItem = S.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    min-height: 50px;
-    padding: 5px;
-    color: #777;
+const SRecognitionItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 50px;
+  padding: 5px;
+  color: #777;
 `;
 
-const SRecognitionName = S.div`
-    display: flex;
-    align-items: center;
-    width: 30%;
-    word-wrap: break-word;
+const SRecognitionName = styled.div`
+  display: flex;
+  align-items: center;
+  width: 30%;
+  word-wrap: break-word;
 `;
 
-const SRecognitionContent = S.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 60%;
-    word-break: break-all;
-    overflow: hidden;
+const SRecognitionContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 60%;
+  word-break: break-all;
+  overflow: hidden;
 `;
 
 export default RegistRecognition;

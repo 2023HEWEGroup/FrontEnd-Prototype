@@ -88,34 +88,35 @@ const StagingImage = (props) => {
   );
 };
 
-const SProductImg = S.div`
-    position: relative;
-    aspect-ratio: 1/1;
-    width: calc(${(props) =>
+const SProductImg = styled.div`
+  position: relative;
+  aspect-ratio: 1/1;
+  width: calc(
+    ${(props) =>
       props.$isXsScreen
         ? "50% - 10px"
         : props.$isSmallScreen
         ? "25% - 10px"
-        : "25% - 10px"});
-    border-radius: 5px;
-    overflow: hidden;
-    margin: 0 0 10px 10px;
+        : "25% - 10px"}
+  );
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 0 0 10px 10px;
 `;
 
-const SUploadOption = S.div`
-    && {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        opacity: 0;
-        border-radius: 50%;
-        background-color: ${(props) =>
-          props.theme.palette.background.slideHover};
+const SUploadOption = styled.div`
+  && {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    opacity: 0;
+    border-radius: 50%;
+    background-color: ${(props) => props.theme.palette.background.slideHover};
 
-        ${SProductImg}:hover & {
-            opacity: 1;
-        }
+    ${SProductImg}:hover & {
+      opacity: 1;
     }
+  }
 `;
 
 const SIconButton = S(IconButton)`

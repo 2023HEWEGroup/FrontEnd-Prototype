@@ -135,17 +135,17 @@ const TrimmingExhibit = (props) => {
   );
 };
 
-const SModalInner = S.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background-color: #000;
+const SModalInner = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #000;
 `;
 
 const SIconButton = S(IconButton)`
@@ -171,16 +171,16 @@ const SClose = S(Close)`
     }
 `;
 
-const SBottomCommands = S.div`
-    position: absolute;
-    bottom: 2%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: ${(props) => props.theme.palette.background.slideHover};
+const SBottomCommands = styled.div`
+  position: absolute;
+  bottom: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: ${(props) => props.theme.palette.background.slideHover};
 `;
 
 const SButton = S(Button)`
@@ -191,13 +191,13 @@ const SButton = S(Button)`
     }
 `;
 
-const SCanvas = S.canvas`
-    position: absolute;
-    bottom: 2%;
-    left: 5%;
-    width: 150px;
-    aspect-ratio: 1/1;
-    max-width: 20vw;
+const SCanvas = styled.canvas`
+  position: absolute;
+  bottom: 2%;
+  left: 5%;
+  width: 150px;
+  aspect-ratio: 1/1;
+  max-width: 20vw;
 `;
 
 export default TrimmingExhibit;

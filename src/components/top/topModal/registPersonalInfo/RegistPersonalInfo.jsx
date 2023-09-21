@@ -161,29 +161,29 @@ const STextField = S(TextField)(({ theme }) => ({
   },
 }));
 
-const SName = S.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
+const SName = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
 `;
 
-const SPostalCode = S.div`
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    height: fit-content;
-    margin-top: 50px;
-    margin-bottom: 30px;
+const SPostalCode = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: fit-content;
+  margin-top: 50px;
+  margin-bottom: 30px;
 `;
 
-const SPostalComment = S.div`
-    width: 50%;
-    color: #777;
-    font-size: 0.9rem;
+const SPostalComment = styled.div`
+  width: 50%;
+  color: #777;
+  font-size: 0.9rem;
 `;
 
 export default RegistPersonalInfo;

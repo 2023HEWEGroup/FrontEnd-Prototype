@@ -124,8 +124,8 @@ const STextField = S(TextField)(({ theme }) => ({
   },
 }));
 
-const SCardType = S.div`
-    color: #777;
+const SCardType = styled.div`
+  color: #777;
 `;
 
 const SFormControlLabel = S(FormControlLabel)`
@@ -135,9 +135,9 @@ const SFormControlLabel = S(FormControlLabel)`
     }
 `;
 
-const SCardImg = S.svg`
-    width: 75px;
-    height: fit-content;
+const SCardImg = styled.svg`
+  width: 75px;
+  height: fit-content;
 `;
 
 const SVisibility = S(Visibility)`

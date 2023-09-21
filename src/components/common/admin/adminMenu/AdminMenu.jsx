@@ -105,26 +105,26 @@ const AdminMenu = (props) => {
   );
 };
 
-const SMenu = S.div`
-    width: 100%;
+const SMenu = styled.div`
+  width: 100%;
 `;
 
-const SItem = S.div`
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
+const SItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
 `;
 
-const STitle = S.span`
-    font-size: 12px;
-    font-weight: 200;
-    margin-bottom: 10px;
-    color: ${(props) => props.theme.palette.text.sub};
-    white-space: nowrap;
-    ${(props) => (props.$isXsScreen ? "display: none" : null)};
+const STitle = styled.span`
+  font-size: 12px;
+  font-weight: 200;
+  margin-bottom: 10px;
+  color: ${(props) => props.theme.palette.text.sub};
+  white-space: nowrap;
+  ${(props) => (props.$isXsScreen ? "display: none" : null)};
 `;
 
-const SLink = S(Link)`
+const SLink = Styled(Link)`
     && {
         display: flex;
         align-items: center;
@@ -141,13 +141,13 @@ const SLink = S(Link)`
     }
 `;
 
-const SListItemTitle = S.span`
-    white-space: nowrap;
-    ${(props) => (props.$isXsScreen ? "display: none" : null)};
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+const SListItemTitle = styled.span`
+  white-space: nowrap;
+  ${(props) => (props.$isXsScreen ? "display: none" : null)};
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 export default AdminMenu;

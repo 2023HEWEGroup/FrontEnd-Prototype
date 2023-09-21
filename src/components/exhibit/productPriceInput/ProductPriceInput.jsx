@@ -26,11 +26,11 @@ const ProductPriceInput = (props) => {
   );
 };
 
-const SProductPriceZone = S.div`
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    width: 100%;
+const SProductPriceZone = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
 `;
 
 const STextField = S(TextField)(({ theme }) => ({
@@ -59,13 +59,13 @@ const STextField = S(TextField)(({ theme }) => ({
   },
 }));
 
-const SBenefit = S.div`
-    color: ${(props) => props.theme.palette.text.sub};
-    font-size: 0.9rem;
+const SBenefit = styled.div`
+  color: ${(props) => props.theme.palette.text.sub};
+  font-size: 0.9rem;
 `;
 
-const SSpan = S.span`
-    color: ${(props) => props.theme.palette.secondary.main};
+const SSpan = styled.span`
+  color: ${(props) => props.theme.palette.secondary.main};
 `;
 
 export default ProductPriceInput;

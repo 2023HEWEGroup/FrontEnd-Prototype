@@ -83,32 +83,32 @@ const ProductRecognitionModal = (props) => {
   );
 };
 
-const SModalInner = S.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 600px;
-    max-width: 90vw;
-    min-width: 35vw;
-    height: 85%;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    border-radius: 15px;
-    border: solid 1px #444;
-    background-color: ${(props) => props.theme.palette.background.modal};
+const SModalInner = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  max-width: 90vw;
+  min-width: 35vw;
+  height: 85%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  border-radius: 15px;
+  border: solid 1px #444;
+  background-color: ${(props) => props.theme.palette.background.modal};
 `;
 
-const SModalTitle = S.div`
-    text-align: center;
-    color: #aaa;
-    font-size: 1.5rem;
-    font-weight: bold;
-    width: 70%;
-    margin: 60px 0 60px 0;
+const SModalTitle = styled.div`
+  text-align: center;
+  color: #aaa;
+  font-size: 1.5rem;
+  font-weight: bold;
+  width: 70%;
+  margin: 60px 0 60px 0;
 `;
 
 const SHighlightOff = S(HighlightOff)`
@@ -123,48 +123,48 @@ const SHighlightOff = S(HighlightOff)`
     }
 `;
 
-const SRecognitionInner = S.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 80%;
+const SRecognitionInner = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
 `;
 
-const SItem = S.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    gap: 20px;
-    width: 100%;
-    padding: 15px 0;
-    border-bottom: solid 0.5px ${(props) => props.theme.palette.line.disable};
+const SItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 20px;
+  width: 100%;
+  padding: 15px 0;
+  border-bottom: solid 0.5px ${(props) => props.theme.palette.line.disable};
 `;
 
-const SName = S.div`
-    width: 20%;
-    color: ${(props) => props.theme.palette.text.sub};
-    word-break: break-all;
+const SName = styled.div`
+  width: 20%;
+  color: ${(props) => props.theme.palette.text.sub};
+  word-break: break-all;
 `;
 
-const SElement = S.div`
-    width: 80%;
-    color: ${(props) => props.theme.palette.text.sub};
-    word-break: break-all;
-    white-space: pre-line;
+const SElement = styled.div`
+  width: 80%;
+  color: ${(props) => props.theme.palette.text.sub};
+  word-break: break-all;
+  white-space: pre-line;
 `;
 
-const SSpan = S.span`
-    color: ${(props) => props.theme.palette.secondary.main};
+const SSpan = styled.span`
+  color: ${(props) => props.theme.palette.secondary.main};
 `;
 
-const STagZone = S.div`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 10px;
-    width: 100%;
-    height: 100%;
+const STagZone = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
 `;
 
 const STagChip = S(Chip)`

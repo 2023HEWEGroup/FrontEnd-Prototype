@@ -26,14 +26,14 @@ const GridRight = () => {
   );
 };
 
-const SAddBoxOutlinedIcon = S(AddBoxOutlinedIcon)`
+const SAddBoxOutlinedIcon = Styled(AddBoxOutlinedIcon)`
     && {
         width: 35px;
         height: 35px;
     }
 `;
 
-const SLink = S(Link)`
+const SLink = Styled(Link)`
     && {
         display: flex;
         align-items: center;
@@ -41,7 +41,7 @@ const SLink = S(Link)`
     }
 `;
 
-const SIconButton = S(IconButton)`
+const SIconButton = Styled(IconButton)`
     && {
         .MuiTouchRipple-child {
             background-color: ${(props) => props.theme.palette.secondary.main};
