@@ -76,62 +76,60 @@ const ProfilePopper = () => {
   return (
     <>
       <Tooltip title="アカウント管理" placement="bottom" arrow={true}>
-        <StyledIconButtonRight
+        <SIconButtonRight
           size="small"
           onClick={handleProfilePopper}
           theme={theme}
         >
           {isProfilePopperOpen ? (
-            <StyledAccountCircleOutlinedIcon color="secondary" />
+            <SAccountCircleOutlinedIcon color="secondary" />
           ) : (
-            <StyledAccountCircleOutlinedIcon color="icon" />
+            <SAccountCircleOutlinedIcon color="icon" />
           )}
-        </StyledIconButtonRight>
+        </SIconButtonRight>
       </Tooltip>
 
-      <StyledPopper
+      <SPopper
         open={isProfilePopperOpen}
         anchorEl={profileAnchorEl}
         placement="bottom-end"
         ref={profilePopperRef}
       >
-        <StyledProfilePopperPaper elevation={3} theme={theme}>
-          <StyledPopperInner>
-            <StyledLink to={"/profile"}>
-              <StyledProfileListHeader>
-                <StyledProfileAvatar />
-                <StyledAccountIntro>
-                  <StyledProfileAccountName
+        <SProfilePopperPaper elevation={3} theme={theme}>
+          <SPopperInner>
+            <SLink to={"/profile"}>
+              <SProfileListHeader>
+                <SProfileAvatar />
+                <SAccountIntro>
+                  <SProfileAccountName
                     style={{ color: theme.palette.text.main }}
                   >
                     aaaaaあああああああaaあああああああああああああああああああああああああああああ
-                  </StyledProfileAccountName>
-                  <StyledProfileAccountId
-                    style={{ color: theme.palette.text.sub }}
-                  >
+                  </SProfileAccountName>
+                  <SProfileAccountId style={{ color: theme.palette.text.sub }}>
                     @xyzyxyxZZZZZZ____________
-                  </StyledProfileAccountId>
-                </StyledAccountIntro>
-              </StyledProfileListHeader>
-            </StyledLink>
+                  </SProfileAccountId>
+                </SAccountIntro>
+              </SProfileListHeader>
+            </SLink>
 
-            <StyledFollowHeader>
-              <StyledFollowings theme={theme}>
-                <Styledspan theme={theme}>NaN</Styledspan> フォロー
-              </StyledFollowings>
-              <StyledFollowers theme={theme}>
-                <Styledspan theme={theme}>NaN</Styledspan> フォロワー
-              </StyledFollowers>
-            </StyledFollowHeader>
+            <SFollowHeader>
+              <SFollowings theme={theme}>
+                <Sspan theme={theme}>NaN</Sspan> フォロー
+              </SFollowings>
+              <SFollowers theme={theme}>
+                <Sspan theme={theme}>NaN</Sspan> フォロワー
+              </SFollowers>
+            </SFollowHeader>
 
-            <StyledProfilePointHeader>
-              <StyledPointAmountLabel
+            <SProfilePointHeader>
+              <SPointAmountLabel
                 label="NaN ポイント"
                 variant="outlined"
                 color="secondary"
                 clickable
               />
-            </StyledProfilePointHeader>
+            </SProfilePointHeader>
 
             <Divider
               style={{
@@ -141,29 +139,29 @@ const ProfilePopper = () => {
               }}
             />
             <List>
-              <StyledProfileListBlock>
-                <StyledProfileListElements theme={theme}>
+              <SProfileListBlock>
+                <SProfileListElements theme={theme}>
                   <FavoriteBorder color="icon" />
                   <ListItemText
                     primaryTypographyProps={{ color: theme.palette.text.main }}
                     primary="いいね"
                   />
-                </StyledProfileListElements>
-                <StyledProfileListElements theme={theme}>
+                </SProfileListElements>
+                <SProfileListElements theme={theme}>
                   <Inventory2Outlined color="icon" />
                   <ListItemText
                     primaryTypographyProps={{ color: theme.palette.text.main }}
                     primary="出品中"
                   />
-                </StyledProfileListElements>
-                <StyledProfileListElements theme={theme}>
+                </SProfileListElements>
+                <SProfileListElements theme={theme}>
                   <CachedOutlined color="icon" />
                   <ListItemText
                     primaryTypographyProps={{ color: theme.palette.text.main }}
                     primary="取引中"
                   />
-                </StyledProfileListElements>
-              </StyledProfileListBlock>
+                </SProfileListElements>
+              </SProfileListBlock>
             </List>
             <Divider
               style={{
@@ -173,29 +171,29 @@ const ProfilePopper = () => {
               }}
             />
             <List>
-              <StyledProfileListBlock>
-                <StyledProfileListElements theme={theme}>
+              <SProfileListBlock>
+                <SProfileListElements theme={theme}>
                   <AdsClick color="icon" />
                   <ListItemText
                     primaryTypographyProps={{ color: theme.palette.text.main }}
                     primary="広告"
                   />
-                </StyledProfileListElements>
-                <StyledProfileListElements theme={theme}>
+                </SProfileListElements>
+                <SProfileListElements theme={theme}>
                   <CreditCard color="icon" />
                   <ListItemText
                     primaryTypographyProps={{ color: theme.palette.text.main }}
                     primary="クレジットカード"
                   />
-                </StyledProfileListElements>
-                <StyledProfileListElements theme={theme}>
+                </SProfileListElements>
+                <SProfileListElements theme={theme}>
                   <AssessmentOutlined color="icon" />
                   <ListItemText
                     primaryTypographyProps={{ color: theme.palette.text.main }}
                     primary="ログ"
                   />
-                </StyledProfileListElements>
-              </StyledProfileListBlock>
+                </SProfileListElements>
+              </SProfileListBlock>
             </List>
             <Divider
               style={{
@@ -205,23 +203,23 @@ const ProfilePopper = () => {
               }}
             />
             <List>
-              <StyledProfileListBlock>
-                <StyledProfileListElements theme={theme}>
+              <SProfileListBlock>
+                <SProfileListElements theme={theme}>
                   <InfoOutlined color="icon" />
                   <ListItemText
                     primaryTypographyProps={{ color: theme.palette.text.main }}
                     primary="インフォメーション"
                   />
-                </StyledProfileListElements>
-                <StyledProfileListElements theme={theme}>
+                </SProfileListElements>
+                <SProfileListElements theme={theme}>
                   <HelpOutlineOutlined color="icon" />
                   <ListItemText
                     primaryTypographyProps={{ color: theme.palette.text.main }}
                     primary="ヘルプ"
                   />
-                </StyledProfileListElements>
-                <StyledLink to={"/"}>
-                  <StyledProfileListElements theme={theme}>
+                </SProfileListElements>
+                <SLink to={"/"}>
+                  <SProfileListElements theme={theme}>
                     <ArrowBack color="icon" />
                     <ListItemText
                       primaryTypographyProps={{
@@ -229,25 +227,25 @@ const ProfilePopper = () => {
                       }}
                       primary="トップページ"
                     />
-                  </StyledProfileListElements>
-                </StyledLink>
-                <StyledProfileListElements theme={theme}>
+                  </SProfileListElements>
+                </SLink>
+                <SProfileListElements theme={theme}>
                   <Logout color="icon" />
                   <ListItemText
                     primaryTypographyProps={{ color: theme.palette.text.main }}
                     primary="ログアウト"
                   />
-                </StyledProfileListElements>
-              </StyledProfileListBlock>
+                </SProfileListElements>
+              </SProfileListBlock>
             </List>
-          </StyledPopperInner>
-        </StyledProfilePopperPaper>
-      </StyledPopper>
+          </SPopperInner>
+        </SProfilePopperPaper>
+      </SPopper>
     </>
   );
 };
 
-const StyledIconButtonRight = styled(IconButton)`
+const SIconButtonRight = S(IconButton)`
   && {
     margin-right: -10px;
 
@@ -257,20 +255,20 @@ const StyledIconButtonRight = styled(IconButton)`
   }
 `;
 
-const StyledAccountCircleOutlinedIcon = styled(AccountCircleOutlined)`
+const SAccountCircleOutlinedIcon = S(AccountCircleOutlined)`
   && {
     width: 35px;
     height: 35px;
   }
 `;
 
-const StyledPopper = styled(Popper)`
+const SPopper = S(Popper)`
   && {
     z-index: 200;
   }
 `;
 
-const StyledProfilePopperPaper = styled(Paper)`
+const SProfilePopperPaper = S(Paper)`
   && {
     width: 325px;
     max-height: calc(100vh - 55px);
@@ -291,12 +289,12 @@ const StyledProfilePopperPaper = styled(Paper)`
   }
 `;
 
-const StyledPopperInner = styled.div`
+const SPopperInner = S.div`
   width: 315px;
   height: 100%;
 `;
 
-const StyledProfileListHeader = styled.div`
+const SProfileListHeader = S.div`
   && {
     display: flex;
     gap: 15px;
@@ -307,18 +305,18 @@ const StyledProfileListHeader = styled.div`
   }
 `;
 
-const StyledProfileAvatar = styled(Avatar)`
+const SProfileAvatar = S(Avatar)`
   && {
     width: 45px;
     height: 45px;
   }
 `;
 
-const StyledAccountIntro = styled.div`
+const SAccountIntro = S.div`
   width: calc(100% - 45px);
 `;
 
-const StyledProfileAccountName = styled.div`
+const SProfileAccountName = S.div`
   font-weight: bold;
   width: 95%;
   overflow: hidden;
@@ -326,7 +324,7 @@ const StyledProfileAccountName = styled.div`
   text-overflow: ellipsis;
 `;
 
-const StyledProfileAccountId = styled.div`
+const SProfileAccountId = S.div`
   font-weight: bold;
   font-size: 0.9rem;
   width: 95%;
@@ -335,7 +333,7 @@ const StyledProfileAccountId = styled.div`
   text-overflow: ellipsis;
 `;
 
-const StyledFollowHeader = styled.div`
+const SFollowHeader = S.div`
   display: flex;
   justify-content: start;
   align-items: center;
@@ -344,17 +342,17 @@ const StyledFollowHeader = styled.div`
   margin: 10px auto;
 `;
 
-const StyledFollowings = styled.div`
+const SFollowings = S.div`
   color: ${(props) => props.theme.palette.text.sub};
   font-size: 0.9rem;
 `;
 
-const StyledFollowers = styled.div`
+const SFollowers = S.div`
   color: ${(props) => props.theme.palette.text.sub};
   font-size: 0.9rem;
 `;
 
-const Styledspan = styled.span`
+const Sspan = S.span`
   color: ${(props) => props.theme.palette.text.main};
   font-size: 1rem;
   cursor: pointer;
@@ -367,26 +365,26 @@ const Styledspan = styled.span`
   }
 `;
 
-const StyledProfilePointHeader = styled.div`
+const SProfilePointHeader = S.div`
   display: flex;
   align-items: center;
   justify-content: end;
   margin: 10px;
 `;
 
-const StyledPointAmountLabel = styled(Chip)`
+const SPointAmountLabel = S(Chip)`
   && {
     font-size: 0.9rem;
     font-weight: bold;
   }
 `;
 
-const StyledProfileListBlock = styled.div`
+const SProfileListBlock = S.div`
   width: 95%;
   margin: 0 auto;
 `;
 
-const StyledLink = styled(Link)`
+const SLink = S(Link)`
   && {
     display: flex;
     align-items: center;
@@ -394,7 +392,7 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const StyledProfileListElements = styled.div`
+const SProfileListElements = S.div`
   display: flex;
   align-items: center;
   gap: 15px;
