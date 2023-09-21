@@ -1,6 +1,5 @@
 import { AppBar, Grid, Hidden, Toolbar, useMediaQuery } from "@mui/material";
 import styled from "styled-components";
-
 import GridLeft from "./gridLeft/GridLeft";
 import GridCenter from "./gridCenter/GridCenter";
 import GridRight from "./gridright/GridRight";
