@@ -146,7 +146,7 @@ const TextDetail = () => {
   );
 };
 
-const SFavoriteBorder = S(FavoriteBorder)`
+const SFavoriteBorder = Styled(FavoriteBorder)`
   && {
     width: 30px;
     height: 30px;
@@ -158,7 +158,7 @@ const SFavoriteBorder = S(FavoriteBorder)`
   }
 `;
 
-const SBookmark = S(BookmarkAddOutlinedIcon)`
+const SBookmark = Styled(BookmarkAddOutlinedIcon)`
   && {
     width: 30px;
     height: 30px;

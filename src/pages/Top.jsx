@@ -93,27 +93,27 @@ const Top = () => {
   );
 };
 
-const SFullScrean = S.div`
+const SFullScrean = styled.div`
   width: 100vw;
   height: 2000px;
   overflow-y: scroll;
 `;
 
-const SAppBar = S(AppBar)`
+const SAppBar = Styled(AppBar)`
   && {
     background-color: #222;
     height: 55px;
   }
 `;
 
-const SGridContainer = S(Grid)`
+const SGridContainer = Styled(Grid)`
   && {
     margin-top: 55px;
     padding: 100px 0;
   }
 `;
 
-const SGridItem = S(Grid)`
+const SGridItem = Styled(Grid)`
   && {
     display: flex;
     justify-content: center;
@@ -121,40 +121,44 @@ const SGridItem = S(Grid)`
   }
 `;
 
-const SWelcomeZone = S.div`
+const SWelcomeZone = styled.div`
   width: 80%;
 `;
 
-const SWelcomeMessage = S.div`
+const SWelcomeMessage = styled.div`
   text-align: left;
   line-height: 1.2;
   font-size: 5.5rem;
   font-weight: bold;
-  font-family: 'Michroma', sans-serif;
+  font-family: "Michroma", sans-serif;
 
   display: inline-block;
-  background: linear-gradient(90deg, ${(props) =>
-    props.theme.palette.top.titleGradation});
-  background: -webkit-linear-gradient(0deg, ${(props) =>
-    props.theme.palette.top.titleGradation});
+  background: linear-gradient(
+    90deg,
+    ${(props) => props.theme.palette.top.titleGradation}
+  );
+  background: -webkit-linear-gradient(
+    0deg,
+    ${(props) => props.theme.palette.top.titleGradation}
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 `;
 
-const SButtons = S.div`
+const SButtons = styled.div`
   display: flex;
   gap: 25px;
   width: fit-content;
   margin-top: 75px;
 `;
 
-const SLink = S(Link)`
+const SLink = Styled(Link)`
   && {
     text-decoration: none;
   }
 `;
 
-const SGoToShopLabel = S(Chip)`
+const SGoToShopLabel = Styled(Chip)`
   && {
     height: 50px;
     padding: 0 25px;
@@ -167,7 +171,7 @@ const SGoToShopLabel = S(Chip)`
   }
 `;
 
-const SLoginLabel = S(Chip)`
+const SLoginLabel = Styled(Chip)`
   && {
     height: 50px;
     padding: 0 25px;

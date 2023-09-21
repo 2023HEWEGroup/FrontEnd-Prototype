@@ -119,13 +119,13 @@ const SUploadOption = styled.div`
   }
 `;
 
-const SIconButton = S(IconButton)`
+const SIconButton = Styled(IconButton)`
     && {
         color: #fff;
     }
 `;
 
-const SAvatar = S(Avatar)`
+const SAvatar = Styled(Avatar)`
     && {
         width: 100%;
         height: 100%;

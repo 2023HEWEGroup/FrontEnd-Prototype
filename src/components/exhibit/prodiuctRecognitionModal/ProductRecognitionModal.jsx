@@ -111,7 +111,7 @@ const SModalTitle = styled.div`
   margin: 60px 0 60px 0;
 `;
 
-const SHighlightOff = S(HighlightOff)`
+const SHighlightOff = Styled(HighlightOff)`
     && {
         position: absolute;
         top: 20px;
@@ -167,7 +167,7 @@ const STagZone = styled.div`
   height: 100%;
 `;
 
-const STagChip = S(Chip)`
+const STagChip = Styled(Chip)`
     && {
         font-size: 1rem;
         height: 35px;

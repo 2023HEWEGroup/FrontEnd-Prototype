@@ -145,7 +145,7 @@ const SSideBarCell = styled.div`
   height: 75px;
 `;
 
-const SLink = S(Link)`
+const SLink = Styled(Link)`
   && {
     width: 100%;
     height: 100%;
@@ -170,7 +170,7 @@ const SSideBarElements = styled.div`
   }
 `;
 
-const SHomeIcon = S(HomeIcon)`
+const SHomeIcon = Styled(HomeIcon)`
     && {
       width: 35px;
       height: 35px;
@@ -179,7 +179,7 @@ const SHomeIcon = S(HomeIcon)`
     }
 `;
 
-const SHomeOutlinedIcon = S(HomeOutlinedIcon)`
+const SHomeOutlinedIcon = Styled(HomeOutlinedIcon)`
     && {
       width: 35px;
       height: 35px;
@@ -188,7 +188,7 @@ const SHomeOutlinedIcon = S(HomeOutlinedIcon)`
     }
 `;
 
-const SShoppingCartIcon = S(ShoppingCartIcon)`
+const SShoppingCartIcon = Styled(ShoppingCartIcon)`
     && {
       width: 35px;
       height: 35px;
@@ -196,16 +196,7 @@ const SShoppingCartIcon = S(ShoppingCartIcon)`
       margin-bottom: -10px;
     }
 `;
-const SShoppingCartOutlinedIcon = S(ShoppingCartOutlinedIcon)`
-    && {
-      width: 35px;
-      height: 35px;
-      margin-top: 10px;
-      margin-bottom: -10px;
-    }
-`;
-
-const SGroupIcon = S(GroupIcon)`
+const SShoppingCartOutlinedIcon = Styled(ShoppingCartOutlinedIcon)`
     && {
       width: 35px;
       height: 35px;
@@ -214,7 +205,7 @@ const SGroupIcon = S(GroupIcon)`
     }
 `;
 
-const SGroupOutlinedIcon = S(GroupOutlinedIcon)`
+const SGroupIcon = Styled(GroupIcon)`
     && {
       width: 35px;
       height: 35px;
@@ -223,7 +214,7 @@ const SGroupOutlinedIcon = S(GroupOutlinedIcon)`
     }
 `;
 
-const SFolderSharedIcon = S(FolderSharedIcon)`
+const SGroupOutlinedIcon = Styled(GroupOutlinedIcon)`
     && {
       width: 35px;
       height: 35px;
@@ -232,7 +223,7 @@ const SFolderSharedIcon = S(FolderSharedIcon)`
     }
 `;
 
-const SFolderSharedOutlinedIcon = S(FolderSharedOutlinedIcon)`
+const SFolderSharedIcon = Styled(FolderSharedIcon)`
     && {
       width: 35px;
       height: 35px;
@@ -241,7 +232,16 @@ const SFolderSharedOutlinedIcon = S(FolderSharedOutlinedIcon)`
     }
 `;
 
-const SDashboard = S(Dashboard)`
+const SFolderSharedOutlinedIcon = Styled(FolderSharedOutlinedIcon)`
+    && {
+      width: 35px;
+      height: 35px;
+      margin-top: 10px;
+      margin-bottom: -10px;
+    }
+`;
+
+const SDashboard = Styled(Dashboard)`
     && {
       width: 35px;
       height: 35px;

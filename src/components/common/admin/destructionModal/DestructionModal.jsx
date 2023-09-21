@@ -45,7 +45,7 @@ const DestructionModal = (props) => {
   );
 };
 
-const SModal = S(Modal)`
+const SModal = Styled(Modal)`
     && {
         display: flex;
         justify-content: center;
@@ -105,7 +105,7 @@ const SButtons = styled.div`
   width: 100%;
 `;
 
-const SDeleteButton = S(Button)`
+const SDeleteButton = Styled(Button)`
     && {
         background-color: ${(props) =>
           props.theme.palette.background.destructDelete};
@@ -119,7 +119,7 @@ const SDeleteButton = S(Button)`
     }
 `;
 
-const SCancelButton = S(Button)`
+const SCancelButton = Styled(Button)`
     && {
         border: solid 1px ${(props) => props.theme.palette.line.main};
         border-radius: 50px;

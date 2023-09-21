@@ -84,7 +84,7 @@ const SStep = styled.div`
   margin-bottom: 10px;
 `;
 
-const SBackStep = S(Button)`
+const SBackStep = Styled(Button)`
     && {
         width: 50%;
         height: 45px;
@@ -92,7 +92,7 @@ const SBackStep = S(Button)`
     }
 `;
 
-const SNextStep = S(Button)`
+const SNextStep = Styled(Button)`
     && {
         width: 50%;
         height: 45px;

@@ -91,7 +91,7 @@ const GroupListSection = () => {
   );
 };
 
-const SListItem = S(ListItem)`
+const SListItem = Styled(ListItem)`
     && {
         justify-content: center;
         height: 45px;
@@ -131,21 +131,21 @@ const SListElements = styled.div`
   }
 `;
 
-const SAvatar = S(Avatar)`
+const SAvatar = Styled(Avatar)`
     && {
         width: 35px;
         height: 35px;
     }
 `;
 
-const SExpandMoreIcon = S(ExpandMoreIcon)`
+const SExpandMoreIcon = Styled(ExpandMoreIcon)`
     && {
         width: 25px;
         height: 25px;
     }
 `;
 
-const SExpandLessIcon = S(ExpandLessIcon)`
+const SExpandLessIcon = Styled(ExpandLessIcon)`
     && {
         width: 25px;
         height: 25px;

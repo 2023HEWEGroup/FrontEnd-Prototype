@@ -126,7 +126,7 @@ const SListBlock = styled.div`
     }
 `;
 
-const SLink = S(Link)`
+const SLink = Styled(Link)`
     && {
         display: flex;
         justify-content: center;
@@ -137,7 +137,7 @@ const SLink = S(Link)`
     }
 `;
 
-const SListItem = S(ListItem)`
+const SListItem = Styled(ListItem)`
     && {
         justify-content: center;
         height: 45px;
@@ -161,7 +161,7 @@ const SListElements = styled.div`
   }
 `;
 
-const SListItemText = S(ListItemText)`
+const SListItemText = Styled(ListItemText)`
     && {
         overflow: hidden;
         white-space: nowrap;
@@ -169,53 +169,53 @@ const SListItemText = S(ListItemText)`
     }
 `;
 
-const SSettingsIcon = S(SettingsIcon)`
+const SSettingsIcon = Styled(SettingsIcon)`
     && {
         width: 25px;
         height: 25px;
     }
 `;
-const SSettingsOutlinedIcon = S(SettingsOutlinedIcon)`
-    && {
-        width: 25px;
-        height: 25px;
-    }
-`;
-
-const SHelpIcon = S(HelpIcon)`
-    && {
-        width: 25px;
-        height: 25px;
-    }
-`;
-const SHelpOutlinedIcon = S(HelpOutlineOutlinedIcon)`
+const SSettingsOutlinedIcon = Styled(SettingsOutlinedIcon)`
     && {
         width: 25px;
         height: 25px;
     }
 `;
 
-const SLogoutIcon = S(LogoutIcon)`
+const SHelpIcon = Styled(HelpIcon)`
+    && {
+        width: 25px;
+        height: 25px;
+    }
+`;
+const SHelpOutlinedIcon = Styled(HelpOutlineOutlinedIcon)`
     && {
         width: 25px;
         height: 25px;
     }
 `;
 
-const SInfoIcon = S(InfoIcon)`
-    && {
-        width: 25px;
-        height: 25px;
-    }
-`;
-const SInfoOutlinedIcon = S(InfoOutlinedIcon)`
+const SLogoutIcon = Styled(LogoutIcon)`
     && {
         width: 25px;
         height: 25px;
     }
 `;
 
-const SArrowBackIcon = S(ArrowBackIcon)`
+const SInfoIcon = Styled(InfoIcon)`
+    && {
+        width: 25px;
+        height: 25px;
+    }
+`;
+const SInfoOutlinedIcon = Styled(InfoOutlinedIcon)`
+    && {
+        width: 25px;
+        height: 25px;
+    }
+`;
+
+const SArrowBackIcon = Styled(ArrowBackIcon)`
     && {
         width: 25px;
         height: 25px;

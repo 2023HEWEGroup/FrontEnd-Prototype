@@ -184,7 +184,7 @@ const UpperListSection = (props) => {
   );
 };
 
-const SListItem = S(ListItem)`
+const SListItem = Styled(ListItem)`
     && {
         justify-content: center;
         height: 45px;
@@ -193,7 +193,7 @@ const SListItem = S(ListItem)`
     }
 `;
 
-const SListItemText = S(ListItemText)`
+const SListItemText = Styled(ListItemText)`
     && {
         overflow: hidden;
         white-space: nowrap;
@@ -209,7 +209,7 @@ const SListBlock = styled.div`
     }
 `;
 
-const SLink = S(Link)`
+const SLink = Styled(Link)`
     && {
         display: flex;
         justify-content: center;
@@ -235,85 +235,85 @@ const SListElements = styled.div`
   }
 `;
 
-const SHomeIcon = S(HomeIcon)`
+const SHomeIcon = Styled(HomeIcon)`
     && {
         width: 25px;
         height: 25px;
     }
 `;
-const SHomeOutlinedIcon = S(HomeOutlinedIcon)`
-    && {
-        width: 25px;
-        height: 25px;
-    }
-`;
-
-const SShoppingCartIcon = S(ShoppingCartIcon)`
-    && {
-        width: 25px;
-        height: 25px;
-    }
-`;
-const SShoppingCartOutlinedIcon = S(ShoppingCartOutlinedIcon)`
+const SHomeOutlinedIcon = Styled(HomeOutlinedIcon)`
     && {
         width: 25px;
         height: 25px;
     }
 `;
 
-const SGroupIcon = S(GroupIcon)`
+const SShoppingCartIcon = Styled(ShoppingCartIcon)`
     && {
         width: 25px;
         height: 25px;
     }
 `;
-const SGroupOutlinedIcon = S(GroupOutlinedIcon)`
-    && {
-        width: 25px;
-        height: 25px;
-    }
-`;
-
-const SFolderSharedIcon = S(FolderSharedIcon)`
-    && {
-        width: 25px;
-        height: 25px;
-    }
-`;
-const SFolderSharedOutlinedIcon = S(FolderSharedOutlinedIcon)`
+const SShoppingCartOutlinedIcon = Styled(ShoppingCartOutlinedIcon)`
     && {
         width: 25px;
         height: 25px;
     }
 `;
 
-const SNotificationsIcon = S(NotificationsIcon)`
+const SGroupIcon = Styled(GroupIcon)`
     && {
         width: 25px;
         height: 25px;
     }
 `;
-const SNotificationsOutlinedIcon = S(NotificationsOutlinedIcon)`
-    && {
-        width: 25px;
-        height: 25px;
-    }
-`;
-
-const SAccountCircleIcon = S(AccountCircleIcon)`
-    && {
-        width: 25px;
-        height: 25px;
-    }
-`;
-const SAccountCircleOutlinedIcon = S(AccountCircleOutlinedIcon)`
+const SGroupOutlinedIcon = Styled(GroupOutlinedIcon)`
     && {
         width: 25px;
         height: 25px;
     }
 `;
 
-const SDashboard = S(Dashboard)`
+const SFolderSharedIcon = Styled(FolderSharedIcon)`
+    && {
+        width: 25px;
+        height: 25px;
+    }
+`;
+const SFolderSharedOutlinedIcon = Styled(FolderSharedOutlinedIcon)`
+    && {
+        width: 25px;
+        height: 25px;
+    }
+`;
+
+const SNotificationsIcon = Styled(NotificationsIcon)`
+    && {
+        width: 25px;
+        height: 25px;
+    }
+`;
+const SNotificationsOutlinedIcon = Styled(NotificationsOutlinedIcon)`
+    && {
+        width: 25px;
+        height: 25px;
+    }
+`;
+
+const SAccountCircleIcon = Styled(AccountCircleIcon)`
+    && {
+        width: 25px;
+        height: 25px;
+    }
+`;
+const SAccountCircleOutlinedIcon = Styled(AccountCircleOutlinedIcon)`
+    && {
+        width: 25px;
+        height: 25px;
+    }
+`;
+
+const SDashboard = Styled(Dashboard)`
     && {
         width: 25px;
         height: 25px;

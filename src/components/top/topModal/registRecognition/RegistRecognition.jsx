@@ -100,14 +100,14 @@ const RegistRecognition = (props) => {
   );
 };
 
-const SVisibility = S(Visibility)`
+const SVisibility = Styled(Visibility)`
     && {
         color: #777;
         cursor: pointer;
     }
 `;
 
-const SVisibilityOff = S(VisibilityOff)`
+const SVisibilityOff = Styled(VisibilityOff)`
     && {
         color: #777;
         cursor: pointer;

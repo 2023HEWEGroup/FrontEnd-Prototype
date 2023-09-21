@@ -84,7 +84,7 @@ const SInput = styled.div`
   width: 100%;
 `;
 
-const SFormControlLabel = S(FormControlLabel)`
+const SFormControlLabel = Styled(FormControlLabel)`
     && {
         color: #777;
     }

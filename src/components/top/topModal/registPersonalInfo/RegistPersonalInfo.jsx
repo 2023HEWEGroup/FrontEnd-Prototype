@@ -133,7 +133,7 @@ const RegistPersonalInfo = (props) => {
   );
 };
 
-const STextField = S(TextField)(({ theme }) => ({
+const STextField = Styled(TextField)(({ theme }) => ({
   "& .MuiInputBase-input": {
     color: "#777", // 入力文字の色
     backgroundColor: "#000",

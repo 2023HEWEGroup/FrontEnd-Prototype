@@ -204,7 +204,7 @@ const GridCenter = () => {
   );
 };
 
-const SPaper = S(Paper)`
+const SPaper = Styled(Paper)`
   && {
     display: flex;
     align-items: center;
@@ -219,7 +219,7 @@ const SPaper = S(Paper)`
   }
 `;
 
-const SInputBase = S(InputBase)`
+const SInputBase = Styled(InputBase)`
   && {
     height: 100%;
     width: 100%;
@@ -231,7 +231,7 @@ const SInputBase = S(InputBase)`
   }
 `;
 
-const SIconButton = S(IconButton)`
+const SIconButton = Styled(IconButton)`
   && {
     .MuiTouchRipple-child {
       background-color: ${(props) => props.theme.palette.secondary.main};
@@ -239,14 +239,14 @@ const SIconButton = S(IconButton)`
   }
 `;
 
-const SPopper = S(Popper)`
+const SPopper = Styled(Popper)`
   && {
     width: 36.5%;
     z-index: 100;
   }
 `;
 
-const SPopperPaper = S(Paper)`
+const SPopperPaper = Styled(Paper)`
   && {
     height: 200px;
     color: ${(props) => props.theme.palette.text.main};
@@ -254,7 +254,7 @@ const SPopperPaper = S(Paper)`
   }
 `;
 
-const SListItem = S(ListItem)`
+const SListItem = Styled(ListItem)`
   && {
     overflow: hidden;
     white-space: nowrap;
@@ -270,7 +270,7 @@ const SListItem = S(ListItem)`
   }
 `;
 
-const SDivider = S(Divider)`
+const SDivider = Styled(Divider)`
   && {
     margin: 0 auto;
     width: 95%;

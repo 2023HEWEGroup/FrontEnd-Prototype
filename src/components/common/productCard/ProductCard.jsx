@@ -142,7 +142,7 @@ const SProduct = styled.div`
   margin-bottom: 20px;
 `;
 
-const SAvatar = S(Avatar)`
+const SAvatar = Styled(Avatar)`
     && {
         width: 100%;
         height: 100%;
@@ -173,7 +173,7 @@ const SProductOption = styled.div`
   }
 `;
 
-const SIconButton = S(IconButton)`
+const SIconButton = Styled(IconButton)`
     && {
         color: #fff;
     }
@@ -228,7 +228,7 @@ const SPrice = styled.div`
   color: ${(props) => props.theme.palette.secondary.main};
 `;
 
-const SFavoriteBorder = S(FavoriteBorder)`
+const SFavoriteBorder = Styled(FavoriteBorder)`
     && {
         width: 30px;
         height: 30px;
@@ -240,7 +240,7 @@ const SFavoriteBorder = S(FavoriteBorder)`
     }
 `;
 
-const SPopperPaper = S(Paper)`
+const SPopperPaper = Styled(Paper)`
     && {
         width: 150px;
         padding: 5px 0;

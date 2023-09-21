@@ -28,7 +28,7 @@ const SProductNameZone = styled.div`
   width: 100%;
 `;
 
-const STextField = S(TextField)(({ theme }) => ({
+const STextField = Styled(TextField)(({ theme }) => ({
   "& .MuiInputBase-input": {
     color: theme.palette.text.main, // 入力文字の色
   },

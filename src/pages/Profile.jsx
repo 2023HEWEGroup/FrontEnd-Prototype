@@ -221,7 +221,7 @@ const SButtons = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
 `;
 
-const SIconButton = S(IconButton)`
+const SIconButton = Styled(IconButton)`
   && {
     color: #fff;
     background-color: rgba(255, 255, 255, 0.1);
@@ -246,7 +246,7 @@ const SUserInfo = styled.div`
   margin: ${(props) => (props.$isSmallScreen ? "15px" : "30px")} auto 0 auto;
 `;
 
-const SUserGridItemLeft = S(Grid)`
+const SUserGridItemLeft = Styled(Grid)`
   && {
     display: flex;
     justify-content: center;
@@ -255,7 +255,7 @@ const SUserGridItemLeft = S(Grid)`
   }
 `;
 
-const SUserGridItemCenter = S(Grid)`
+const SUserGridItemCenter = Styled(Grid)`
   && {
     display: flex;
     justify-content: start;
@@ -264,7 +264,7 @@ const SUserGridItemCenter = S(Grid)`
   }
 `;
 
-const SUserGridItemRight = S(Grid)`
+const SUserGridItemRight = Styled(Grid)`
   && {
     display: flex;
     justify-content: center;
@@ -273,7 +273,7 @@ const SUserGridItemRight = S(Grid)`
   }
 `;
 
-const SAvatar = S(Avatar)`
+const SAvatar = Styled(Avatar)`
   && {
     height: ${(props) => (props.$isSmallScreen ? "100px" : "130px")};
     width: ${(props) => (props.$isSmallScreen ? "100px" : "130px")};
@@ -315,7 +315,7 @@ const SFollowAndNotify = styled.div`
   width: 100%;
 `;
 
-const SFollowTab = S(Chip)`
+const SFollowTab = Styled(Chip)`
   && {
     width: 200px;
     height: 50px;
@@ -324,7 +324,7 @@ const SFollowTab = S(Chip)`
   }
 `;
 
-const SNotifyIconButton = S(IconButton)`
+const SNotifyIconButton = Styled(IconButton)`
   && {
     width: 50px;
     height: 50px;
@@ -344,7 +344,7 @@ const SUserInfoBar = styled.div`
   margin: ${(props) => (props.$isXsScreen ? "20px" : 0)} auto;
 `;
 
-const SStatusGrid = S(Grid)`
+const SStatusGrid = Styled(Grid)`
   && {
     display: flex;
     justify-content: start;
@@ -372,7 +372,7 @@ const SSpan = styled.span`
   }
 `;
 
-const STabs = S(Tabs)`
+const STabs = Styled(Tabs)`
     && {
       width: 100%;
       margin: 30px auto 0 auto;
@@ -382,7 +382,7 @@ const STabs = S(Tabs)`
     }
 `;
 
-const STab = S(Tab)`
+const STab = Styled(Tab)`
     && {
       flex: 1 1 0;
       max-width: 25%;

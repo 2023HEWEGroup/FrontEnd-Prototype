@@ -340,7 +340,7 @@ const UserApproach = () => {
   );
 };
 
-const SButton = S(Button)`
+const SButton = Styled(Button)`
     && {
         display: flex;
         justify-content: center;
@@ -351,13 +351,13 @@ const SButton = S(Button)`
     }
 `;
 
-const SUserGrid = S(Grid)`
+const SUserGrid = Styled(Grid)`
     && {
         height: fit-content;
     }
 `;
 
-const SUserGridItemUser = S(Grid)`
+const SUserGridItemUser = Styled(Grid)`
     && {
         display: flex;
         justify-content: center;
@@ -371,7 +371,7 @@ const SUserGridItemUser = S(Grid)`
     }
 `;
 
-const SUserGridItemProduct = S(Grid)`
+const SUserGridItemProduct = Styled(Grid)`
     && {
         display: flex;
         flex-wrap: wrap;
@@ -393,7 +393,7 @@ const SUserGridItemProduct = S(Grid)`
     }
 `;
 
-const SUserSlider = S(Slider)`
+const SUserSlider = Styled(Slider)`
     && {
         display: flex;
         justify-content: center;
@@ -408,7 +408,7 @@ const SUserSlide = S.div`
       props.$isXsScreen ? "200px" : props.$isSmallScreen ? "200px" : "400px"};
 `;
 
-const SUserSlideAvatar = S(Avatar)`
+const SUserSlideAvatar = Styled(Avatar)`
     && {
         cursor: pointer;
         width: ${(props) =>
@@ -458,7 +458,7 @@ const SUserSlideId = S.div`
     text-align: center;
 `;
 
-const SFollowTab = S(Chip)`
+const SFollowTab = Styled(Chip)`
     && {
         width: 70%;
         height: 45px;
@@ -504,7 +504,7 @@ const SUserProduct = S.div`
     border-radius: 5px;
 `;
 
-const SUserProductImg = S(Avatar)`
+const SUserProductImg = Styled(Avatar)`
     && {
         width: 100%;
         height: 100%;

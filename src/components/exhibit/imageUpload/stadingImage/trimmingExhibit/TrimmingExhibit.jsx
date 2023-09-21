@@ -148,7 +148,7 @@ const SModalInner = styled.div`
   background-color: #000;
 `;
 
-const SIconButton = S(IconButton)`
+const SIconButton = Styled(IconButton)`
     && {
         z-index: 100;
         position: absolute;
@@ -163,7 +163,7 @@ const SIconButton = S(IconButton)`
     }
 `;
 
-const SClose = S(Close)`
+const SClose = Styled(Close)`
     && {
         width: 25px;
         height: 25px;
@@ -183,7 +183,7 @@ const SBottomCommands = styled.div`
   background-color: ${(props) => props.theme.palette.background.slideHover};
 `;
 
-const SButton = S(Button)`
+const SButton = Styled(Button)`
     && {
         overflow: hidden;
         white-space: nowrap;

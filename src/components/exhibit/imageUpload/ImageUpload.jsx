@@ -186,7 +186,7 @@ const SAddProductImg = styled.div`
   }
 `;
 
-const SAddBox = S(AddBox)`
+const SAddBox = Styled(AddBox)`
     && {
         width: 50px;
         height: 50px;
@@ -219,7 +219,7 @@ const SLetsUpload = styled.div`
   }
 `;
 
-const SAddPhotoAlternateOutlined = S(AddPhotoAlternateOutlined)`
+const SAddPhotoAlternateOutlined = Styled(AddPhotoAlternateOutlined)`
     && {
         color: ${(props) => props.theme.palette.text.sub};
     }

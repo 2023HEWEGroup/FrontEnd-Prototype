@@ -70,7 +70,7 @@ const ProductAddTag = (props) => {
   );
 };
 
-const STextField = S(TextField)(({ theme }) => ({
+const STextField = Styled(TextField)(({ theme }) => ({
   "& .MuiInputBase-input": {
     color: theme.palette.text.main, // 入力文字の色
   },
@@ -110,7 +110,7 @@ const STagZone = styled.div`
   width: 100%;
 `;
 
-const STagChip = S(Chip)`
+const STagChip = Styled(Chip)`
     && {
         font-size: 1rem;
         height: 35px;

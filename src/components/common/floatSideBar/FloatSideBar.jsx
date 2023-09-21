@@ -58,7 +58,7 @@ const FloatSideBar = (props) => {
   );
 };
 
-const SList = S(List)`
+const SList = Styled(List)`
     && {
         position: fixed;
         overflow-y: scroll;
@@ -89,7 +89,7 @@ const SListTitle = styled.div`
   color: #777;
 `;
 
-const SDivider = S(Divider)`
+const SDivider = Styled(Divider)`
     && {
         width: 230px;
     }

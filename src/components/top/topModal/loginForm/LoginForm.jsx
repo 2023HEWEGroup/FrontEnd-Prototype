@@ -84,7 +84,7 @@ const Sform = styled.form`
   width: 70%;
 `;
 
-const STextField = S(TextField)(({ theme }) => ({
+const STextField = Styled(TextField)(({ theme }) => ({
   "& .MuiInputBase-input": {
     color: "#777", // 入力文字の色
     backgroundColor: "#000",
@@ -127,14 +127,14 @@ const SOptionChange = styled.div`
   }
 `;
 
-const SVisibility = S(Visibility)`
+const SVisibility = Styled(Visibility)`
     && {
         color: #777;
         cursor: pointer;
     }
 `;
 
-const SVisibilityOff = S(VisibilityOff)`
+const SVisibilityOff = Styled(VisibilityOff)`
     && {
         color: #777;
         cursor: pointer;

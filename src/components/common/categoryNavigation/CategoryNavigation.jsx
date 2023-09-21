@@ -119,7 +119,7 @@ const CategoryNavigation = () => {
   );
 };
 
-const SAppBar = S(AppBar)`
+const SAppBar = Styled(AppBar)`
     && {
         z-index: 100;
         box-shadow: none;
@@ -151,7 +151,7 @@ const SCategoryBar = styled.div`
   }
 `;
 
-const SIconButtonLeft = S(IconButton)`
+const SIconButtonLeft = Styled(IconButton)`
     && {
         position: absolute;
         left: 10px;
@@ -174,7 +174,7 @@ const SIconButtonLeft = S(IconButton)`
     }
 `;
 
-const SIconButtonRight = S(IconButton)`
+const SIconButtonRight = Styled(IconButton)`
     && {
         position: absolute;
         right: 10px;
@@ -197,7 +197,7 @@ const SIconButtonRight = S(IconButton)`
     }
 `;
 
-const SChip = S(Chip)`
+const SChip = Styled(Chip)`
     && {
         padding: 20px;
         color: ${(props) => props.theme.palette.text.main};

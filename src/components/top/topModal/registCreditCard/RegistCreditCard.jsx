@@ -96,7 +96,7 @@ const RegistCreditCard = (props) => {
   );
 };
 
-const STextField = S(TextField)(({ theme }) => ({
+const STextField = Styled(TextField)(({ theme }) => ({
   "& .MuiInputBase-input": {
     color: "#777", // 入力文字の色
     backgroundColor: "#000",
@@ -128,7 +128,7 @@ const SCardType = styled.div`
   color: #777;
 `;
 
-const SFormControlLabel = S(FormControlLabel)`
+const SFormControlLabel = Styled(FormControlLabel)`
     && {
         color: #777;
         margin-bottom: 40px;
@@ -140,14 +140,14 @@ const SCardImg = styled.svg`
   height: fit-content;
 `;
 
-const SVisibility = S(Visibility)`
+const SVisibility = Styled(Visibility)`
     && {
         color: #777;
         cursor: pointer;
     }
 `;
 
-const SVisibilityOff = S(VisibilityOff)`
+const SVisibilityOff = Styled(VisibilityOff)`
     && {
         color: #777;
         cursor: pointer;

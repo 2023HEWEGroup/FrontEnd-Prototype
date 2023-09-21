@@ -55,7 +55,7 @@ const StagingImagePopper = (props) => {
   );
 };
 
-const SPopperPaper = S(Paper)`
+const SPopperPaper = Styled(Paper)`
     && {
         width: 150px;
         max-width: 25vw;

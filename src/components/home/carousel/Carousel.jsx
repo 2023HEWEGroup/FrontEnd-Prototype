@@ -73,7 +73,7 @@ const Carousel = () => {
   );
 };
 
-const SSlider = S(Slider)`
+const SSlider = Styled(Slider)`
     && {
         aspect-ratio: 4/1;
         width: 90%;
@@ -140,7 +140,7 @@ const SCustomArrow = S.div`
     }
 `;
 
-const SButton = S(Button)`
+const SButton = Styled(Button)`
     && {
         display: flex;
         justify-content: center;

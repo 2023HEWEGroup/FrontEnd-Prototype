@@ -39,7 +39,7 @@ const SNavBar = styled.div`
   padding: 20px;
 `;
 
-const SLink = S(Link)`
+const SLink = Styled(Link)`
     && {
         height: fit-content;
         text-decoration: none;

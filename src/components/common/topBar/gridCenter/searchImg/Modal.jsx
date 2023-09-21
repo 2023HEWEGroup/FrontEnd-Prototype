@@ -49,7 +49,7 @@ export default function BasicModal({ theme }) {
   );
 }
 
-const SIconButton = S(IconButton)`
+const SIconButton = Styled(IconButton)`
   && {
     .MuiTouchRipple-child {
       background-color: ${(props) => props.theme.palette.secondary.main};
