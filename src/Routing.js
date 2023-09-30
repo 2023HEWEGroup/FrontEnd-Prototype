@@ -17,6 +17,8 @@ import SettlementFin from "./pages/SettlementFin";
 import AdminLayouts from "./layouts/AdminLayouts";
 import AdminTop from "./pages/admin/AdminTop";
 import UserManage from "./pages/admin/UserManage";
+import ProductDetail from "./pages/ProductDetail";
+import Streaming from "./pages/Streaming";
 
 const Routing = () => {
   return (
@@ -36,6 +38,8 @@ const Routing = () => {
         <Route path="help" element={<Help />} />
         <Route path="result" element={<Result />} />
         <Route path="settlementFin" element={<SettlementFin />} />
+        <Route path="productdetaill" element={<ProductDetail />} />
+        <Route path="Streaming" element={<Streaming />} />
       </Route>
 
       <Route path="/admin" element={<AdminLayouts />}>
