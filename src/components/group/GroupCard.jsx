@@ -1,10 +1,9 @@
 import React from "react";
-import { Box, Button, Chip, Grid, Paper, Typography } from "@mui/material";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { Box, Button, Chip, Grid, Typography } from "@mui/material";
+
 import Avatar from "@mui/material/Avatar";
-import { useTheme } from "@mui/material";
-export const GroupCard = ({ iconSrc, name, description }) => {
-  const tags = [];
+
+const GroupCard = () => {
   return (
     <Grid
       item
@@ -106,3 +105,5 @@ export const GroupCard = ({ iconSrc, name, description }) => {
     </Grid>
   );
 };
+
+export default GroupCard;
