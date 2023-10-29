@@ -107,7 +107,8 @@ const NotifyPopper = () => {
 
     const handleScroll = () => {
         const notifyContainer = notifyContainerRef.current;
-        if (Math.floor(notifyContainer.scrollHeight - notifyContainer.scrollTop) === Math.floor(notifyContainer.offsetHeight)) {
+        // 絶対値で取得した誤差1pxを許容
+        if (Math.abs(Math.ceil(notifyContainer.scrollHeight - notifyContainer.scrollTop) - Math.floor(notifyContainer.offsetHeight)) <= 1) {
             dispatch(multipleTopBarNotifyScroll());
         }
     }

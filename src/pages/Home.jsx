@@ -4,6 +4,7 @@ import { useMediaQuery, useTheme } from '@mui/material';
 import Carousel from '../components/home/carousel/Carousel';
 import ProductCard from '../components/common/productCard/ProductCard';
 import UserApproach from '../components/home/userApproach/UserApproach';
+import GroupApproach from '../components/home/groupApproach/GroupApproach';
 
 
 const Home = () => {
@@ -49,9 +50,15 @@ const Home = () => {
 
           <StyledHomeSection theme={theme}>ユーザーを見つける</StyledHomeSection>
 
-          <StyledUserZone>
+          <StyledApproachZone>
             <UserApproach />
-          </StyledUserZone>
+          </StyledApproachZone>
+
+          <StyledHomeSection theme={theme}>グループを見つける</StyledHomeSection>
+
+          <StyledApproachZone>
+            <GroupApproach />
+          </StyledApproachZone>
 
         </StyledHomeInnner>
         
@@ -90,11 +97,13 @@ const StyledProductZone = styled.div`
   width: 100%;
 `
 
-const StyledUserZone = styled.div`
+const StyledApproachZone = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  height: 400px;
-  margin-bottom: 50px;
+  height: fit-content;
+  padding 25px 0;
 `
 
 

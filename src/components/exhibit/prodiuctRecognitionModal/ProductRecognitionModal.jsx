@@ -10,7 +10,7 @@ const ProductRecognitionModal = (props) => {
     const theme = useTheme();
 
     return (
-        <Modal open={props.isModalOpen}>
+        <Modal open={props.isModalOpen} onClose={props.handleModalClose}>
             <StyledModalInner theme={theme}>
                 <Tooltip title="閉じる" placement='top'>
                 <StyledHighlightOff onClick={props.handleModalClose}/>

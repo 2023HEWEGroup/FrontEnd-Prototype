@@ -27,7 +27,7 @@ const ImageUpload = (props) => {
 
     const handleDrop = (event) => {
         event.preventDefault();
-        if (props.uploadImages.length >= 4) return;
+        if (props.uploadImages.length >= 8) return;
         const file = event.dataTransfer.files[0];
         const allowedFormats = ['image/png', 'image/jpeg', 'image/jpg'];
         if (allowedFormats.includes(file.type)) {
@@ -42,7 +42,7 @@ const ImageUpload = (props) => {
     };
     
     const handleFileSelected = (event) => {
-        if (props.uploadImages.length >= 4) return;
+        if (props.uploadImages.length >= 8) return;
         const file = event.target.files[0];
         if (file) {
             const fileUrl = URL.createObjectURL(file)
@@ -70,7 +70,7 @@ const ImageUpload = (props) => {
                 <StagingImage key={index} image={image} index={index} uploadImages={props.uploadImages} setUploadImages={props.setUploadImages}
                     originalImages={props.originalImages} setOriginalImages={props.setOriginalImages} crops={props.crops} setCrops={props.setCrops} zooms={props.zooms} setZooms={props.setZooms}/>
             ))}
-            {props.uploadImages.length < 4 && (
+            {props.uploadImages.length < 8 && (
                 <StyledAddProductImg theme={theme} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen} $isDragging={props.isDragging} imageLength={props.uploadImages.length}
                 onDrop={handleDrop} onDragOver={handleDragOver} onDragLeave={handleDragLeave} onClick={handleUploadClick}>
                 <StyledAddBox theme={theme} />
@@ -83,7 +83,10 @@ const ImageUpload = (props) => {
         )}
             <HiddenInput type="file" accept="image/png, image/jpg, image/jpeg" ref={fileInputRef} onChange={handleFileSelected}/>
         </StyledImgs>
-        <div style={{color: theme.palette.text.sub, marginTop: "5px"}}>※ png, jpg, jpeg形式のみ対応</div>
+        <div style={{display: "flex", justifyContent: "space-between", color: theme.palette.text.sub, marginTop: "5px"}}>
+            <div>※ png, jpg, jpeg形式のみ対応 (8枚)</div>
+            <div>{`${props.uploadImages.length}/8`}</div>
+        </div>
         </>
     )
 }
@@ -94,7 +97,9 @@ const StyledImgs = styled.div`
     justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
-    aspect-ratio: ${(props) => (props.$isXsScreen ? ((props.imageLength === 0 || props.imageLength === 1) ? "2/1" : "1/1") : (props.$isSmallScreen ? "4/1" : "4/1"))};
+    aspect-ratio: ${(props) => (props.$isXsScreen ? "2/1" : "4/1")};
+    overflow-y: scroll;
+    overflow-x: hidden;
     width: 100%;
     padding: 10px 10px 0 0;
     border: dashed 2px ${(props) => props.theme.palette.line.main};
@@ -106,8 +111,8 @@ const StyledAddProductImg = styled.div`
     justify-content: center;
     align-items: center;
     gap: 20px;
-    height: calc(${(props) => (props.$isXsScreen ? (props.imageLength === 1 ? "100% - 10px" : "50% - 10px") : "100%")});
-    width: calc(${(props) => (props.$isXsScreen ? (props.imageLength === 2 ? "100% - 10px" : "50% - 10px")  : `${100 - (props.imageLength * 25)}% - 10px`)});
+    width: calc(${(props) => (props.$isXsScreen ? "50% - 10px" : (props.$isSmallScreen ? "25% - 10px" : "25% - 10px"))});
+    height: calc(100% - 10px);
     padding: 10px;
     margin: 0 0 10px 10px;
     border-radius: 5px;
@@ -137,7 +142,7 @@ const StyledLetsUpload = styled.div`
     align-items: center;
     gap: 5px;
     width: calc(100% - 10px);
-    height: 100%;
+    height: calc(100% - 10px);
     margin: 0 0 10px 10px;
     cursor: pointer;
     overflow: hidden;
