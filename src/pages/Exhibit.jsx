@@ -21,8 +21,8 @@ const Exhibit = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [uploadImages, setUploadImages] = useState([]);
   const [originalImages, setOriginalImages] = useState([]);
-  const [crops, setCrops] = useState([{x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}]);
-  const [zooms, setZooms] = useState([1, 1, 1, 1]);
+  const [crops, setCrops] = useState([{x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}]);
+  const [zooms, setZooms] = useState([1, 1, 1, 1, 1, 1, 1, 1]);
   const [product, setProduct] = useState({name: "", detail: "", price: "", benefit: 0, status: "", deliveryCost: "", shippingArea: "", category: "", tags: []});
   const [tag, setTag] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);

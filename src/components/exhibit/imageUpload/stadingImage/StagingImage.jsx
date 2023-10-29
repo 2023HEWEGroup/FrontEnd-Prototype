@@ -65,8 +65,8 @@ const StagingImage = (props) => {
 
 const StyledProductImg = styled.div`
     position: relative;
-    aspect-ratio: 1/1;
     width: calc(${(props) => (props.$isXsScreen ? "50% - 10px" : (props.$isSmallScreen ? "25% - 10px" : "25% - 10px"))});
+    height: calc(100% - 10px);
     border-radius: 5px;
     overflow: hidden;
     margin: 0 0 10px 10px;
