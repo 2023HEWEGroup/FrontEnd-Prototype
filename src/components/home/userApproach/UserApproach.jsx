@@ -1,10 +1,11 @@
-import { Alert, Avatar, Button, Chip, Slide, Snackbar, Tooltip, useMediaQuery, useTheme } from '@mui/material';
+import { Alert, Button, Slide, Snackbar, useMediaQuery, useTheme } from '@mui/material';
 import React, { useState } from 'react'
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from 'styled-components';
 import { ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
+import UserPanel from './userPanel/UserPanel';
 
 
 const SlideTransition = (props) => {
@@ -14,20 +15,21 @@ const SlideTransition = (props) => {
 
 const UserApproach = () => {
 
-    const [isFollowSnack, setIsFollowSnack] = useState(false);
     const islargeScreen = useMediaQuery((theme) => theme.breakpoints.down('xl'));
     const isMiddleScreen = useMediaQuery((theme) => theme.breakpoints.down('lg'));
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
     const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
     const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
     const theme = useTheme();
-
-    const handleFollowSnack = () => {
-        setIsFollowSnack(true);
-    }
+    const [isFollowSnack, setIsFollowSnack] = useState(false);
+    console.log(isFollowSnack)
 
     const handleFollowSnackClose = () => {
         setIsFollowSnack(false);
+    }
+
+    const handleFollowSnack = () => {
+        setIsFollowSnack(true);
     }
 
     const CustomUserArrow = ({ onClick, theme, direction }) => {
@@ -44,7 +46,7 @@ const UserApproach = () => {
         infinite: true,
         speed: 350,
         slidesToShow: isXsScreen ? 2 : isSmallScreen ? 3 : isMiddleScreen ? 4 : islargeScreen ? 5 : 6,
-        slidesToScroll: 1,
+        slidesToScroll: 2,
         arrows: true,
         prevArrow: <CustomUserArrow theme={theme} direction="prev"/>,
         nextArrow: <CustomUserArrow theme={theme} direction="next"/>,
@@ -70,25 +72,14 @@ const UserApproach = () => {
         <StyledUserApproach>
             <StyledUserSlider {...userSlideSettings} theme={theme}>
                 {userSlides.map(userSlide =>
-                    <StyledUserPanel key={userSlide.id} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
-                    <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", gap: "20px"}}>
-                        <StyledUserSlideAvatar src={userSlide.userIconUrl} alt='出品者アイコン' $isMiddleScreen={isMiddleScreen} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}/>
-                        <div style={{display: "flex", flexDirection: "column", gap: "5px"}}>
-                            <StyledUserSlideName theme={theme}>{userSlide.userName}</StyledUserSlideName>
-                            <StyledUserSlideId theme={theme}>{`@${userSlide.userId}`}</StyledUserSlideId>
-                        </div>
-                        <Tooltip title="フォローする" placement='top' arrow={true}>
-                        <StyledFollowTab label="フォロー" variant="outlined" color="secondary" clickable onClick={handleFollowSnack}/>
-                        </Tooltip>
-                    </div>
-                    </StyledUserPanel>
-                    )}
+                    <UserPanel key={userSlide.id} userSlide={userSlide} handleFollowSnack={handleFollowSnack}/>
+                )}
                 </StyledUserSlider>
         </StyledUserApproach>
 
-    <Snackbar open={isFollowSnack} onClose={handleFollowSnackClose} TransitionComponent={SlideTransition} autoHideDuration={10000}>
-        <Alert severity='info'>username さんをフォローしました</Alert>
-    </Snackbar>
+        <Snackbar open={isFollowSnack} onClose={handleFollowSnackClose} TransitionComponent={SlideTransition} autoHideDuration={10000}>
+            <Alert severity='info'>username さんをフォローしました</Alert>
+        </Snackbar>
     </>
     )
 }
@@ -117,52 +108,6 @@ const StyledUserSlider = styled(Slider)`
         align-items: center;
         width: 100%;
         height: 100%;
-    }
-`
-
-const StyledUserPanel = styled.div`
-    height: 100%;
-`
-
-const StyledUserSlideAvatar = styled(Avatar)`
-    && {
-        cursor: pointer;
-        width: ${(props) => (props.$isXsScreen ? "100px" : (props.$isSmallScreen ? "100px" : (props.$isMiddleScreen ? "100px" : "125px")))};
-        height: ${(props) => (props.$isXsScreen ? "100px" : (props.$isSmallScreen ? "100px" : (props.$isMiddleScreen ? "100px" : "125px")))};
-        margin: 0 auto 0 auto;
-    }
-`
-
-const StyledUserSlideName = styled.div`
-    color: ${(props) => props.theme.palette.text.main};
-    width: 80%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    font-weight: bold;
-    font-size: 1.2rem;
-    margin: 0 auto;
-    text-align: center;
-`
-
-const StyledUserSlideId = styled.div`
-    color: ${(props) => props.theme.palette.text.sub};
-    width: 80%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    margin: 0 auto;
-    text-align: center;
-`
-
-const StyledFollowTab = styled(Chip)`
-    && {
-        width: 70%;
-        height: 45px;
-        font-size: 1rem;
-        font-weight: bold;
-        max-width: 250px;
-        margin: 0 auto 0 auto;
     }
 `
 
