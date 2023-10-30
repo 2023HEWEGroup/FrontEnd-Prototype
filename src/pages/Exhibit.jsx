@@ -14,6 +14,8 @@ import ProductRecognitionModal from '../components/exhibit/prodiuctRecognitionMo
 import { useDispatch, useSelector } from 'react-redux';
 import { setWindowScrollable } from '../redux/features/windowScrollaleSlice';
 import ExhibitCommands from '../components/exhibit/exhibitCommands/ExhibitCommands';
+import DestructionModal from '../components/common/admin/destructionModal/DestructionModal';
+import { useNavigate } from 'react-router-dom';
 
 
 const Exhibit = () => {
@@ -26,8 +28,10 @@ const Exhibit = () => {
   const [product, setProduct] = useState({name: "", detail: "", price: "", benefit: 0, status: "", deliveryCost: "", shippingArea: "", category: "", tags: []});
   const [tag, setTag] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDestructOpen , setIsDestructOpen] = useState(false);
   const isScrollable = useSelector((state => state.windowScrollable.value));
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const theme = useTheme();
   const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
 
@@ -83,6 +87,21 @@ const Exhibit = () => {
 
   const handleModalClose = () => {
     setIsModalOpen(false);
+    
+  }
+
+  const handleDestructOpen = () => {
+    if (uploadImages.length > 0 || product.name || product.detail || product.price || product.status || product.deliveryCost || product.shippingArea || product.category || tag || product.tags.length > 0) {
+      setIsDestructOpen(true);
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  const locateToHome = () => {
+    setIsDestructOpen(false);
+    navigate("/home")
   }
 
   // 同様にスクロール可否を問う。Poppr展開中に遷移した場合ポッパーは遷移に伴って強制的にデフォルトの閉じ状態になる(正式な閉じる手順を踏まない)
@@ -126,7 +145,7 @@ const Exhibit = () => {
   return (
     <>
 
-    <ExhibitCommands />
+    <ExhibitCommands handleDestructOpen={handleDestructOpen}/>
 
     <StyledExhibit>
 
@@ -219,6 +238,9 @@ const Exhibit = () => {
       <Button variant='outlined' size='large' color='secondary' fullWidth sx={{p: 1, mb: 15}} onClick={handleModalOpen}>確認</Button>
 
     </StyledExhibit>
+
+    <DestructionModal isDestructOpen={isDestructOpen} setIsDestructOpen={setIsDestructOpen} handleInputDelete={locateToHome}
+      header="出品内容を破棄しますか？" desc="この操作は取り消しできません。変更は失われます。" />
     </>
   )
 }

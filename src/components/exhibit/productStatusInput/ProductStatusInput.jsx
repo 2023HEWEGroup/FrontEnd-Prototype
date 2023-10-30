@@ -41,7 +41,7 @@ const ProductStatusInput = (props) => {
                     }
                 }}>
                     {props.status.map((state, index) =>
-                        <MenuItem key={index} value={index}>{state}</MenuItem>
+                        <MenuItem key={index} value={state}>{state}</MenuItem>
                     )}
                 </Select>
             </FormControl>

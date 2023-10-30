@@ -42,7 +42,7 @@ const ProductShippingAreaInput = (props) => {
                         }
                     }}>
                         {props.prefectures.map((prefecture, index) => (
-                            <MenuItem key={index} value={index}>
+                            <MenuItem key={index} value={prefecture}>
                             {prefecture}
                             </MenuItem>
                         ))}
