@@ -168,7 +168,7 @@ const StyledSlideDesc = styled.div`
 `
 
 const StyledGroupDesc = styled.div`
-    width: 100%;
+    width: 90%;
     height: 100%;
     color: ${(props) => props.theme.palette.text.main};
     overflow: hidden;
