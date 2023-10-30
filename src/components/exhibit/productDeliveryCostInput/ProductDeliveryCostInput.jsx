@@ -41,7 +41,7 @@ const ProductDeliveryCostInput = (props) => {
                     }
                 }}>
                     {props.deliveryCost.map((delivery, index) => (
-                        <MenuItem key={index} value={index}>
+                        <MenuItem key={index} value={delivery}>
                         {delivery}
                         </MenuItem>
                     ))}

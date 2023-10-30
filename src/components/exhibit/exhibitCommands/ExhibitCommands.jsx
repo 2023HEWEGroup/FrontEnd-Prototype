@@ -5,12 +5,12 @@ import SaveInput from './saveInput/SaveInput'
 import UseDraft from './useDraft/UseDraft'
 
 
-const ExhibitCommands = () => {
+const ExhibitCommands = (props) => {
     return (
         <StyledExhibitCommands>
-            <BackToHome />
+            <BackToHome handleDestructOpen={props.handleDestructOpen}/>
             <SaveInput />
-            <UseDraft />
+            <UseDraft setIsDestructOpen={props.setIsDestructOpen}/>
         </StyledExhibitCommands>
     )
 }
