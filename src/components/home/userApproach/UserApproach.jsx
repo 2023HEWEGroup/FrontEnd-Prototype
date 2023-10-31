@@ -22,7 +22,6 @@ const UserApproach = () => {
     const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
     const theme = useTheme();
     const [isFollowSnack, setIsFollowSnack] = useState(false);
-    console.log(isFollowSnack)
 
     const handleFollowSnackClose = () => {
         setIsFollowSnack(false);
