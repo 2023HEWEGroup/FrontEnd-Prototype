@@ -9,7 +9,7 @@ const RegistChangeStep = (props) => {
         <>
         <StyledStep>
             {props.currentStep === 0 && (
-                <StyledNextStep variant='contained' color='top' onClick={props.handleNextStep}>次へ</StyledNextStep>
+                <StyledNextStep variant='contained' color='top' onClick={props.handleNextStep1}>次へ</StyledNextStep>
             )}
             {props.currentStep === 1 && (
                 <>
@@ -26,7 +26,7 @@ const RegistChangeStep = (props) => {
             {props.currentStep === 3 && (
                 <>
                 <StyledBackStep variant='outlined' color='top' onClick={props.handleBackStep}>戻る</StyledBackStep>
-                <StyledNextStep variant='contained' color='top'>アカウント作成</StyledNextStep>
+                <StyledNextStep variant='contained' color='top' onClick={props.handleRegister}>アカウント作成</StyledNextStep>
                 </>
             )}
         </StyledStep>

@@ -10,19 +10,19 @@ const RegistPersonalInfo = (props) => {
     return (
         <>
         <StyledName>
-            <StyledTextField style={{marginBottom: "15px", width: "50%"}} helperText=" " theme={theme} fullWidth label="姓 (全角)" required
-                autoComplete='new-off' variant='outlined' inputProps={{maxLength: 20}} value={props.upperName} onChange={props.handleUpperNameInput}/>
-            <StyledTextField style={{marginBottom: "15px", width: "50%"}} helperText=" " theme={theme} fullWidth label="名 (全角)" required
-                autoComplete='new-off' variant='outlined' inputProps={{maxLength: 20}} value={props.lowerName} onChange={props.handleLowerNameInput}/>
+            <StyledTextField style={{marginBottom: "15px", width: "50%"}} helperText={props.upperNameHelper} theme={theme} fullWidth label="姓" required
+                autoComplete='new-off' variant='outlined' inputProps={{maxLength: 20}} value={props.upperName} onChange={props.handleUpperNameInput} error={props.upperNameError}/>
+            <StyledTextField style={{marginBottom: "15px", width: "50%"}} helperText={props.lowerNameHelper} theme={theme} fullWidth label="名" required
+                autoComplete='new-off' variant='outlined' inputProps={{maxLength: 20}} value={props.lowerName} onChange={props.handleLowerNameInput} error={props.lowerNameError}/>
             </StyledName>
             <StyledName>
-            <StyledTextField style={{marginBottom: "15px", width: "50%"}} helperText=" " theme={theme} fullWidth label="姓 (カナ)" required
-                autoComplete='new-off' variant='outlined' inputProps={{maxLength: 20}} value={props.upperNameKana} onChange={props.handleUpperNameKanaInput}/>
-            <StyledTextField style={{marginBottom: "15px", width: "50%"}} helperText=" " theme={theme} fullWidth label="名 (カナ)" required
-                autoComplete='new-off' variant='outlined' inputProps={{maxLength: 20}} value={props.lowerNameKana} onChange={props.handleLowerNameKanaInput}/>
+            <StyledTextField style={{marginBottom: "15px", width: "50%"}} helperText={props.upperNameKanaHelper} theme={theme} fullWidth label="姓 (カナ)" required
+                autoComplete='new-off' variant='outlined' inputProps={{maxLength: 20}} value={props.upperNameKana} onChange={props.handleUpperNameKanaInput} error={props.upperNameKanaError}/>
+            <StyledTextField style={{marginBottom: "15px", width: "50%"}} helperText={props.lowerNameKanaHelper} theme={theme} fullWidth label="名 (カナ)" required
+                autoComplete='new-off' variant='outlined' inputProps={{maxLength: 20}} value={props.lowerNameKana} onChange={props.handleLowerNameKanaInput} error={props.lowerNameKanaError}/>
             </StyledName>
             <StyledPostalCode>
-            <StyledTextField style={{width: "50%"}} theme={theme} fullWidth label="郵便番号" required
+            <StyledTextField style={{width: "50%"}} theme={theme} fullWidth label="郵便番号 (数字7ケタ)" required helperText={props.postalCodeHelper} error={props.postalCodeError}
                 autoComplete='new-off' variant='outlined'inputProps={{maxLength: 7}} value={props.postalCode} onChange={props.handlePostalCodeInput}/>
             <StyledPostalComment>郵便番号から住所が自動で入力されます</StyledPostalComment>
             </StyledPostalCode>
@@ -34,7 +34,7 @@ const RegistPersonalInfo = (props) => {
                 autoComplete='new-off' variant='filled' value={props.town}/>
             <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="番地・建物名など"
                 autoComplete='new-off' variant='outlined' inputProps={{maxLength: 50}} value={props.houseNumber} onChange={props.handleHouseNumberInput}/>
-            <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="電話番号" required
+            <StyledTextField style={{marginBottom: "15px"}} helperText={props.phoneNumberHelper} error={props.phoneNumberError} theme={theme} fullWidth label="携帯電話番号 (数字11ケタ)" required
                 autoComplete='new-off' variant='outlined' inputProps={{maxLength: 11}} value={props.phoneNumber} onChange={props.handlePhoneNumberInput}/>
         </>
     )
