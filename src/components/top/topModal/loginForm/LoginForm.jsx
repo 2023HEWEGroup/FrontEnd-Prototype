@@ -10,7 +10,7 @@ const LoginForm = (props) => {
     const theme = useTheme();
 
     return (
-        <Styledform noValidate>
+        <StyledLoginForm noValidate>
         {props.isUserIdLogin ? 
         <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="ユーザーID (3~20字)"
             autoComplete='new-off' variant='outlined' inputProps={{maxLength: 20}} value={props.userId} onChange={props.handleUserIdInput}/>
@@ -24,14 +24,14 @@ const LoginForm = (props) => {
         <div style={{width: "100%"}}>
             <StyledOptionChange onClick={props.handleUserIdLogin}>または{props.isUserIdLogin ? "メールアドレス" : "ユーザーID"}でログインする</StyledOptionChange>
         </div>
-        <LoadingButton color='top' fullWidth type='submit' variant='outlined'>ログイン</LoadingButton>
+        <LoadingButton color='top' fullWidth variant='outlined'>ログイン</LoadingButton>
         <Button color='top' onClick={props.handleIsLogin}>アカウントをお持ちではありませんか？<OpenInNew style={{marginLeft: "5px"}}/>新規登録</Button>
-        </Styledform>
+        </StyledLoginForm>
     )
 }
 
 
-const Styledform = styled.form`
+const StyledLoginForm = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;

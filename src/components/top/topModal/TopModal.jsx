@@ -90,7 +90,7 @@ const TopModal = (props) => {
                 setIsDestructOpen(true);
             } else {
                 handleInputDelete();
-            }
+        }
     }
 
     const handleInputDelete = () => {
@@ -98,6 +98,7 @@ const TopModal = (props) => {
         handleDeleteInput();
         setCurrentStep(0);
         setIsLogin(true);
+        setIsUserIdLogin(true);
         setIsDestructOpen(false);
     }
 
