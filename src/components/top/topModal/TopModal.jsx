@@ -70,6 +70,9 @@ const TopModal = (props) => {
     const [postalCodeError, setPostalCodeError] = useState(false);
     const [phoneNumberError, setPhoneNumberError] = useState(false);
 
+    const [creditCardError, setCreditCardError] = useState({number: false, expiry: false, cvc: false});
+    const [creditCardHelper, setCreditCardHelper] = useState({number: " ", expiry: " ", cvc: " "});
+
     const [CVCVisible, setCVCVisible] = useState(false);
     const [recognitionPasswordVisible, setRecognitionPasswordVisible] = useState(false);
     const [recognitionCVCVisible, setRecognitionCVCVisible] = useState(false);
@@ -103,7 +106,7 @@ const TopModal = (props) => {
         getCardImageProps,
         getCardNumberProps,
         getExpiryDateProps,
-        getCVCProps
+        getCVCProps,
     } = usePaymentInputs();
 
     const handleDeleteInput = () => {
@@ -154,9 +157,24 @@ const TopModal = (props) => {
         //     }
         // }
         setCurrentStep(currentStep + 1);
-        if (modalContainerRef.current) {
-            modalContainerRef.current.scrollTop = 0;
-        }
+            if (modalContainerRef.current) {
+                modalContainerRef.current.scrollTop = 0;
+            }
+    }
+
+    const handleNextStep2 = () => {
+        // if (upperNameError || lowerNameError || upperNameKanaError || lowerNameKanaError || postalCodeError || phoneNumberError) {
+        //     return;
+        // } else if (upperName && lowerName && upperNameKana && lowerNameKana && postalCode && prefecture && city && town && phoneNumber) {
+        //     setCurrentStep(currentStep + 1);
+        //     if (modalContainerRef.current) {
+        //         modalContainerRef.current.scrollTop = 0;
+        //     }
+        // }
+        setCurrentStep(currentStep + 1);
+            if (modalContainerRef.current) {
+                modalContainerRef.current.scrollTop = 0;
+            }
     }
     
     const handleBackStep = () => {
@@ -436,17 +454,68 @@ const TopModal = (props) => {
     const handleCreditCardNumberChange = (e) => {
         const newCreditCard = { ...creditCard, number: e.target.value };
         setCreditCard(newCreditCard);
+        if (e.target.value.length === 0) {
+            const newCreditCardError = { ...creditCardError, number: false };
+            setCreditCardError(newCreditCardError);
+            const newCreditCardHelper = { ...creditCardHelper, number: " " };
+            setCreditCardHelper(newCreditCardHelper);
+        } else if (meta.erroredInputs.cardNumber !== undefined) {
+            const newCreditCardError = { ...creditCardError, number: true };
+            setCreditCardError(newCreditCardError);
+            const newCreditCardHelper = { ...creditCardHelper, number: "無効なカード番号です" };
+            setCreditCardHelper(newCreditCardHelper);
+        } else {
+            const newCreditCardError = { ...creditCardError, number: false };
+            setCreditCardError(newCreditCardError);
+            const newCreditCardHelper = { ...creditCardHelper, number: " " };
+            setCreditCardHelper(newCreditCardHelper);
+        }
     }
     
     const handleCreditCardExpiryChange = (e) => {
         const newCreditCard = { ...creditCard, expiry: e.target.value };
         setCreditCard(newCreditCard);
+        console.log(meta.erroredInputs.expiryDate)
+        if (e.target.value.length === 0) {
+            const newCreditCardError = { ...creditCardError, expiry: false };
+            setCreditCardError(newCreditCardError);
+            const newCreditCardHelper = { ...creditCardHelper, expiry: " " };
+            setCreditCardHelper(newCreditCardHelper);
+        } else if (meta.erroredInputs.expiryDate !== undefined) {
+            const newCreditCardError = { ...creditCardError, expiry: true };
+            setCreditCardError(newCreditCardError);
+            const newCreditCardHelper = { ...creditCardHelper, expiry: "無効な有効期限です" };
+            setCreditCardHelper(newCreditCardHelper);
+        } else {
+            const newCreditCardError = { ...creditCardError, expiry: false };
+            setCreditCardError(newCreditCardError);
+            const newCreditCardHelper = { ...creditCardHelper, expiry: " " };
+            setCreditCardHelper(newCreditCardHelper);
+        }
     }
     
     const handleCreditCardCVCChange = (e) => {
         const newCreditCard = { ...creditCard, cvc: e.target.value };
         setCreditCard(newCreditCard);
+        console.log(meta.erroredInputs.cvc)
+        if (e.target.value.length === 0) {
+            const newCreditCardError = { ...creditCardError, cvc: false };
+            setCreditCardError(newCreditCardError);
+            const newCreditCardHelper = { ...creditCardHelper, cvc: " " };
+            setCreditCardHelper(newCreditCardHelper);
+        } else if (meta.erroredInputs.cvc !== undefined) {
+            const newCreditCardError = { ...creditCardError, cvc: true };
+            setCreditCardError(newCreditCardError);
+            const newCreditCardHelper = { ...creditCardHelper, cvc: "無効なCVCです" };
+            setCreditCardHelper(newCreditCardHelper);
+        } else {
+            const newCreditCardError = { ...creditCardError, cvc: false };
+            setCreditCardError(newCreditCardError);
+            const newCreditCardHelper = { ...creditCardHelper, cvc: " " };
+            setCreditCardHelper(newCreditCardHelper);
+        }
     }
+    
     
     const handleCVCVisible = () => {
         setCVCVisible(!CVCVisible);
@@ -540,7 +609,7 @@ const TopModal = (props) => {
                         registMailAddressHelper={registMailAddressHelper} registConfirmMailAddressHelper={registConfirmMailAddressHelper}
                         isRegistUserNameError={isRegistUserNameError} isRegistUserIdError={isRegistUserIdError} isRegistPasswordError={isRegistPasswordError} isRegistConfirmPasswordError={isRegistConfirmPasswordError}
                         isRegistMailAddressError={isRegistMailAddressError} isRegistConfirmMailAddressError={isRegistConfirmMailAddressError}/>
-                    <RegistChangeStep currentStep={currentStep} handleBackStep={handleBackStep} handleNextStep1={handleNextStep1} handleIsLogin={handleIsLogin} handleRegister={handleRegister}/>
+                    <RegistChangeStep currentStep={currentStep} handleBackStep={handleBackStep} handleNextStep1={handleNextStep1} handleNextStep2={handleNextStep2} handleIsLogin={handleIsLogin} handleRegister={handleRegister}/>
                     </>
                 )}
                 {currentStep === 1 && (
@@ -553,7 +622,7 @@ const TopModal = (props) => {
                         upperNameHelper={upperNameHelper} lowerNameHelper={lowerNameHelper} upperNameKanaHelper={upperNameKanaHelper} lowerNameKanaHelper={lowerNameKanaHelper}
                         postalCodeHelper={postalCodeHelper} phoneNumberHelper={phoneNumberHelper} upperNameError={upperNameError} lowerNameError={lowerNameError} upperNameKanaError={upperNameKanaError}
                         lowerNameKanaError={lowerNameKanaError} postalCodeError={postalCodeError} phoneNumberError={phoneNumberError}/>
-                    <RegistChangeStep currentStep={currentStep} handleBackStep={handleBackStep} handleNextStep1={handleNextStep1} handleIsLogin={handleIsLogin} handleRegister={handleRegister}/>
+                    <RegistChangeStep currentStep={currentStep} handleBackStep={handleBackStep} handleNextStep1={handleNextStep1} handleNextStep2={handleNextStep2} handleIsLogin={handleIsLogin} handleRegister={handleRegister}/>
                     </>
                 )}
                 {currentStep === 2 && (
@@ -561,8 +630,8 @@ const TopModal = (props) => {
                     <RegistStepper currentStep={currentStep}/>
                     <RegistCreditCard creditCard={creditCard} handleCreditCardNumberChange={handleCreditCardNumberChange} handleCreditCardExpiryChange={handleCreditCardExpiryChange} handleCreditCardCVCChange={handleCreditCardCVCChange}
                         CVCVisible={CVCVisible} handleCVCVisible={handleCVCVisible} handleCardChecked={handleCardChecked}
-                        meta={meta} getCardImageProps={getCardImageProps} getCardNumberProps={getCardNumberProps} getExpiryDateProps={getExpiryDateProps} getCVCProps={getCVCProps}/>
-                    <RegistChangeStep currentStep={currentStep} handleBackStep={handleBackStep} handleNextStep1={handleNextStep1} handleIsLogin={handleIsLogin}/>
+                        meta={meta} getCardImageProps={getCardImageProps} getCardNumberProps={getCardNumberProps} getExpiryDateProps={getExpiryDateProps} getCVCProps={getCVCProps} creditCardError={creditCardError} creditCardHelper={creditCardHelper}/>
+                    <RegistChangeStep currentStep={currentStep} handleBackStep={handleBackStep} handleNextStep1={handleNextStep1} handleNextStep2={handleNextStep2} handleIsLogin={handleIsLogin}/>
                     </>
                 )}
                 {currentStep === 3 && (
@@ -574,7 +643,7 @@ const TopModal = (props) => {
                         creditCard={creditCard} recognitionPasswordVisible={recognitionPasswordVisible} handleRecognitionPasswordVisible={handleRecognitionPasswordVisible}
                         recognitionCVCVisible={recognitionCVCVisible} handleRecognitionCVCVisible={handleRecognitionCVCVisible}
                         meta={meta} getCardImageProps={getCardImageProps}/>
-                    <RegistChangeStep currentStep={currentStep} handleBackStep={handleBackStep} handleNextStep1={handleNextStep1} handleIsLogin={handleIsLogin} handleRegister={handleRegister}/>
+                    <RegistChangeStep currentStep={currentStep} handleBackStep={handleBackStep} handleNextStep1={handleNextStep1} handleNextStep2={handleNextStep2} handleIsLogin={handleIsLogin} handleRegister={handleRegister}/>
                     </>
                 )}
                 </Styledform>
