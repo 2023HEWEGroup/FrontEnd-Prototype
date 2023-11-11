@@ -12,19 +12,22 @@ const LoginForm = (props) => {
     return (
         <StyledLoginForm noValidate>
         {props.isUserIdLogin ? 
-        <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="ユーザーID (3~20字)"
+        <StyledTextField style={{marginBottom: "15px"}} helperText={props.userIdHelper} error={props.userIdError} theme={theme} fullWidth label="ユーザーID (3~20字)"
             autoComplete='new-off' variant='outlined' inputProps={{maxLength: 20}} value={props.userId} onChange={props.handleUserIdInput}/>
         :
-        <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="メールアドレス"
+        <StyledTextField style={{marginBottom: "15px"}} helperText={props.mailAddressHelper} error={props.mailAddressError} theme={theme} fullWidth label="メールアドレス"
             autoComplete='new-off' variant='outlined' value={props.mailAddress} onChange={props.handleMailAddressInput}/>
         }
-        <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="パスワード (8~20字)"
+        <StyledTextField style={{marginBottom: "15px"}} helperText={props.passwordHelper} error={props.passwordError} theme={theme} fullWidth label="パスワード (8~20字)"
             autoComplete='new-off' variant='outlined' value={props.password} type={props.passwordVisible ? "text" : 'password'} onChange={props.handlePasswordInput}
             inputProps={{maxLength: 20}} InputProps={{endAdornment: (<InputAdornment position="end" onClick={props.handlePasswordVisible}>{props.passwordVisible ? <StyledVisibility /> : <StyledVisibilityOff />}</InputAdornment>)}}/>
         <div style={{width: "100%"}}>
             <StyledOptionChange onClick={props.handleUserIdLogin}>または{props.isUserIdLogin ? "メールアドレス" : "ユーザーID"}でログインする</StyledOptionChange>
         </div>
-        <LoadingButton color='top' fullWidth variant='outlined'>ログイン</LoadingButton>
+        {props.loginError &&
+            <StyledError theme={theme}>{props.loginError}</StyledError>
+        }
+        <LoadingButton color='top' fullWidth variant='outlined' onClick={props.handleLogin}>ログイン</LoadingButton>
         <Button color='top' onClick={props.handleIsLogin}>アカウントをお持ちではありませんか？<OpenInNew style={{marginLeft: "5px"}}/>新規登録</Button>
         </StyledLoginForm>
     )
@@ -95,6 +98,12 @@ const StyledVisibilityOff = styled(VisibilityOff)`
         color: #777;
         cursor: pointer;
     }
+`
+
+const StyledError = styled.div`
+    color: ${(props) => props.theme.palette.text.error};
+    margin-bottom: 15px;
+    font-size: 0.9rem;
 `
 
 

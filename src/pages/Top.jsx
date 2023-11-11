@@ -6,11 +6,13 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { setWindowScrollable } from '../redux/features/windowScrollaleSlice'
 import TopModal from '../components/top/topModal/TopModal'
+import IsProgress from '../components/common/isProgress/IsProgress'
 
 
 const Top = () => {
 
   const [isTopModalOpen, setIsTopModalOpen] = useState(false);
+  const [isRequesting, setIsRequesting] = useState(false);
   const isScrollable = useSelector((state => state.windowScrollable.value));
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -73,7 +75,9 @@ const Top = () => {
           </StyledGridItem>
         </StyledGridContainer>
 
-        <TopModal isTopModalOpen={isTopModalOpen} setIsTopModalOpen={setIsTopModalOpen}/>
+        <TopModal isTopModalOpen={isTopModalOpen} setIsTopModalOpen={setIsTopModalOpen} isRequesting={isRequesting} setIsRequesting={setIsRequesting}/>
+
+        <IsProgress isProgress={isRequesting} style={{zIndex: 9000}}/>
         
     </StyledFullScrean>
   )

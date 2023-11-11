@@ -20,7 +20,7 @@ const RegistChangeStep = (props) => {
             {props.currentStep === 2 && (
                 <>
                 <StyledBackStep variant='outlined' color='top' onClick={props.handleBackStep}>戻る</StyledBackStep>
-                <StyledNextStep variant='contained' color='top' onClick={props.handleNextStep}>次へ</StyledNextStep>
+                <StyledNextStep variant='contained' color='top' onClick={props.handleNextStep3}>次へ</StyledNextStep>
                 </>
             )}
             {props.currentStep === 3 && (

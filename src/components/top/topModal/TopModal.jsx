@@ -12,6 +12,9 @@ import RegistCreditCard from './registCreditCard/RegistCreditCard';
 import RegistRecognition from './registRecognition/RegistRecognition';
 import { usePaymentInputs } from 'react-payment-inputs';
 import DestructionModal from '../../common/admin/destructionModal/DestructionModal';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../../redux/features/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 
 const TopModal = (props) => {
@@ -20,6 +23,14 @@ const TopModal = (props) => {
     const [userId, setUserId] = useState("");
     const [mailAddress, setMailAddress] = useState("");
     const [password, setPassword] = useState("");
+
+    const [userIdError, setUserIdError] = useState(false);
+    const [userIdHelper, setUserIdHelper] = useState(" ");
+    const [passwordError, setPasswordError] = useState(false);
+    const [passwordHelper, setPasswordHelper] = useState(" ");
+    const [mailAddressError, setMailAddressError] = useState(false);
+    const [mailAddressHelper, setMailAddressHelper] = useState(" ");
+    const [loginError, setLoginError] = useState("");
     
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [isUserIdLogin, setIsUserIdLogin] = useState(true);
@@ -56,6 +67,7 @@ const TopModal = (props) => {
     const [isRegistConfirmPasswordError, setIsRegistConfirmPasswordError] = useState(false);
     const [isRegistMailAddressError, setIsRegistMailAddressError] = useState(false);
     const [isRegistConfirmMailAddressError, setIsRegistConfirmMailAddressError] = useState(false);
+    const [stepError1, setStepError1] = useState("");
 
     const [upperNameHelper, setUpperNameHelper] = useState(" ");
     const [lowerNameHelper, setLowerNameHelper] = useState(" ");
@@ -69,6 +81,7 @@ const TopModal = (props) => {
     const [lowerNameKanaError, setLowerNameKanaError] = useState(false);
     const [postalCodeError, setPostalCodeError] = useState(false);
     const [phoneNumberError, setPhoneNumberError] = useState(false);
+    const [stepError2, setStepError2] = useState("");
 
     const [creditCardError, setCreditCardError] = useState({number: false, expiry: false, cvc: false});
     const [creditCardHelper, setCreditCardHelper] = useState({number: " ", expiry: " ", cvc: " "});
@@ -76,10 +89,13 @@ const TopModal = (props) => {
     const [CVCVisible, setCVCVisible] = useState(false);
     const [recognitionPasswordVisible, setRecognitionPasswordVisible] = useState(false);
     const [recognitionCVCVisible, setRecognitionCVCVisible] = useState(false);
+    const [registError, setRegistError] = useState("");
 
     const [isDestructOpen, setIsDestructOpen] = useState(false);
 
     const modalContainerRef = useRef(null);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
@@ -97,6 +113,10 @@ const TopModal = (props) => {
         props.setIsTopModalOpen(false);
         handleDeleteInput();
         setCurrentStep(0);
+        setStepError1("");
+        setStepError2("");
+        setRegistError("");
+        setLoginError("");
         setIsLogin(true);
         setIsUserIdLogin(true);
         setIsDestructOpen(false);
@@ -142,40 +162,95 @@ const TopModal = (props) => {
         setRegistConfirmPasswordHelper(" ");
         setRegistMailAddressHelper(" ");
         setRegistConfirmMailAddressHelper(" ");
+
+        setUpperNameError(false);
+        setUpperNameHelper(" ");
+        setLowerNameError(false);
+        setLowerNameHelper(" ");
+        setUpperNameKanaError(false);
+        setUpperNameKanaHelper(" ");
+        setLowerNameKanaError(false);
+        setLowerNameKanaHelper(" ");
+        setPostalCodeError(false);
+        setPostalCodeHelper(" ");
+        setPhoneNumberError(false);
+        setPhoneNumberHelper(" ");
+
+        const newCreditCardError = { ...creditCardError, number: false, expiry: false, cvc:  false}
+        setCreditCardError(newCreditCardError);
+        const newCreditCardHelper = {...creditCardHelper, number: " ", expiry: " ", cvc: " "}
+        setCreditCardHelper(newCreditCardHelper);
     }
     
     const handleIsLogin = () => {
         setIsLogin(!isLogin);
     }
 
-    const handleNextStep1 = () => {
-        // if (isRegistUserNameError || isRegistUserIdError || isRegistPasswordError || isRegistConfirmPasswordError || isRegistMailAddressError || isRegistConfirmMailAddressError) {
-        //     return;
-        // } else if (registUserName && registUserId && registPassword && registConfirmPassword && registMailAddress && registConfirmMailAddress) {
-        //     setCurrentStep(currentStep + 1);
-        //     if (modalContainerRef.current) {
-        //         modalContainerRef.current.scrollTop = 0;
-        //     }
-        // }
-        setCurrentStep(currentStep + 1);
+    const handleNextStep1 = async () => {
+        if (!(registUserName && registUserId && registPassword && registConfirmPassword && registMailAddress && registConfirmMailAddress)) {
+            setStepError1("エラー：入力内容が不足しています");
+            return;
+        }
+        else if (isRegistUserNameError || isRegistUserIdError || isRegistPasswordError || isRegistConfirmPasswordError || isRegistMailAddressError || isRegistConfirmMailAddressError) {
+            setStepError1("エラー：入力内容が誤っています");
+            return;
+        } else if (registUserName && registUserId && registPassword && registConfirmPassword && registMailAddress && registConfirmMailAddress) {
+            setStepError1("");
+            setCurrentStep(currentStep + 1);
             if (modalContainerRef.current) {
                 modalContainerRef.current.scrollTop = 0;
             }
+        }
     }
 
     const handleNextStep2 = () => {
-        // if (upperNameError || lowerNameError || upperNameKanaError || lowerNameKanaError || postalCodeError || phoneNumberError) {
-        //     return;
-        // } else if (upperName && lowerName && upperNameKana && lowerNameKana && postalCode && prefecture && city && town && phoneNumber) {
-        //     setCurrentStep(currentStep + 1);
-        //     if (modalContainerRef.current) {
-        //         modalContainerRef.current.scrollTop = 0;
-        //     }
-        // }
-        setCurrentStep(currentStep + 1);
+        if (!(upperName && lowerName && upperNameKana && lowerNameKana && postalCode && phoneNumber)) {
+            setStepError2("エラー：入力内容が不足しています");
+            return;
+        }
+        if (upperNameError || lowerNameError || upperNameKanaError || lowerNameKanaError || postalCodeError || phoneNumberError) {
+            setStepError2("エラー：入力内容が誤っています");
+            return;
+        } else if (upperName && lowerName && upperNameKana && lowerNameKana && postalCode && prefecture && city && town && phoneNumber) {
+            setStepError2("");
+            setCurrentStep(currentStep + 1);
             if (modalContainerRef.current) {
                 modalContainerRef.current.scrollTop = 0;
             }
+        }
+    }
+
+    const handleNextStep3 = () => {
+        if (cardChecked) {
+            const newCreditCardError = {
+                ...creditCardError,
+                number: creditCard.number ? (meta.erroredInputs.cardNumber ? true : false) : true,
+                expiry: creditCard.expiry ? (meta.erroredInputs.expiryDate ? true : false) : true,
+                cvc: creditCard.cvc ? (meta.erroredInputs.cvc ? true : false) : true,
+            }
+            setCreditCardError(newCreditCardError);
+            const newCreditCardHelper = {
+                ...creditCardHelper,
+                number: creditCard.number ? (meta.erroredInputs.cardNumber ? "カード番号が無効です" : " ") : "カード番号を入力して下さい",
+                expiry: creditCard.expiry ? (meta.erroredInputs.expiryDate ? "有効期限が無効です" : " ") : "有効期限を入力して下さい",
+                cvc: creditCard.cvc ? (meta.erroredInputs.cvc ? "CVCが無効です" : " ") : "CVCを入力して下さい",
+            }
+            setCreditCardHelper(newCreditCardHelper);
+            if (meta.erroredInputs.cardNumber || meta.erroredInputs.expiryDate || meta.erroredInputs.cvc) {
+                return;
+            } else if (!(creditCard.number && creditCard.expiry && creditCard.cvc)) {
+                return;
+            }
+        }
+        const newCreditCardError = { ...creditCardError, number: false, expiry: false, cvc:  false}
+        setCreditCardError(newCreditCardError);
+        const newCreditCardHelper = {...creditCardHelper, number: " ", expiry: " ", cvc: " "}
+        setCreditCardHelper(newCreditCardHelper);
+        setCurrentStep(currentStep + 1);
+        if (modalContainerRef.current) {
+            modalContainerRef.current.scrollTop = 0;
+        }
+
     }
     
     const handleBackStep = () => {
@@ -189,16 +264,64 @@ const TopModal = (props) => {
         setIsUserIdLogin(!isUserIdLogin);
     }
     
-    const handleUserIdInput = (e) => {
+    const handleUserIdInput = async (e) => {
         setUserId(e.target.value);
+        if (e.target.value.length === 0) {
+            setUserIdError(false);
+            setUserIdHelper(" ");
+        } else if (!e.target.value.match(/^([a-zA-Z0-9_]{3,30})$/)) {
+            setUserIdError(true);
+            setUserIdHelper("3~30字の 0-9, a-z, A-Z, _ が使用できます");
+        } else {
+            try {
+                const user = await axios.get(`http://localhost:5000/client/user/getById/${e.target.value}`);
+                if (user) {
+                    setUserIdError(false);
+                    setUserIdHelper(" ");
+                }
+            } catch (err) {
+                setUserIdError(true);
+                setUserIdHelper("ユーザーが見つかりません");
+            }
+        }
     }
     
-    const handleMailAddressInput = (e) => {
+    const handleMailAddressInput = async (e) => {
         setMailAddress(e.target.value);
+        if (e.target.value.length === 0) {
+            setMailAddressError(false);
+            setMailAddressHelper(" ");
+        } else if (!e.target.value.match(/^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/)) {
+            setMailAddressError(true);
+            setMailAddressHelper("正しいメールアドレスを入力して下さい");
+        } else {
+            setMailAddressError(false);
+            setMailAddressHelper(" ");
+            try {
+                const user = await axios.get(`http://localhost:5000/client/user/getByEmail/${e.target.value}`);
+                if (user) {
+                    setMailAddressError(false);
+                    setMailAddressHelper(" ");
+                }
+            } catch (err) {
+                setMailAddressError(true);
+                setMailAddressHelper("ユーザーが見つかりません");
+            }
+        }
     }
     
     const handlePasswordInput = (e) => {
         setPassword(e.target.value);
+        if (e.target.value.length === 0) {
+            setPasswordError(false);
+            setPasswordHelper(" ");
+        } else if (!e.target.value.match(/^([a-zA-Z0-9_]{8,30})$/)) {
+            setPasswordError(true);
+            setPasswordHelper("8~30字の 0-9, a-z, A-Z, _ が使用できます");
+        } else {
+            setPasswordError(false);
+            setPasswordHelper(" ");
+        }
     }
     
     const handlePasswordVisible = () => {
@@ -219,20 +342,25 @@ const TopModal = (props) => {
         }
     }
     
-    const handleRegistUserIdInput = (e) => {
+    const handleRegistUserIdInput = async (e) => {
         setRegistUserId(e.target.value);
         if (e.target.value.length === 0) {
             setIsRegistUserIdError(false);
             setRegistUserIdHelper(" ");
-        } else if (e.target.value.trim() === "") {
-            setIsRegistUserIdError(true);
-            setRegistUserIdHelper("スペースのみの登録は出来ません");
         } else if (!e.target.value.match(/^([a-zA-Z0-9_]{3,30})$/)) {
             setIsRegistUserIdError(true);
             setRegistUserIdHelper("3~30字の 0-9, a-z, A-Z, _ が使用できます");
         } else {
             setIsRegistUserIdError(false);
             setRegistUserIdHelper(" ");
+            try {
+                const user = await axios.get(`http://localhost:5000/client/user/getById/${e.target.value}`);
+                if (user) {
+                    setIsRegistUserIdError(true);
+                    setRegistUserIdHelper("このユーザーIDはすでに使用されています");
+                }
+            } catch (err) {
+            }
         }
     }
     
@@ -241,9 +369,6 @@ const TopModal = (props) => {
         if (e.target.value.length === 0) {
             setIsRegistPasswordError(false);
             setRegistPasswordHelper(" ");
-        } else if (e.target.value.trim() === "") {
-            setIsRegistPasswordError(true);
-            setRegistPasswordHelper("スペースのみの登録は出来ません");
         } else if (!e.target.value.match(/^([a-zA-Z0-9_]{8,30})$/)) {
             setIsRegistPasswordError(true);
             setRegistPasswordHelper("8~30字の 0-9, a-z, A-Z, _ が使用できます");
@@ -262,9 +387,6 @@ const TopModal = (props) => {
         if (e.target.value.length === 0) {
             setIsRegistConfirmPasswordError(false);
             setRegistConfirmPasswordHelper(" ");
-        } else if (e.target.value.trim() === "") {
-            setIsRegistConfirmPasswordError(true);
-            setRegistConfirmPasswordHelper("スペースのみの登録は出来ません");
         } else if (!e.target.value.match(/^([a-zA-Z0-9_]{8,30})$/)) {
             setIsRegistConfirmPasswordError(true);
             setRegistConfirmPasswordHelper("8~30字の 0-9, a-z, A-Z, _ が使用できます");
@@ -290,7 +412,7 @@ const TopModal = (props) => {
         }
     }
     
-    const handleRegistMailAddressInput = (e) => {
+    const handleRegistMailAddressInput = async (e) => {
         setRegistMailAddress(e.target.value);
         if (e.target.value.length === 0) {
             setIsRegistMailAddressError(false);
@@ -304,10 +426,18 @@ const TopModal = (props) => {
         } else {
             setIsRegistMailAddressError(false);
             setRegistMailAddressHelper(" ");
+            try {
+                const user = await axios.get(`http://localhost:5000/client/user/getByEmail/${e.target.value}`);
+                if (user) {
+                    setIsRegistMailAddressError(true);
+                    setRegistMailAddressHelper("このメールアドレスはすでに使用されています");
+                }
+            } catch (err) {
+            }
         }
     }
     
-    const handleRegistConfirmMailAddressInput = (e) => {
+    const handleRegistConfirmMailAddressInput = async (e) => {
         setRegistConfirmMailAddress(e.target.value);
         if (e.target.value.length === 0) {
             setIsRegistConfirmMailAddressError(false);
@@ -331,6 +461,14 @@ const TopModal = (props) => {
         } else {
             setIsRegistMailAddressError(false);
             setRegistMailAddressHelper(" ");
+            try {
+                const user = await axios.get(`http://localhost:5000/client/user/getByEmail/${e.target.value}`);
+                if (user) {
+                    setIsRegistMailAddressError(true);
+                    setRegistMailAddressHelper("このメールアドレスはすでに使用されています");
+                }
+            } catch (err) {
+            }
         }
     }
     
@@ -418,11 +556,12 @@ const TopModal = (props) => {
         const apiUrl = `https://zipcloud.ibsnet.co.jp/api/search?zipcode=${postCode}`;
         try {
         const autoAddress = await axios.get(apiUrl);
-        setPrefecture(autoAddress.data.results[0].address1);
-        setCity(autoAddress.data.results[0].address2);
-        setTown(autoAddress.data.results[0].address3);
+            setPrefecture(autoAddress.data.results[0].address1);
+            setCity(autoAddress.data.results[0].address2);
+            setTown(autoAddress.data.results[0].address3);
         } catch (err) {
-        console.log(err);
+            setPostalCodeError(true);
+            setPostalCodeHelper("住所が見つかりませんでした");
         }
     }
     
@@ -430,7 +569,7 @@ const TopModal = (props) => {
         setHouseNumber(e.target.value);
     }
     
-    const handlePhoneNumberInput = (e) => {
+    const handlePhoneNumberInput = async (e) => {
         const value = e.target.value.replace(/[^0-9]/g, '');
         setPhoneNumber(value);
         if (e.target.value.length === 0) {
@@ -445,6 +584,14 @@ const TopModal = (props) => {
         } else {
             setPhoneNumberError(false);
             setPhoneNumberHelper(" ");
+            try {
+                const user = await axios.get(`http://localhost:5000/client/user/getByPhone/${e.target.value.toString()}`);
+                if (user) {
+                    setPhoneNumberError(true);
+                    setPhoneNumberHelper("この電話番号はすでに使用されています");
+                }
+            } catch (err) {
+            }
         }
     }
     
@@ -455,66 +602,28 @@ const TopModal = (props) => {
     const handleCreditCardNumberChange = (e) => {
         const newCreditCard = { ...creditCard, number: e.target.value };
         setCreditCard(newCreditCard);
-        if (e.target.value.length === 0) {
-            const newCreditCardError = { ...creditCardError, number: false };
-            setCreditCardError(newCreditCardError);
-            const newCreditCardHelper = { ...creditCardHelper, number: " " };
-            setCreditCardHelper(newCreditCardHelper);
-        } else if (meta.erroredInputs.cardNumber !== undefined) {
-            const newCreditCardError = { ...creditCardError, number: true };
-            setCreditCardError(newCreditCardError);
-            const newCreditCardHelper = { ...creditCardHelper, number: "無効なカード番号です" };
-            setCreditCardHelper(newCreditCardHelper);
-        } else {
-            const newCreditCardError = { ...creditCardError, number: false };
-            setCreditCardError(newCreditCardError);
-            const newCreditCardHelper = { ...creditCardHelper, number: " " };
-            setCreditCardHelper(newCreditCardHelper);
-        }
+        const newCreditCardError = { ...creditCardError, number: false };
+        setCreditCardError(newCreditCardError);
+        const newCreditCardHelper = { ...creditCardHelper, number: " " };
+        setCreditCardHelper(newCreditCardHelper);
     }
     
     const handleCreditCardExpiryChange = (e) => {
         const newCreditCard = { ...creditCard, expiry: e.target.value };
         setCreditCard(newCreditCard);
-        console.log(meta.erroredInputs.expiryDate)
-        if (e.target.value.length === 0) {
-            const newCreditCardError = { ...creditCardError, expiry: false };
-            setCreditCardError(newCreditCardError);
-            const newCreditCardHelper = { ...creditCardHelper, expiry: " " };
-            setCreditCardHelper(newCreditCardHelper);
-        } else if (meta.erroredInputs.expiryDate !== undefined) {
-            const newCreditCardError = { ...creditCardError, expiry: true };
-            setCreditCardError(newCreditCardError);
-            const newCreditCardHelper = { ...creditCardHelper, expiry: "無効な有効期限です" };
-            setCreditCardHelper(newCreditCardHelper);
-        } else {
-            const newCreditCardError = { ...creditCardError, expiry: false };
-            setCreditCardError(newCreditCardError);
-            const newCreditCardHelper = { ...creditCardHelper, expiry: " " };
-            setCreditCardHelper(newCreditCardHelper);
-        }
+        const newCreditCardError = { ...creditCardError, expiry: false };
+        setCreditCardError(newCreditCardError);
+        const newCreditCardHelper = { ...creditCardHelper, expiry: " " };
+        setCreditCardHelper(newCreditCardHelper);
     }
     
     const handleCreditCardCVCChange = (e) => {
         const newCreditCard = { ...creditCard, cvc: e.target.value };
         setCreditCard(newCreditCard);
-        console.log(meta.erroredInputs.cvc)
-        if (e.target.value.length === 0) {
-            const newCreditCardError = { ...creditCardError, cvc: false };
-            setCreditCardError(newCreditCardError);
-            const newCreditCardHelper = { ...creditCardHelper, cvc: " " };
-            setCreditCardHelper(newCreditCardHelper);
-        } else if (meta.erroredInputs.cvc !== undefined) {
-            const newCreditCardError = { ...creditCardError, cvc: true };
-            setCreditCardError(newCreditCardError);
-            const newCreditCardHelper = { ...creditCardHelper, cvc: "無効なCVCです" };
-            setCreditCardHelper(newCreditCardHelper);
-        } else {
-            const newCreditCardError = { ...creditCardError, cvc: false };
-            setCreditCardError(newCreditCardError);
-            const newCreditCardHelper = { ...creditCardHelper, cvc: " " };
-            setCreditCardHelper(newCreditCardHelper);
-        }
+        const newCreditCardError = { ...creditCardError, cvc: false };
+        setCreditCardError(newCreditCardError);
+        const newCreditCardHelper = { ...creditCardHelper, cvc: " " };
+        setCreditCardHelper(newCreditCardHelper);
     }
     
     
@@ -539,8 +648,44 @@ const TopModal = (props) => {
         return postalCode;
     };
 
+    const handleLogin = async () => {
+        if (isUserIdLogin) {
+            if (userIdError || passwordError) {
+                return;
+            } else if (!(userId && password)) {
+                return;
+            }
+        }  else {
+            if (mailAddressError || passwordError) {
+                return;
+            } else if (!(mailAddress && password)) {
+                return;
+            }
+        }
+        try {
+            const loginUser = {
+                userId: isUserIdLogin ? userId : "",
+                email: isUserIdLogin ? "" : mailAddress,
+                password: password,
+            }
+            const user = isUserIdLogin ? await axios.post("http://localhost:5000/client/auth/login", loginUser) : await axios.post("http://localhost:5000/client/auth/loginByEmail", loginUser);
+            dispatch(setUser(user.data));
+            navigate("/home");
+        } catch (err) {
+            console.log(err)
+            if (err.response) {
+                setLoginError(`エラー：${err.response.data}`)
+            } else if (err.request) {
+                setLoginError("エラー：サーバーへのリクエストに失敗しました")
+            } else {
+                console.log(err);
+            }
+        }
+    }
+
     const handleRegister = async () => {
         try {
+            props.setIsRequesting(true);
             const newUser = {
                 username: registUserName,
                 userId : registUserId,
@@ -558,15 +703,24 @@ const TopModal = (props) => {
                 town: town,
                 houseNumber: houseNumber,
                 phoneNumber: phoneNumber.toString(),
-                number: creditCard.number,
-                cvc: creditCard.cvc,
-                expiry: creditCard.expiry
+                cardName: cardChecked ? meta.cardType.displayName : "",
+                number: cardChecked ? creditCard.number : "",
+                cvc: cardChecked ? creditCard.expiry : "",
+                expiry: cardChecked ? creditCard.cvc : "",
             }
-            console.log(newUser);
-            const response = axios.post("http://localhost:5000/client/auth/register", newUser);
-            console.log(response.data);
+            const user = await axios.post("http://localhost:5000/client/auth/register", newUser);
+            dispatch(setUser(user.data));
+            props.setIsRequesting(false);
+            navigate("/home");
         } catch (err) {
-            console.log(err);
+            props.setIsRequesting(false);
+            if (err.response) {
+                setLoginError(`エラー：${err.response.data}`)
+            } else if (err.request) {
+                setRegistError("エラー：サーバーへのリクエストに失敗しました");
+            } else {
+                console.log(err);
+            }
         }
     }
 
@@ -585,7 +739,8 @@ const TopModal = (props) => {
                 </StyledModalIntro>
                 <LoginForm isUserIdLogin={isUserIdLogin} handleIsLogin={handleIsLogin} userId={userId} mailAddress={mailAddress} password={password}
                 handleUserIdInput={handleUserIdInput} handleMailAddressInput={handleMailAddressInput} handlePasswordInput={handlePasswordInput}
-                handleUserIdLogin={handleUserIdLogin} handlePasswordVisible={handlePasswordVisible} passwordVisible={passwordVisible}/>
+                handleUserIdLogin={handleUserIdLogin} handlePasswordVisible={handlePasswordVisible} passwordVisible={passwordVisible} handleLogin={handleLogin}
+                userIdError={userIdError} userIdHelper={userIdHelper} passwordError={passwordError} passwordHelper={passwordHelper} mailAddressError={mailAddressError} mailAddressHelper={mailAddressHelper} loginError={loginError}/>
             </StyledTopModalInner>
 
             :
@@ -609,8 +764,8 @@ const TopModal = (props) => {
                         registUserNameHelper={registUserNameHelper} registUserIdHelper={registUserIdHelper} registPasswordHelper={registPasswordHelper} registConfirmPasswordHelper={registConfirmPasswordHelper}
                         registMailAddressHelper={registMailAddressHelper} registConfirmMailAddressHelper={registConfirmMailAddressHelper}
                         isRegistUserNameError={isRegistUserNameError} isRegistUserIdError={isRegistUserIdError} isRegistPasswordError={isRegistPasswordError} isRegistConfirmPasswordError={isRegistConfirmPasswordError}
-                        isRegistMailAddressError={isRegistMailAddressError} isRegistConfirmMailAddressError={isRegistConfirmMailAddressError}/>
-                    <RegistChangeStep currentStep={currentStep} handleBackStep={handleBackStep} handleNextStep1={handleNextStep1} handleNextStep2={handleNextStep2} handleIsLogin={handleIsLogin} handleRegister={handleRegister}/>
+                        isRegistMailAddressError={isRegistMailAddressError} isRegistConfirmMailAddressError={isRegistConfirmMailAddressError} stepError1={stepError1}/>
+                    <RegistChangeStep currentStep={currentStep} handleBackStep={handleBackStep} handleNextStep1={handleNextStep1} handleNextStep2={handleNextStep2} handleNextStep3={handleNextStep3} handleIsLogin={handleIsLogin} handleRegister={handleRegister}/>
                     </>
                 )}
                 {currentStep === 1 && (
@@ -622,17 +777,17 @@ const TopModal = (props) => {
                         handlePostalCodeInput={handlePostalCodeInput} handleHouseNumberInput={handleHouseNumberInput} handlePhoneNumberInput={handlePhoneNumberInput}
                         upperNameHelper={upperNameHelper} lowerNameHelper={lowerNameHelper} upperNameKanaHelper={upperNameKanaHelper} lowerNameKanaHelper={lowerNameKanaHelper}
                         postalCodeHelper={postalCodeHelper} phoneNumberHelper={phoneNumberHelper} upperNameError={upperNameError} lowerNameError={lowerNameError} upperNameKanaError={upperNameKanaError}
-                        lowerNameKanaError={lowerNameKanaError} postalCodeError={postalCodeError} phoneNumberError={phoneNumberError}/>
-                    <RegistChangeStep currentStep={currentStep} handleBackStep={handleBackStep} handleNextStep1={handleNextStep1} handleNextStep2={handleNextStep2} handleIsLogin={handleIsLogin} handleRegister={handleRegister}/>
+                        lowerNameKanaError={lowerNameKanaError} postalCodeError={postalCodeError} phoneNumberError={phoneNumberError} stepError2={stepError2}/>
+                    <RegistChangeStep currentStep={currentStep} handleBackStep={handleBackStep} handleNextStep1={handleNextStep1} handleNextStep2={handleNextStep2} handleNextStep3={handleNextStep3} handleIsLogin={handleIsLogin} handleRegister={handleRegister}/>
                     </>
                 )}
                 {currentStep === 2 && (
                     <>
                     <RegistStepper currentStep={currentStep}/>
                     <RegistCreditCard creditCard={creditCard} handleCreditCardNumberChange={handleCreditCardNumberChange} handleCreditCardExpiryChange={handleCreditCardExpiryChange} handleCreditCardCVCChange={handleCreditCardCVCChange}
-                        CVCVisible={CVCVisible} handleCVCVisible={handleCVCVisible} handleCardChecked={handleCardChecked}
+                        CVCVisible={CVCVisible} handleCVCVisible={handleCVCVisible} handleCardChecked={handleCardChecked} cardChecked={cardChecked}
                         meta={meta} getCardImageProps={getCardImageProps} getCardNumberProps={getCardNumberProps} getExpiryDateProps={getExpiryDateProps} getCVCProps={getCVCProps} creditCardError={creditCardError} creditCardHelper={creditCardHelper}/>
-                    <RegistChangeStep currentStep={currentStep} handleBackStep={handleBackStep} handleNextStep1={handleNextStep1} handleNextStep2={handleNextStep2} handleIsLogin={handleIsLogin}/>
+                    <RegistChangeStep currentStep={currentStep} handleBackStep={handleBackStep} handleNextStep1={handleNextStep1} handleNextStep2={handleNextStep2} handleNextStep3={handleNextStep3} handleIsLogin={handleIsLogin}/>
                     </>
                 )}
                 {currentStep === 3 && (
@@ -643,8 +798,8 @@ const TopModal = (props) => {
                         prefecture={prefecture} city={city} town={town} houseNumber={houseNumber} phoneNumber={phoneNumber}
                         creditCard={creditCard} recognitionPasswordVisible={recognitionPasswordVisible} handleRecognitionPasswordVisible={handleRecognitionPasswordVisible}
                         recognitionCVCVisible={recognitionCVCVisible} handleRecognitionCVCVisible={handleRecognitionCVCVisible}
-                        meta={meta} getCardImageProps={getCardImageProps}/>
-                    <RegistChangeStep currentStep={currentStep} handleBackStep={handleBackStep} handleNextStep1={handleNextStep1} handleNextStep2={handleNextStep2} handleIsLogin={handleIsLogin} handleRegister={handleRegister}/>
+                        meta={meta} getCardImageProps={getCardImageProps} cardChecked={cardChecked} registError={registError} isRequesting={props.isRequesting}/>
+                    <RegistChangeStep currentStep={currentStep} handleBackStep={handleBackStep} handleNextStep1={handleNextStep1} handleNextStep2={handleNextStep2} handleNextStep3={handleNextStep3} handleIsLogin={handleIsLogin} handleRegister={handleRegister}/>
                     </>
                 )}
                 </Styledform>

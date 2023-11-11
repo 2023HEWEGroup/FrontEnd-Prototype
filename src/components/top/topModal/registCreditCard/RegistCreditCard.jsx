@@ -7,7 +7,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const RegistCreditCard = (props) => {
 
-    const theme = useTheme();
+    const theme = useTheme()
 
     return (
         <>
