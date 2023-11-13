@@ -11,8 +11,7 @@ const ProducNameInput = (props) => {
         <>
         <StyledProductNameZone>
             <StyledTextField theme={theme} value={props.product.name} autoComplete='new-off' fullWidth inputProps={{maxLength: 50, placeholder: "商品名 (1~50字)"}}
-                onChange={props.handleProductNameInput}/>
-            <StyledInputLength theme={theme}>{`${props.product.name.length}/50`}</StyledInputLength>
+                onChange={props.handleProductNameInput} error={props.productError.name}/>
         </StyledProductNameZone>
         </>
     )
@@ -49,12 +48,6 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
         },
     },
 }));
-
-const StyledInputLength = styled.div`
-    width: 100%;
-    text-align: right;
-    color: ${(props) => props.theme.palette.text.sub};
-`
 
 
 export default ProducNameInput

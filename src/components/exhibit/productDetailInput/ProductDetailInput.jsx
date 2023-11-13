@@ -10,9 +10,8 @@ const ProductDetailInput = (props) => {
     return (
         <>
         <StyledTextArea theme={theme} value={props.product.detail} placeholder='商品説明 (1~500字)' maxLength={500} autoComplete='off'
-            onChange={props.handleProductDetailInput}>
+            onChange={props.handleProductDetailInput} error={props.productError.detail}>
         </StyledTextArea>
-        <StyledInputLength theme={theme}>{`${props.product.detail.length}/500`}</StyledInputLength>
         </>
     )
 }
@@ -24,7 +23,7 @@ const StyledTextArea = styled.textarea`
     padding: 20px 15px;
     color: ${(props) => props.theme.palette.text.main};
     background-color: transparent;
-    outline: solid 1px ${(props) => props.theme.palette.line.main};
+    outline: solid 1px ${(props) => props.error ? props.theme.palette.text.error : props.theme.palette.line.main};
     border-radius: 5px;
     border: none;
     resize: none;
@@ -35,12 +34,6 @@ const StyledTextArea = styled.textarea`
     &:focus-within {
         outline: solid 2px ${(props) => props.theme.palette.secondary.main};
     }
-`
-
-const StyledInputLength = styled.div`
-    width: 100%;
-    text-align: right;
-    color: ${(props) => props.theme.palette.text.sub};
 `
 
 

@@ -12,7 +12,7 @@ const ProductPriceInput = (props) => {
         <StyledProductPriceZone>
             <div style={{width: "30%"}}>
                 <StyledTextField theme={theme} value={props.product.price} autoComplete='new-off' fullWidth inputProps={{maxLength: 7, placeholder: "値段 (100~9999999)"}}
-                    onChange={props.handleProductPriceInput}/>
+                    onChange={props.handleProductPriceInput} error={props.productError.price}/>
             </div>
             <StyledBenefit theme={theme}>収益 <StyledSpan theme={theme}>{props.product.benefit}</StyledSpan>ポイント</StyledBenefit>
         </StyledProductPriceZone>

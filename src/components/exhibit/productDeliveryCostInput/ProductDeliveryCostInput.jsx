@@ -11,7 +11,7 @@ const ProductDeliveryCostInput = (props) => {
         <StyledInput>
             <FormControl fullWidth>
                 <InputLabel shrink={false} sx={{color: theme.palette.text.sub}}>{props.product.deliveryCost === "" ? "選択してください" : null }</InputLabel>
-                <Select theme={theme} value={props.product.deliveryCost} onChange={props.handleDeliveryCostChange}
+                <Select theme={theme} value={props.product.deliveryCost} onChange={props.handleDeliveryCostChange} error={props.productError.deliveryCost}
                 sx={{
                     '& .MuiInputBase-input': {
                         color: theme.palette.text.main,

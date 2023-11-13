@@ -12,7 +12,7 @@ const ProductShippingAreaInput = (props) => {
             <div style={{width: "30%"}}>
                 <FormControl fullWidth>
                     <InputLabel shrink={false} sx={{color: theme.palette.text.sub}}>{props.product.shippingArea === "" ? "選択してください" : null }</InputLabel>
-                    <Select theme={theme} value={props.product.shippingArea} onChange={props.handleShippingAreaChange}
+                    <Select theme={theme} value={props.product.shippingArea} onChange={props.handleShippingAreaChange}  error={props.productError.shippingArea}
                     sx={{
                         '& .MuiInputBase-input': {
                             color: theme.palette.text.main,

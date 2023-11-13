@@ -35,6 +35,8 @@ const ImageUpload = (props) => {
             props.setUploadImages([...props.uploadImages, fileUrl]);
             props.setOriginalImages([...props.uploadImages, fileUrl]);
             props.setIsDragging(false);
+            props.setProductError({...props.productError, image: false});
+            props.setProductHelper({...props.productHelper, image: " "});
         } else {
             console.log("許可されていない形式");
             props.setIsDragging(false);
@@ -47,7 +49,9 @@ const ImageUpload = (props) => {
         if (file) {
             const fileUrl = URL.createObjectURL(file)
             props.setUploadImages([...props.uploadImages, fileUrl]);
-            props.setOriginalImages([...props.uploadImages, fileUrl]);
+            props.setOriginalImages([...props.originalImages, fileUrl]);
+            props.setProductError({...props.productError, image: false});
+            props.setProductHelper({...props.productHelper, image: " "});
             event.target.value = '';
         }
     };
@@ -98,7 +102,7 @@ const StyledImgs = styled.div`
     align-items: center;
     flex-wrap: wrap;
     aspect-ratio: ${(props) => (props.$isXsScreen ? "2/1" : "4/1")};
-    overflow-y: scroll;
+    overflow-y: ${(props) => (props.$isXsScreen ? props.imageLength >= 2 ? "scroll" : "hidden" : (props.imageLength >= 4 ? "scroll" : "hidden"))};
     overflow-x: hidden;
     width: 100%;
     padding: 10px 10px 0 0;

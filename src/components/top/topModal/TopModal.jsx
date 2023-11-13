@@ -180,6 +180,13 @@ const TopModal = (props) => {
         setCreditCardError(newCreditCardError);
         const newCreditCardHelper = {...creditCardHelper, number: " ", expiry: " ", cvc: " "}
         setCreditCardHelper(newCreditCardHelper);
+
+        setUserIdError(false);
+        setUserIdHelper(" ")
+        setPasswordError(false);
+        setPasswordHelper(" ")
+        setMailAddressError(false);
+        setMailAddressHelper(" ");
     }
     
     const handleIsLogin = () => {
@@ -649,6 +656,7 @@ const TopModal = (props) => {
     };
 
     const handleLogin = async () => {
+        setLoginError("")
         if (isUserIdLogin) {
             if (userIdError || passwordError) {
                 return;
@@ -674,9 +682,12 @@ const TopModal = (props) => {
         } catch (err) {
             console.log(err)
             if (err.response) {
-                setLoginError(`エラー：${err.response.data}`)
+                if (err.response.status === 401) {
+                    setPasswordError(true);
+                    setPasswordHelper(err.response.data);
+                }
             } else if (err.request) {
-                setLoginError("エラー：サーバーへのリクエストに失敗しました")
+                setLoginError("エラー：サーバーへのリクエストに失敗しました");
             } else {
                 console.log(err);
             }
@@ -685,6 +696,7 @@ const TopModal = (props) => {
 
     const handleRegister = async () => {
         try {
+            setRegistError("");
             props.setIsRequesting(true);
             const newUser = {
                 username: registUserName,

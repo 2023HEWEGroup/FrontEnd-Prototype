@@ -1,4 +1,4 @@
-import { Button, useTheme } from '@mui/material'
+import { Alert, Button, Slide, Snackbar, useTheme } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import ImageUpload from '../components/exhibit/imageUpload/ImageUpload';
@@ -16,6 +16,12 @@ import { setWindowScrollable } from '../redux/features/windowScrollaleSlice';
 import ExhibitCommands from '../components/exhibit/exhibitCommands/ExhibitCommands';
 import DestructionModal from '../components/common/admin/destructionModal/DestructionModal';
 import { useNavigate } from 'react-router-dom';
+import LoginRequiredModal from '../components/common/loginRequiredModal/LoginRequiredModal';
+
+
+const SlideTransition = (props) => {
+  return <Slide {...props} direction="up" />;
+};
 
 
 const Exhibit = () => {
@@ -25,40 +31,73 @@ const Exhibit = () => {
   const [originalImages, setOriginalImages] = useState([]);
   const [crops, setCrops] = useState([{x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}]);
   const [zooms, setZooms] = useState([1, 1, 1, 1, 1, 1, 1, 1]);
-  const [product, setProduct] = useState({name: "", detail: "", price: "", benefit: 0, status: "", deliveryCost: "", shippingArea: "", category: "", tags: []});
+  const [product, setProduct] = useState({image: "", name: "", detail: "", price: "", benefit: 0, status: "", deliveryCost: "", shippingArea: "", category: "", tags: []});
+  const [productError, setProductError] = useState({image: false, name: false, detail: false, price: false, benefit: false, status: false, deliveryCost: false, shippingArea: false});
+  const [productHelper, setProductHelper] = useState({image: " ", name: " ", detail: " ", price: " ", benefit: " ", status: " ", deliveryCost: " ", shippingArea: " "});
   const [tag, setTag] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDestructOpen , setIsDestructOpen] = useState(false);
+  const user = useSelector((state) => state.user.value);
+  const [isErrorSnack, setIsErrorSnack] = useState(false);
+  const [isLoginModal, setIsLoginModal] = useState(user ? false : true);
   const isScrollable = useSelector((state => state.windowScrollable.value));
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const theme = useTheme();
   const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
 
-  const handleProductNameInput = (event) => {
-    setProduct({...product, name: event.target.value});
+  const handleProductNameInput = (e) => {
+    setProduct({...product, name: e.target.value});
+    if (e.target.value.length === 0) {
+      setProductError({...productError, name: false});
+      setProductHelper({...productHelper, name: " "});
+    } else if (e.target.value.trim() === "") {
+      setProductError({...productError, name: true});
+      setProductHelper({...productHelper, name: "空白のみの入力はできません"});
+    } else {
+      setProductError({...productError, name: false});
+      setProductHelper({...productHelper, name: " "});
+    }
   }
 
-  const handleProductDetailInput = (event) => {
-    setProduct({...product, detail: event.target.value});
+  const handleProductDetailInput = (e) => {
+    setProduct({...product, detail: e.target.value});
+    if (e.target.value.length === 0) {
+      setProductError({...productError, detail: false});
+      setProductHelper({...productHelper, detail: " "});
+    } else if (e.target.value.trim() === "") {
+      setProductError({...productError, detail: true});
+      setProductHelper({...productHelper, detail: "空白のみの入力はできません"});
+    } else {
+      setProductError({...productError, detail: false});
+      setProductHelper({...productHelper, detail: " "});
+    }
   }
 
   const handleProductPriceInput = (event) => {
     let value = event.target.value.replace(/[^0-9]/g, '');
     value = value.replace(/^0+/g, '');
     setProduct({...product, price: value, benefit: Math.floor(value * 0.9)});
+    setProductError({...productError, price: false});
+    setProductHelper({...productHelper, price: false});
   }
 
   const handleOptionChange = (event) => {
     setProduct({...product, status: event.target.value});
+    setProductError({...productError, status: false});
+    setProductHelper({...productHelper, status: false});
   };
 
   const handleDeliveryCostChange = (event) => {
     setProduct({...product, deliveryCost: event.target.value});
+    setProductError({...productError, deliveryCost: false});
+    setProductHelper({...productHelper, deliveryCost: false});
   };
 
   const handleShippingAreaChange = (event) => {
     setProduct({...product, shippingArea: event.target.value});
+    setProductError({...productError, shippingArea: false});
+    setProductHelper({...productHelper, shippingArea: false});
   };
 
   const handleCategoryChange = (event) => {
@@ -81,13 +120,42 @@ const Exhibit = () => {
     setTag(tagWithoutSpaces);
   }
 
-  const handleModalOpen = () => {
+  const handleCategoryDelete = () => {
+    setProduct({...product, category: ""});
+  }
+
+  const handleChecking = () => {
+    const newProductError = {
+      ...productError,
+      image: uploadImages.length === 0 ? true : false,
+      name: product.name ? product.name.trim() === "" ? true : false : true,
+      detail: product.detail ? product.detail.trim() === "" ? true : false : true,
+      price: product.price ? false : true,
+      status: product.status ? false : true,
+      shippingArea: product.shippingArea ? false : true,
+      deliveryCost: product.deliveryCost ? false : true,
+    }
+    setProductError(newProductError);
+    const newProductHelper = {
+      ...productHelper,
+      image: uploadImages.length === 0 ? "商品画像がアップロードされていません (最低1枚アップロードしてください)" : " ",
+      name: product.name ? product.name.trim() === "" ? "空白のみの入力は出来ません" : " " : "商品名を入力してください",
+      detail: product.detail ? product.detail.trim() === "" ? "空白のみの入力は出来ません" : " " : "説明文を入力してください",
+      price: product.price ? " " : "値段設定を入力して下さい",
+      status: product.status ? " " : "商品の状態を選択して下さい",
+      shippingArea: product.shippingArea ? " " : "発送元地域を選択して下さい",
+      deliveryCost: product.deliveryCost ? " " : "配送料の負担者を選択して下さい",
+    }
+    setProductHelper(newProductHelper);
+    if (!(!(product.name.trim() === "" ) && !(product.detail.trim() === "" ) && product.name && product.detail && product.price && product.status && product.shippingArea && product.deliveryCost)) {
+      setIsErrorSnack(true);
+      return;
+    }
     setIsModalOpen(true);
   }
 
   const handleModalClose = () => {
     setIsModalOpen(false);
-    
   }
 
   const handleDestructOpen = () => {
@@ -119,6 +187,10 @@ const Exhibit = () => {
     }
   }, [isScrollable]);
 
+  const handleLoginModalClose = () => {
+    setIsLoginModal(false);
+    navigate(-1);
+  }
 
   const status = [
     "新品、未使用", "未使用に近い", "目立った傷や汚れなし", "やや傷や汚れあり", "傷や汚れあり", "全体的に状態が悪い"
@@ -159,9 +231,11 @@ const Exhibit = () => {
           <div>① 商品画像</div>
           <StyledRequired theme={theme}>必須</StyledRequired>
         </StyledSubTitle>
-        <ImageUpload isDragging={isDragging} setIsDragging={setIsDragging} uploadImages={uploadImages} setUploadImages={setUploadImages}
-          originalImages={originalImages} setOriginalImages={setOriginalImages} crops={crops} setCrops={setCrops} zooms={zooms} setZooms={setZooms}/>
-        <StyledErrorMessage theme={theme}>エラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージ</StyledErrorMessage>
+        <ImageUpload isDragging={isDragging} setIsDragging={setIsDragging} uploadImages={uploadImages} setUploadImages={setUploadImages} productError={productError}
+          originalImages={originalImages} setOriginalImages={setOriginalImages} crops={crops} setCrops={setCrops} zooms={zooms} setZooms={setZooms} setProductError={setProductError} setProductHelper={setProductHelper}/>
+        <StyledErrorAndLength>
+          <StyledErrorMessage theme={theme}>{productHelper.image}</StyledErrorMessage>
+        </StyledErrorAndLength>
       </StyledInputContent>
 
       <StyledInputContent>
@@ -169,8 +243,11 @@ const Exhibit = () => {
           <div>② 商品名</div>
           <StyledRequired theme={theme}>必須</StyledRequired>
         </StyledSubTitle>
-        <ProducNameInput product={product} handleProductNameInput={handleProductNameInput}/>
-        <StyledErrorMessage theme={theme}>エラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージ</StyledErrorMessage>
+        <ProducNameInput product={product} handleProductNameInput={handleProductNameInput} productError={productError}/>
+        <StyledErrorAndLength>
+          <StyledErrorMessage theme={theme}>{productHelper.name}</StyledErrorMessage>
+          <StyledInputLength theme={theme}>{`${product.name.length}/50`}</StyledInputLength>
+        </StyledErrorAndLength>
       </StyledInputContent>
 
       <StyledInputContent>
@@ -178,8 +255,11 @@ const Exhibit = () => {
           <div>③ 説明文</div>
           <StyledRequired theme={theme}>必須</StyledRequired>
         </StyledSubTitle>
-        <ProductDetailInput product={product} handleProductDetailInput={handleProductDetailInput}/>
-        <StyledErrorMessage theme={theme}>エラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージ</StyledErrorMessage>
+        <ProductDetailInput product={product} handleProductDetailInput={handleProductDetailInput} productError={productError}/>
+        <StyledErrorAndLength>
+          <StyledErrorMessage theme={theme}>{productHelper.detail}</StyledErrorMessage>
+          <StyledInputLength theme={theme}>{`${product.detail.length}/500`}</StyledInputLength>
+        </StyledErrorAndLength>
       </StyledInputContent>
 
       <StyledInputContent>
@@ -187,8 +267,8 @@ const Exhibit = () => {
           <div>④ 値段設定</div>
           <StyledRequired theme={theme}>必須</StyledRequired>
         </StyledSubTitle>
-        <ProductPriceInput product={product} handleProductPriceInput={handleProductPriceInput}/>
-        <StyledErrorMessage theme={theme}>エラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージ</StyledErrorMessage>
+        <ProductPriceInput product={product} handleProductPriceInput={handleProductPriceInput} productError={productError}/>
+        <StyledErrorMessage theme={theme}>{productHelper.price}</StyledErrorMessage>
       </StyledInputContent>
 
       <StyledInputContent>
@@ -196,8 +276,8 @@ const Exhibit = () => {
           <div>⑤ 商品の状態</div>
           <StyledRequired theme={theme}>必須</StyledRequired>
         </StyledSubTitle>
-        <ProductStatusInput product={product} handleOptionChange={handleOptionChange} status={status}/>
-        <StyledErrorMessage theme={theme}>エラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージ</StyledErrorMessage>
+        <ProductStatusInput product={product} handleOptionChange={handleOptionChange} status={status} productError={productError}/>
+        <StyledErrorMessage theme={theme}>{productHelper.status}</StyledErrorMessage>
       </StyledInputContent>
 
       <StyledInputContent>
@@ -205,24 +285,24 @@ const Exhibit = () => {
           <div>⑥ 発送元地域</div>
           <StyledRequired theme={theme}>必須</StyledRequired>
         </StyledSubTitle>
-        <ProductShippingAreaInput product={product} handleShippingAreaChange={handleShippingAreaChange} prefectures={prefectures}/>
-        <StyledErrorMessage theme={theme}>エラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージ</StyledErrorMessage>
+        <ProductShippingAreaInput product={product} handleShippingAreaChange={handleShippingAreaChange} prefectures={prefectures} productError={productError}/>
+        <StyledErrorMessage theme={theme}>{productHelper.shippingArea}</StyledErrorMessage>
       </StyledInputContent>
 
       <StyledInputContent>
         <StyledSubTitle theme={theme}>
-          <div>⑦ 配送料の負担</div>
+          <div>⑦ 配送料の負担者</div>
           <StyledRequired theme={theme}>必須</StyledRequired>
         </StyledSubTitle>
-        <ProductDeliveryCostInput product={product} handleDeliveryCostChange={handleDeliveryCostChange} deliveryCost={deliveryCost}/>
-        <StyledErrorMessage theme={theme}>エラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージエラーメッセージ</StyledErrorMessage>
+        <ProductDeliveryCostInput product={product} handleDeliveryCostChange={handleDeliveryCostChange} deliveryCost={deliveryCost} productError={productError}/>
+        <StyledErrorMessage theme={theme}>{productHelper.deliveryCost}</StyledErrorMessage>
       </StyledInputContent>
 
       <StyledInputContent>
         <StyledSubTitle theme={theme}>
           <div>⑧ 商品カテゴリー</div>
         </StyledSubTitle>
-        <ProductCategorySelect product={product} handleCategoryChange={handleCategoryChange} categories={categories}/>
+        <ProductCategorySelect product={product} handleCategoryChange={handleCategoryChange} categories={categories} handleCategoryDelete={handleCategoryDelete}/>
       </StyledInputContent>
 
       <StyledInputContent>
@@ -235,12 +315,28 @@ const Exhibit = () => {
       <ProductRecognitionModal product={product} isModalOpen={isModalOpen} handleModalClose={handleModalClose} prefectures={prefectures}
         status={status} deliveryCost={deliveryCost} categories={categories}/>
 
-      <Button variant='outlined' size='large' color='secondary' fullWidth sx={{p: 1, mb: 15}} onClick={handleModalOpen}>確認</Button>
+      <Snackbar open={isErrorSnack} onClose={() => setIsErrorSnack(false)} TransitionComponent={SlideTransition} autoHideDuration={5000} anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
+          <Alert severity='error'>
+          入力エラー：{
+            !(product.name && product.detail && product.price && product.status && product.shippingArea && product.deliveryCost) ?
+              '入力内容が誤っています。' :
+              null
+          }{
+            (uploadImages.length === 0) ?
+              '商品画像がアップロードされていません。' :
+              null
+          }
+          </Alert>
+      </Snackbar>
+
+      <Button variant='outlined' size='large' color='secondary' fullWidth sx={{p: 1, mb: 15}} onClick={handleChecking}>確認</Button>
 
     </StyledExhibit>
 
     <DestructionModal isDestructOpen={isDestructOpen} setIsDestructOpen={setIsDestructOpen} handleInputDelete={locateToHome}
       header="出品内容を破棄しますか？" desc="この操作は取り消しできません。変更は失われます。" />
+
+    <LoginRequiredModal open={isLoginModal} onClose={handleLoginModalClose} header="ログインが必要です" desc={"商品を出品しますか？今すぐユーザーのログインを完了させましょう！"}/>
     </>
   )
 }
@@ -285,9 +381,22 @@ const StyledRequired = styled.div`
   font-size: 1rem;
 `
 
+const StyledErrorAndLength = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
 const StyledErrorMessage = styled.div`
   color: ${(props) => props.theme.palette.text.error};
   font-size: 0.9rem;
+  width: 80%;
+`
+
+const StyledInputLength = styled.div`
+    width: 10%;
+    text-align: right;
+    color: ${(props) => props.theme.palette.text.sub};
 `
 
 const StyledLmapLogo = styled.img`

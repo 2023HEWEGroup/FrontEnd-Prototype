@@ -33,19 +33,19 @@ const ProductRecognitionModal = (props) => {
                     </StyledItem>
                     <StyledItem theme={theme}>
                         <StyledName theme={theme}>商品の状態</StyledName>
-                        <StyledElement theme={theme}>{props.status[props.product.status]}</StyledElement>
+                        <StyledElement theme={theme}>{props.product.status}</StyledElement>
                     </StyledItem>
                     <StyledItem theme={theme}>
                         <StyledName theme={theme}>発送元地域</StyledName>
-                        <StyledElement theme={theme}>{props.prefectures[props.product.shippingArea]}</StyledElement>
+                        <StyledElement theme={theme}>{props.product.shippingArea}</StyledElement>
                     </StyledItem>
                     <StyledItem theme={theme}>
                         <StyledName theme={theme}>配送料の負担</StyledName>
-                        <StyledElement theme={theme}>{props.deliveryCost[props.product.deliveryCost]}</StyledElement>
+                        <StyledElement theme={theme}>{props.product.deliveryCost}</StyledElement>
                     </StyledItem>
                     <StyledItem theme={theme}>
                         <StyledName theme={theme}>カテゴリー</StyledName>
-                        <StyledElement theme={theme}>{props.categories[props.product.category]}</StyledElement>
+                        <StyledElement theme={theme}>{props.product.category}</StyledElement>
                     </StyledItem>
                     <StyledItem theme={theme}>
                         <StyledName theme={theme}>タグ</StyledName>

@@ -2,7 +2,7 @@ import { ExitToApp, Shop } from '@mui/icons-material'
 import { AppBar, Chip, Grid, Toolbar, useTheme } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { setWindowScrollable } from '../redux/features/windowScrollaleSlice'
 import TopModal from '../components/top/topModal/TopModal'
@@ -11,7 +11,10 @@ import IsProgress from '../components/common/isProgress/IsProgress'
 
 const Top = () => {
 
-  const [isTopModalOpen, setIsTopModalOpen] = useState(false);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const recommend = searchParams.get('recommend');
+  const [isTopModalOpen, setIsTopModalOpen] = useState(recommend === "true" ? true : false);
   const [isRequesting, setIsRequesting] = useState(false);
   const isScrollable = useSelector((state => state.windowScrollable.value));
   const dispatch = useDispatch();

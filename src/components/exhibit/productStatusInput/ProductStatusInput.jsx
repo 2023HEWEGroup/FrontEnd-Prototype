@@ -11,7 +11,7 @@ const ProductStatusInput = (props) => {
         <StyledInput>
             <FormControl fullWidth>
                 <InputLabel shrink={false} sx={{color: theme.palette.text.sub}}>{props.product.status === "" ? "選択してください" : null }</InputLabel>
-                <Select theme={theme} value={props.product.status} onChange={props.handleOptionChange}
+                <Select theme={theme} value={props.product.status} onChange={props.handleOptionChange} error={props.productError.status}
                 sx={{
                     '& .MuiInputBase-input': {
                         color: theme.palette.text.main,

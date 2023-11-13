@@ -18,8 +18,11 @@ import AdminLayouts from "./layouts/AdminLayouts";
 import AdminTop from "./pages/admin/AdminTop";
 import UserManage from "./pages/admin/UserManage";
 
+
 const Routing = () => {
+
   return (
+    <>
     <Routes>
       <Route path="/" element={<Top />} />
       <Route path="/exhibit" element={<Exhibit />} />
@@ -43,6 +46,9 @@ const Routing = () => {
         <Route path="user" element={<UserManage />} />
       </Route>
     </Routes>
+
+    
+    </>
   );
 };
 
