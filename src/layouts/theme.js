@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material/styles";
-import { blue } from "@mui/material/colors";
+import { blue, green } from "@mui/material/colors";
 
 
 export const darkBlueTheme = createTheme({
@@ -9,7 +9,8 @@ export const darkBlueTheme = createTheme({
         },
         secondary: {
             main: blue[500],
-            progressed: blue[900]
+            progressed: blue[900],
+            exhibitAny: green["A700"]
         },
         line: {
             main: "#888",

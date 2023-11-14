@@ -228,8 +228,8 @@ const Exhibit = () => {
 
       <StyledInputContent>
         <StyledSubTitle theme={theme}>
-          <div>① 商品画像</div>
           <StyledRequired theme={theme}>必須</StyledRequired>
+          <div>① 商品画像</div>
         </StyledSubTitle>
         <ImageUpload isDragging={isDragging} setIsDragging={setIsDragging} uploadImages={uploadImages} setUploadImages={setUploadImages} productError={productError}
           originalImages={originalImages} setOriginalImages={setOriginalImages} crops={crops} setCrops={setCrops} zooms={zooms} setZooms={setZooms} setProductError={setProductError} setProductHelper={setProductHelper}/>
@@ -240,8 +240,8 @@ const Exhibit = () => {
 
       <StyledInputContent>
         <StyledSubTitle theme={theme}>
-          <div>② 商品名</div>
           <StyledRequired theme={theme}>必須</StyledRequired>
+          <div>② 商品名</div>
         </StyledSubTitle>
         <ProducNameInput product={product} handleProductNameInput={handleProductNameInput} productError={productError}/>
         <StyledErrorAndLength>
@@ -252,8 +252,8 @@ const Exhibit = () => {
 
       <StyledInputContent>
         <StyledSubTitle theme={theme}>
-          <div>③ 説明文</div>
           <StyledRequired theme={theme}>必須</StyledRequired>
+          <div>③ 説明文</div>
         </StyledSubTitle>
         <ProductDetailInput product={product} handleProductDetailInput={handleProductDetailInput} productError={productError}/>
         <StyledErrorAndLength>
@@ -264,8 +264,8 @@ const Exhibit = () => {
 
       <StyledInputContent>
         <StyledSubTitle theme={theme}>
-          <div>④ 値段設定</div>
           <StyledRequired theme={theme}>必須</StyledRequired>
+          <div>④ 値段設定</div>
         </StyledSubTitle>
         <ProductPriceInput product={product} handleProductPriceInput={handleProductPriceInput} productError={productError}/>
         <StyledErrorMessage theme={theme}>{productHelper.price}</StyledErrorMessage>
@@ -273,8 +273,8 @@ const Exhibit = () => {
 
       <StyledInputContent>
         <StyledSubTitle theme={theme}>
-          <div>⑤ 商品の状態</div>
           <StyledRequired theme={theme}>必須</StyledRequired>
+          <div>⑤ 商品の状態</div>
         </StyledSubTitle>
         <ProductStatusInput product={product} handleOptionChange={handleOptionChange} status={status} productError={productError}/>
         <StyledErrorMessage theme={theme}>{productHelper.status}</StyledErrorMessage>
@@ -282,8 +282,8 @@ const Exhibit = () => {
 
       <StyledInputContent>
         <StyledSubTitle theme={theme}>
-          <div>⑥ 発送元地域</div>
           <StyledRequired theme={theme}>必須</StyledRequired>
+          <div>⑥ 発送元地域</div>
         </StyledSubTitle>
         <ProductShippingAreaInput product={product} handleShippingAreaChange={handleShippingAreaChange} prefectures={prefectures} productError={productError}/>
         <StyledErrorMessage theme={theme}>{productHelper.shippingArea}</StyledErrorMessage>
@@ -291,8 +291,8 @@ const Exhibit = () => {
 
       <StyledInputContent>
         <StyledSubTitle theme={theme}>
-          <div>⑦ 配送料の負担者</div>
           <StyledRequired theme={theme}>必須</StyledRequired>
+          <div>⑦ 配送料の負担者</div>
         </StyledSubTitle>
         <ProductDeliveryCostInput product={product} handleDeliveryCostChange={handleDeliveryCostChange} deliveryCost={deliveryCost} productError={productError}/>
         <StyledErrorMessage theme={theme}>{productHelper.deliveryCost}</StyledErrorMessage>
@@ -300,6 +300,7 @@ const Exhibit = () => {
 
       <StyledInputContent>
         <StyledSubTitle theme={theme}>
+          <StyledAny theme={theme}>任意</StyledAny>
           <div>⑧ 商品カテゴリー</div>
         </StyledSubTitle>
         <ProductCategorySelect product={product} handleCategoryChange={handleCategoryChange} categories={categories} handleCategoryDelete={handleCategoryDelete}/>
@@ -307,6 +308,7 @@ const Exhibit = () => {
 
       <StyledInputContent>
         <StyledSubTitle theme={theme}>
+          <StyledAny theme={theme}>任意</StyledAny>
           <div>⑨ タグを追加</div>
         </StyledSubTitle>
         <ProductAddTag product={product} tag={tag} handleTagAdd={handleTagAdd} handleTagInput={handleTagInput} handleTagDelete={handleTagDelete}/>
@@ -378,6 +380,16 @@ const StyledRequired = styled.div`
   padding: 2.5px 10px;
   border-radius: 5px;
   background-color: ${(props) => props.theme.palette.secondary.main};
+  font-size: 1rem;
+`
+
+const StyledAny = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2.5px 10px;
+  border-radius: 5px;
+  background-color: ${(props) => props.theme.palette.secondary.exhibitAny};
   font-size: 1rem;
 `
 

@@ -1,3 +1,4 @@
+import { Login } from '@mui/icons-material';
 import { Button, Grow, Modal, useTheme } from '@mui/material'
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +20,7 @@ const LoginRequiredModal = (props) => {
                     <StyledModalInner theme={theme}>
                         <StyledInner>
                             <StyledDetails>
-                                <StyledHeader theme={theme}>{props.header}</StyledHeader>
+                                <StyledHeader theme={theme}>{props.header}<Login sx={{ml: "10px", width: "30px", height: "30px"}}/></StyledHeader>
                                 <StyledDesc theme={theme}>{props.desc}</StyledDesc>
                             </StyledDetails>
                             <div style={{height: "0px"}}></div>
@@ -48,8 +49,8 @@ const StyledModalInner = styled.div`
     justify-content: center;
     align-items: center;
     background-color: ${(props) => props.theme.palette.background.modal};
-    width: 600px;
-    height: 350px;
+    width: 550px;
+    height: 300px;
     border-radius: 20px;
     border: solid 1px ${(props) => props.theme.palette.line.disable};
 `
@@ -73,6 +74,8 @@ const StyledDetails = styled.div`
 `
 
 const StyledHeader = styled.div`
+    display: flex;
+    align-items: center;
     width: 100%;
     color: ${(props) => props.theme.palette.text.main};
     font-size: 1.4rem;

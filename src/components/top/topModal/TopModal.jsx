@@ -1,5 +1,5 @@
 import { HighlightOff } from '@mui/icons-material'
-import { Modal, Tooltip, useMediaQuery } from '@mui/material'
+import { Alert, Modal, Snackbar, Tooltip, useMediaQuery } from '@mui/material'
 import axios from 'axios';
 import React, { useRef, useState } from 'react'
 import styled from 'styled-components';
@@ -820,6 +820,20 @@ const TopModal = (props) => {
             }
 
             </Modal>
+
+            {/* <Snackbar open={isErrorSnack} onClose={() => setIsErrorSnack(false)} TransitionComponent={SlideTransition} autoHideDuration={5000} anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
+                <Alert severity='error'>
+                入力エラー：{
+                    !(product.name && product.detail && product.price && product.status && product.shippingArea && product.deliveryCost) ?
+                    '入力内容が誤っています。' :
+                    null
+                }{
+                    (uploadImages.length === 0) ?
+                    '商品画像がアップロードされていません。' :
+                    null
+                }
+                </Alert>
+            </Snackbar> */}
 
             <DestructionModal isDestructOpen={isDestructOpen} handleInputDelete={handleInputDelete} setIsDestructOpen={setIsDestructOpen}
             header="入力内容を破棄しますか？" desc="この操作は取り消しできません。変更は失われます。"/>
