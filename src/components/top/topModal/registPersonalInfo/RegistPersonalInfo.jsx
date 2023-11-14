@@ -36,9 +36,6 @@ const RegistPersonalInfo = (props) => {
                 autoComplete='new-off' variant='outlined' inputProps={{maxLength: 50}} value={props.houseNumber} onChange={props.handleHouseNumberInput}/>
             <StyledTextField style={{marginBottom: "15px"}} helperText={props.phoneNumberHelper} error={props.phoneNumberError} theme={theme} fullWidth label="携帯電話番号 (数字11ケタ)" required
                 autoComplete='new-off' variant='outlined' inputProps={{maxLength: 11}} value={props.phoneNumber} onChange={props.handlePhoneNumberInput}/>
-            {props.stepError2 &&
-            <StyledError theme={theme}>{props.stepError2}</StyledError>
-            }
         </>
     )
 }
@@ -95,12 +92,6 @@ const StyledPostalCode = styled.div`
 const StyledPostalComment = styled.div`
     width: 50%;
     color: #777;
-    font-size: 0.9rem;
-`
-
-const StyledError = styled.div`
-    color: ${(props) => props.theme.palette.text.error};
-    margin-bottom: 30px;
     font-size: 0.9rem;
 `
 

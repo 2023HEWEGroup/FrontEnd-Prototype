@@ -29,9 +29,6 @@ const RegistUserInfo = (props) => {
             autoComplete='new-off' type='email' variant='outlined' value={props.registMailAddress} onChange={props.handleRegistMailAddressInput}/>
         <StyledTextField style={{marginBottom: "15px"}} helperText={props.registConfirmMailAddressHelper} theme={theme} fullWidth label="確認用メールアドレス" required error={props.isRegistConfirmMailAddressError}
             autoComplete='new-off' type='email' variant='outlined' value={props.registConfirmMailAddress} onChange={props.handleRegistConfirmMailAddressInput}/>
-        {props.stepError1 &&
-            <StyledError theme={theme}>{props.stepError1}</StyledError>
-        }
         </>
     )
 }
@@ -78,12 +75,6 @@ const StyledVisibilityOff = styled(VisibilityOff)`
         color: #777;
         cursor: pointer;
     }
-`
-
-const StyledError = styled.div`
-    color: ${(props) => props.theme.palette.text.error};
-    margin-bottom: 30px;
-    font-size: 0.9rem;
 `
 
 

@@ -24,9 +24,6 @@ const LoginForm = (props) => {
         <div style={{width: "100%"}}>
             <StyledOptionChange onClick={props.handleUserIdLogin}>または{props.isUserIdLogin ? "メールアドレス" : "ユーザーID"}でログインする</StyledOptionChange>
         </div>
-        {props.loginError &&
-            <StyledError theme={theme}>{props.loginError}</StyledError>
-        }
         <LoadingButton color='top' fullWidth variant='outlined' onClick={props.handleLogin}>ログイン</LoadingButton>
         <Button color='top' onClick={props.handleIsLogin}>アカウントをお持ちではありませんか？<OpenInNew style={{marginLeft: "5px"}}/>新規登録</Button>
         </StyledLoginForm>
@@ -98,12 +95,6 @@ const StyledVisibilityOff = styled(VisibilityOff)`
         color: #777;
         cursor: pointer;
     }
-`
-
-const StyledError = styled.div`
-    color: ${(props) => props.theme.palette.text.error};
-    margin-bottom: 15px;
-    font-size: 0.9rem;
 `
 
 

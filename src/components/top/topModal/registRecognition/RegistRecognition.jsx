@@ -2,12 +2,9 @@ import { Visibility, VisibilityOff } from '@mui/icons-material'
 import React from 'react'
 import styled from 'styled-components'
 import images from 'react-payment-inputs/images';
-import { useTheme } from '@mui/material';
 
 
 const RegistRecognition = (props) => {
-
-    const theme = useTheme();
 
     return (
         <>
@@ -79,10 +76,6 @@ const RegistRecognition = (props) => {
                 </>
             }
         </StyledRecognition>
-
-        {props.registError &&
-            <StyledError theme={theme}>{props.registError}</StyledError>
-        }
         </>
     )
 }
@@ -142,11 +135,6 @@ const StyledRecognitionContent = styled.div`
     width: 60%;
     word-break: break-all;
     overflow: hidden;
-`
-
-const StyledError = styled.div`
-    color: ${(props) => props.theme.palette.text.error};
-    margin-bottom: 30px;
 `
 
 

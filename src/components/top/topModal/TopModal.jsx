@@ -1,5 +1,5 @@
 import { HighlightOff } from '@mui/icons-material'
-import { Alert, Modal, Snackbar, Tooltip, useMediaQuery } from '@mui/material'
+import { Modal, Tooltip, useMediaQuery } from '@mui/material'
 import axios from 'axios';
 import React, { useRef, useState } from 'react'
 import styled from 'styled-components';
@@ -15,6 +15,7 @@ import DestructionModal from '../../common/admin/destructionModal/DestructionMod
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../../redux/features/userSlice';
 import { useNavigate } from 'react-router-dom';
+import ErrorSnack from '../../common/errorSnack/ErrorSnack';
 
 
 const TopModal = (props) => {
@@ -30,7 +31,6 @@ const TopModal = (props) => {
     const [passwordHelper, setPasswordHelper] = useState(" ");
     const [mailAddressError, setMailAddressError] = useState(false);
     const [mailAddressHelper, setMailAddressHelper] = useState(" ");
-    const [loginError, setLoginError] = useState("");
     
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [isUserIdLogin, setIsUserIdLogin] = useState(true);
@@ -67,7 +67,6 @@ const TopModal = (props) => {
     const [isRegistConfirmPasswordError, setIsRegistConfirmPasswordError] = useState(false);
     const [isRegistMailAddressError, setIsRegistMailAddressError] = useState(false);
     const [isRegistConfirmMailAddressError, setIsRegistConfirmMailAddressError] = useState(false);
-    const [stepError1, setStepError1] = useState("");
 
     const [upperNameHelper, setUpperNameHelper] = useState(" ");
     const [lowerNameHelper, setLowerNameHelper] = useState(" ");
@@ -81,7 +80,6 @@ const TopModal = (props) => {
     const [lowerNameKanaError, setLowerNameKanaError] = useState(false);
     const [postalCodeError, setPostalCodeError] = useState(false);
     const [phoneNumberError, setPhoneNumberError] = useState(false);
-    const [stepError2, setStepError2] = useState("");
 
     const [creditCardError, setCreditCardError] = useState({number: false, expiry: false, cvc: false});
     const [creditCardHelper, setCreditCardHelper] = useState({number: " ", expiry: " ", cvc: " "});
@@ -89,8 +87,9 @@ const TopModal = (props) => {
     const [CVCVisible, setCVCVisible] = useState(false);
     const [recognitionPasswordVisible, setRecognitionPasswordVisible] = useState(false);
     const [recognitionCVCVisible, setRecognitionCVCVisible] = useState(false);
-    const [registError, setRegistError] = useState("");
 
+    const [isErrorSnack, setIsErrorSnack] = useState(false);
+    const [snackWarning, setSnackWarning] = useState("");
     const [isDestructOpen, setIsDestructOpen] = useState(false);
 
     const modalContainerRef = useRef(null);
@@ -113,10 +112,8 @@ const TopModal = (props) => {
         props.setIsTopModalOpen(false);
         handleDeleteInput();
         setCurrentStep(0);
-        setStepError1("");
-        setStepError2("");
-        setRegistError("");
-        setLoginError("");
+        setIsErrorSnack(false);
+        setSnackWarning("");
         setIsLogin(true);
         setIsUserIdLogin(true);
         setIsDestructOpen(false);
@@ -194,15 +191,23 @@ const TopModal = (props) => {
     }
 
     const handleNextStep1 = async () => {
+        setSnackWarning("");
+        let flag = false;
         if (!(registUserName && registUserId && registPassword && registConfirmPassword && registMailAddress && registConfirmMailAddress)) {
-            setStepError1("エラー：入力内容が不足しています");
+            setSnackWarning("入力内容が不足しています。");
+            flag = true;
+        }
+        if (isRegistUserNameError || isRegistUserIdError || isRegistPasswordError || isRegistConfirmPasswordError || isRegistMailAddressError || isRegistConfirmMailAddressError) {
+            setSnackWarning((prev) => prev + "入力内容が誤っています。");
+            flag = true;
+        }
+        if (flag) {
+            setIsErrorSnack(true);
             return;
         }
-        else if (isRegistUserNameError || isRegistUserIdError || isRegistPasswordError || isRegistConfirmPasswordError || isRegistMailAddressError || isRegistConfirmMailAddressError) {
-            setStepError1("エラー：入力内容が誤っています");
-            return;
-        } else if (registUserName && registUserId && registPassword && registConfirmPassword && registMailAddress && registConfirmMailAddress) {
-            setStepError1("");
+        else if (registUserName && registUserId && registPassword && registConfirmPassword && registMailAddress && registConfirmMailAddress) {
+            setIsErrorSnack(false);
+            setSnackWarning(null);
             setCurrentStep(currentStep + 1);
             if (modalContainerRef.current) {
                 modalContainerRef.current.scrollTop = 0;
@@ -211,15 +216,22 @@ const TopModal = (props) => {
     }
 
     const handleNextStep2 = () => {
+        setSnackWarning("");
+        let flag = false;
         if (!(upperName && lowerName && upperNameKana && lowerNameKana && postalCode && phoneNumber)) {
-            setStepError2("エラー：入力内容が不足しています");
-            return;
+            setSnackWarning("入力内容が不足しています。");
+            flag = true;
         }
         if (upperNameError || lowerNameError || upperNameKanaError || lowerNameKanaError || postalCodeError || phoneNumberError) {
-            setStepError2("エラー：入力内容が誤っています");
+            setSnackWarning((prev) => prev + "入力内容が誤っています。");
+            flag = true;
+        }
+        if (flag) {
+            setIsErrorSnack(true);
             return;
-        } else if (upperName && lowerName && upperNameKana && lowerNameKana && postalCode && prefecture && city && town && phoneNumber) {
-            setStepError2("");
+        }
+        else if (upperName && lowerName && upperNameKana && lowerNameKana && postalCode && prefecture && city && town && phoneNumber) {
+            setSnackWarning("");
             setCurrentStep(currentStep + 1);
             if (modalContainerRef.current) {
                 modalContainerRef.current.scrollTop = 0;
@@ -228,6 +240,7 @@ const TopModal = (props) => {
     }
 
     const handleNextStep3 = () => {
+        setSnackWarning("");
         if (cardChecked) {
             const newCreditCardError = {
                 ...creditCardError,
@@ -244,6 +257,8 @@ const TopModal = (props) => {
             }
             setCreditCardHelper(newCreditCardHelper);
             if (meta.erroredInputs.cardNumber || meta.erroredInputs.expiryDate || meta.erroredInputs.cvc) {
+                setSnackWarning("入力内容に誤りがあります。");
+                setIsErrorSnack(true);
                 return;
             } else if (!(creditCard.number && creditCard.expiry && creditCard.cvc)) {
                 return;
@@ -656,7 +671,7 @@ const TopModal = (props) => {
     };
 
     const handleLogin = async () => {
-        setLoginError("")
+        setSnackWarning("");
         if (isUserIdLogin) {
             if (userIdError || passwordError) {
                 return;
@@ -680,23 +695,22 @@ const TopModal = (props) => {
             dispatch(setUser(user.data));
             navigate("/home");
         } catch (err) {
-            console.log(err)
             if (err.response) {
                 if (err.response.status === 401) {
-                    setPasswordError(true);
-                    setPasswordHelper(err.response.data);
+                    setSnackWarning(err.response.data);
                 }
             } else if (err.request) {
-                setLoginError("エラー：サーバーへのリクエストに失敗しました");
+                setSnackWarning("サーバーへのリクエストに失敗しました。");
             } else {
                 console.log(err);
             }
+            setIsErrorSnack(true);
         }
     }
 
     const handleRegister = async () => {
         try {
-            setRegistError("");
+            setSnackWarning("");
             props.setIsRequesting(true);
             const newUser = {
                 username: registUserName,
@@ -727,9 +741,11 @@ const TopModal = (props) => {
         } catch (err) {
             props.setIsRequesting(false);
             if (err.response) {
-                setLoginError(`エラー：${err.response.data}`)
+                setSnackWarning(`${err.response.data}`);
+                setIsErrorSnack(true);
             } else if (err.request) {
-                setRegistError("エラー：サーバーへのリクエストに失敗しました");
+                setSnackWarning("サーバーへのリクエストに失敗しました。");
+                setIsErrorSnack(true);
             } else {
                 console.log(err);
             }
@@ -752,7 +768,7 @@ const TopModal = (props) => {
                 <LoginForm isUserIdLogin={isUserIdLogin} handleIsLogin={handleIsLogin} userId={userId} mailAddress={mailAddress} password={password}
                 handleUserIdInput={handleUserIdInput} handleMailAddressInput={handleMailAddressInput} handlePasswordInput={handlePasswordInput}
                 handleUserIdLogin={handleUserIdLogin} handlePasswordVisible={handlePasswordVisible} passwordVisible={passwordVisible} handleLogin={handleLogin}
-                userIdError={userIdError} userIdHelper={userIdHelper} passwordError={passwordError} passwordHelper={passwordHelper} mailAddressError={mailAddressError} mailAddressHelper={mailAddressHelper} loginError={loginError}/>
+                userIdError={userIdError} userIdHelper={userIdHelper} passwordError={passwordError} passwordHelper={passwordHelper} mailAddressError={mailAddressError} mailAddressHelper={mailAddressHelper}/>
             </StyledTopModalInner>
 
             :
@@ -776,7 +792,7 @@ const TopModal = (props) => {
                         registUserNameHelper={registUserNameHelper} registUserIdHelper={registUserIdHelper} registPasswordHelper={registPasswordHelper} registConfirmPasswordHelper={registConfirmPasswordHelper}
                         registMailAddressHelper={registMailAddressHelper} registConfirmMailAddressHelper={registConfirmMailAddressHelper}
                         isRegistUserNameError={isRegistUserNameError} isRegistUserIdError={isRegistUserIdError} isRegistPasswordError={isRegistPasswordError} isRegistConfirmPasswordError={isRegistConfirmPasswordError}
-                        isRegistMailAddressError={isRegistMailAddressError} isRegistConfirmMailAddressError={isRegistConfirmMailAddressError} stepError1={stepError1}/>
+                        isRegistMailAddressError={isRegistMailAddressError} isRegistConfirmMailAddressError={isRegistConfirmMailAddressError}/>
                     <RegistChangeStep currentStep={currentStep} handleBackStep={handleBackStep} handleNextStep1={handleNextStep1} handleNextStep2={handleNextStep2} handleNextStep3={handleNextStep3} handleIsLogin={handleIsLogin} handleRegister={handleRegister}/>
                     </>
                 )}
@@ -789,7 +805,7 @@ const TopModal = (props) => {
                         handlePostalCodeInput={handlePostalCodeInput} handleHouseNumberInput={handleHouseNumberInput} handlePhoneNumberInput={handlePhoneNumberInput}
                         upperNameHelper={upperNameHelper} lowerNameHelper={lowerNameHelper} upperNameKanaHelper={upperNameKanaHelper} lowerNameKanaHelper={lowerNameKanaHelper}
                         postalCodeHelper={postalCodeHelper} phoneNumberHelper={phoneNumberHelper} upperNameError={upperNameError} lowerNameError={lowerNameError} upperNameKanaError={upperNameKanaError}
-                        lowerNameKanaError={lowerNameKanaError} postalCodeError={postalCodeError} phoneNumberError={phoneNumberError} stepError2={stepError2}/>
+                        lowerNameKanaError={lowerNameKanaError} postalCodeError={postalCodeError} phoneNumberError={phoneNumberError}/>
                     <RegistChangeStep currentStep={currentStep} handleBackStep={handleBackStep} handleNextStep1={handleNextStep1} handleNextStep2={handleNextStep2} handleNextStep3={handleNextStep3} handleIsLogin={handleIsLogin} handleRegister={handleRegister}/>
                     </>
                 )}
@@ -810,7 +826,7 @@ const TopModal = (props) => {
                         prefecture={prefecture} city={city} town={town} houseNumber={houseNumber} phoneNumber={phoneNumber}
                         creditCard={creditCard} recognitionPasswordVisible={recognitionPasswordVisible} handleRecognitionPasswordVisible={handleRecognitionPasswordVisible}
                         recognitionCVCVisible={recognitionCVCVisible} handleRecognitionCVCVisible={handleRecognitionCVCVisible}
-                        meta={meta} getCardImageProps={getCardImageProps} cardChecked={cardChecked} registError={registError} isRequesting={props.isRequesting}/>
+                        meta={meta} getCardImageProps={getCardImageProps} cardChecked={cardChecked} isRequesting={props.isRequesting}/>
                     <RegistChangeStep currentStep={currentStep} handleBackStep={handleBackStep} handleNextStep1={handleNextStep1} handleNextStep2={handleNextStep2} handleNextStep3={handleNextStep3} handleIsLogin={handleIsLogin} handleRegister={handleRegister}/>
                     </>
                 )}
@@ -821,19 +837,7 @@ const TopModal = (props) => {
 
             </Modal>
 
-            {/* <Snackbar open={isErrorSnack} onClose={() => setIsErrorSnack(false)} TransitionComponent={SlideTransition} autoHideDuration={5000} anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
-                <Alert severity='error'>
-                入力エラー：{
-                    !(product.name && product.detail && product.price && product.status && product.shippingArea && product.deliveryCost) ?
-                    '入力内容が誤っています。' :
-                    null
-                }{
-                    (uploadImages.length === 0) ?
-                    '商品画像がアップロードされていません。' :
-                    null
-                }
-                </Alert>
-            </Snackbar> */}
+            <ErrorSnack open={isErrorSnack} onClose={() => setIsErrorSnack(false)} warning={snackWarning}/>
 
             <DestructionModal isDestructOpen={isDestructOpen} handleInputDelete={handleInputDelete} setIsDestructOpen={setIsDestructOpen}
             header="入力内容を破棄しますか？" desc="この操作は取り消しできません。変更は失われます。"/>
