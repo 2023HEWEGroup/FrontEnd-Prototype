@@ -19,7 +19,7 @@ const StagingImage = (props) => {
     const handlePoper = (e) => {
         if (!isPopperOpen) {
             setIsPopperOpen(true);
-            setAnchorEl(e.currentTarget)
+            setAnchorEl(e.currentTarget);
             } else {
             setIsPopperOpen(false);
             setAnchorEl(null);
@@ -51,13 +51,13 @@ const StagingImage = (props) => {
             </StyledUploadOption>
         </StyledProductImg>
 
-        <StagingImagePopper isPopperOpen={isPopperOpen} anchorEl={anchorEl} popperRef={popperRef} index={props.index}
+        <StagingImagePopper isPopperOpen={isPopperOpen} anchorEl={anchorEl} popperRef={popperRef} index={props.index} productImages={props.productImages} setProductImages={props.setProductImages}
             uploadImages={props.uploadImages} setUploadImages={props.setUploadImages} originalImages={props.originalImages} setOriginalImages={props.setOriginalImages}
             setIsPopperOpen={setIsPopperOpen} setAnchorEl={setAnchorEl} setTrimmingModal={setTrimmingModal}
             crops={props.crops} setCrops={props.setCrops} zooms={props.zooms} setZooms={props.setZooms}/>
         
         <TrimmingExhibit trimmingModal={trimmingModal} setTrimmingModal={setTrimmingModal} image={props.image} uploadImages={props.uploadImages} setUploadImages={props.setUploadImages}
-            originalImages={props.originalImages} index={props.index} crops={props.crops} setCrops={props.setCrops} zooms={props.zooms} setZooms={props.setZooms}/>
+            originalImages={props.originalImages} index={props.index} crops={props.crops} setCrops={props.setCrops} zooms={props.zooms} setZooms={props.setZooms} productImages={props.productImages} setProductImages={props.setProductImages}/>
         </>
     )
 }

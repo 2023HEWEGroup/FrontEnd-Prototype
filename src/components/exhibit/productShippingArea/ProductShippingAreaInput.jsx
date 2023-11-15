@@ -49,7 +49,7 @@ const ProductShippingAreaInput = (props) => {
                     </Select>
                 </FormControl>
             </div>
-            <StyledFormControlLabel control={<Checkbox color='secondary' sx={{ color: theme.palette.text.sub, '& .MuiSvgIcon-root': { fontSize: 28 } }}/>}
+            <StyledFormControlLabel control={<Checkbox checked={props.profilePrefecture} onClick={props.handleSetUserPrefecture} color='secondary' sx={{ color: theme.palette.text.sub, '& .MuiSvgIcon-root': { fontSize: 28 } }}/>}
             label="プロフィールの地域を設定"/>
         </StyledInput>
     )
@@ -66,6 +66,7 @@ const StyledInput = styled.div`
 const StyledFormControlLabel = styled(FormControlLabel)`
     && {
         color: #777;
+        user-select: none;
     }
 `
 

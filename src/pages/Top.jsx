@@ -2,11 +2,13 @@ import { ExitToApp, Shop } from '@mui/icons-material'
 import { AppBar, Chip, Grid, Toolbar, useTheme } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { setWindowScrollable } from '../redux/features/windowScrollaleSlice'
 import TopModal from '../components/top/topModal/TopModal'
 import IsProgress from '../components/common/isProgress/IsProgress'
+import particle from "../layouts/particles/topParticles.json"
+import Particles from 'react-tsparticles'
 
 
 const Top = () => {
@@ -14,14 +16,32 @@ const Top = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const recommend = searchParams.get('recommend');
+  const back = searchParams.get('back');
   const [isTopModalOpen, setIsTopModalOpen] = useState(recommend === "true" ? true : false);
   const [isRequesting, setIsRequesting] = useState(false);
+  const user = useSelector((state) => state.user.value);
   const isScrollable = useSelector((state => state.windowScrollable.value));
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const theme = useTheme();
 
+  // 読み込み時に背景パーティクルをユーザーのテーマに変更、なければJSONデフォルトの色を適応
+  useEffect(() => {
+    if (user) {
+      particle.particles.color = theme.palette.particle.top;
+      particle.particles.links.color = theme.palette.particle.top;
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   const handleTopModalOpen = () => {
     setIsTopModalOpen(true);
+  }
+
+  const handleTopModalClose = () => {
+    setIsTopModalOpen(false);
+    if (recommend === "true") {
+      navigate(back);
+    }
   }
 
   // 同様にスクロール可否を問う。Poppr展開中に遷移した場合ポッパーは遷移に伴って強制的にデフォルトの閉じ状態になる(正式な閉じる手順を踏まない)
@@ -55,6 +75,7 @@ const Top = () => {
   }, []);
 
   return (
+    <>
     <StyledFullScrean>
       <StyledAppBar>
         <Toolbar>
@@ -78,11 +99,15 @@ const Top = () => {
           </StyledGridItem>
         </StyledGridContainer>
 
-        <TopModal isTopModalOpen={isTopModalOpen} setIsTopModalOpen={setIsTopModalOpen} isRequesting={isRequesting} setIsRequesting={setIsRequesting}/>
+        <TopModal isTopModalOpen={isTopModalOpen} setIsTopModalOpen={setIsTopModalOpen} handleTopModalClose={handleTopModalClose} isRequesting={isRequesting} setIsRequesting={setIsRequesting}/>
 
         <IsProgress isProgress={isRequesting} style={{zIndex: 9000}}/>
         
     </StyledFullScrean>
+
+    <Particles options={particle}/>
+
+    </>
   )
 }
 
@@ -131,6 +156,7 @@ const StyledWelcomeMessage = styled.div`
   background: -webkit-linear-gradient(0deg, ${(props => props.theme.palette.top.titleGradation)});
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  user-select: none;
 `
 
 const StyledButtons = styled.div`

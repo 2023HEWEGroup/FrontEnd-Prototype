@@ -57,7 +57,7 @@ const ProductRecognitionModal = (props) => {
                             </StyledTagZone>
                         </StyledElement>
                     </StyledItem>
-                    <LoadingButton color='secondary' variant='outlined' fullWidth sx={{m: "30px 0;", p: 2}}>出品する</LoadingButton>
+                    <LoadingButton color='secondary' variant='outlined' fullWidth sx={{m: "30px 0;", p: 2}} onClick={props.handleExhibit}>出品する</LoadingButton>
                 </StyledRecognitionInner>
             </StyledModalInner>
         </Modal>

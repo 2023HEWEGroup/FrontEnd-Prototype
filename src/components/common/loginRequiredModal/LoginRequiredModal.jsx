@@ -11,7 +11,7 @@ const LoginRequiredModal = (props) => {
     const navigate = useNavigate();
 
     const handleShiftLogin = () => {
-        navigate(`/?recommend=true`);
+        navigate(`/?recommend=true&back=${props.back}`);
     }
 
     return (

@@ -109,7 +109,7 @@ const TopModal = (props) => {
     }
 
     const handleInputDelete = () => {
-        props.setIsTopModalOpen(false);
+        props.handleTopModalClose();
         handleDeleteInput();
         setCurrentStep(0);
         setIsErrorSnack(false);
