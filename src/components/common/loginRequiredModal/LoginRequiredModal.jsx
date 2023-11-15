@@ -1,7 +1,6 @@
-import { Login } from '@mui/icons-material';
 import { Button, Grow, Modal, useTheme } from '@mui/material'
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 
 
@@ -9,9 +8,10 @@ const LoginRequiredModal = (props) => {
 
     const theme = useTheme();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleShiftLogin = () => {
-        navigate(`/?recommend=true&back=${props.back}`);
+        navigate(`/?recommend=true&back=${location.pathname}`);
     }
 
     return (
@@ -20,13 +20,13 @@ const LoginRequiredModal = (props) => {
                     <StyledModalInner theme={theme}>
                         <StyledInner>
                             <StyledDetails>
-                                <StyledHeader theme={theme}>{props.header}<Login sx={{ml: "10px", width: "30px", height: "30px"}}/></StyledHeader>
+                                <StyledHeader theme={theme}>{props.header}</StyledHeader>
                                 <StyledDesc theme={theme}>{props.desc}</StyledDesc>
                             </StyledDetails>
                             <div style={{height: "0px"}}></div>
                             <StyledButtons>
-                                <StyledDeleteButton color="secondary" fullWidth size='large' variant='contained' onClick={handleShiftLogin} theme={theme}>今すぐログインする</StyledDeleteButton>
-                                <StyledCancelButton fullWidth size='large' color='primary' variant='contained' onClick={props.onClose} theme={theme}>キャンセル</StyledCancelButton>
+                                <StyledDeleteButton color="secondary" size='large' variant='contained' onClick={handleShiftLogin} theme={theme}>今すぐログインする</StyledDeleteButton>
+                                <StyledCancelButton size='large' color='primary' variant='contained' onClick={props.onClose} theme={theme}>キャンセル</StyledCancelButton>
                             </StyledButtons>
                         </StyledInner>
                     </StyledModalInner>
@@ -49,7 +49,7 @@ const StyledModalInner = styled.div`
     justify-content: center;
     align-items: center;
     background-color: ${(props) => props.theme.palette.background.modal};
-    width: 550px;
+    width: 450px;
     height: 300px;
     border-radius: 20px;
     border: solid 1px ${(props) => props.theme.palette.line.disable};
@@ -61,7 +61,7 @@ const StyledInner = styled.div`
     justify-content: center;
     align-items: center;
     gap: 30px;
-    width: 80%;
+    width: 90%;
 `
 
 const StyledDetails = styled.div`

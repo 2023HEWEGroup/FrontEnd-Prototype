@@ -1,19 +1,25 @@
 import { Avatar, Chip, Divider, IconButton, List, ListItemText, Paper, Popper, Tooltip, useTheme } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { AccountCircleOutlined, AdsClick, ArrowBack, AssessmentOutlined, CachedOutlined, CreditCard, FavoriteBorder, HelpOutlineOutlined, InfoOutlined, Inventory2Outlined, Logout } from '@mui/icons-material';
+import { AdsClick, ArrowBack, AssessmentOutlined, CachedOutlined, CreditCard, FavoriteBorder, HelpOutlineOutlined, InfoOutlined, Inventory2Outlined, Logout } from '@mui/icons-material';
 import { isWindowScrollable } from '../../../../../redux/features/windowScrollaleSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { dropUser } from '../../../../../redux/features/userSlice';
+import DestructionModal from '../../../admin/destructionModal/DestructionModal';
 
 
 const ProfilePopper = () => {
 
     const [isProfilePopperOpen, setIsProfilePopperOpen] = useState(false);
     const [profileAnchorEl, setProfileAnchorEl] = useState(null);
+    const [isDestructOpen, setIsDestructOpen] = useState(false);
     const profilePopperRef = useRef(null);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const theme = useTheme();
+    const user = useSelector((state) => state.user.value);
+    const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
 
     const handleProfilePopper = (e) => {
         if (!isProfilePopperOpen) {
@@ -23,6 +29,12 @@ const ProfilePopper = () => {
             setProfileAnchorEl(null);
             setIsProfilePopperOpen(false);
         }
+    }
+
+    const handleLogout = () => {
+        dispatch(dropUser());
+        navigate("/");
+        window.location.reload()
     }
 
     useEffect(() => {
@@ -52,7 +64,7 @@ const ProfilePopper = () => {
         <>
         <Tooltip title="アカウント管理" placement='bottom' arrow={true}>
             <StyledIconButtonRight size='small' onClick={handleProfilePopper} theme={theme}>
-                {isProfilePopperOpen ? <StyledAccountCircleOutlinedIcon color="secondary" /> : <StyledAccountCircleOutlinedIcon color="icon"/>}
+                <Avatar src={user.icon ? "" : `${siteAssetsPath}/default_icons/${user.defaultIcon}`}/>
             </StyledIconButtonRight>
         </Tooltip>
 
@@ -61,21 +73,21 @@ const ProfilePopper = () => {
                 <StyledPopperInner>
                     <StyledLink to={"/profile"}>
                         <StyledProfileListHeader>
-                            <StyledProfileAvatar />
+                            <StyledProfileAvatar src={user.icon ? "" : `${siteAssetsPath}/default_icons/${user.defaultIcon}`}/>
                             <StyledAccountIntro>
-                                <StyledProfileAccountName style={{color: theme.palette.text.main}}>aaaaaあああああああaaあああああああああああああああああああああああああああああ</StyledProfileAccountName>
-                                <StyledProfileAccountId style={{color: theme.palette.text.sub}}>@xyzyxyxZZZZZZ____________</StyledProfileAccountId>
+                                <StyledProfileAccountName style={{color: theme.palette.text.main}}>{user.username}</StyledProfileAccountName>
+                                <StyledProfileAccountId style={{color: theme.palette.text.sub}}>@{user.userId}</StyledProfileAccountId>
                             </StyledAccountIntro>
                         </StyledProfileListHeader>
                     </StyledLink>
 
                     <StyledFollowHeader>
-                        <StyledFollowings theme={theme}><Styledspan theme={theme}>NaN</Styledspan> フォロー</StyledFollowings>
-                        <StyledFollowers theme={theme}><Styledspan theme={theme}>NaN</Styledspan> フォロワー</StyledFollowers>
+                        <StyledFollowings theme={theme}><Styledspan theme={theme}>{user.followings.length}</Styledspan> フォロー</StyledFollowings>
+                        <StyledFollowers theme={theme}><Styledspan theme={theme}>{user.followers.length}</Styledspan> フォロワー</StyledFollowers>
                     </StyledFollowHeader>
 
                     <StyledProfilePointHeader>
-                        <StyledPointAmountLabel label="NaN ポイント" variant='outlined' color='secondary' clickable/>
+                        <StyledPointAmountLabel label={`${user.points} ポイント`} variant='outlined' color='secondary' clickable/>
                     </StyledProfilePointHeader>
 
                     <Divider style={{borderBottom: `solid 0.25px ${theme.palette.line.main}`, width: "95%", margin: "0 auto"}}/>
@@ -129,15 +141,18 @@ const ProfilePopper = () => {
                                 <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="トップページ" />
                                 </StyledProfileListElements>
                             </StyledLink>
-                            <StyledProfileListElements theme={theme}>
-                                <Logout color='icon'/>
-                                <ListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="ログアウト" />
+                            <StyledProfileListElements theme={theme} onClick={() => setIsDestructOpen(true)}>
+                                <Logout style={{color: theme.palette.text.error}}/>
+                                <ListItemText primaryTypographyProps={{color: theme.palette.text.error}} primary="ログアウト" />
                             </StyledProfileListElements>
                             </StyledProfileListBlock>
                     </List>
                 </StyledPopperInner>
             </StyledProfilePopperPaper>
         </StyledPopper>
+
+        <DestructionModal isDestructOpen={isDestructOpen} setIsDestructOpen={setIsDestructOpen} handleInputDelete={handleLogout} act="ログアウト"
+        header="本当にログアウトしますか？" desc={`${user.username}からログアウトします。\nログアウト後はトップページに戻ります。`} />
         </>
     )
 }
@@ -145,18 +160,12 @@ const ProfilePopper = () => {
 
 const StyledIconButtonRight = styled(IconButton)`
     && {
-        margin-right: -10px;
+        height: 100%;
+        aspect-ratio: 1/1;
 
         .MuiTouchRipple-child {
             background-color: ${(props) => props.theme.palette.secondary.main};
         }
-    }
-`
-
-const StyledAccountCircleOutlinedIcon = styled(AccountCircleOutlined)`
-    && {
-        width: 35px;
-        height: 35px;
     }
 `
 

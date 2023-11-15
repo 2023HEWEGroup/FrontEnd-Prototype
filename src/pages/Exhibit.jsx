@@ -18,6 +18,7 @@ import DestructionModal from '../components/common/admin/destructionModal/Destru
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ErrorSnack from '../components/common/errorSnack/ErrorSnack';
+import IsProgress from '../components/common/isProgress/IsProgress';
 
 
 const Exhibit = () => {
@@ -34,6 +35,7 @@ const Exhibit = () => {
   const [profilePrefecture, setProfilePrefecture] = useState(false);
   const [tag, setTag] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isProgress, setIsProgress] = useState(false);
   const [isDestructOpen , setIsDestructOpen] = useState(false);
   const user = useSelector((state) => state.user.value);
   const [isErrorSnack, setIsErrorSnack] = useState(false);
@@ -216,6 +218,7 @@ const Exhibit = () => {
 
   const handleExhibit = async () => {
     try {
+      setIsProgress(true);
       const formData = new FormData();
       productImages.forEach((image) => {
         formData.append("productImage", image);
@@ -234,11 +237,14 @@ const Exhibit = () => {
         tags: product.tags,
       };
       await axios.post("http://localhost:5000/client/product/exhibit", newProduct);
+      navigate("/home");
+      setIsProgress(false);
     } catch (err) {
+      setIsProgress(false);
       if (err.response) {
         console.log(err);
       } else if (err.request) {
-          setSnackWarning("サーバーへのリクエストに失敗しました。");
+          setSnackWarning("サーバーとの通信がタイムアウトしました。");
       } else {
           console.log(err);
       }
@@ -377,6 +383,8 @@ const Exhibit = () => {
       <Button variant='outlined' size='large' color='secondary' fullWidth sx={{p: 1, mb: 15}} onClick={handleChecking}>確認</Button>
 
     </StyledExhibit>
+
+    <IsProgress isProgress={isProgress} style={{zIndex: 9000}}/>
 
     <DestructionModal isDestructOpen={isDestructOpen} setIsDestructOpen={setIsDestructOpen} handleInputDelete={locateToHome}
       header="出品内容を破棄しますか？" desc="この操作は取り消しできません。変更は失われます。" />

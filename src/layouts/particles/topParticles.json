@@ -521,7 +521,7 @@
         "enable": false,
         "frequency": 1
         },
-        "width": 1,
+        "width": 3,
         "warp": false
     },
     "repulse": {
