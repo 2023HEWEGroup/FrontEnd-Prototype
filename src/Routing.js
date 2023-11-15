@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Top from "./pages/Top";
 import Home from "./pages/Home";
 import Product from "./pages/Product";
@@ -17,15 +17,18 @@ import SettlementFin from "./pages/SettlementFin";
 import AdminLayouts from "./layouts/AdminLayouts";
 import AdminTop from "./pages/admin/AdminTop";
 import UserManage from "./pages/admin/UserManage";
+import { useSelector } from "react-redux";
 
 
 const Routing = () => {
+
+  const user = useSelector((state) => state.user.value);
 
   return (
     <>
     <Routes>
       <Route path="/" element={<Top />} />
-      <Route path="/exhibit" element={<Exhibit />} />
+      <Route path="/exhibit" element={user ? <Exhibit /> : <Navigate to="/?recommend=true&back=/" />} />
 
       <Route path="/" element={<CommonLayouts />}>
         <Route path="home" element={<Home />} />

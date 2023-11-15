@@ -10,8 +10,12 @@ const StagingImagePopper = (props) => {
     const handleImageDelete = (index) => {
         const newImages = [...props.uploadImages];
         newImages.splice(index, 1);
+
         const newOriginalImages = [...props.originalImages];
         newOriginalImages.splice(index, 1);
+
+        const newProductImages = [...props.productImages];
+        newProductImages.splice(index, 1);
 
         const newCrops = [...props.crops];
         newCrops.splice(props.index, 1);
@@ -23,6 +27,7 @@ const StagingImagePopper = (props) => {
 
         props.setUploadImages(newImages);
         props.setOriginalImages(newOriginalImages);
+        props.setProductImages(newProductImages);
         props.setCrops(newCrops);
         props.setZooms(newZooms)
         props.setIsPopperOpen(false);

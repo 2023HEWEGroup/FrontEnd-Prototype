@@ -71,7 +71,7 @@ const ImageUpload = (props) => {
         {props.uploadImages.length !== 0 && (
             <>
             {props.uploadImages.map((image, index) => (
-                <StagingImage key={index} image={image} index={index} uploadImages={props.uploadImages} setUploadImages={props.setUploadImages}
+                <StagingImage key={index} image={image} index={index} uploadImages={props.uploadImages} setUploadImages={props.setUploadImages} productImages={props.productImages} setProductImages={props.setProductImages}
                     originalImages={props.originalImages} setOriginalImages={props.setOriginalImages} crops={props.crops} setCrops={props.setCrops} zooms={props.zooms} setZooms={props.setZooms}/>
             ))}
             {props.uploadImages.length < 8 && (

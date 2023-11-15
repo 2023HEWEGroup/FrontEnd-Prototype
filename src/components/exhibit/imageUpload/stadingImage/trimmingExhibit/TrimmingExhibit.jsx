@@ -1,6 +1,6 @@
 import { Close } from '@mui/icons-material';
 import { Button, IconButton, Modal, Tooltip, useTheme } from '@mui/material';
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Cropper from 'react-easy-crop'
 import styled from 'styled-components';
 
@@ -55,6 +55,7 @@ const TrimmingExhibit = (props) => {
             croppedAreaPixels.width,  // 描画する横幅
             croppedAreaPixels.height // 描画する縦幅
         );
+
     }
 
     const handleTrimmingComplete = (index) => {
@@ -68,6 +69,27 @@ const TrimmingExhibit = (props) => {
         // 更新した配列を設定
         props.setUploadImages(newUploadImages);
         props.setTrimmingModal(false);
+
+        // originalImagesを使っているのはトリミング確定後にステージング画像のAvatarを切り取られた表示にするため。
+        // 以下三つの画像ステートの役割。
+
+        // originalImages: 元の画像をステージングコンポーネントが削除されるまで保持します。削除する際は該当インデックスのデータが消えます。
+        // 画像をどれだけトリミングしても、オリジナル画像からトリミングを再開するので安心。もし再びトリミングするときにトリミング後の画像からはじめたら、トリミングの度に画像が縮んでいくので。
+        // オリジナル画像をブラウザが解釈可能な一時URLとして持っている。
+
+        // uploadImages: 画像がステージングされた際に一時URLとして保存されるのはオリジナル画像と同じだが、こいつはトリミングする度にcanvasのトリミング後の内容をdataUrlとして更新する。
+        // つまり何もしなければそのままだが、トリミングすれば常にその状態を持つ。
+
+        // roductImages: 実施にサーバーに送信されるのはこちらのステート。uploadImages(トリミング後の画像DataUrl)を送信すれば良くね？と思うだろうが、そもそもそいつはcanvas.toDataUrlメソッドで更新されるため、
+        // バックエンドのmulterが解釈できる形ではない。toDataUrlが表示に適しているのに対し、こちらのcanvas.toBlobはバイナリデータを送信する。
+        // multerも解釈可能だし比較的軽量だし、そもそもtoDataUrlはmulter君読めませんでした。「長すぎるわ！」とかでエラー吐いてた。
+
+        // キャンパス内の画像をバイナリ商品画像として登録
+        canvas.toBlob((blob) => {
+            const newProductImages = [...props.productImages];
+            newProductImages[index] = blob;
+            props.setProductImages(newProductImages);
+        })
     };
 
     const handleCropChange = (crop) => {
@@ -81,6 +103,53 @@ const TrimmingExhibit = (props) => {
         newZooms[props.index] = zoom;
         props.setZooms(newZooms);
     }
+
+    // 画像がステージングされた際に一度だけ発火。初期画像を仮想的なcanvasで切り抜いてバイナリ化、stateに格納。
+    useEffect(() => {
+        // 元画像を取得
+        const image = new Image();
+        image.src = props.originalImages[props.index];
+
+        // 擬似的なキャンバスをとコンテクストの生成
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext('2d');
+
+        // 画像が読み込まれると処理スタート
+        image.onload = () => {
+
+            // キャンバスのサイズを指定
+            const canvasSize = Math.min(image.width, image.height);
+            canvas.width = canvasSize;
+            canvas.height = canvasSize;
+
+            // 元画像の中央を切り抜いて描画
+            const startX = (image.width - canvasSize) / 2;
+            const startY = (image.height - canvasSize) / 2;
+            console.log(startX, startY)
+            ctx.drawImage(
+                // 元画像
+                image,
+                // 切り抜く範囲
+                startX,
+                startY,
+                canvasSize,
+                canvasSize,
+                // 描画先のサイズ
+                0,
+                0,
+                canvasSize,
+                canvasSize
+            );
+
+            // バイナリ保存
+            canvas.toBlob((blob) => {
+                const newProductImages = [...props.productImages];
+                newProductImages[props.index] = blob;
+                props.setProductImages(newProductImages);
+            })
+        };
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
     return (
         <>
         <Modal open={props.trimmingModal}>

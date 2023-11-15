@@ -1,5 +1,5 @@
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
-import { IconButton, Tooltip, useTheme } from '@mui/material'
+import { Chip, IconButton, Tooltip, useTheme } from '@mui/material'
 import React, { useState } from 'react'
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
@@ -7,6 +7,7 @@ import NotifyPopper from './notifyPopper/NotifyPopper';
 import ProfilePopper from './profilePopper/ProfilePopper';
 import LoginRequiredModal from '../../loginRequiredModal/LoginRequiredModal';
 import { useSelector } from 'react-redux';
+import { ExitToApp } from '@mui/icons-material';
 
 
 const GridRight = () => {
@@ -29,6 +30,10 @@ const GridRight = () => {
         setIsLoginModal(false);
     }
 
+    const handleNavigateLogin = () => {
+        navigate("/?recommend=true&back=/home");
+    }
+
     return (
     <>
     <Tooltip title="出品する" placement='bottom' arrow={true}>
@@ -41,9 +46,9 @@ const GridRight = () => {
 
     <NotifyPopper/> 
 
-    <ProfilePopper />
+    {user ? <ProfilePopper /> : <div style={{hight: "100%", display: "flex", alignItems: "center"}}><StyledLoginLabel theme={theme} icon={<ExitToApp style={{color: theme.palette.secondary.main}}/>} label="ログイン" clickable onClick={handleNavigateLogin}/> </div>}
 
-    <LoginRequiredModal open={isLoginModal} onClose={handleLoginModalClose} header="ログインが必要です" desc={"商品を出品しますか？今すぐユーザーのログインを完了させましょう！"}/>
+    <LoginRequiredModal open={isLoginModal} onClose={handleLoginModalClose} header="ログインが必要です" desc={"商品を出品しますか？今すぐユーザーのログインを完了させましょう！"} back="/home"/>
     </>
     )
 }
@@ -68,6 +73,18 @@ const StyledIconButton = styled(IconButton)`
     && {
         .MuiTouchRipple-child {
             background-color: ${(props) => props.theme.palette.secondary.main};
+        }
+    }
+`
+
+const StyledLoginLabel = styled(Chip)`
+    && {
+        height: 70%;
+        color: ${(props => props.theme.palette.secondary.main)};
+        border: solid 2px ${(props => props.theme.palette.secondary.main)};
+        border-radius: 25px;
+        &:hover {
+        background-color: ${(props => props.theme.palette.top.mainHover)};
         }
     }
 `

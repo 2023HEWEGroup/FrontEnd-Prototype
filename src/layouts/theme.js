@@ -59,6 +59,9 @@ export const darkBlueTheme = createTheme({
             titleGradation: "#4158d0, #d3d3d3",
             mainHover: "rgba(136, 136, 255, 0.1)",
             secondaryHover: "rgba(255, 255, 255, 0.1)"
+        },
+        particle: {
+            top: blue[500],
         }
     },
     components: {

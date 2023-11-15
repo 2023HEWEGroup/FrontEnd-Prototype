@@ -25,6 +25,7 @@
     "react-router-dom": "^6.14.1",
     "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
+    "react-tsparticles": "^1.43.1",
     "recharts": "^2.7.3",
     "redux-toolkit": "^1.1.2",
     "slick-carousel": "^1.8.1",
