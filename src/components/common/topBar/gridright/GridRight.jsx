@@ -2,7 +2,7 @@ import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import { Chip, IconButton, Tooltip, useTheme } from '@mui/material'
 import React, { useState } from 'react'
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import NotifyPopper from './notifyPopper/NotifyPopper';
 import ProfilePopper from './profilePopper/ProfilePopper';
 import LoginRequiredModal from '../../loginRequiredModal/LoginRequiredModal';
@@ -14,6 +14,7 @@ const GridRight = () => {
 
     const user = useSelector((state) => state.user.value);
     const navigate = useNavigate();
+    const location = useLocation();
     const [isLoginModal, setIsLoginModal] = useState(false);
     const theme = useTheme();
 
@@ -31,7 +32,7 @@ const GridRight = () => {
     }
 
     const handleNavigateLogin = () => {
-        navigate("/?recommend=true&back=/home");
+        navigate(`/?recommend=true&back=${location.pathname}`);
     }
 
     return (
@@ -46,9 +47,9 @@ const GridRight = () => {
 
     <NotifyPopper/> 
 
-    {user ? <ProfilePopper /> : <div style={{hight: "100%", display: "flex", alignItems: "center"}}><StyledLoginLabel theme={theme} icon={<ExitToApp style={{color: theme.palette.secondary.main}}/>} label="ログイン" clickable onClick={handleNavigateLogin}/> </div>}
+    {user ? <ProfilePopper /> : <div style={{hight: "100%", display: "flex", alignItems: "center", margin: "0 -10px 0 10px"}}><StyledLoginLabel theme={theme} icon={<ExitToApp style={{color: theme.palette.secondary.main}}/>} label="ログイン" clickable onClick={handleNavigateLogin}/> </div>}
 
-    <LoginRequiredModal open={isLoginModal} onClose={handleLoginModalClose} header="ログインが必要です" desc={"商品を出品しますか？今すぐユーザーのログインを完了させましょう！"} back="/home"/>
+    <LoginRequiredModal open={isLoginModal} onClose={handleLoginModalClose} header="ログインが必要です。" desc={"商品を出品しますか？今すぐユーザーのログインを完了させましょう！"}/>
     </>
     )
 }
@@ -83,6 +84,7 @@ const StyledLoginLabel = styled(Chip)`
         color: ${(props => props.theme.palette.secondary.main)};
         border: solid 2px ${(props => props.theme.palette.secondary.main)};
         border-radius: 25px;
+        padding: 0 5px;
         &:hover {
         background-color: ${(props => props.theme.palette.top.mainHover)};
         }

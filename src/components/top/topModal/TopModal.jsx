@@ -12,7 +12,7 @@ import RegistCreditCard from './registCreditCard/RegistCreditCard';
 import RegistRecognition from './registRecognition/RegistRecognition';
 import { usePaymentInputs } from 'react-payment-inputs';
 import DestructionModal from '../../common/admin/destructionModal/DestructionModal';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../../../redux/features/userSlice';
 import { useNavigate } from 'react-router-dom';
 import ErrorSnack from '../../common/errorSnack/ErrorSnack';
@@ -95,6 +95,7 @@ const TopModal = (props) => {
     const modalContainerRef = useRef(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const user = useSelector((state) => state.user.value);
     const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
@@ -700,7 +701,7 @@ const TopModal = (props) => {
                     setSnackWarning(err.response.data);
                 }
             } else if (err.request) {
-                setSnackWarning("サーバーへのリクエストに失敗しました。");
+                setSnackWarning("サーバーとの通信がタイムアウトしました。");
             } else {
                 console.log(err);
             }
@@ -744,7 +745,7 @@ const TopModal = (props) => {
                 setSnackWarning(`${err.response.data}`);
                 setIsErrorSnack(true);
             } else if (err.request) {
-                setSnackWarning("サーバーへのリクエストに失敗しました。");
+                setSnackWarning("サーバーとの通信がタイムアウトしました。");
                 setIsErrorSnack(true);
             } else {
                 console.log(err);
@@ -763,7 +764,7 @@ const TopModal = (props) => {
                 <StyledHighlightOff onClick={handleModalClose}/>
                 </Tooltip>
                 <StyledModalIntro $isLogin={isLogin}>
-                マーケットにログインしましょう
+                {user ? "ログインしてアカウント切り替え" : "マーケットにログインしましょう"}
                 </StyledModalIntro>
                 <LoginForm isUserIdLogin={isUserIdLogin} handleIsLogin={handleIsLogin} userId={userId} mailAddress={mailAddress} password={password}
                 handleUserIdInput={handleUserIdInput} handleMailAddressInput={handleMailAddressInput} handlePasswordInput={handlePasswordInput}

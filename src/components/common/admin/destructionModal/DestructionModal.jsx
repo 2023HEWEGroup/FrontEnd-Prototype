@@ -17,7 +17,7 @@ const DestructionModal = (props) => {
                                 <StyledDesc theme={theme}>{props.desc}</StyledDesc>
                             </StyledDetails>
                             <StyledButtons>
-                                <StyledDeleteButton fullWidth size='large' variant='contained' onClick={props.handleInputDelete} theme={theme}>破棄</StyledDeleteButton>
+                                <StyledDeleteButton fullWidth size='large' variant='contained' onClick={props.handleInputDelete} theme={theme}>{props.act || "破棄"}</StyledDeleteButton>
                                 <StyledCancelButton fullWidth size='large' color='primary' variant='contained' onClick={() => props.setIsDestructOpen(false)} theme={theme}>キャンセル</StyledCancelButton>
                             </StyledButtons>
                         </StyledInner>
@@ -42,7 +42,8 @@ const StyledModalInner = styled.div`
     align-items: center;
     background-color: ${(props) => props.theme.palette.background.modal};
     width: 325px;
-    height: 270px;
+    min-height: 270px;
+    padding: 20px 0;
     border-radius: 20px;
     border: solid 1px ${(props) => props.theme.palette.line.disable};
 `
@@ -77,6 +78,7 @@ const StyledDesc = styled.div`
     color: ${(props) => props.theme.palette.text.sub};
     font-size: 0.9rem;
     word-break: break-all;
+    white-space: pre-wrap;
 `
 
 const StyledButtons = styled.div`

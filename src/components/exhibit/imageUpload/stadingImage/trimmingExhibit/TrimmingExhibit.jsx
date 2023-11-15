@@ -125,7 +125,6 @@ const TrimmingExhibit = (props) => {
             // 元画像の中央を切り抜いて描画
             const startX = (image.width - canvasSize) / 2;
             const startY = (image.height - canvasSize) / 2;
-            console.log(startX, startY)
             ctx.drawImage(
                 // 元画像
                 image,

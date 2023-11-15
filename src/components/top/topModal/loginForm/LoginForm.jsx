@@ -2,11 +2,13 @@ import { OpenInNew, Visibility, VisibilityOff } from '@mui/icons-material'
 import { LoadingButton } from '@mui/lab'
 import { Button, InputAdornment, TextField, useTheme } from '@mui/material'
 import React from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 
 const LoginForm = (props) => {
 
+    const user = useSelector((state) => state.user.value);
     const theme = useTheme();
 
     return (
@@ -25,7 +27,7 @@ const LoginForm = (props) => {
             <StyledOptionChange onClick={props.handleUserIdLogin}>または{props.isUserIdLogin ? "メールアドレス" : "ユーザーID"}でログインする</StyledOptionChange>
         </div>
         <LoadingButton color='top' fullWidth variant='outlined' onClick={props.handleLogin}>ログイン</LoadingButton>
-        <Button color='top' onClick={props.handleIsLogin}>アカウントをお持ちではありませんか？<OpenInNew style={{marginLeft: "5px"}}/>新規登録</Button>
+        <Button color='top' onClick={props.handleIsLogin}>{user ? "アカウントを追加しますか？" : "アカウントをお持ちではありませんか？"}<OpenInNew style={{marginLeft: "5px"}}/>新規登録</Button>
         </StyledLoginForm>
     )
 }
