@@ -15,11 +15,13 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import { ListItem, ListItemText, Tooltip, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Dashboard } from '@mui/icons-material';
+import { useSelector } from 'react-redux';
 
 
 const UpperListSection = (props) => {
 
     const theme = useTheme();
+    const user = useSelector((state) => state.user.value);
 
     return (
         <>
@@ -56,9 +58,9 @@ const UpperListSection = (props) => {
                 </StyledListItem>
                 <StyledListItem>
                     <Tooltip title="プロフィール" placement='right' arrow={true}>
-                        <StyledLink to={"/profile"}>
-                            <StyledListElements theme={theme} style={props.page === "/profile" ? { backgroundColor: theme.palette.background.hover } : null}>
-                                {props.page === "/profile" ? <StyledAccountCircleIcon color='secondary' /> : <StyledAccountCircleOutlinedIcon color="icon"/>}
+                        <StyledLink to={`/profile/${user ? user._id : ""}`}>
+                            <StyledListElements theme={theme} style={props.page.startsWith("/profile") ? { backgroundColor: theme.palette.background.hover } : null}>
+                                {props.page.startsWith("/profile") ? <StyledAccountCircleIcon color='secondary' /> : <StyledAccountCircleOutlinedIcon color="icon"/>}
                                 <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="プロフィール" />
                             </StyledListElements>
                         </StyledLink>

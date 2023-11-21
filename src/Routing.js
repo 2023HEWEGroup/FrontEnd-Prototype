@@ -36,7 +36,7 @@ const Routing = () => {
         <Route path="following" element={<Following />} />
         <Route path="group" element={<Group />} />
         <Route path="notify" element={<Notify />} />
-        <Route path="profile" element={<Profile />} />
+        <Route path="profile/:userId" element={<Profile />} />
         <Route path="setting" element={<Setting />} />
         <Route path="info" element={<Info />} />
         <Route path="help" element={<Help />} />
