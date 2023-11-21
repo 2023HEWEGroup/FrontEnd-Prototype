@@ -51,7 +51,11 @@ export const darkBlueTheme = createTheme({
             modal: "#111",
             destructDelete: "#f00",
             destructDeleteHover: "#c00",
-            destructCancelHover: "#1a1a1a"
+            destructCancelHover: "#1a1a1a",
+            productBack: "#444",
+            modalHeader: "#000",
+            modal2: "#000",
+            modalDisable: "#555",
         },
         top: {
             main: "#88f",

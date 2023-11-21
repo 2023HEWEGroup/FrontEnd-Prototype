@@ -154,32 +154,32 @@ const NotifyPopper = () => {
         <StyledPopper open={isNotifyPopperOpen} anchorEl={notifyAnchorEl} placement='bottom-end' ref={notifyPopperRef}>
             <StyledNotifyPopperPaper theme={theme} elevation={3}>
 
-                <StyledNotifyListHeader>
-                    <div style={{color: theme.palette.text.main}}>通知</div>
-                    <StyledNotifyHeadText style={{color: theme.palette.secondary.main}}>すべて既読</StyledNotifyHeadText>
-                </StyledNotifyListHeader>
+            <StyledNotifyListHeader>
+                <div style={{color: theme.palette.text.main}}>通知</div>
+                <StyledNotifyHeadText style={{color: theme.palette.secondary.main}}>すべて既読</StyledNotifyHeadText>
+            </StyledNotifyListHeader>
 
-                <Divider style={{borderBottom: `solid 0.5px ${theme.palette.line.main}`}}/>
+            <Divider style={{borderBottom: `solid 0.5px ${theme.palette.line.main}`}}/>
 
-                <StyledNotifyList ref={notifyContainerRef} onScroll={handleScroll}>
-                    {displayNotifies.map((notify) => 
-                        <div key={notify.id}>
-                            <StyledNotifyListItemButton theme={theme}>
-                                <Badge color='secondary' variant='dot'>
-                                    <StyledNotifyAvatar />
-                                </Badge>
-                                <div>
-                                    <ListItemText primary={`${notify.src}があああああああああああああああああああああああああああああああああああああああああああああああああああああ`}
-                                    primaryTypographyProps={{
-                                    color: theme.palette.text.main,
-                                    fontSize: "0.9rem",
-                                    }}/>
-                                    <StyledTimeAgo style={{color: theme.palette.text.sub}}>NaN時間前</StyledTimeAgo>
-                                </div>
-                            </StyledNotifyListItemButton>
-                        </div>
-                    )}
-                </StyledNotifyList>
+            <StyledNotifyList ref={notifyContainerRef} onScroll={handleScroll}>
+                {displayNotifies.map((notify) => 
+                    <div key={notify.id}>
+                        <StyledNotifyListItemButton theme={theme}>
+                            <Badge color='secondary' variant='dot'>
+                                <StyledNotifyAvatar />
+                            </Badge>
+                            <div>
+                                <ListItemText primary={`${notify.src}があああああああああああああああああああああああああああああああああああああああああああああああああああああ`}
+                                primaryTypographyProps={{
+                                color: theme.palette.text.main,
+                                fontSize: "0.9rem",
+                                }}/>
+                                <StyledTimeAgo style={{color: theme.palette.text.sub}}>NaN時間前</StyledTimeAgo>
+                            </div>
+                        </StyledNotifyListItemButton>
+                    </div>
+                )}
+            </StyledNotifyList>
 
             </StyledNotifyPopperPaper>
         </StyledPopper>

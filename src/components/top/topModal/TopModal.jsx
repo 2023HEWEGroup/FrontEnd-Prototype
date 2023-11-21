@@ -297,7 +297,7 @@ const TopModal = (props) => {
             setUserIdHelper("3~30字の 0-9, a-z, A-Z, _ が使用できます");
         } else {
             try {
-                const user = await axios.get(`http://localhost:5000/client/user/getById/${e.target.value}`);
+                const user = await axios.get(`http://localhost:5000/client/user/getByUserId/${e.target.value}`);
                 if (user) {
                     setUserIdError(false);
                     setUserIdHelper(" ");
@@ -377,7 +377,7 @@ const TopModal = (props) => {
             setIsRegistUserIdError(false);
             setRegistUserIdHelper(" ");
             try {
-                const user = await axios.get(`http://localhost:5000/client/user/getById/${e.target.value}`);
+                const user = await axios.get(`http://localhost:5000/client/user/getByUserId/${e.target.value}`);
                 if (user) {
                     setIsRegistUserIdError(true);
                     setRegistUserIdHelper("このユーザーIDはすでに使用されています");

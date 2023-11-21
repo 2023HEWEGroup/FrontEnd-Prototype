@@ -31,6 +31,11 @@ const ProfilePopper = () => {
         }
     }
 
+    const handlePopperClose = () => {
+        setProfileAnchorEl(null);
+        setIsProfilePopperOpen(false);
+    }
+
     const handleLogout = () => {
         dispatch(dropUser());
         navigate("/");
@@ -64,16 +69,16 @@ const ProfilePopper = () => {
         <>
         <Tooltip title="アカウント管理" placement='bottom' arrow={true}>
             <StyledIconButtonRight size='small' onClick={handleProfilePopper} theme={theme}>
-                <Avatar src={user.icon ? "" : `${siteAssetsPath}/default_icons/${user.defaultIcon}`}/>
+                <Avatar src={user.icon ? `http://localhost:5000/uploads/userIcons/${user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}`}/>
             </StyledIconButtonRight>
         </Tooltip>
 
         <StyledPopper open={isProfilePopperOpen} anchorEl={profileAnchorEl} placement='bottom-end' ref={profilePopperRef}>
             <StyledProfilePopperPaper elevation={3} theme={theme}>
                 <StyledPopperInner>
-                    <StyledLink to={"/profile"}>
+                    <StyledLink to={`/profile/${user._id}`} onClick={handlePopperClose}>
                         <StyledProfileListHeader>
-                            <StyledProfileAvatar src={user.icon ? "" : `${siteAssetsPath}/default_icons/${user.defaultIcon}`}/>
+                            <StyledProfileAvatar src={user.icon ? `http://localhost:5000/uploads/userIcons/${user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}`}/>
                             <StyledAccountIntro>
                                 <StyledProfileAccountName style={{color: theme.palette.text.main}}>{user.username}</StyledProfileAccountName>
                                 <StyledProfileAccountId style={{color: theme.palette.text.sub}}>@{user.userId}</StyledProfileAccountId>
