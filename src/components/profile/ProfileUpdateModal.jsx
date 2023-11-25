@@ -7,14 +7,17 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../redux/features/userSlice';
 import DestructionModal from '../common/admin/destructionModal/DestructionModal';
+import HeaderTrimming from './headerTrimming';
 
 
 const ProfileUpdateModal = (props) => {
 
     const theme = useTheme();
     const fileInputRef = useRef();
+    const fileInputRef2 = useRef();
     const buttonRef = useRef();
     const buttonRef2 = useRef();
+    const buttonRef3 = useRef();
     const dispatch = useDispatch();
     const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
     const [profile, setProfile] = useState({username: props.currentUser.username, desc: props.currentUser.desc});
@@ -22,11 +25,19 @@ const ProfileUpdateModal = (props) => {
     const [usernameHelper, setUsernameHelper] = useState(" ");
     const [iconModal, setIconModal] = useState(false);
     const [iconDeleteDestruct, setIconDeleteDestruct] = useState(false);
+    const [headerModal, setHeaderModal] = useState(false);
+    const [headerDeleteDestruct, setHeaderDeleteDestruct] = useState(false);
 
     const handleUploadClick = () => {
         fileInputRef.current.click();
         buttonRef.current.blur();
         buttonRef2.current.blur();
+    };
+
+    // 2のナンバリングはヘッダー用
+    const handleUploadClick2 = () => {
+        fileInputRef2.current.click();
+        buttonRef3.current.blur();
     };
 
     const handleIconSelected = (event) => {
@@ -37,6 +48,17 @@ const ProfileUpdateModal = (props) => {
             props.setOriginalIcon(fileUrl);
             event.target.value = '';
             setIconModal(true);
+        }
+    };
+
+    const handleHeaderSelected = (event) => {
+        const header = event.target.files[0];
+        if (header) {
+            const fileUrl = URL.createObjectURL(header)
+            props.setUploadHeader(fileUrl);
+            props.setOriginalHeader(fileUrl);
+            event.target.value = '';
+            setHeaderModal(true);
         }
     };
 
@@ -73,6 +95,20 @@ const ProfileUpdateModal = (props) => {
         }
     }
 
+    const handleHeaderDelete = async () => {
+        try {
+            await axios.delete(`http://localhost:5000/client/user/deleteHeader/${props.currentUser._id}`);
+            // トリミング済み表示用ヘッダー (uploadHeader)を初期化
+            props.setUploadHeader(false);
+            const newUser = await axios.get(`http://localhost:5000/client/user/getById/${props.currentUser._id}`);
+            dispatch(setUser(newUser.data));
+            props.setIsProfileChange(true) // プロフィール変更フラグ
+            setHeaderDeleteDestruct(false);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     const handleProfleUpdate = async () => {
         try {
             if (profile.username !== props.currentUser.username || profile.desc !== props.currentUser.desc) {
@@ -87,6 +123,15 @@ const ProfileUpdateModal = (props) => {
                 // アイコン更新情報を初期化
                 props.setOriginalIcon();
                 props.setBinaryIcon();
+            }
+            if (props.binaryHeader) {
+                // ヘッダーに変更があれば(props.binaryHeader: 送る実データがあれば)API実行
+                const formData = new FormData();
+                formData.append("userHeader", props.binaryHeader);
+                await axios.put(`http://localhost:5000/client/user/uploadHeader/${props.currentUser._id}`, formData);
+                // アイコン更新情報を初期化
+                props.setOriginalHeader();
+                props.setBinaryHeader();
             }
             const newUser = await axios.get(`http://localhost:5000/client/user/getById/${props.currentUser._id}`);
             dispatch(setUser(newUser.data));
@@ -109,15 +154,13 @@ const ProfileUpdateModal = (props) => {
                     <StyledSaveButton theme={theme} $usernameError={usernameError} profile={profile} color="text" variant="contained" onClick={handleProfleUpdate}>保存</StyledSaveButton>
                 </StyledModalHeader>
 
-                <StyledHeader backHeader={props.currentUser.header ? `${siteAssetsPath}/${props.currentUser.header}` : null } theme={theme}>
+                <StyledHeader backHeader={props.uploadHeader ? props.uploadHeader : props.currentUser.header ? `http://localhost:5000/uploads/userHeaders/${props.currentUser.header}` : `${siteAssetsPath}/default_header/${props.currentUser.defaultHeader}`} theme={theme}>
                     <StyledHeaderDarkness>
                         <StyledHeaderIcons>
                             <Tooltip title='ヘッダーを変更' placement='bottom'>
-                                <StyledIconButton theme={theme}><StyledAddToPhotosOutlined theme={theme}/></StyledIconButton>
+                                <StyledIconButton theme={theme} ref={buttonRef3} onClick={handleUploadClick2}><StyledAddToPhotosOutlined theme={theme}/></StyledIconButton>
                             </Tooltip>
-                            <Tooltip title='ヘッダーを削除' placement='bottom'>
-                                <StyledIconButton theme={theme}><StyledClear theme={theme}/></StyledIconButton>
-                            </Tooltip>
+                            {props.currentUser.header ? <Tooltip title='ヘッダーを削除' placement='bottom'><StyledIconButton theme={theme} onClick={() => setHeaderDeleteDestruct(true)}><StyledClear theme={theme}/></StyledIconButton></Tooltip> : null}
                         </StyledHeaderIcons>
                     </StyledHeaderDarkness>
                 </StyledHeader>
@@ -154,6 +197,7 @@ const ProfileUpdateModal = (props) => {
                 null
                 }
                 <HiddenIconInput type="file" accept="image/png, image/jpg, image/jpeg" ref={fileInputRef} onChange={handleIconSelected}/>
+                <HiddenIconInput type="file" accept="image/png, image/jpg, image/jpeg" ref={fileInputRef2} onChange={handleHeaderSelected}/>
             </StyledInner>
         </StyledModal>
 
@@ -161,8 +205,15 @@ const ProfileUpdateModal = (props) => {
         iconCrop={props.iconCrop} setIconCrop={props.setIconCrop} iconZoom={props.iconZoom} setIconZoom={props.setIconZoom} uploadPrevIcon={props.uploadPrevIcon} setUploadPrevIcon={props.setUploadPrevIcon} originalPrevIcon={props.originalPrevIcon}
         setOriginalPrevIcon={props.setOriginalPrevIcon} binaryPrevIcon={props.binaryPrevIcon} setBinaryPrevIcon={props.setBinaryPrevIcon}/>
 
+        <HeaderTrimming open={headerModal} setOpen={setHeaderModal} uploadHeader={props.uploadHeader} setUploadHeader={props.setUploadHeader} originalHeader={props.originalHeader} setOriginalHeader={props.setOriginalHeader} binaryHeader={props.binaryHeader} setBinaryHeader={props.setBinaryHeader}
+        headerCrop={props.headerCrop} setHeaderCrop={props.setHeaderCrop} headerZoom={props.headerZoom} setHeaderZoom={props.setHeaderZoom} uploadPrevHeader={props.uploadPrevHeader} setUploadPrevHeader={props.setUploadPrevHeader} originalPrevHeader={props.originalPrevHeader}
+        setOriginalPrevHeader={props.setOriginalPrevHeader} binaryPrevHeader={props.binaryPrevHeader} setBinaryPrevHeader={props.setBinaryPrevHeader}/>
+
         <DestructionModal isDestructOpen={iconDeleteDestruct} setIsDestructOpen={setIconDeleteDestruct} handleInputDelete={handleIconDelete}
             header="アイコンを削除しますか？" desc="ユーザーのデフォルトアイコンが適応されます。" act="削除"/>
+
+        <DestructionModal isDestructOpen={headerDeleteDestruct} setIsDestructOpen={setHeaderDeleteDestruct} handleInputDelete={handleHeaderDelete}
+            header="ヘッダーを削除しますか？" desc="ユーザーのデフォルトヘッダーが適応されます。" act="削除"/>
         </>
     )
 }

@@ -39,6 +39,15 @@ const Profile = () => {
   const [iconCrop, setIconCrop] = useState({x: 0, y: 0});
   const [iconZoom, setIconZoom] = useState(1);
 
+  const [uploadHeader, setUploadHeader] = useState();
+  const [originalHeader, setOriginalHeader] = useState();
+  const [binaryHeader, setBinaryHeader] = useState();
+  const [uploadPrevHeader, setUploadPrevHeader] = useState();
+  const [originalPrevHeader, setOriginalPrevHeader] = useState();
+  const [binaryPrevHeader, setBinaryPrevHeader] = useState();
+  const [headerCrop, setHeaderCrop] = useState({x: 0, y: 0});
+  const [headerZoom, setHeaderZoom] = useState(1);
+
   const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
   const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
@@ -101,9 +110,9 @@ const Profile = () => {
     <>
     {!isLoading ? 
     <StyledProfile $isSmallScreen={isSmallScreen}>
-      <StyledHeaderZone backHeader={user.header ? `${siteAssetsPath}/${user.header}` : `${siteAssetsPath}/default_header/default_header.png`} theme={theme}>
+      <StyledHeaderZone backHeader={user.header ? `http://localhost:5000/uploads/userHeaders/${user.header}` : `${siteAssetsPath}/default_header/${user.defaultHeader}`} theme={theme}>
         <StyledHeaderDarkness>
-          <StyledInnerBack backHeader={user.header ? `${siteAssetsPath}/${user.header}` : `${siteAssetsPath}/default_header/default_header.png`} theme={theme}></StyledInnerBack>
+          <StyledInnerBack backHeader={user.header ? `http://localhost:5000/uploads/userHeaders/${user.header}` : `${siteAssetsPath}/default_header/${user.defaultHeader}`} theme={theme}></StyledInnerBack>
           <StyledButtons $isSmallScreen={isSmallScreen}>
             <Tooltip title="リンクコピー" placement='top' arrow={true}>
               <StyledIconButton theme={theme} onClick={handleLinkCopy}>
@@ -220,7 +229,10 @@ const Profile = () => {
     <ProfileUpdateModal open={upDateModal} setOpen={setUpdateModal} setUpdateModal={setUpdateModal} user={user} currentUser={currentUser} setIsProfileChange={setIsProfileChange}
     uploadIcon={uploadIcon} setUploadIcon={setUploadIcon} originalIcon={originalIcon} setOriginalIcon={setOriginalIcon} binaryIcon={binaryIcon} setBinaryIcon={setBinaryIcon}
     iconCrop={iconCrop} setIconCrop={setIconCrop} iconZoom={iconZoom} setIconZoom={setIconZoom} uploadPrevIcon={uploadPrevIcon} setUploadPrevIcon={setUploadPrevIcon} originalPrevIcon={originalPrevIcon}
-    setOriginalPrevIcon={setOriginalPrevIcon} binaryPrevIcon={binaryPrevIcon} setBinaryPrevIcon={setBinaryPrevIcon}/>
+    setOriginalPrevIcon={setOriginalPrevIcon} binaryPrevIcon={binaryPrevIcon} setBinaryPrevIcon={setBinaryPrevIcon}
+    uploadHeader={uploadHeader} setUploadHeader={setUploadHeader} originalHeader={originalHeader} setOriginalHeader={setOriginalHeader} binaryHeader={binaryHeader} setBinaryHeader={setBinaryHeader}
+    headerCrop={headerCrop} setHeaderCrop={setHeaderCrop} headerZoom={headerZoom} setHeaderZoom={setHeaderZoom} uploadPrevHeader={uploadPrevHeader} setUploadPrevHeader={setUploadPrevHeader} originalPrevHeader={originalPrevHeader}
+    setOriginalPrevHeader={setOriginalPrevHeader} binaryPrevHeader={binaryPrevHeader} setBinaryPrevHeader={setBinaryPrevHeader}/>
     </>
   )
 }
