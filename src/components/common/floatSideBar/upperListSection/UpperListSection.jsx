@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import HomeIcon from '@mui/icons-material/Home';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
@@ -13,15 +13,27 @@ import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import { ListItem, ListItemText, Tooltip, useTheme } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Dashboard } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
+import LoginRequiredModal from '../../loginRequiredModal/LoginRequiredModal';
 
 
 const UpperListSection = (props) => {
 
     const theme = useTheme();
+    const navigate = useNavigate();
     const user = useSelector((state) => state.user.value);
+    const [isLoginModal, setIsLoginModal] = useState(false);
+
+    const handleIsLogin = (e) => {
+        e.preventDefault();
+        if (!user) {
+            setIsLoginModal(true);
+        } else {
+            navigate(`/profile/${user._id}`);
+        }
+    }
 
     return (
         <>
@@ -58,7 +70,7 @@ const UpperListSection = (props) => {
                 </StyledListItem>
                 <StyledListItem>
                     <Tooltip title="プロフィール" placement='right' arrow={true}>
-                        <StyledLink to={`/profile/${user ? user._id : ""}`}>
+                        <StyledLink to={`/profile/${user ? user._id : ""}`} onClick={handleIsLogin}>
                             <StyledListElements theme={theme} style={props.page.startsWith("/profile") ? { backgroundColor: theme.palette.background.hover } : null}>
                                 {props.page.startsWith("/profile") ? <StyledAccountCircleIcon color='secondary' /> : <StyledAccountCircleOutlinedIcon color="icon"/>}
                                 <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="プロフィール" />
@@ -97,6 +109,8 @@ const UpperListSection = (props) => {
                     </Tooltip>
                 </StyledListItem>
             </StyledListBlock>
+
+            <LoginRequiredModal open={isLoginModal} onClose={() => setIsLoginModal(false)} header="ログインが必要です。" desc={"ログインしてプロフィールをカスタマイズしてみましょう！"}/>
         </>
     )
 }

@@ -12,12 +12,16 @@ import Profile from "./pages/Profile";
 import Help from "./pages/Help";
 import Info from "./pages/Info";
 import CommonLayouts from "./layouts/CommonLayout";
-import Result from "./pages/Result";
 import SettlementFin from "./pages/SettlementFin";
 import AdminLayouts from "./layouts/AdminLayouts";
 import AdminTop from "./pages/admin/AdminTop";
 import UserManage from "./pages/admin/UserManage";
 import { useSelector } from "react-redux";
+import Products from "./pages/Products";
+import Users from "./pages/Users";
+import Groups from "./pages/Groups";
+import NotFound from "./pages/NotFound";
+import TimeOut from "./pages/TimeOut";
 
 
 const Routing = () => {
@@ -40,8 +44,13 @@ const Routing = () => {
         <Route path="setting" element={<Setting />} />
         <Route path="info" element={<Info />} />
         <Route path="help" element={<Help />} />
-        <Route path="result" element={<Result />} />
+        <Route path="products" element={<Products />} />
+        <Route path="users" element={<Users />} />
+        <Route path="groups" element={<Groups />} />
         <Route path="settlementFin" element={<SettlementFin />} />
+
+        <Route path="timeOut" element={<TimeOut />} />
+        <Route path="notFound" element={<NotFound />} />
       </Route>
 
       <Route path="/admin" element={<AdminLayouts />}>

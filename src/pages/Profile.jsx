@@ -2,8 +2,8 @@ import { ContentCopy, MoreVert, Notifications } from '@mui/icons-material';
 import { Alert, Avatar, Chip, Grid, Hidden, IconButton, LinearProgress, Slide, Snackbar, Tab, Tabs, Tooltip, useMediaQuery, useTheme } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import UserProfile from '../components/profile/UseProfile';
 import UserProduct from '../components/profile/UserProduct';
@@ -11,6 +11,7 @@ import UserGroup from '../components/profile/UserGroup';
 import UserLike from '../components/profile/UserLike';
 import VerifiedBadge from '../layouts/badges/VerifiedBadge';
 import ProfileUpdateModal from '../components/profile/ProfileUpdateModal';
+import { setUser } from '../redux/features/userSlice';
 
 
 const SlideTransition = (props) => {
@@ -22,12 +23,14 @@ const Profile = () => {
 
   const [isLinkSnack, setIsLinkSnack] = useState(false);
   const [isFollowSnack, setIsFollowSnack] = useState(false);
+  const [isUnFollowSnack, setIsUnFollowSnack] = useState(false);
   const [tabValue, setTabValue] = useState(0);
   const [direction, setDirection] = useState("right");
   const [isLoading, setIsLoading] = useState(true);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setuser] = useState(null);
   const [upDateModal, setUpdateModal] = useState(false);
+  const [isFollowDisabled, setIsFollowDisabled] = useState(false);
   const [isProfileChange, setIsProfileChange] = useState(false); // プロフィールに更新があった場合にtrueになりuseEffectでuserを再取得するフラグ
 
   const [uploadIcon, setUploadIcon] = useState();
@@ -53,7 +56,9 @@ const Profile = () => {
   const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
   const currentUser = useSelector((state) => state.user.value);
   const { userId } = useParams();
+  const dispatch = useDispatch();
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const handleLinkCopy = () => {
     const currentUrl = window.location.href;
@@ -65,16 +70,34 @@ const Profile = () => {
     }
   }
 
-  const handleFollowSnack = () => {
-    setIsFollowSnack(true);
+  const handleFollow = async (flag) => {
+    try {
+      setIsFollowDisabled(true);
+      await axios.put(`http://localhost:5000/client/user/follow/${user._id}`, {_id: currentUser._id});
+      const newUser = await axios.get(`http://localhost:5000/client/user/getById/${currentUser._id}`);
+      dispatch(setUser(newUser.data));
+      if (flag) {
+        setIsFollowSnack(true);
+      } else {
+        setIsUnFollowSnack(true);
+      }
+      setIsProfileChange(true);
+      setIsFollowDisabled(false);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   const handleLinkSnackClose = () => {
-    setIsLinkSnack(false)
+    setIsLinkSnack(false);
   };
 
   const handleFollowSnackClose = () => {
     setIsFollowSnack(false);
+  }
+
+  const handleUnFollowSnackClose = () => {
+    setIsUnFollowSnack(false);
   }
 
   const handleTabChange = (event, newValue) => {
@@ -84,35 +107,37 @@ const Profile = () => {
       setDirection("right");
     }
     setTabValue(newValue);
-  };
+  };  
 
   useEffect(() => {
+    // 対象ユーザーの内容が更新される度にプロフィール表示を新しいユーザー情報にする。
     const fetchUser = async () => {
       try {
         const user = await axios.get(`http://localhost:5000/client/user/getById/${userId}`);
-        setUser(user.data);
+        setuser(user.data);
         setIsLoading(false);
         setIsProfileChange(false) // プロフィールを読み込んだらプロフィール変更フラグをfalse
       } catch (err) {
         if (err.response) {
-          console.log(err);
+          navigate("/notFound");
         } else if (err.request) {
-          console.log(err);
+          navigate("/timeOut");
         } else {
             console.log(err);
         }
       }
     }
     fetchUser();
-  }, [userId, isProfileChange]);
+  }, [userId, isProfileChange]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
     {!isLoading ? 
+    <>
     <StyledProfile $isSmallScreen={isSmallScreen}>
-      <StyledHeaderZone backHeader={user.header ? `http://localhost:5000/uploads/userHeaders/${user.header}` : `${siteAssetsPath}/default_header/${user.defaultHeader}`} theme={theme}>
+      <StyledHeaderZone backHeader={user.header ? `http://localhost:5000/uploads/userHeaders/${user.header}` : `${siteAssetsPath}/default_header/default_header.png`} theme={theme}>
         <StyledHeaderDarkness>
-          <StyledInnerBack backHeader={user.header ? `http://localhost:5000/uploads/userHeaders/${user.header}` : `${siteAssetsPath}/default_header/${user.defaultHeader}`} theme={theme}></StyledInnerBack>
+          <StyledInnerBack backHeader={user.header ? `http://localhost:5000/uploads/userHeaders/${user.header}` : `${siteAssetsPath}/default_header/default_header.png`} theme={theme}></StyledInnerBack>
           <StyledButtons $isSmallScreen={isSmallScreen}>
             <Tooltip title="リンクコピー" placement='top' arrow={true}>
               <StyledIconButton theme={theme} onClick={handleLinkCopy}>
@@ -143,21 +168,26 @@ const Profile = () => {
           </StyledUserGridItemCenter>
           <StyledUserGridItemRight item xs={6} sm={5} md={4} $isXsScreen={isXsScreen}>
             <StyledFollowAndNotify>
-              {currentUser._id === user._id ?
-              <Tooltip title="プロフィール編集" placement='top' arrow={true}>
-              <StyledFollowTab label="プロフィール編集" variant="outlined" style={{color: theme.palette.text.main}} clickable onClick={() => setUpdateModal(true)}/>
-            </Tooltip>
-            :
-            <Tooltip title="フォローする" placement='top' arrow={true}>
-                <StyledFollowTab label="フォロー" variant="outlined" color="secondary" clickable onClick={handleFollowSnack}/>
-            </Tooltip>
-            }
-              {currentUser._id !== user._id &&
-              <Tooltip title="通知" placement='top' arrow={true}>
-                <StyledNotifyIconButton theme={theme}>
-                  <Notifications />
-                </StyledNotifyIconButton>
-              </Tooltip>
+              {currentUser ?
+                  currentUser._id === user._id ?
+                  <StyledFollowTab label="プロフィール編集" variant="outlined" style={{color: theme.palette.text.main}} clickable onClick={() => setUpdateModal(true)}/>
+                  :
+                  currentUser.followings.includes(user._id) ?
+                    <StyledUnFollowTab label="フォロー中" variant="outlined" theme={theme} $isFollowDisabled={isFollowDisabled} clickable onClick={() => handleFollow(0)}/>
+                  :
+                  <StyledFollowTab label="フォロー" variant="outlined" color="secondary" $isFollowDisabled={isFollowDisabled} clickable onClick={() => handleFollow(1)}/>
+                :
+                null
+              }
+              {currentUser ?
+                currentUser._id !== user._id &&
+                <Tooltip title="通知" placement='top' arrow={true}>
+                  <StyledNotifyIconButton theme={theme}>
+                    <Notifications />
+                  </StyledNotifyIconButton>
+                </Tooltip>
+              :
+              null
               }
             </StyledFollowAndNotify>
           </StyledUserGridItemRight>
@@ -172,7 +202,7 @@ const Profile = () => {
           <StyledStatusGrid item xs={12} sm={10}>
           <div style={{display: "flex", gap: "20px"}}>
             <StyledStatus theme={theme}><StyledSpan theme={theme}>{user.followings.length}</StyledSpan> フォロー</StyledStatus>
-            <StyledStatus theme={theme}><StyledSpan theme={theme}>{user.followings.length}</StyledSpan> フォロワー</StyledStatus>
+            <StyledStatus theme={theme}><StyledSpan theme={theme}>{user.followers.length}</StyledSpan> フォロワー</StyledStatus>
           </div>
           <StyledBadges>
             {!user.iaAuthorized ? <VerifiedBadge /> : null}
@@ -192,10 +222,10 @@ const Profile = () => {
       </StyledUserInfoBar>
 
       <StyledTabs value={tabValue} onChange={handleTabChange} indicatorColor='secondary' theme={theme}>
-        <Tooltip title="ユーザー" placement='top' arrow><StyledTab theme={theme} label="ユーザー"></StyledTab></Tooltip>
-        <Tooltip title="商品" placement='top' arrow><StyledTab theme={theme} label="商品"></StyledTab></Tooltip>
-        <Tooltip title="グループ" placement='top' arrow><StyledTab theme={theme} label="グループ"></StyledTab></Tooltip>
-        <Tooltip title="いいね" placement='top' arrow><StyledTab theme={theme} label="いいね"></StyledTab></Tooltip>
+        <StyledTab theme={theme} label="ユーザー"></StyledTab>
+        <StyledTab theme={theme} label="商品"></StyledTab>
+        <StyledTab theme={theme} label="グループ"></StyledTab>
+        <StyledTab theme={theme} label="いいね"></StyledTab>
       </StyledTabs>
 
       <StyledProfileMain>
@@ -214,18 +244,25 @@ const Profile = () => {
       </StyledProfileMain>
     </StyledProfile>
 
-    :
-
-    <LinearProgress color='secondary' style={{backgroundColor: "transparent"}}/>
-    }
-
     <Snackbar open={isLinkSnack} onClose={handleLinkSnackClose} TransitionComponent={SlideTransition} autoHideDuration={3000}>
       <Alert severity='success'>リンクをコピーしました</Alert>
     </Snackbar>
     <Snackbar open={isFollowSnack} onClose={handleFollowSnackClose} TransitionComponent={SlideTransition} autoHideDuration={10000}>
-      <Alert severity='info'>username さんをフォローしました</Alert>
+      <Alert severity='info'>{`${user.username}さんをフォローしました`}</Alert>
     </Snackbar>
+    <Snackbar open={isUnFollowSnack} onClose={handleUnFollowSnackClose} TransitionComponent={SlideTransition} autoHideDuration={10000}>
+      <Alert severity='warning'>{`フォローを解除しました`}</Alert>
+    </Snackbar>
+    </>
 
+    :
+
+    <>
+    <LinearProgress color='secondary' style={{backgroundColor: "transparent"}}/>
+    </>
+    }
+
+    {currentUser ?
     <ProfileUpdateModal open={upDateModal} setOpen={setUpdateModal} setUpdateModal={setUpdateModal} user={user} currentUser={currentUser} setIsProfileChange={setIsProfileChange}
     uploadIcon={uploadIcon} setUploadIcon={setUploadIcon} originalIcon={originalIcon} setOriginalIcon={setOriginalIcon} binaryIcon={binaryIcon} setBinaryIcon={setBinaryIcon}
     iconCrop={iconCrop} setIconCrop={setIconCrop} iconZoom={iconZoom} setIconZoom={setIconZoom} uploadPrevIcon={uploadPrevIcon} setUploadPrevIcon={setUploadPrevIcon} originalPrevIcon={originalPrevIcon}
@@ -233,6 +270,9 @@ const Profile = () => {
     uploadHeader={uploadHeader} setUploadHeader={setUploadHeader} originalHeader={originalHeader} setOriginalHeader={setOriginalHeader} binaryHeader={binaryHeader} setBinaryHeader={setBinaryHeader}
     headerCrop={headerCrop} setHeaderCrop={setHeaderCrop} headerZoom={headerZoom} setHeaderZoom={setHeaderZoom} uploadPrevHeader={uploadPrevHeader} setUploadPrevHeader={setUploadPrevHeader} originalPrevHeader={originalPrevHeader}
     setOriginalPrevHeader={setOriginalPrevHeader} binaryPrevHeader={binaryPrevHeader} setBinaryPrevHeader={setBinaryPrevHeader}/>
+    :
+    null
+    }
     </>
   )
 }
@@ -388,6 +428,18 @@ const StyledFollowTab = styled(Chip)`
     height: 50px;
     font-size: 1rem;
     font-weight: bold;
+    pointer-events: ${(props) => props.$isFollowDisabled ? "none" : "auto"};
+  }
+`
+
+const StyledUnFollowTab = styled(Chip)`
+  && {
+    width: 200px;
+    height: 50px;
+    font-size: 1rem;
+    font-weight: bold;
+    pointer-events: ${(props) => props.$isFollowDisabled ? "none" : "auto"};
+    color: ${(props) => props.theme.palette.text.main};
   }
 `
 
