@@ -51,7 +51,12 @@ const GridCenter = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!inputhWord) return;
-    const url = `/result?word=${encodeURIComponent(inputhWord)}&mode=${encodeURIComponent(activeSearchMode)}`;
+    let page;
+    if (activeSearchMode === 1) page = "products";
+    if (activeSearchMode === 2) page = "users";
+    if (activeSearchMode === 3) page = "groups";
+    if (activeSearchMode === 4) page = "products";
+    const url = `${page}/?word=${encodeURIComponent(inputhWord)}`;
     handlePopperClose();
     searchInput.current.blur();
     navigate(url);
@@ -60,7 +65,12 @@ const GridCenter = () => {
   const handleModeClickSubmit = (event, mode) => {
     event.preventDefault();
     if (!inputhWord) return;
-    const url = `/result?word=${encodeURIComponent(inputhWord)}&mode=${encodeURIComponent(mode)}`;
+    let page;
+    if (mode === 1) page = "products";
+    if (mode === 2) page = "users";
+    if (mode === 3) page = "groups";
+    if (mode === 4) page = "products";
+    const url = `${page}/?word=${encodeURIComponent(inputhWord)}`;
     handlePopperClose();
     navigate(url);
   }
@@ -89,7 +99,7 @@ const GridCenter = () => {
     <>
       <div style={{ display: "flex", alignItems: "center", width: "80%" }}>
         <StyledPaper elevation={0} component="form" theme={theme} style={{backgroundColor: theme.palette.background.search}} onSubmit={handleSubmit} ref={popperRef}>
-          <StyledInputBase placeholder="キーワードで検索" onChange={handleInputChange} onKeyDown={handleKeyDown} onFocus={handlePopperOpen} inputRef={searchInput} theme={theme} />
+          <StyledInputBase placeholder="キーワードで検索" onChange={handleInputChange} onKeyDown={handleKeyDown} onFocus={handlePopperOpen} inputRef={searchInput} theme={theme} inputProps={{maxLength: 50}}/>
           <Tooltip title="検索" placement="bottom" arrow={true}>
             <StyledIconButton type="submit" size="small" theme={theme}>
               <SearchIcon color="icon" />
@@ -103,19 +113,19 @@ const GridCenter = () => {
         <StyledPopperPaper elevation={3} theme={theme}>
           <List>
             <StyledListItem onClick={(event) => handleModeClickSubmit(event, 1)} theme={theme} style={activeSearchMode === 1 ? { backgroundColor: theme.palette.background.hover } : null}>
-              <ListItemText primary={'"' + inputhWord + '" を商品で検索'} />
+              <ListItemText style={{overflow: "hidden", width: "100%"}} primary={'"' + inputhWord + '" を商品で検索'} />
             </StyledListItem>
             <StyledDivider style={{ width: "95%", margin: "0 auto" }} />
             <StyledListItem onClick={(event) => handleModeClickSubmit(event, 2)} theme={theme} style={activeSearchMode === 2 ? { backgroundColor: theme.palette.background.hover } : null}>
-              <ListItemText primary={'"' + inputhWord + '" をユーザーで検索'} />
+              <ListItemText style={{overflow: "hidden", width: "100%"}} primary={'"' + inputhWord + '" をユーザーで検索'} />
             </StyledListItem>
             <StyledDivider style={{ width: "95%", margin: "0 auto" }} />
             <StyledListItem onClick={(event) => handleModeClickSubmit(event, 3)} theme={theme} style={ activeSearchMode === 3 ? { backgroundColor: theme.palette.background.hover } : null}>
-              <ListItemText primary={'"' + inputhWord + '" をグループで検索'} />
+              <ListItemText style={{overflow: "hidden", width: "100%"}} primary={'"' + inputhWord + '" をグループで検索'} />
             </StyledListItem>
             <StyledDivider />
             <StyledListItem onClick={(event) => handleModeClickSubmit(event, 4)} theme={theme} style={activeSearchMode === 4 ? { backgroundColor: theme.palette.background.hover } : null}>
-              <ListItemText primary={'"' + inputhWord + '" をタグで検索'} />
+              <ListItemText style={{overflow: "hidden", width: "100%"}} primary={'"' + inputhWord + '" をタグで検索'} />
             </StyledListItem>
           </List>
         </StyledPopperPaper>

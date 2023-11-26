@@ -79,6 +79,7 @@ const HeaderTrimming = (props) => {
         props.setHeaderCrop({x: 0, y: 0});
         props.setHeaderZoom(1);
         props.setOpen(false);
+        props.setIsHeaderDelete(false); // トリミングが確定されたということは削除非表示判定もfalse
 
         // キャンパス内の画像をバイナリアイコンとして登録
         canvas.toBlob((blob) => {

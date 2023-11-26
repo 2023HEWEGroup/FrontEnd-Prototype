@@ -9,6 +9,7 @@ export const darkBlueTheme = createTheme({
         },
         secondary: {
             main: blue[500],
+            mainHover: blue[800],
             progressed: blue[900],
             exhibitAny: green["A700"]
         },
@@ -39,6 +40,7 @@ export const darkBlueTheme = createTheme({
             search: "#111",
             hover: "#383838",
             hover2: "#222",
+            hover3: "#282828",
             opacity: "rgba(255, 255, 255, 0.1)",
             opacityHover: "rgba(255, 255, 255, 0.3)",
             opacityActive: "rgba(255, 255, 255, 0.5)",
@@ -56,6 +58,7 @@ export const darkBlueTheme = createTheme({
             modalHeader: "#000",
             modal2: "#000",
             modalDisable: "#555",
+            userCard: "#222",
         },
         top: {
             main: "#88f",

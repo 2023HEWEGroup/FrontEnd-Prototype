@@ -81,6 +81,7 @@ const IconTrimming = (props) => {
         props.setIconCrop({x: 0, y: 0});
         props.setIconZoom(1);
         props.setOpen(false);
+        props.setIsIconDelete(false); // トリミングが確定されたということは削除非表示判定もfalse
 
         // キャンパス内の画像をバイナリアイコンとして登録
         canvas.toBlob((blob) => {

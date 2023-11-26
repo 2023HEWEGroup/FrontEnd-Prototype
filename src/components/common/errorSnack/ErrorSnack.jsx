@@ -10,7 +10,7 @@ const SlideTransition = (props) => {
 const ErrorSnack = (props) => {
 
     return (
-        <Snackbar open={props.open} onClose={props.onClose} TransitionComponent={SlideTransition} autoHideDuration={5000} anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
+        <Snackbar open={props.open} onClose={props.onClose} TransitionComponent={SlideTransition} autoHideDuration={props.infinite ? null : 5000} anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
             <Alert severity='error'>
             エラー：{
                 props.warning
