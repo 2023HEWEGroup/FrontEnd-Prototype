@@ -11,7 +11,7 @@ const RegistRecognition = (props) => {
         <StyledRecognition>
             <StyledRecognitionItem>
             <StyledRecognitionName>ユーザーネーム</StyledRecognitionName>
-            <StyledRecognitionContent>{props.registUserName}</StyledRecognitionContent>
+            <StyledRecognitionContent>{props.registUserName.trim()}</StyledRecognitionContent>
             </StyledRecognitionItem>
             <StyledRecognitionItem>
             <StyledRecognitionName>ユーザーID</StyledRecognitionName>
@@ -37,7 +37,7 @@ const RegistRecognition = (props) => {
             </StyledRecognitionItem>
             <StyledRecognitionItem>
             <StyledRecognitionName>郵便番号</StyledRecognitionName>
-            <StyledRecognitionContent>{props.postalCode}</StyledRecognitionContent>
+            <StyledRecognitionContent>{props.formatPostalCode(props.postalCode)}</StyledRecognitionContent>
             </StyledRecognitionItem>
             <StyledRecognitionItem>
             <StyledRecognitionName>住所</StyledRecognitionName>

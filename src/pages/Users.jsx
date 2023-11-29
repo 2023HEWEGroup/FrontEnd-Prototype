@@ -35,6 +35,7 @@ const Users = () => {
     const navigate = useNavigate();
     const theme = useTheme();
 
+    const [isFollowDisabled, setIsFollowDisabled] = useState(false);
     const [isErrorSnack, setIsErrorSnack] = useState(false);
     const [snackWarning, setSnackWarning] = useState("");
     const [isFollowSnack, setIsFollowSnack] = useState(false);
@@ -69,6 +70,7 @@ const Users = () => {
     const handleFollow = async (e, user, flag) => {
         try {
             e.preventDefault();
+            setIsFollowDisabled(true);
             await axios.put(`http://localhost:5000/client/user/follow/${user._id}`, {_id: currentUser._id});
             const newUser = await axios.get(`http://localhost:5000/client/user/getById/${currentUser._id}`);
             dispatch(setUser(newUser.data));
@@ -79,6 +81,7 @@ const Users = () => {
                 setSnackUsername(user.username);
                 setIsUnFollowSnack(true);
             }
+            setIsFollowDisabled(false);
         } catch (err) {
             if (err.response) {
                 console.log(err);
@@ -88,6 +91,7 @@ const Users = () => {
             } else {
                 console.log(err);
             }
+            setIsFollowDisabled(false);
         }
     }
 
@@ -210,9 +214,9 @@ const Users = () => {
                                         <StyledMyButton variant="outlined" color="text">ログイン中のユーザー</StyledMyButton>
                                         :
                                         currentUser.followings.includes(user._id) ?
-                                        <StyledFollowingButton variant="outlined" theme={theme} onClick={(e) => handleFollow(e, user, 0)}>フォロー中</StyledFollowingButton>
+                                        <StyledFollowingButton $isFollowDisabled={isFollowDisabled} variant="outlined" theme={theme} onClick={(e) => handleFollow(e, user, 0)}>フォロー中</StyledFollowingButton>
                                         :
-                                        <StyledFollowButton variant="outlined" color="secondary" onClick={(e) => handleFollow(e, user, 1)}>フォロー</StyledFollowButton>
+                                        <StyledFollowButton $isFollowDisabled={isFollowDisabled} variant="outlined" color="secondary" onClick={(e) => handleFollow(e, user, 1)}>フォロー</StyledFollowButton>
                                     :
                                     null
                                     }
@@ -376,6 +380,7 @@ const StyledFollowingButton = styled(Button)`
         text-overflow: ellipsis;
         color: ${(props) => props.theme.palette.text.main};
         border: solid 1px ${(props) => props.theme.palette.line.disable};
+        pointer-events: ${(props) => props.$isFollowDisabled ? "none" : "auto"};
         &:hover {
             background-color: ${(props) => props.theme.palette.background.hover3};
             border: solid 1px ${(props) => props.theme.palette.line.main};
@@ -392,6 +397,7 @@ const StyledFollowButton = styled(Button)`
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+        pointer-events: ${(props) => props.$isFollowDisabled ? "none" : "auto"};
     }
 `
 

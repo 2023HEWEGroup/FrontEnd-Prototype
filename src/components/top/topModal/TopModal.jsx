@@ -231,7 +231,7 @@ const TopModal = (props) => {
             setIsErrorSnack(true);
             return;
         }
-        else if (upperName && lowerName && upperNameKana && lowerNameKana && postalCode && prefecture && city && town && phoneNumber) {
+        else if (upperName && lowerName && upperNameKana && lowerNameKana && postalCode && prefecture && city && phoneNumber) {
             setSnackWarning("");
             setCurrentStep(currentStep + 1);
             if (modalContainerRef.current) {
@@ -714,7 +714,7 @@ const TopModal = (props) => {
             setSnackWarning("");
             props.setIsRequesting(true);
             const newUser = {
-                username: registUserName,
+                username: registUserName.trim(),
                 userId : registUserId,
                 password: registPassword,
                 confirmPassword: registConfirmPassword,
@@ -826,7 +826,7 @@ const TopModal = (props) => {
                         upperName={upperName} lowerName={lowerName} upperNameKana={upperNameKana} lowerNameKana={lowerNameKana} postalCode={postalCode}
                         prefecture={prefecture} city={city} town={town} houseNumber={houseNumber} phoneNumber={phoneNumber}
                         creditCard={creditCard} recognitionPasswordVisible={recognitionPasswordVisible} handleRecognitionPasswordVisible={handleRecognitionPasswordVisible}
-                        recognitionCVCVisible={recognitionCVCVisible} handleRecognitionCVCVisible={handleRecognitionCVCVisible}
+                        recognitionCVCVisible={recognitionCVCVisible} handleRecognitionCVCVisible={handleRecognitionCVCVisible} formatPostalCode={formatPostalCode}
                         meta={meta} getCardImageProps={getCardImageProps} cardChecked={cardChecked} isRequesting={props.isRequesting}/>
                     <RegistChangeStep currentStep={currentStep} handleBackStep={handleBackStep} handleNextStep1={handleNextStep1} handleNextStep2={handleNextStep2} handleNextStep3={handleNextStep3} handleIsLogin={handleIsLogin} handleRegister={handleRegister}/>
                     </>
