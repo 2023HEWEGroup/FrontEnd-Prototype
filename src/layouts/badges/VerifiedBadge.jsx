@@ -15,6 +15,7 @@ const VerifiedBadge = () => {
 const StyledVerified = styled(Verified)`
     && {
         color: #00f;
+        cursor: pointer;
     }
 `
 

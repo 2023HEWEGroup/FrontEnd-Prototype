@@ -12,6 +12,7 @@ import UserLike from '../components/profile/UserLike';
 import VerifiedBadge from '../layouts/badges/VerifiedBadge';
 import ProfileUpdateModal from '../components/profile/ProfileUpdateModal';
 import { setUser } from '../redux/features/userSlice';
+import FollowersModal from '../components/profile/FollowersModal';
 
 
 const SlideTransition = (props) => {
@@ -30,6 +31,7 @@ const Profile = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [user, setuser] = useState(null);
   const [upDateModal, setUpdateModal] = useState(false);
+  const [followersModal, setFollowersModal] = useState(false);
   const [isFollowDisabled, setIsFollowDisabled] = useState(false);
   const [isProfileChange, setIsProfileChange] = useState(false); // プロフィールに更新があった場合にtrueになりuseEffectでuserを再取得するフラグ
 
@@ -50,6 +52,8 @@ const Profile = () => {
   const [binaryPrevHeader, setBinaryPrevHeader] = useState();
   const [headerCrop, setHeaderCrop] = useState({x: 0, y: 0});
   const [headerZoom, setHeaderZoom] = useState(1);
+
+  const [isFollowDisplay, setIsFollowDisplay] = useState(true)
 
   const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
@@ -109,10 +113,25 @@ const Profile = () => {
     setTabValue(newValue);
   };  
 
+  const followingsOpen = async () => {
+    const user = await axios.get(`http://localhost:5000/client/user/getById/${userId}`);
+    setuser(user.data);
+    setIsFollowDisplay(true);
+    setFollowersModal(true);
+  }
+
+  const followersOpen = async () => {
+    const user = await axios.get(`http://localhost:5000/client/user/getById/${userId}`);
+    setuser(user.data);
+    setIsFollowDisplay(false);
+    setFollowersModal(true);
+  }
+
   useEffect(() => {
     // 対象ユーザーの内容が更新される度にプロフィール表示を新しいユーザー情報にする。
     const fetchUser = async () => {
       try {
+        setFollowersModal(false);
         const user = await axios.get(`http://localhost:5000/client/user/getById/${userId}`);
         setuser(user.data);
         setIsLoading(false);
@@ -162,7 +181,7 @@ const Profile = () => {
           </Hidden>
           <StyledUserGridItemCenter item xs={6} sm={5} md={6} $isXsScreen={isXsScreen}>
             <StyledNameAndId>
-              <StyledUsername theme={theme} $isSmallScreen={isSmallScreen}><div style={{ display: 'flex', alignItems: 'center' }}>{!user.iaAuthorized ? <VerifiedBadge /> : null}{user.username}</div></StyledUsername>
+              <StyledUsername theme={theme} $isSmallScreen={isSmallScreen}><div style={{ display: 'flex', alignItems: 'center', gap: "5px" }}>{!user.iaAuthorized ? <VerifiedBadge /> : null}{user.username}</div></StyledUsername>
               <StyledUserId theme={theme} $isSmallScreen={isSmallScreen}>@{user.userId}</StyledUserId>
             </StyledNameAndId>
           </StyledUserGridItemCenter>
@@ -201,8 +220,8 @@ const Profile = () => {
           </Hidden>
           <StyledStatusGrid item xs={12} sm={10}>
           <div style={{display: "flex", gap: "20px"}}>
-            <StyledStatus theme={theme}><StyledSpan theme={theme}>{user.followings.length}</StyledSpan> フォロー</StyledStatus>
-            <StyledStatus theme={theme}><StyledSpan theme={theme}>{user.followers.length}</StyledSpan> フォロワー</StyledStatus>
+            <StyledStatus theme={theme} onClick={followingsOpen}><StyledSpan theme={theme}>{user.followings.length}</StyledSpan> フォロー</StyledStatus>
+            <StyledStatus theme={theme} onClick={followersOpen}><StyledSpan theme={theme}>{user.followers.length}</StyledSpan> フォロワー</StyledStatus>
           </div>
           <StyledBadges>
             {!user.iaAuthorized ? <VerifiedBadge /> : null}
@@ -263,6 +282,7 @@ const Profile = () => {
     }
 
     {currentUser ?
+    <>
     <ProfileUpdateModal open={upDateModal} setOpen={setUpdateModal} setUpdateModal={setUpdateModal} user={user} currentUser={currentUser} setIsProfileChange={setIsProfileChange}
     uploadIcon={uploadIcon} setUploadIcon={setUploadIcon} originalIcon={originalIcon} setOriginalIcon={setOriginalIcon} binaryIcon={binaryIcon} setBinaryIcon={setBinaryIcon}
     iconCrop={iconCrop} setIconCrop={setIconCrop} iconZoom={iconZoom} setIconZoom={setIconZoom} uploadPrevIcon={uploadPrevIcon} setUploadPrevIcon={setUploadPrevIcon} originalPrevIcon={originalPrevIcon}
@@ -270,6 +290,9 @@ const Profile = () => {
     uploadHeader={uploadHeader} setUploadHeader={setUploadHeader} originalHeader={originalHeader} setOriginalHeader={setOriginalHeader} binaryHeader={binaryHeader} setBinaryHeader={setBinaryHeader}
     headerCrop={headerCrop} setHeaderCrop={setHeaderCrop} headerZoom={headerZoom} setHeaderZoom={setHeaderZoom} uploadPrevHeader={uploadPrevHeader} setUploadPrevHeader={setUploadPrevHeader} originalPrevHeader={originalPrevHeader}
     setOriginalPrevHeader={setOriginalPrevHeader} binaryPrevHeader={binaryPrevHeader} setBinaryPrevHeader={setBinaryPrevHeader}/>
+
+    {followersModal ? <FollowersModal open={followersModal} setOpen={setFollowersModal} user={user} setIsProfileChange={setIsProfileChange} currentUser={currentUser} isFollowDisplay={isFollowDisplay} setIsFollowDisplay={setIsFollowDisplay}/> : null}
+    </>
     :
     null
     }
@@ -484,19 +507,18 @@ const StyledBadges = styled.div`
 const StyledStatus = styled.div`
   color: ${(props) => props.theme.palette.text.sub};
   font-size: 0.9rem;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+  &:active {
+      text-decoration: none;
+  }
 `
 
 const StyledSpan = styled.span`
     color: ${(props) => props.theme.palette.text.main};
     font-size: 1rem;
-    cursor: pointer;
-
-    &:hover {
-        text-decoration: underline;
-    }
-    &:active {
-        text-decoration: none;
-    }
 `
 
 const StyledTabs = styled(Tabs)`

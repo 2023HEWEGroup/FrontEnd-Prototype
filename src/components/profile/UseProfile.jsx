@@ -34,7 +34,7 @@ const UseProfile = (props) => {
             }
         }
         fetchProducts();
-    }, [isXsScreen, isSmallScreen, isMiddleScreen, isLargeScreen]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [isXsScreen, isSmallScreen, isMiddleScreen, isLargeScreen, props.user]); // eslint-disable-line react-hooks/exhaustive-deps
     
     return (
         <>
