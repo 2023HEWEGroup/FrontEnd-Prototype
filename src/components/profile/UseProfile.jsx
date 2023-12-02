@@ -3,6 +3,7 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { Avatar, Slide, useMediaQuery, useTheme } from '@mui/material'
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
 
 
 const UseProfile = (props) => {
@@ -50,9 +51,9 @@ const UseProfile = (props) => {
                     {lineCount > 3 ?
                     (<StyledMoreRead theme={theme} onClick={() => props.setIsExpanded(!props.isExpanded)}>
                     {props.isExpanded ?
-                    <div style={{display: "flex", justifyContent: "center", alignItems: "center", padding: "15px 0", margin: "0 auto"}}><div>プロフィールを折りたたむ</div><ExpandLess color="text"/></div>
+                    <div style={{display: "flex", justifyContent: "center", alignItems: "center", padding: "15px 0", margin: "0 auto"}}><div>プロフィールを折りたたむ</div><ExpandLess color="secondary"/></div>
                     :
-                    <div style={{display: "flex", justifyContent: "center", alignItems: "center", padding: "15px 0", margin: "0 auto"}}><div>プロフィールをすべて表示</div><ExpandMore color="text"/></div>}
+                    <div style={{display: "flex", justifyContent: "center", alignItems: "center", padding: "15px 0", margin: "0 auto"}}><div>プロフィールをすべて表示</div><ExpandMore color="secondary"/></div>}
                     </StyledMoreRead>)
                     :
                     (
@@ -77,16 +78,20 @@ const UseProfile = (props) => {
                 {props.user.products.length > 0 ?
                 <StyledUserProduct>
                     <StyledProductTable>
-                        {products.map(product => 
-                            <StyledProduct $isXsScreen={isXsScreen} $isSmallScreen={isSmallScreen} $isMiddleScreen={isMiddleScreen} $isLargeScreen={isLargeScreen} key={product._id}>
-                                <StyledProductImgZone theme={theme}>
-                                    <StyledProductAvatar variant="square" src={`http://localhost:5000/uploads/productImages/${product.productImg[0]}`}>
-                                    </StyledProductAvatar>
-                                </StyledProductImgZone>
-                                <StyledProductDetail>
-                                    <StyledProductName theme={theme}>{product.productName}</StyledProductName>
-                                    <StyledProductPrice theme={theme}>{product.price} ポイント</StyledProductPrice>
-                                </StyledProductDetail>
+                        {products.map(product =>
+                            <StyledProduct key={product._id} $isXsScreen={isXsScreen} $isSmallScreen={isSmallScreen} $isMiddleScreen={isMiddleScreen} $isLargeScreen={isLargeScreen}>
+                                <StyledLink to={`/product/${product._id}`}>
+                                    <StyledProductInner>
+                                        <StyledProductImgZone theme={theme}>
+                                            <StyledProductAvatar variant="square" src={`http://localhost:5000/uploads/productImages/${product.productImg[0]}`}>
+                                            </StyledProductAvatar>
+                                        </StyledProductImgZone>
+                                        <StyledProductDetail>
+                                            <StyledProductName theme={theme}>{product.productName}</StyledProductName>
+                                            <StyledProductPrice theme={theme}>{product.price} ポイント</StyledProductPrice>
+                                        </StyledProductDetail>
+                                    </StyledProductInner>
+                                </StyledLink>
                             </StyledProduct>
                         )}
                     </StyledProductTable>
@@ -150,7 +155,7 @@ const StyledMoreRead = styled.div`
     display: flex;
     justify-contet: center;
     align-items: center;
-    color: ${(props) => props.theme.palette.text.main};
+    color: ${(props) => props.theme.palette.secondary.main};
     width: 100%;
     cursor: pointer;
     font-size: 1rem;
@@ -179,7 +184,21 @@ const StyledProductTable = styled.div`
 
 const StyledProduct = styled.div`
     width: calc(${(props) => (props.$isXsScreen ? "50%" : (props.$isSmallScreen ? "33.333%" : (props.$isMiddleScreen ? "25%" : (props.isLargeScreen ? "20%" : "16.666%"))))} - 10px);
-    height: fit-content;
+    height: 100%;
+    cursor: pointer;
+`
+
+const StyledLink = styled(Link)`
+    && {
+        width: 100%;
+        height: 100%;
+        text-decoration: none;
+    }
+`
+
+const StyledProductInner = styled.div`
+    width: 100%;
+    height: 100%;
     cursor: pointer;
 `
 

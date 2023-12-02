@@ -149,7 +149,7 @@ const FollowersModal = (props) => {
                 <StyledFollowerList ref={listRef} onScroll={handleScroll}>
                     {!isLoading?
                     users.map(user =>
-                        <Link key={user._id} to={`/profile/${user._id}`} style={{textDecoration: "none", width: "90%"}}>
+                        <Link key={user._id} to={`/user/${user._id}`} style={{textDecoration: "none", width: "90%"}}>
                             <StyledUserPanel>
                                 <StyledUpperSection>
                                     <StyledIconAndName>
@@ -289,6 +289,7 @@ const StyledFollowerList = styled.div`
     overflow-x: hidden;
     overflow-y: scroll;
     width: 100%;
+    max-width: 1500px;
     height: calc(100% - 50px);
     margin: 90px auto 0 auto;
     padding: 30px 0;

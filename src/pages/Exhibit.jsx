@@ -30,8 +30,8 @@ const Exhibit = () => {
   const [crops, setCrops] = useState([{x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}]);
   const [zooms, setZooms] = useState([1, 1, 1, 1, 1, 1, 1, 1]);
   const [product, setProduct] = useState({image: "", name: "", detail: "", price: "", benefit: 0, status: "", deliveryCost: "", shippingArea: "", category: "", tags: []});
-  const [productError, setProductError] = useState({image: false, name: false, detail: false, price: false, benefit: false, status: false, deliveryCost: false, shippingArea: false});
-  const [productHelper, setProductHelper] = useState({image: " ", name: " ", detail: " ", price: " ", benefit: " ", status: " ", deliveryCost: " ", shippingArea: " "});
+  const [productError, setProductError] = useState({image: false, name: false, detail: false, price: false, benefit: false, status: false, deliveryCost: false, shippingArea: false, category: false});
+  const [productHelper, setProductHelper] = useState({image: " ", name: " ", detail: " ", price: " ", benefit: " ", status: " ", deliveryCost: " ", shippingArea: " ", category: " "});
   const [profilePrefecture, setProfilePrefecture] = useState(false);
   const [tag, setTag] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -115,6 +115,8 @@ const Exhibit = () => {
 
   const handleCategoryChange = (event) => {
     setProduct({...product, category: event.target.value});
+    setProductError({...productError, category: false});
+    setProductHelper({...productHelper, category: " "});
   };
 
   const handleTagAdd = (event) => {
@@ -133,10 +135,6 @@ const Exhibit = () => {
     setTag(tagWithoutSpaces);
   }
 
-  const handleCategoryDelete = () => {
-    setProduct({...product, category: ""});
-  }
-
   const handleChecking = () => {
     setSnackWarning("");
     let flag = false;
@@ -149,6 +147,7 @@ const Exhibit = () => {
       status: product.status ? false : true,
       shippingArea: product.shippingArea ? false : true,
       deliveryCost: product.deliveryCost ? false : true,
+      category: product.category ? false : true,
     }
     setProductError(newProductError);
     const newProductHelper = {
@@ -160,9 +159,10 @@ const Exhibit = () => {
       status: product.status ? " " : "商品の状態を選択して下さい",
       shippingArea: product.shippingArea ? " " : "発送元地域を選択して下さい",
       deliveryCost: product.deliveryCost ? " " : "配送料の負担者を選択して下さい",
+      category: product.category ? " " : "カテゴリーを選択して下さい",
     }
     setProductHelper(newProductHelper);
-    if (!(!(product.name.trim() === "" ) && !(product.detail.trim() === "" ) && product.name && product.detail && product.price && product.status && product.shippingArea && product.deliveryCost)) {
+    if (!(!(product.name.trim() === "" ) && !(product.detail.trim() === "" ) && product.name && product.detail && product.price && product.status && product.shippingArea && product.deliveryCost && product.category)) {
       setSnackWarning("入力内容が誤っています。");
       setIsErrorSnack(true);
       flag = true;
@@ -194,6 +194,8 @@ const Exhibit = () => {
   const handleSetUserPrefecture = () => {
     setProfilePrefecture((prev) => !prev);
     setProduct({...product, shippingArea: user.prefecture});
+    setProductError({...productError, shippingArea: false});
+    setProductHelper({...productHelper, shippingArea: " "});
   }
 
   const locateToHome = () => {
@@ -234,6 +236,7 @@ const Exhibit = () => {
         deliveryCost: product.deliveryCost,
         productImg: productImageNames.data,
         sellerId: user._id,
+        category: product.category,
         tags: product.tags,
       };
       await axios.post("http://localhost:5000/client/product/exhibit", newProduct);
@@ -271,7 +274,8 @@ const Exhibit = () => {
   ]
 
   const categories = [
-    "キムチ", "カクテキ", "elon"
+    "レディース", "メンズ", "ベビー・キッズ", "インテリア・住まい・小物", "本・音楽・ゲーム", "おもちゃ・ホビー・グッズ", "コスメ・香水。美容",
+    "家電・スマホ・カメラ", "スポーツ・レジャー", "ハンドメイド", "チケット", "自動車・オートバイ", "食品", "ダイエット・健康", "花・園芸用品", "アート", "その他"
 ]
 
   return (
@@ -291,7 +295,7 @@ const Exhibit = () => {
           <StyledRequired theme={theme}>必須</StyledRequired>
           <div>① 商品画像</div>
         </StyledSubTitle>
-        <ImageUpload isDragging={isDragging} setIsDragging={setIsDragging} uploadImages={uploadImages} setUploadImages={setUploadImages} productError={productError} productImages={productImages} setProductImages={setProductImages}
+        <ImageUpload isDragging={isDragging} setIsDragging={setIsDragging} uploadImages={uploadImages} setUploadImages={setUploadImages} productError={productError} productHelper={productHelper} productImages={productImages} setProductImages={setProductImages}
           originalImages={originalImages} setOriginalImages={setOriginalImages} crops={crops} setCrops={setCrops} zooms={zooms} setZooms={setZooms} setProductError={setProductError} setProductHelper={setProductHelper}/>
         <StyledErrorAndLength>
           <StyledErrorMessage theme={theme}>{productHelper.image}</StyledErrorMessage>
@@ -361,10 +365,11 @@ const Exhibit = () => {
 
       <StyledInputContent>
         <StyledSubTitle theme={theme}>
-          <StyledAny theme={theme}>任意</StyledAny>
-          <div>⑧ 商品カテゴリー</div>
+        <StyledRequired theme={theme}>必須</StyledRequired>
+          <div>⑧ カテゴリー</div>
         </StyledSubTitle>
-        <ProductCategorySelect product={product} handleCategoryChange={handleCategoryChange} categories={categories} handleCategoryDelete={handleCategoryDelete}/>
+        <ProductCategorySelect product={product} handleCategoryChange={handleCategoryChange} categories={categories} productError={productError}/>
+          <StyledErrorMessage theme={theme}>{productHelper.category}</StyledErrorMessage>
       </StyledInputContent>
 
       <StyledInputContent>

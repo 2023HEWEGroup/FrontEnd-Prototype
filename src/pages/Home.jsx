@@ -93,7 +93,7 @@ const StyledProductZone = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 10px;
   width: 100%;
 `
 
