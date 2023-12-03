@@ -1,31 +1,51 @@
-import { CurrencyYen, ExpandLess, ExpandMore } from '@mui/icons-material';
-import { Avatar, Chip, Divider, LinearProgress, Rating, useMediaQuery, useTheme } from '@mui/material'
+import { ArrowForwardIos, CurrencyYen, ExpandLess, ExpandMore, FavoriteBorder, Share, SmsOutlined } from '@mui/icons-material';
+import { Alert, Avatar, Button, Card, CardActions, CardHeader, Chip, Divider, LinearProgress, Rating, useMediaQuery, useTheme } from '@mui/material'
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components'
 import ProductSlider from '../components/product/ProductSlider';
+import VerifiedBadge from '../layouts/badges/VerifiedBadge';
 
 
 const Product = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [product, setProduct] = useState(null);
+  const [saller, setSaller] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [truncatedText, setTruncatedText] = useState("");
   const [lineCount, setLineCount] = useState(NaN);
   const [sliderIndex, setSliderIndex] = useState(0);
   const theme = useTheme();
   const { productId } = useParams("productId");
+  const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
   const isMiddleScreen = useMediaQuery((theme) => theme.breakpoints.down('lg'));
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
   const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+
+  const UserBadge = () => {
+    return (
+      <div style={{display: "flex", alignItems: "center", gap: "2px"}}>
+        {saller.isAuthorized ? (
+          <>
+            <VerifiedBadge />
+            <span>{saller.username}</span>
+          </>
+        ) : (
+          <span>{saller.username}</span>
+        )}
+      </div>
+    );
+  };
 
   useEffect((() => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/client/product/get/${productId}`);
+        const sallerResponse = await axios.get(`http://localhost:5000/client/user/getById/${response.data.sellerId}`);
         setProduct(response.data);
+        setSaller(sallerResponse.data);
         setIsLoading(false);
       } catch (err) {
         console.log(err);
@@ -39,14 +59,27 @@ const Product = () => {
       setTruncatedText(isExpanded ? product.desc : product.desc.split('\n').slice(0, 10).join('\n'))
       setLineCount(product.desc.split('\n').length);
     }
-  }, [product, isExpanded])
+  }, [product, isExpanded]);
+
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      if (event.key === 'ArrowRight') {
+        setSliderIndex((prev) => prev === product.productImg.length ? 0 : prev + 1);
+      } else if (event.key === 'ArrowLeft') {
+        setSliderIndex((prev) => prev === 0 ? product.productImg.length - 1 : prev - 1);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [product]);
 
   return (
     <>
+    {!isLoading ?
     <StyledProduct $isSmallScreen={isSmallScreen}>
-
-      {!isLoading ?
-      <>
       <StyledSliderArea $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
         <StyledSliderInner>
           <ProductSlider product={product} sliderIndex={sliderIndex} setSliderIndex={setSliderIndex}/>
@@ -132,31 +165,46 @@ const Product = () => {
             <StyledDescTitle>出品者情報</StyledDescTitle>
             <StyledDivider theme={theme}/>
             <StyledsellerInner>
-              <StyledUserArea>
-                <StyledUserAvatarZone>
-                  <StyledAvatar />
-                </StyledUserAvatarZone>
-              </StyledUserArea>
+              <StyledCard theme={theme}>
+                  <Link to={`/user/${saller._id}`} style={{textDecoration: "none"}}>
+                      <CardHeader sx={{display: "flex", overflow: "hidden", "& .MuiCardHeader-content": {overflow: "hidden"}}} avatar={<Avatar sx={{ width: 50, height: 50 }} src={saller.icon ? `http://localhost:5000/uploads/userIcons/${saller.icon}` : `${siteAssetsPath}/default_icons/${saller.defaultIcon}`}/>}
+                      title={UserBadge()} titleTypographyProps={{ noWrap: true, color: theme.palette.text.main, fontSize: "1.3rem"}} action={<ArrowForwardIos style={{color: theme.palette.icon.main}}/>}
+                      subheader={"@"+saller.userId} subheaderTypographyProps={{ noWrap: true, color: theme.palette.text.sub}}>
+                      </CardHeader>
+                      <CardActions>
+              <div style={{display: "flex", gap: "2px", width: "100%"}}>
+                <Rating value={5} readOnly />
+                <StyledRateNum theme={theme}>10000</StyledRateNum>
+              </div>
+              </CardActions>
+                  </Link>
+              </StyledCard>
+              {saller.isAuthorized ? <StyledSuccessAlert theme={theme} severity="success">認証済みユーザーによる出品です</StyledSuccessAlert> : <StyledWarningAlert theme={theme} severity="warning">未認証ユーザーによる出品です</StyledWarningAlert>}
+              <StyledIcons theme={theme}>
+                <StyledIconAndName1 theme={theme}>
+                  <FavoriteBorder />
+                  <StyledIconDetail>いいね</StyledIconDetail>
+                </StyledIconAndName1>
+                <StyledIconAndName2 theme={theme}>
+                  <SmsOutlined />
+                  <StyledIconDetail>コメント</StyledIconDetail>
+                </StyledIconAndName2>
+                <StyledIconAndName3 theme={theme}>
+                  <Share />
+                  <StyledIconDetail>共有</StyledIconDetail>
+                </StyledIconAndName3>
+              </StyledIcons>
+              <Button color="secondary" variant="contained" fullWidth>購入取引へ</Button>
             </StyledsellerInner>
-            {/* <StyledAvatarZone>
-              <StyledAvatar />
-            </StyledAvatarZone>
-            <StyledUserName theme={theme}>aaaaaaaaaaaaaaaaaa</StyledUserName>
-            <StyledUserId theme={theme}>@iddddddddddddddddd</StyledUserId>
-            <div style={{display: "flex", gap: "2px"}}>
-              <Rating value={5} readOnly />
-              <StyledRateNum theme={theme}>10000</StyledRateNum>
-            </div> */}
           </StyledSeller>
             
         </StyledDescInner>
       </StyledDesc>
-      </>
-      :
-      <LinearProgress color='secondary' style={{backgroundColor: "transparent"}}/>
-      }
 
     </StyledProduct>
+    :
+    <LinearProgress color='secondary' style={{backgroundColor: "transparent"}}/>
+    }
     </>
   )
 }
@@ -174,6 +222,7 @@ const StyledProduct = styled.div`
 
 const StyledSliderArea = styled.div`
   width: ${(props) => props.$isSmallScreen ? "100%" : "55%"};
+  min-width: ${(props) => props.$isSmallScreen ? 0 : "500px"};
   aspect-ratio: ${(props) => props.$isXsScreen ? "1/1" : "1.25/1"};
   padding: 20px 0;
 `
@@ -238,7 +287,7 @@ const StyledDescTitle = styled.div`
 const StyledDivider = styled(Divider)`
   && {
     width: 100%;
-    background-color: ${(props) => props.theme.palette.text.sub};
+    background-color: ${(props) => props.theme.palette.line.disable};
   }
 `
 
@@ -293,41 +342,6 @@ const StyledMoreRead = styled.div`
     }
 `
 
-const StyledPurchaseChip = styled(Chip)`
-  &&  {
-    height: 40px;
-    width: 15%;
-    border-radius: 40px;
-    font-size: 1rem;
-    color: ${(props) => props.theme.palette.text.main};
-    background-color: ${(props) => props.theme.palette.secondary.main};
-    &:hover {
-      color: ${(props) => props.theme.palette.text.main};
-      background-color: ${(props => props.theme.palette.secondary.mainHover)};
-    }
-  }
-`
-
-const StyledAvatarZone = styled.div`
-  height: 100%;
-  aspect-ratio: 1/1;
-`
-
-const StyledAvatar = styled(Avatar)`
-  && {
-    width: 100%;
-    height: 100%;
-  }
-`
-
-const StyledUserName = styled.div`
-  color: ${(props) => props.theme.palette.text.main};
-`
-
-const StyledUserId = styled.div`
-  color: ${(props) => props.theme.palette.text.sub};
-`
-
 const StyledTags = styled.div`
   width: 100%;
 `
@@ -364,20 +378,91 @@ const StyledSeller = styled.div`
 `
 
 const StyledsellerInner = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
   width: 100%;
   padding: 15px 5px;
 `
 
-const StyledUserArea = styled.div`
+const StyledCard = styled(Card)`
+  && {
+    background-color: transparent;
+    width: 100%;
+    padding-left: 5%;
+    &:hover {
+      background-color: ${(props) => props.theme.palette.background.hover2};
+    }
+  }
+`
+
+const StyledIcons = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 30px;
   width: 100%;
+  margin: 20px 0;
 `
 
-const StyledUserAvatarZone = styled.div`
-  width: 10%;
-  aspect-ratio: 1/1;
+const StyledIconAndName1 = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 3px;
+  cursor: pointer;
+  &:hover {
+    color: ${(props) => props.theme.palette.icon.like};
+  }
+`
+
+const StyledIconAndName2 = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 3px;
+  cursor: pointer;
+  &:hover {
+    color: ${(props) => props.theme.palette.icon.comment};
+  }
+`
+
+const StyledIconAndName3 = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 3px;
+  cursor: pointer;
+  &:hover {
+    color: ${(props) => props.theme.palette.icon.share};
+  }
+`
+
+const StyledIconDetail = styled.div`
+  font-size: 0.8rem;
+`
+
+const StyledSuccessAlert = styled(Alert)`
+  && {
+    width: 100%;
+    color: ${(props) => props.theme.palette.text.alert};
+    background-color: ${(props) => props.theme.palette.background.successBack};
+    outline: solid 0.5px ${(props) => props.theme.palette.line.successLine};
+  }
+`
+
+const StyledWarningAlert = styled(Alert)`
+  && {
+    width: 100%;
+    color: ${(props) => props.theme.palette.text.alert};
+    background-color: ${(props) => props.theme.palette.background.warningBack};
+    outline: solid 0.5px ${(props) => props.theme.palette.line.warningLine};
+  }
 `
 
 const StyledInfoRow = styled.div`
@@ -393,7 +478,7 @@ const StyledInfoContentLink = styled.div`
   cursor: pointer;
   text-decoration: underline;
   &:hover {
-    text-decoration: none;
+    color: ${(props) => props.theme.palette.secondary.mainHover};
   }
 `
 
@@ -406,13 +491,6 @@ const StyledInfoContent = styled.div`
 
 const StyledRateNum = styled.div`
   color: ${(props) => props.theme.palette.secondary.main};
-  cursor: pointer;
-  &:hover {
-    text-decoration: underline;
-  }
-  &:active {
-    text-decoration: none;
-  }
 `
 
 

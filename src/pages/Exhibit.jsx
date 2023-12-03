@@ -228,8 +228,8 @@ const Exhibit = () => {
       const productImageNames = await axios.post('http://localhost:5000/client/product/imageUpload', formData);
       const newProduct = {
         _id: user._id,
-        productName: product.name,
-        desc: product.detail,
+        productName: product.name.trim(),
+        desc: product.detail.trim(),
         price: product.price,
         condition: product.status,
         shippingArea: product.shippingArea,

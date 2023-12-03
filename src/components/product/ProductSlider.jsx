@@ -29,7 +29,6 @@ const ProductSlider = (props) => {
     }, [props.sliderIndex])
     
     const slideSettings = {
-        dots: true,
         infinite: true,
         speed: 500,
         slidesToShow: 1,
@@ -88,7 +87,7 @@ const StyledCustomArrow = styled.div`
     background-color: transparent;
 
     &: hover {
-        border: solid 1px ${(props) => props.theme.palette.line.main};
+        border: solid 1px ${(props) => props.theme.palette.text.main};
         background-color: ${(props) => props.theme.palette.background.slideHover};
     }
 `
@@ -101,7 +100,7 @@ const StyledButton = styled(Button)`
         width: 100%;
         height: 100%;
         background-color: ${(props) => props.theme.palette.background.slideHover};
-        color: ${(props) => props.theme.palette.text.tab};
+        color: ${(props) => props.theme.palette.text.main};
     }
 `
 
