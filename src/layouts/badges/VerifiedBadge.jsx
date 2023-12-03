@@ -7,14 +7,14 @@ import styled from 'styled-components'
 const VerifiedBadge = () => {
     return (
         <Tooltip title='認証済み' placement='top' arrow>
-            <StyledVerified />
+            <StyledVerified/>
         </Tooltip>
     )
 }
 
 const StyledVerified = styled(Verified)`
     && {
-        color: #00f;
+        color: 	#28a745;
         cursor: pointer;
     }
 `

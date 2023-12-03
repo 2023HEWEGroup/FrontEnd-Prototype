@@ -45,7 +45,7 @@ const UserApproach = () => {
         infinite: true,
         speed: 350,
         slidesToShow: isXsScreen ? 2 : isSmallScreen ? 3 : isMiddleScreen ? 4 : islargeScreen ? 5 : 6,
-        slidesToScroll: 2,
+        slidesToScroll: 1,
         arrows: true,
         prevArrow: <CustomUserArrow theme={theme} direction="prev"/>,
         nextArrow: <CustomUserArrow theme={theme} direction="next"/>,

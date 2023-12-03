@@ -11,17 +11,23 @@ const LoginForm = (props) => {
     const user = useSelector((state) => state.user.value);
     const theme = useTheme();
 
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            props.handleLogin();
+        }
+    }
+
     return (
         <StyledLoginForm noValidate>
         {props.isUserIdLogin ? 
         <StyledTextField style={{marginBottom: "15px"}} helperText={props.userIdHelper} error={props.userIdError} theme={theme} fullWidth label="ユーザーID (3~20字)"
-            autoComplete='new-off' variant='outlined' inputProps={{maxLength: 20}} value={props.userId} onChange={props.handleUserIdInput}/>
+            autoComplete='new-off' variant='outlined' inputProps={{maxLength: 20}} value={props.userId} onChange={props.handleUserIdInput} onKeyDown={handleKeyPress}/>
         :
         <StyledTextField style={{marginBottom: "15px"}} helperText={props.mailAddressHelper} error={props.mailAddressError} theme={theme} fullWidth label="メールアドレス"
-            autoComplete='new-off' variant='outlined' value={props.mailAddress} onChange={props.handleMailAddressInput}/>
+            autoComplete='new-off' variant='outlined' value={props.mailAddress} onChange={props.handleMailAddressInput} onKeyDown={handleKeyPress}/>
         }
         <StyledTextField style={{marginBottom: "15px"}} helperText={props.passwordHelper} error={props.passwordError} theme={theme} fullWidth label="パスワード (8~20字)"
-            autoComplete='new-off' variant='outlined' value={props.password} type={props.passwordVisible ? "text" : 'password'} onChange={props.handlePasswordInput}
+            autoComplete='new-off' variant='outlined' value={props.password} type={props.passwordVisible ? "text" : 'password'} onChange={props.handlePasswordInput} onKeyDown={handleKeyPress}
             inputProps={{maxLength: 20}} InputProps={{endAdornment: (<InputAdornment position="end" onClick={props.handlePasswordVisible}>{props.passwordVisible ? <StyledVisibility /> : <StyledVisibilityOff />}</InputAdornment>)}}/>
         <div style={{width: "100%"}}>
             <StyledOptionChange onClick={props.handleUserIdLogin}>または{props.isUserIdLogin ? "メールアドレス" : "ユーザーID"}でログインする</StyledOptionChange>

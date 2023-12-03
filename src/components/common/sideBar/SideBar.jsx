@@ -34,7 +34,7 @@ const SideBar = (props) => {
 
       <StyledSideBarCell>
         <Tooltip title="商品" placement='right' arrow={true}>
-          <StyledLink to={"/product"}>
+          <StyledLink to={"/home"}>
             <StyledSideBarElements theme={theme}  style={props.page === "/product" ? {backgroundColor: theme.palette.background.hover} : null}>
               {props.page === "/product" ? <StyledShoppingCartIcon color='secondary' /> : <StyledShoppingCartOutlinedIcon color="icon"/>}
               <StyledIconName style={{color: theme.palette.text.main}}>商品</StyledIconName>

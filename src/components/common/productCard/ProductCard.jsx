@@ -1,4 +1,4 @@
-import { FavoriteBorder, MoreVert } from '@mui/icons-material';
+import { CurrencyYen, FavoriteBorder, MoreVert } from '@mui/icons-material';
 import { Alert, Avatar, IconButton, Paper, Popper, Slide, Snackbar, useMediaQuery, useTheme } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components';
@@ -14,6 +14,7 @@ const ProductCard = (props) => {
     const [isLinkSnack, setIsLinkSnack] = useState(false);
     const [isProductPopperOpen, setIsProductPopperOpen] = useState(false);
     const [productAnchorEl, setProductAnchorEl] = useState(null);
+    const isLargeScreen = useMediaQuery((theme) => theme.breakpoints.down('xl'));
     const isMiddleScreen = useMediaQuery((theme) => theme.breakpoints.down('lg'));
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
     const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
@@ -66,7 +67,7 @@ const ProductCard = (props) => {
     }, [isMiddleScreen, isSmallScreen, isXsScreen]);
 
     return (
-        <StyledProduct $isMiddleScreen={isMiddleScreen} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
+        <StyledProduct $isLargeScreen={isLargeScreen} $isMiddleScreen={isMiddleScreen} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
             <StyledProductImgZone>
             <StyledAvatar variant='square' src={props.product.imageUrl} alt='商品画像' />
             <StyledProductOption theme={theme} productAnchorEl={productAnchorEl}>
@@ -76,10 +77,9 @@ const ProductCard = (props) => {
             </StyledProductOption>
             </StyledProductImgZone>
             <StyledProductDesc>
-            <StyledProductName theme={theme}>{props.product.productName}</StyledProductName>
             <StyledSellerId theme={theme}>{`by @${props.product.sallerId}`}</StyledSellerId>
             <StyledPriceAndLike>
-                <StyledPrice theme={theme}>{`${props.product.point} ポイント`}</StyledPrice>
+                <StyledPrice theme={theme}><StyledCurrencyYen />{`${props.product.point}`}</StyledPrice>
                 <StyledFavoriteBorder theme={theme}/>
             </StyledPriceAndLike>
             </StyledProductDesc>
@@ -101,10 +101,10 @@ const ProductCard = (props) => {
 
 
 const StyledProduct = styled.div`
-    width: calc(${(props) => (props.$isXsScreen ? "50%" : (props.$isSmallScreen ? "33%" : (props.$isMiddleScreen ? "25%" : "20%")))} - 20px);
+    width: calc(${(props) => (props.$isXsScreen ? "50%" : (props.$isSmallScreen ? "33%" : (props.$isMiddleScreen ? "25%" : props.$isLargeScreen ? "20%" : "16.7%")))} - 10px);
     height: fit-content;
     cursor: pointer;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 `
 
 const StyledAvatar = styled(Avatar)`
@@ -146,22 +146,8 @@ const StyledIconButton = styled(IconButton)`
 const StyledProductDesc = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 5px;
     padding-top: 10px;
     width: 100%;
-`
-
-const StyledProductName = styled.div`
-    font-weight: bold;
-    color: ${(props) => props.theme.palette.text.product};
-    overflow: hidden;
-    width: 100%;
-    height: 50px;
-    word-break: break-all;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
 `
 
 const StyledSellerId = styled.div`
@@ -188,8 +174,17 @@ const StyledPriceAndLike = styled.div`
 `
 
 const StyledPrice = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-weight: bold;
     color: ${(props) => props.theme.palette.secondary.main};
+`
+
+const StyledCurrencyYen = styled(CurrencyYen)`
+    && {
+        font-size: 1rem;
+    }
 `
 
 const StyledFavoriteBorder = styled(FavoriteBorder)`

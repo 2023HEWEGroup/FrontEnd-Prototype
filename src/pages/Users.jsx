@@ -202,7 +202,7 @@ const Users = () => {
                     <StyledResults>
                     {users.map(user =>
                         <StyledCard key={user._id} theme={theme} $isMiddleScreen={isMiddleScreen} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
-                            <Link to={`/profile/${user._id}`} style={{textDecoration: "none"}}>
+                            <Link to={`/user/${user._id}`} style={{textDecoration: "none"}}>
                                 <StyledCardMedia image={user.header ? `http://localhost:5000/uploads/userHeaders/${user.header}` : `${siteAssetsPath}/default_header/default_header.png`}></StyledCardMedia>
                                 <StyledCardHeader sx={{display: "flex", overflow: "hidden", "& .MuiCardHeader-content": {overflow: "hidden"}}} avatar={<Avatar src={user.icon ? `http://localhost:5000/uploads/userIcons/${user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}`}/>}
                                 title={user.username} titleTypographyProps={{ noWrap: true, color: theme.palette.text.main, fontSize: "1.3rem"}}

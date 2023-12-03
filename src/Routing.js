@@ -36,11 +36,11 @@ const Routing = () => {
 
       <Route path="/" element={<CommonLayouts />}>
         <Route path="home" element={<Home />} />
-        <Route path="product" element={<Product />} />
+        <Route path="product/:productId" element={<Product />} />
         <Route path="following" element={<Following />} />
         <Route path="group" element={<Group />} />
         <Route path="notify" element={<Notify />} />
-        <Route path="profile/:userId" element={<Profile />} />
+        <Route path="user/:userId" element={<Profile />} />
         <Route path="setting" element={<Setting />} />
         <Route path="info" element={<Info />} />
         <Route path="help" element={<Help />} />

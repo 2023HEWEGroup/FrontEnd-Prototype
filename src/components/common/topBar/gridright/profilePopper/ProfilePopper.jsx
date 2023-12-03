@@ -76,7 +76,7 @@ const ProfilePopper = () => {
         <StyledPopper open={isProfilePopperOpen} anchorEl={profileAnchorEl} placement='bottom-end' ref={profilePopperRef}>
             <StyledProfilePopperPaper elevation={3} theme={theme}>
                 <StyledPopperInner>
-                    <StyledLink to={`/profile/${user._id}`} onClick={handlePopperClose}>
+                    <StyledLink to={`/user/${user._id}`} onClick={handlePopperClose}>
                         <StyledProfileListHeader>
                             <StyledProfileAvatar src={user.icon ? `http://localhost:5000/uploads/userIcons/${user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}`}/>
                             <StyledAccountIntro>

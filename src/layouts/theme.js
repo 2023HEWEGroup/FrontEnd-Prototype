@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material/styles";
-import { blue, green } from "@mui/material/colors";
+import { blue, grey } from "@mui/material/colors";
 
 
 export const darkBlueTheme = createTheme({
@@ -11,12 +11,14 @@ export const darkBlueTheme = createTheme({
             main: blue[500],
             mainHover: blue[800],
             progressed: blue[900],
-            exhibitAny: green["A700"]
+            exhibitAny: grey["A700"]
         },
         line: {
             main: "#888",
             disable: "#555",
-            tab: "#333"
+            tab: "#333",
+            successLine: "#042",
+            warningLine: "#440",
         },
         text: {
             main: "#fff",
@@ -27,12 +29,15 @@ export const darkBlueTheme = createTheme({
             product: "#ccc",
             error: "#f00",
             error2: "#a00",
-            admin: "#f0f"
+            admin: "#f0f",
+            alert: "#fff",
         },
         icon: {
             main: "#777",
             like: "#ff007f",
-            admin: "#f0f"
+            admin: "#f0f",
+            comment: "#00b7ff",
+            share: "#00e73d",
         },
         background: {
             default: "#111",
@@ -54,11 +59,13 @@ export const darkBlueTheme = createTheme({
             destructDelete: "#f00",
             destructDeleteHover: "#c00",
             destructCancelHover: "#1a1a1a",
-            productBack: "#444",
+            productBack: "#333",
             modalHeader: "#000",
             modal2: "#000",
             modalDisable: "#555",
             userCard: "#222",
+            successBack: "rgba(0, 100, 50, 0.2)",
+            warningBack: "rgba(100, 100, 0, 0.2)",
         },
         top: {
             main: "#88f",

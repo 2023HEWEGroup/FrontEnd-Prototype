@@ -31,7 +31,7 @@ const UpperListSection = (props) => {
         if (!user) {
             setIsLoginModal(true);
         } else {
-            navigate(`/profile/${user._id}`);
+            navigate(`/user/${user._id}`);
         }
     }
 
@@ -50,7 +50,7 @@ const UpperListSection = (props) => {
                 </StyledListItem>
                 <StyledListItem>
                     <Tooltip title="商品" placement='right' arrow={true}>
-                        <StyledLink to={"/product"}>
+                        <StyledLink to={"/home"}>
                             <StyledListElements theme={theme} style={props.page === "/product" ? { backgroundColor: theme.palette.background.hover } : null}>
                                 {props.page === "/product" ? <StyledShoppingCartIcon color='secondary' /> : <StyledShoppingCartOutlinedIcon color="icon"/>}
                                 <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="商品" />
@@ -70,9 +70,9 @@ const UpperListSection = (props) => {
                 </StyledListItem>
                 <StyledListItem>
                     <Tooltip title="プロフィール" placement='right' arrow={true}>
-                        <StyledLink to={`/profile/${user ? user._id : ""}`} onClick={handleIsLogin}>
-                            <StyledListElements theme={theme} style={props.page.startsWith("/profile") ? { backgroundColor: theme.palette.background.hover } : null}>
-                                {props.page.startsWith("/profile") ? <StyledAccountCircleIcon color='secondary' /> : <StyledAccountCircleOutlinedIcon color="icon"/>}
+                        <StyledLink to={`/user/${user ? user._id : ""}`} onClick={handleIsLogin}>
+                            <StyledListElements theme={theme} style={props.page.startsWith("/user") ? { backgroundColor: theme.palette.background.hover } : null}>
+                                {props.page.startsWith("/user") ? <StyledAccountCircleIcon color='secondary' /> : <StyledAccountCircleOutlinedIcon color="icon"/>}
                                 <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="プロフィール" />
                             </StyledListElements>
                         </StyledLink>
