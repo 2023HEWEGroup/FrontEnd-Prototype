@@ -20,7 +20,6 @@ const Product = () => {
   const theme = useTheme();
   const { productId } = useParams("productId");
   const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
-  const isMiddleScreen = useMediaQuery((theme) => theme.breakpoints.down('lg'));
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
   const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
