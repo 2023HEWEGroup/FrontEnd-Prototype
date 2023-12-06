@@ -21,11 +21,11 @@ const ProductRecognitionModal = (props) => {
                 <StyledRecognitionInner>
                     <StyledItem theme={theme}>
                         <StyledName theme={theme}>商品名</StyledName>
-                        <StyledElement theme={theme}>{props.product.name}</StyledElement>
+                        <StyledElement theme={theme}>{props.product.name.trim()}</StyledElement>
                     </StyledItem>
                     <StyledItem theme={theme}>
                         <StyledName theme={theme}>説明文</StyledName>
-                        <StyledElement theme={theme}>{props.product.detail}</StyledElement>
+                        <StyledElement theme={theme}>{props.product.detail.trim()}</StyledElement>
                     </StyledItem>
                     <StyledItem theme={theme}>
                         <StyledName theme={theme}>値段</StyledName>
