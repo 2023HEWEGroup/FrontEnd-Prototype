@@ -7,6 +7,7 @@ import { isWindowScrollable } from '../../../../../redux/features/windowScrollal
 import { useDispatch, useSelector } from 'react-redux';
 import { dropUser } from '../../../../../redux/features/userSlice';
 import DestructionModal from '../../../admin/destructionModal/DestructionModal';
+import VerifiedBadge from '../../../../../layouts/badges/VerifiedBadge';
 
 
 const ProfilePopper = () => {
@@ -80,7 +81,7 @@ const ProfilePopper = () => {
                         <StyledProfileListHeader>
                             <StyledProfileAvatar src={user.icon ? `http://localhost:5000/uploads/userIcons/${user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}`}/>
                             <StyledAccountIntro>
-                                <StyledProfileAccountName style={{color: theme.palette.text.main}}>{user.username}</StyledProfileAccountName>
+                                <StyledProfileAccountName style={{color: theme.palette.text.main}}>{user.isAuthorized ? <VerifiedBadge fontSize="small"/> : null}{user.username}</StyledProfileAccountName>
                                 <StyledProfileAccountId style={{color: theme.palette.text.sub}}>@{user.userId}</StyledProfileAccountId>
                             </StyledAccountIntro>
                         </StyledProfileListHeader>
@@ -229,6 +230,10 @@ const StyledAccountIntro = styled.div`
 `
 
 const StyledProfileAccountName = styled.div`
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 1px;
     font-weight: bold;
     width: 95%;
     overflow: hidden;

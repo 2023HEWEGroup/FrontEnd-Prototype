@@ -7,6 +7,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import { setUser } from '../redux/features/userSlice';
 import ErrorSnack from '../components/common/errorSnack/ErrorSnack';
+import VerifiedBadge from '../layouts/badges/VerifiedBadge';
 
 
 const SlideTransition = (props) => {
@@ -42,6 +43,20 @@ const Users = () => {
     const [isUnFollowSnack, setIsUnFollowSnack] = useState(false);
     const [snackUsername, setSnackUsername] = useState("");
 
+    const UserBadge = (user) => {
+    return (
+        <div style={{display: "flex", alignItems: "center", gap: "2px"}}>
+        {user.isAuthorized ? (
+            <>
+            <VerifiedBadge fontSize="small"/>
+            <span>{user.username}</span>
+            </>
+        ) : (
+            <span>{user.username}</span>
+        )}
+        </div>
+    );
+    };
 
     const handleSetModeAll = () => {
         if (mode.all) {
@@ -205,7 +220,7 @@ const Users = () => {
                             <Link to={`/user/${user._id}`} style={{textDecoration: "none"}}>
                                 <StyledCardMedia image={user.header ? `http://localhost:5000/uploads/userHeaders/${user.header}` : `${siteAssetsPath}/default_header/default_header.png`}></StyledCardMedia>
                                 <StyledCardHeader sx={{display: "flex", overflow: "hidden", "& .MuiCardHeader-content": {overflow: "hidden"}}} avatar={<Avatar src={user.icon ? `http://localhost:5000/uploads/userIcons/${user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}`}/>}
-                                title={user.username} titleTypographyProps={{ noWrap: true, color: theme.palette.text.main, fontSize: "1.3rem"}}
+                                title={UserBadge(user)} titleTypographyProps={{ noWrap: true, color: theme.palette.text.main, fontSize: "1.3rem"}}
                                 subheader={"@"+user.userId} subheaderTypographyProps={{ noWrap: true, color: theme.palette.text.sub}}>
                                 </StyledCardHeader>
                                 <StyledCardContent>

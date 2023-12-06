@@ -26,9 +26,9 @@ const RegistUserInfo = (props) => {
             autoComplete='new-off' type={registPasswordVisible ? "text" : 'password'} variant='outlined' inputProps={{maxLength: 20}} value={props.registConfirmPassword} onChange={props.handleRegistConfirmPasswordInput}
             InputProps={{endAdornment: (<InputAdornment position="end" onClick={handleRegistPasswordVisible}>{registPasswordVisible ? <StyledVisibility /> : <StyledVisibilityOff />}</InputAdornment>)}}/>
         <StyledTextField style={{marginBottom: "15px"}} helperText={props.registMailAddressHelper} theme={theme} fullWidth label="メールアドレス" required error={props.isRegistMailAddressError}
-            autoComplete='new-off' type='email' variant='outlined' value={props.registMailAddress} onChange={props.handleRegistMailAddressInput}/>
+            autoComplete='new-off' type='email' variant='outlined' value={props.registMailAddress} onChange={props.handleRegistMailAddressInput} inputProps={{maxLength: 319}}/>
         <StyledTextField style={{marginBottom: "15px"}} helperText={props.registConfirmMailAddressHelper} theme={theme} fullWidth label="確認用メールアドレス" required error={props.isRegistConfirmMailAddressError}
-            autoComplete='new-off' type='email' variant='outlined' value={props.registConfirmMailAddress} onChange={props.handleRegistConfirmMailAddressInput}/>
+            autoComplete='new-off' type='email' variant='outlined' value={props.registConfirmMailAddress} onChange={props.handleRegistConfirmMailAddressInput} inputProps={{maxLength: 319}}/>
         </>
     )
 }

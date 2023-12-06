@@ -1,4 +1,4 @@
-import { Avatar, ListItem, Tooltip, useTheme } from '@mui/material'
+import { Avatar, ListItem, useTheme } from '@mui/material'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -52,31 +52,25 @@ const GroupListSection = () => {
             <StyledListBlockWithTitle>
                 {visibleGroups.map((group) => 
                 <StyledListItem key={group.id}>
-                    <Tooltip title={group.name} placement='right' arrow={true}>
-                        <StyledListElements theme={theme}>
-                            <StyledAvatar variant='square' />
-                            <StyledListItemText theme={theme.palette.text.main}>{group.name}</StyledListItemText>
-                        </StyledListElements>
-                    </Tooltip>
+                    <StyledListElements theme={theme}>
+                        <StyledAvatar variant='square' />
+                        <StyledListItemText theme={theme.palette.text.main}>{group.name}</StyledListItemText>
+                    </StyledListElements>
                 </StyledListItem>)}
                 {groups.length > 5 && !isOpenGroup && (
                     <StyledListItem>
-                        <Tooltip title="すべて表示" placement='right' arrow>
-                            <StyledListElements theme={theme} onClick={toggleGroupShowAll}>
-                                <StyledListItemText theme={theme.palette.text.sub2}>すべて表示</StyledListItemText>
-                                <StyledExpandMoreIcon color="icon"/>
-                            </StyledListElements>
-                        </Tooltip>
+                        <StyledListElements theme={theme} onClick={toggleGroupShowAll}>
+                            <StyledListItemText theme={theme.palette.text.sub2}>すべて表示</StyledListItemText>
+                            <StyledExpandMoreIcon color="icon"/>
+                        </StyledListElements>
                     </StyledListItem>
                 )}
                 {groups.length > 5 && isOpenGroup && (
                     <StyledListItem>
-                    <Tooltip title="折りたたむ" placement='right' arrow>
                         <StyledListElements theme={theme} onClick={toggleGroupShowAll}>
                         <StyledListItemText theme={theme.palette.text.sub2}>折りたたむ</StyledListItemText>
                             <StyledExpandLessIcon color="icon"/>
                         </StyledListElements>
-                    </Tooltip>
                 </StyledListItem>
                 )}
             </StyledListBlockWithTitle>

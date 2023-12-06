@@ -1,16 +1,12 @@
 import styled from '@emotion/styled'
 import React from 'react'
-import BackToHome from './backToHome/BackToHome'
-import SaveInput from './saveInput/SaveInput'
-import UseDraft from './useDraft/UseDraft'
+import BackToHome from './backPage/BackToHome'
 
 
 const ExhibitCommands = (props) => {
     return (
         <StyledExhibitCommands>
             <BackToHome handleDestructOpen={props.handleDestructOpen}/>
-            <SaveInput />
-            <UseDraft setIsDestructOpen={props.setIsDestructOpen}/>
         </StyledExhibitCommands>
     )
 }

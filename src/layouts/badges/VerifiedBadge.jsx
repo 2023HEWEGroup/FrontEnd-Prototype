@@ -4,17 +4,16 @@ import React from 'react'
 import styled from 'styled-components'
 
 
-const VerifiedBadge = () => {
+const VerifiedBadge = (props) => {
     return (
         <Tooltip title='認証済み' placement='top' arrow>
-            <StyledVerified/>
+            <StyledVerified color="secondary" fontSize={props.fontSize}/>
         </Tooltip>
     )
 }
 
 const StyledVerified = styled(Verified)`
     && {
-        color: 	#28a745;
         cursor: pointer;
     }
 `

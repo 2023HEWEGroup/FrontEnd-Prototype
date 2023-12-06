@@ -181,7 +181,7 @@ const Profile = () => {
           </Hidden>
           <StyledUserGridItemCenter item xs={6} sm={5} md={6} $isXsScreen={isXsScreen}>
             <StyledNameAndId>
-              <StyledUsername theme={theme} $isSmallScreen={isSmallScreen}><div style={{ display: 'flex', alignItems: 'center', gap: "5px" }}>{!user.iaAuthorized ? <VerifiedBadge /> : null}{user.username}</div></StyledUsername>
+              <StyledUsername theme={theme} $isSmallScreen={isSmallScreen}><div style={{ display: 'flex', alignItems: 'center', gap: "2px" }}>{user.isAuthorized ? <VerifiedBadge /> : null}{user.username}</div></StyledUsername>
               <StyledUserId theme={theme} $isSmallScreen={isSmallScreen}>@{user.userId}</StyledUserId>
             </StyledNameAndId>
           </StyledUserGridItemCenter>

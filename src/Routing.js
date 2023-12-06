@@ -5,7 +5,6 @@ import Home from "./pages/Home";
 import Product from "./pages/Product";
 import Following from "./pages/Following";
 import Group from "./pages/Group";
-import Setting from "./pages/Setting";
 import Exhibit from "./pages/Exhibit";
 import Notify from "./pages/Notify";
 import Profile from "./pages/Profile";
@@ -22,6 +21,12 @@ import Users from "./pages/Users";
 import Groups from "./pages/Groups";
 import NotFound from "./pages/NotFound";
 import TimeOut from "./pages/TimeOut";
+import SettingLayout from "./layouts/SettingLayout";
+import SelectAccountSetting from "./components/setting/accountSetting/SelectAccountSetting";
+import SelectAccountInfoSetting from "./components/setting/accountSetting/accountInfoSetting/SelectAccountInfoSetting";
+import UserIdSetting from "./components/setting/accountSetting/accountInfoSetting/UserIdSetting";
+import PhoneNumberSetting from "./components/setting/accountSetting/accountInfoSetting/PhoneNumberSetting";
+import MailAddressSetting from "./components/setting/accountSetting/accountInfoSetting/MailAddressSetting";
 
 
 const Routing = () => {
@@ -41,16 +46,24 @@ const Routing = () => {
         <Route path="group" element={<Group />} />
         <Route path="notify" element={<Notify />} />
         <Route path="user/:userId" element={<Profile />} />
-        <Route path="setting" element={<Setting />} />
         <Route path="info" element={<Info />} />
         <Route path="help" element={<Help />} />
         <Route path="products" element={<Products />} />
         <Route path="users" element={<Users />} />
         <Route path="groups" element={<Groups />} />
         <Route path="settlementFin" element={<SettlementFin />} />
-
         <Route path="timeOut" element={<TimeOut />} />
         <Route path="notFound" element={<NotFound />} />
+
+        <Route path="setting" element={user ? <SettingLayout /> : <Navigate to="/?recommend=true&back=/" />}>
+          <Route index element={<Navigate to="/setting/account" />} />
+          <Route path="account" element={<SelectAccountSetting />} />
+          <Route path="account/accountInfo" element={<SelectAccountInfoSetting currentUser={user}/>} />
+          <Route path="account/userId" element={<UserIdSetting currentUser={user}/>} />
+          <Route path="account/phoneNumber" element={<PhoneNumberSetting currentUser={user}/>} />
+          <Route path="account/mailAddress" element={<MailAddressSetting currentUser={user}/>} />
+        </Route>
+        
       </Route>
 
       <Route path="/admin" element={<AdminLayouts />}>
