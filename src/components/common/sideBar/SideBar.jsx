@@ -8,7 +8,6 @@ import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import FolderSharedOutlinedIcon from '@mui/icons-material/FolderSharedOutlined';
 import React from 'react'
 import styled from 'styled-components';
-import Tooltip from '@mui/material/Tooltip';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/material';
 import { Dashboard } from '@mui/icons-material';
@@ -22,58 +21,48 @@ const SideBar = (props) => {
     <StyledSideBar style={{backgroundColor: theme.palette.primary.main}}>
       
       <StyledSideBarCell>
-        <Tooltip title="ホーム" placement='right' arrow={true}>
-          <StyledLink to={"/home"}>
-            <StyledSideBarElements theme={theme} style={props.page === "/home" ? {backgroundColor: theme.palette.background.hover} : null}>
-              {props.page === "/home" ? <StyledHomeIcon color='secondary' /> : <StyledHomeOutlinedIcon color="icon"/>}
-              <StyledIconName style={{color: theme.palette.text.main}}>ホーム</StyledIconName>
-            </StyledSideBarElements>
-          </StyledLink>
-        </Tooltip>
+        <StyledLink to={"/home"}>
+          <StyledSideBarElements theme={theme} style={props.page === "/home" ? {backgroundColor: theme.palette.background.hover} : null}>
+            {props.page === "/home" ? <StyledHomeIcon color='secondary' /> : <StyledHomeOutlinedIcon color="icon"/>}
+            <StyledIconName style={{color: theme.palette.text.main}}>ホーム</StyledIconName>
+          </StyledSideBarElements>
+        </StyledLink>
       </StyledSideBarCell>
 
       <StyledSideBarCell>
-        <Tooltip title="商品" placement='right' arrow={true}>
-          <StyledLink to={"/home"}>
-            <StyledSideBarElements theme={theme}  style={props.page === "/product" ? {backgroundColor: theme.palette.background.hover} : null}>
-              {props.page === "/product" ? <StyledShoppingCartIcon color='secondary' /> : <StyledShoppingCartOutlinedIcon color="icon"/>}
-              <StyledIconName style={{color: theme.palette.text.main}}>商品</StyledIconName>
-            </StyledSideBarElements>
-          </StyledLink>
-        </Tooltip>
+        <StyledLink to={"/home"}>
+          <StyledSideBarElements theme={theme}  style={props.page === "/product" ? {backgroundColor: theme.palette.background.hover} : null}>
+            {props.page === "/product" ? <StyledShoppingCartIcon color='secondary' /> : <StyledShoppingCartOutlinedIcon color="icon"/>}
+            <StyledIconName style={{color: theme.palette.text.main}}>商品</StyledIconName>
+          </StyledSideBarElements>
+        </StyledLink>
       </StyledSideBarCell>
 
       <StyledSideBarCell>
-        <Tooltip title="フォロー中" placement='right' arrow={true}>
-          <StyledLink to={"/following"}>
-            <StyledSideBarElements theme={theme}  style={props.page === "/following" ? {backgroundColor: theme.palette.background.hover} : null}>
-              {props.page === "/following" ? <StyledGroupIcon color='secondary' /> : <StyledGroupOutlinedIcon color="icon"/>}
-              <StyledIconName style={{color: theme.palette.text.main}}>フォロー中</StyledIconName>
-            </StyledSideBarElements>
-          </StyledLink>
-        </Tooltip>
+        <StyledLink to={"/following"}>
+          <StyledSideBarElements theme={theme}  style={props.page === "/following" ? {backgroundColor: theme.palette.background.hover} : null}>
+            {props.page === "/following" ? <StyledGroupIcon color='secondary' /> : <StyledGroupOutlinedIcon color="icon"/>}
+            <StyledIconName style={{color: theme.palette.text.main}}>フォロー中</StyledIconName>
+          </StyledSideBarElements>
+        </StyledLink>
       </StyledSideBarCell>
 
       <StyledSideBarCell>
-        <Tooltip title="グループ" placement='right' arrow={true}>
-          <StyledLink to={"/group"}>
-            <StyledSideBarElements theme={theme}  style={props.page === "/group" ? {backgroundColor: theme.palette.background.hover} : null}>
-              {props.page === "/group" ? <StyledFolderSharedIcon color='secondary' /> : <StyledFolderSharedOutlinedIcon color="icon"/>}
-              <StyledIconName style={{color: theme.palette.text.main}}>グループ</StyledIconName>
-            </StyledSideBarElements>
-          </StyledLink>
-        </Tooltip>
+        <StyledLink to={"/group"}>
+          <StyledSideBarElements theme={theme}  style={props.page === "/group" ? {backgroundColor: theme.palette.background.hover} : null}>
+            {props.page === "/group" ? <StyledFolderSharedIcon color='secondary' /> : <StyledFolderSharedOutlinedIcon color="icon"/>}
+            <StyledIconName style={{color: theme.palette.text.main}}>グループ</StyledIconName>
+          </StyledSideBarElements>
+        </StyledLink>
       </StyledSideBarCell>
 
       <StyledSideBarCell>
-        <Tooltip title="アドミン" placement='right' arrow={true}>
-          <StyledLink to={"/admin"}>
-            <StyledSideBarElements theme={theme}>
-              <StyledDashboard theme={theme}/>
-              <StyledIconName style={{color: theme.palette.text.admin}}>アドミン</StyledIconName>
-            </StyledSideBarElements>
-          </StyledLink>
-        </Tooltip>
+        <StyledLink to={"/admin"}>
+          <StyledSideBarElements theme={theme}>
+            <StyledDashboard theme={theme}/>
+            <StyledIconName style={{color: theme.palette.text.admin}}>アドミン</StyledIconName>
+          </StyledSideBarElements>
+        </StyledLink>
       </StyledSideBarCell>
 
     </StyledSideBar>

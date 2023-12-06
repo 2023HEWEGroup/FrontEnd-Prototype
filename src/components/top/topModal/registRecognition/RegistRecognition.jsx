@@ -6,6 +6,11 @@ import images from 'react-payment-inputs/images';
 
 const RegistRecognition = (props) => {
 
+    function formatPhoneNumber(phoneNumber) {
+        const formattedNumber = phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+        return formattedNumber;
+    }
+
     return (
         <>
         <StyledRecognition>
@@ -45,7 +50,7 @@ const RegistRecognition = (props) => {
             </StyledRecognitionItem>
             <StyledRecognitionItem>
             <StyledRecognitionName>電話番号</StyledRecognitionName>
-            <StyledRecognitionContent>{props.phoneNumber}</StyledRecognitionContent>
+            <StyledRecognitionContent>{formatPhoneNumber(props.phoneNumber)}</StyledRecognitionContent>
             </StyledRecognitionItem>
         </StyledRecognition>
         <StyledRecognition>

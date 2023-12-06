@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import SettingsIcon from '@mui/icons-material/Settings';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
@@ -9,65 +9,99 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import InfoIcon from '@mui/icons-material/Info';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { ListItem, ListItemText, Tooltip, useTheme } from '@mui/material';
+import { ListItem, ListItemText, useTheme } from '@mui/material';
+import DestructionModal from '../../admin/destructionModal/DestructionModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { dropUser } from '../../../../redux/features/userSlice';
+import { ExitToApp } from '@mui/icons-material';
+import LoginRequiredModal from '../../loginRequiredModal/LoginRequiredModal';
 
 
 const LowerListSection = (props) => {
 
+    const [isDestructOpen, setIsDestructOpen] = useState(false);
+    const [isLoginModalSetting, setIsLoginModalSetting] = useState(false);
+    const user = useSelector((state) => state.user.value);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
     const theme = useTheme();
+
+    const handleLogout = () => {
+        dispatch(dropUser());
+        navigate("/");
+        window.location.reload()
+    }
+
+    const handleNavigateLogin = () => {
+        navigate(`/?recommend=true&back=${location.pathname}`);
+    }
+
+    const handleIsLoginSetting = (e) => {
+        e.preventDefault();
+        if (!user) {
+            setIsLoginModalSetting(true);
+        } else {
+            navigate(`/setting`);
+        }
+    }
 
     return (
         <>
             <StyledListBlock>
                 <StyledListItem>
-                    <Tooltip title="設定" placement='right' arrow={true}>
-                        <StyledLink to={"/setting"}>
-                            <StyledListElements theme={theme} style={props.page === "/setting" ? { backgroundColor: theme.palette.background.hover } : null}>
-                                {props.page === "/setting" ? <StyledSettingsIcon color='secondary' /> : <StyledSettingsOutlinedIcon color="icon"/>}
-                                <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="設定" />
-                            </StyledListElements>
-                        </StyledLink>
-                    </Tooltip>
-                </StyledListItem>
-                <StyledListItem>
-                    <Tooltip title="インフォメーション" placement='right' arrow={true}>
-                        <StyledLink to={"/info"}>
-                            <StyledListElements theme={theme} style={props.page === "/info" ? { backgroundColor: theme.palette.background.hover } : null}>
-                                {props.page === "/info" ? <StyledInfoIcon color='secondary' /> : <StyledInfoOutlinedIcon color="icon"/>}
-                                <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="インフォメーション" />
-                            </StyledListElements>
-                        </StyledLink>
-                    </Tooltip>
-                </StyledListItem>
-                <StyledListItem>
-                    <Tooltip title="ヘルプ" placement='right' arrow={true}>
-                        <StyledLink to={"/help"}>
-                            <StyledListElements theme={theme} style={props.page === "/help" ? { backgroundColor: theme.palette.background.hover } : null}>
-                                {props.page === "/help" ? <StyledHelpIcon color='secondary' /> : <StyledHelpOutlinedIcon color="icon"/>}
-                                <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="ヘルプ" />
-                            </StyledListElements>
-                        </StyledLink>
-                    </Tooltip>
-                </StyledListItem>
-                <StyledListItem>
-                    <Tooltip title="トップページ" placement='right' arrow={true}>
-                        <StyledLink to={"/"}>
-                        <StyledListElements theme={theme}>
-                                <StyledArrowBackIcon color='icon'/>
-                                <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="トップページ" />
-                            </StyledListElements>
-                        </StyledLink>
-                    </Tooltip>
-                </StyledListItem>
-                <StyledListItem>
-                    <Tooltip title="ログアウト" placement='right' arrow={true}>
-                        <StyledListElements theme={theme}>
-                            <StyledLogoutIcon color='icon'/>
-                            <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="ログアウト" />
+                    <StyledLink to={"/setting"} onClick={handleIsLoginSetting}>
+                        <StyledListElements theme={theme} style={props.page.startsWith('/setting') ? { backgroundColor: theme.palette.background.hover } : null}>
+                            {props.page.startsWith('/setting') ? <StyledSettingsIcon color='secondary' /> : <StyledSettingsOutlinedIcon color="icon"/>}
+                            <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="設定" />
                         </StyledListElements>
-                    </Tooltip>
+                    </StyledLink>
                 </StyledListItem>
+                <StyledListItem>
+                    <StyledLink to={"/info"}>
+                        <StyledListElements theme={theme} style={props.page === "/info" ? { backgroundColor: theme.palette.background.hover } : null}>
+                            {props.page === "/info" ? <StyledInfoIcon color='secondary' /> : <StyledInfoOutlinedIcon color="icon"/>}
+                            <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="インフォメーション" />
+                        </StyledListElements>
+                    </StyledLink>
+                </StyledListItem>
+                <StyledListItem>
+                    <StyledLink to={"/help"}>
+                        <StyledListElements theme={theme} style={props.page === "/help" ? { backgroundColor: theme.palette.background.hover } : null}>
+                            {props.page === "/help" ? <StyledHelpIcon color='secondary' /> : <StyledHelpOutlinedIcon color="icon"/>}
+                            <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="ヘルプ" />
+                        </StyledListElements>
+                    </StyledLink>
+                </StyledListItem>
+                <StyledListItem>
+                    <StyledLink to={"/"}>
+                    <StyledListElements theme={theme}>
+                            <StyledArrowBackIcon color='icon'/>
+                            <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="トップページ" />
+                        </StyledListElements>
+                    </StyledLink>
+                </StyledListItem>
+                {user ?
+                <StyledListItem onClick={() => setIsDestructOpen(true)}>
+                    <StyledListElements theme={theme}>
+                        <StyledLogoutIcon theme={theme}/>
+                        <StyledListItemText primaryTypographyProps={{color: theme.palette.text.error}} primary="ログアウト" />
+                    </StyledListElements>
+                </StyledListItem>
+                :
+                <StyledListItem onClick={handleNavigateLogin}>
+                    <StyledListElements theme={theme}>
+                        <StyledExitToApp theme={theme}/>
+                        <StyledListItemText primaryTypographyProps={{color: theme.palette.secondary.main}} primary="ログイン" />
+                    </StyledListElements>
+                </StyledListItem>
+                }
             </StyledListBlock>
+
+            <LoginRequiredModal open={isLoginModalSetting} onClose={() => setIsLoginModalSetting(false)} header="ログインが必要です。" desc={"アカウント設定を行うにはログインします"}/>
+
+            {user ? <DestructionModal isDestructOpen={isDestructOpen} setIsDestructOpen={setIsDestructOpen} handleInputDelete={handleLogout} act="ログアウト"
+            header="本当にログアウトしますか？" desc={`${user.username}からログアウトします。\nログアウト後はトップページに戻ります。`} /> : null}
         </>
     )
 }
@@ -154,6 +188,15 @@ const StyledLogoutIcon = styled(LogoutIcon)`
     && {
         width: 25px;
         height: 25px;
+        color: ${(props) => props.theme.palette.text.error};
+    }
+`
+
+const StyledExitToApp = styled(ExitToApp)`
+    && {
+        width: 25px;
+        height: 25px;
+        color: ${(props) => props.theme.palette.secondary.main};
     }
 `
 

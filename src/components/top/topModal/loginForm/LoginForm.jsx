@@ -28,7 +28,7 @@ const LoginForm = (props) => {
         }
         <StyledTextField style={{marginBottom: "15px"}} helperText={props.passwordHelper} error={props.passwordError} theme={theme} fullWidth label="パスワード (8~20字)"
             autoComplete='new-off' variant='outlined' value={props.password} type={props.passwordVisible ? "text" : 'password'} onChange={props.handlePasswordInput} onKeyDown={handleKeyPress}
-            inputProps={{maxLength: 20}} InputProps={{endAdornment: (<InputAdornment position="end" onClick={props.handlePasswordVisible}>{props.passwordVisible ? <StyledVisibility /> : <StyledVisibilityOff />}</InputAdornment>)}}/>
+            inputProps={{maxLength: 30}} InputProps={{endAdornment: (<InputAdornment position="end" onClick={props.handlePasswordVisible}>{props.passwordVisible ? <StyledVisibility /> : <StyledVisibilityOff />}</InputAdornment>)}}/>
         <div style={{width: "100%"}}>
             <StyledOptionChange onClick={props.handleUserIdLogin}>または{props.isUserIdLogin ? "メールアドレス" : "ユーザーID"}でログインする</StyledOptionChange>
         </div>

@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import { setUser } from '../../redux/features/userSlice';
 import ErrorSnack from '../common/errorSnack/ErrorSnack';
+import VerifiedBadge from '../../layouts/badges/VerifiedBadge';
 
 
 const SlideTransition = (props) => {
@@ -157,7 +158,7 @@ const FollowersModal = (props) => {
                                             <StyledAvatar src={user.icon ? `http://localhost:5000/uploads/userIcons/${user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}`}/>
                                         </StyledIconZone>
                                         <StyledNameAndId>
-                                            <StyledName theme={theme}>{user.username}</StyledName>
+                                            <StyledName theme={theme}>{user.isAuthorized ? <VerifiedBadge fontSize="small"/> : null}{user.username}</StyledName>
                                             <StyledId theme={theme}>@{user.userId}</StyledId>
                                         </StyledNameAndId>
                                     </StyledIconAndName>
@@ -351,6 +352,10 @@ const StyledNameAndId = styled.div`
 `
 
 const StyledName = styled.div`
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 1px;
     width: 90%;
     overflow: hidden;
     white-space: nowrap;
