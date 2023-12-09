@@ -27,6 +27,7 @@ import SelectAccountInfoSetting from "./components/setting/accountSetting/accoun
 import UserIdSetting from "./components/setting/accountSetting/accountInfoSetting/UserIdSetting";
 import PhoneNumberSetting from "./components/setting/accountSetting/accountInfoSetting/PhoneNumberSetting";
 import MailAddressSetting from "./components/setting/accountSetting/accountInfoSetting/MailAddressSetting";
+import SelectThemeSetting from "./components/setting/themeSetting/SelectThemeSetting";
 
 
 const Routing = () => {
@@ -62,6 +63,8 @@ const Routing = () => {
           <Route path="account/userId" element={<UserIdSetting currentUser={user}/>} />
           <Route path="account/phoneNumber" element={<PhoneNumberSetting currentUser={user}/>} />
           <Route path="account/mailAddress" element={<MailAddressSetting currentUser={user}/>} />
+
+          <Route path="theme" element={<SelectThemeSetting currentUser={user}/>} />
         </Route>
         
       </Route>

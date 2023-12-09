@@ -1,14 +1,18 @@
 import { useLocation } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
-import { darkBlueTheme } from "./layouts/theme";
 import React, { useEffect } from "react";
 import Routing from "./Routing";
 import styled from "styled-components";
+import { themeList } from "./layouts/theme/themeList";
+import { useSelector } from "react-redux";
+import { darkBlueTheme } from "./layouts/theme/darkTheme/darkBlueTheme";
 
 function App() {
 
   const location = useLocation();
+  const currentUser = useSelector((state) => state.user.value);
+  const userTheme = currentUser ? themeList.find(theme =>  theme.palette.themeName === currentUser.theme) : darkBlueTheme;
 
   // 遷移で画面トップにスクロール
   useEffect(() => {
@@ -16,7 +20,7 @@ function App() {
   }, [location]);
 
   return (
-    <ThemeProvider theme={darkBlueTheme}>
+    <ThemeProvider theme={userTheme}>
       <CssBaseline />
       <StyledApp>
         <Routing />

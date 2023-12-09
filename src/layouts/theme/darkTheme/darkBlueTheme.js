@@ -4,6 +4,7 @@ import { blue, grey } from "@mui/material/colors";
 
 export const darkBlueTheme = createTheme({
     palette: {
+        themeName: "ダークブルー",
         primary: {
             main: "#111"
         },
@@ -13,7 +14,6 @@ export const darkBlueTheme = createTheme({
             progressed: blue[900],
             exhibitAny: grey["A700"],
             disabled: blue[900],
-            premium: "#FFD700",
         },
         line: {
             main: "#888",
@@ -34,6 +34,7 @@ export const darkBlueTheme = createTheme({
             error2: "#a00",
             admin: "#f0f",
             alert: "#fff",
+            verifyBar: "#fff",
         },
         icon: {
             main: "#777",

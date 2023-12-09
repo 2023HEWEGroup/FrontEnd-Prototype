@@ -42,7 +42,7 @@ const ProductCategorySelect = (props) => {
                         }
                     }}>
                         {props.categories.map((category, index) => (
-                            <MenuItem key={index } value={category}>
+                            <MenuItem key={index} value={category}>
                             {category}
                             </MenuItem>
                         ))}

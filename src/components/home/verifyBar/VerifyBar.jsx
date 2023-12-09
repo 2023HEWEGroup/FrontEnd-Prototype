@@ -40,7 +40,7 @@ const StyledVerifyBar = styled(AppBar)`
         height: 30px;
         width: ${(props) => props.$isSideOpen ? "calc(100% - 240px)" : "calc(100% - 75px)"};
         padding-left: ${(props) => props.$isScrollable ? "10px" : "0"};
-        color: ${(props) => props.theme.palette.text.main};
+        color: ${(props) => props.theme.palette.text.verifyBar};
         background-color: ${(props) => props.theme.palette.secondary.main};
     }
 `
@@ -50,7 +50,7 @@ const StyledClose = styled(Close)`
         position: absolute;
         right: 2%;
         cursor: pointer;
-        color: ${(props) => props.theme.palette.text.main};
+        color: ${(props) => props.theme.palette.text.verifyBar};
     }
 `
 
@@ -83,8 +83,8 @@ const StyledButton = styled(Button)`
     && {
         width: 100%;
         height: 100%;
-        color: ${(props) => props.theme.palette.text.main};
-        border: solid 1px ${(props) => props.theme.palette.line.white};
+        color: ${(props) => props.theme.palette.text.verifyBar};
+        border: solid 1px ${(props) => props.theme.palette.text.verifyBar};
         .MuiTouchRipple-child {
             background-color: transparent;
         }
