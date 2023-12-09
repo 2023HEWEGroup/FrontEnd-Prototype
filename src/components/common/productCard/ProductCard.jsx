@@ -72,7 +72,7 @@ const ProductCard = (props) => {
         <>
         <StyledProduct $isLargeScreen={isLargeScreen} $isMiddleScreen={isMiddleScreen} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
             <Link to={`/product/${props.product._id}`} style={{textDecoration: "none"}}>
-                <StyledProductImgZone>
+                <StyledProductImgZone theme={theme}>
                 <StyledAvatar variant='square' src={`http://localhost:5000/uploads/productImages/${props.product.productImg[0]}`} alt='商品画像' />
                 <StyledProductOption theme={theme} productAnchorEl={productAnchorEl}>
                     <StyledIconButton onClick={handleProductPopper}>
@@ -126,7 +126,7 @@ const StyledProductImgZone = styled.div`
     width: 100%;
     border-radius: 5px;
     overflow: hidden;
-    background-color: #444;
+    background-color: ${(props) => props.theme.palette.background.productBack};
 `
 
 const StyledProductOption = styled.div`

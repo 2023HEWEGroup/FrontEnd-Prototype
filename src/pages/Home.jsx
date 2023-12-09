@@ -9,6 +9,7 @@ import VerifyBar from '../components/home/verifyBar/VerifyBar';
 import { useEffect, useState } from 'react';
 import { debounce } from 'lodash';
 import axios from 'axios';
+import ErrorSnack from '../components/common/errorSnack/ErrorSnack';
 
 
 const Home = (props) => {
@@ -18,6 +19,10 @@ const Home = (props) => {
   const [products, setProducts] = useState();
   const [pageNumber, setPasgeNumber] = useState(1);
   const [isNextLoading, setIsNextLoading] = useState(true);
+  const [isErrorSnack, setIsErrorSnack] = useState(false);
+  const [snackWarning, setSnackWarning] = useState("");
+  const [isNextErrorSnack, setIsNextErrorSnack] = useState(false);
+  const [nextSnackWarning, setNextSnackWarning] = useState("");
   const isLargeScreen = useMediaQuery((theme) => theme.breakpoints.down('xl'));
   const isMiddleScreen = useMediaQuery((theme) => theme.breakpoints.down('lg'));
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
@@ -42,7 +47,14 @@ const Home = (props) => {
           setProducts((prev) => [...prev, ...response.data]);
           setPasgeNumber((prev) => (prev + 1));
         } catch (err) {
-          console.log(err);
+          if (err.response) {
+            console.log(err);
+          } else if (err.request) {
+            setNextSnackWarning("サーバーとの通信がタイムアウトしました");
+            setIsNextErrorSnack(true);
+          } else {
+              console.log(err);
+          }
         }
       }
     }, 500);
@@ -60,7 +72,14 @@ const Home = (props) => {
         setProducts(response.data);
         setIsLoading(false);
       } catch (err) {
-        console.log(err);
+        if (err.response) {
+          console.log(err);
+        } else if (err.request) {
+          setSnackWarning("サーバーとの通信がタイムアウトしました");
+          setIsErrorSnack(true);
+        } else {
+            console.log(err);
+        }
       }
     }
     fetchProducts();
@@ -71,9 +90,10 @@ const Home = (props) => {
 
   return (
     <>
+    <CategoryNavigation/>
+
       {!isLoading ?
       <>
-      <CategoryNavigation/>
 
       {props.currentUser ? !props.currentUser.isAuthorized && isVerifyRecommend ? <VerifyBar setIsVerifyRecommend={setIsVerifyRecommend} /> : null : null}
 
@@ -86,7 +106,7 @@ const Home = (props) => {
           <StyledProductZone>
             {upperProducts.map((product, index) =>
               <ProductCard key={index} product={product}/>
-              )}
+            )}
           </StyledProductZone>
 
           <StyledHomeSection theme={theme}>ユーザーを見つける</StyledHomeSection>
@@ -110,13 +130,17 @@ const Home = (props) => {
           <div style={{width: "100%", height: "100px", display: "flex", justifyContent: "center", alignItems: "center"}}>
             {isNextLoading ? <CircularProgress color='secondary'/> : null}
           </div>
+          <ErrorSnack open={isNextErrorSnack} onClose={() => setIsNextErrorSnack(false)} warning={nextSnackWarning}/>
 
         </StyledHomeInnner>
         
       </StyledHome>
       </>
       :
+      <>
       <LinearProgress color='secondary' style={{backgroundColor: "transparent"}}/>
+      <ErrorSnack open={isErrorSnack} onClose={() => setIsErrorSnack(false)} warning={snackWarning}/>
+      </>
       }
     </>
   )

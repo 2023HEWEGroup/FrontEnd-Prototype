@@ -1,14 +1,13 @@
 import { KeyboardArrowRight } from '@mui/icons-material';
 import { List, ListItemButton, ListItemText, useTheme } from '@mui/material'
 import React from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components'
 
 
 const SelectSetting = () => {
 
     const theme = useTheme();
-    const navigate = useNavigate();
     const location = useLocation();
     const path = location.pathname;
 
@@ -17,15 +16,17 @@ const SelectSetting = () => {
             <StyledHeader theme={theme}>設定</StyledHeader>
             <List>
                 <Link to="/setting/account" style={{textDecoration: "none", color: "transparent"}}>
-                    <StyledListItemButton $selected={path === "/setting/account"} theme={theme} onClick={() => navigate("/setting/account")}>
+                    <StyledListItemButton $selected={path === "/setting/account"} theme={theme}>
                         <StyledListItemText theme={theme} primary="アカウント"/>
                         <KeyboardArrowRight style={{color: theme.palette.icon.main}}/>
                     </StyledListItemButton>
                 </Link>
-                <StyledListItemButton theme={theme}>
-                    <StyledListItemText theme={theme} primary="テーマ"/>
-                    <KeyboardArrowRight style={{color: theme.palette.icon.main}}/>
-                </StyledListItemButton>
+                <Link to="/setting/theme" style={{textDecoration: "none", color: "transparent"}}>
+                    <StyledListItemButton $selected={path === "/setting/theme"} theme={theme}>
+                        <StyledListItemText theme={theme} primary="テーマ"/>
+                        <KeyboardArrowRight style={{color: theme.palette.icon.main}}/>
+                    </StyledListItemButton>
+                </Link>
             </List>
         </StyledSelectSetting>
     )
