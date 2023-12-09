@@ -1,5 +1,5 @@
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
-import { AppBar, Chip, IconButton, Tooltip, useMediaQuery, useTheme } from '@mui/material';
+import { AppBar, Chip, IconButton, useMediaQuery, useTheme } from '@mui/material';
 import React, { useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -8,23 +8,9 @@ import styled from 'styled-components';
 const CategoryNavigation = () => {
 
     const categories = [
-        {categoryName: "キムチ", id: 1},
-        {categoryName: "カクテキ", id: 2},
-        {categoryName: "漬物美味しい", id: 3},
-        {categoryName: "ああああああああああああああああ", id: 4},
-        {categoryName: "JavaScript", id: 5},
-        {categoryName: "うおおお", id: 6},
-        {categoryName: "Danger", id: 7},
-        {categoryName: "Phalanx", id: 8},
-        {categoryName: "aiueo", id: 9},
-        {categoryName: "ajotto", id: 10},
-        {categoryName: "Underground Funding", id: 11},
-        {categoryName: "CODING KURU*C", id: 12},
-        {categoryName: "CODING KURU*C HARD", id: 13},
-        {categoryName: "お粥", id: 14},
-        {categoryName: "ビタミンミネラル食物繊維", id: 15},
-        {categoryName: "EAA", id: 16}
-];
+        "すべての商品", "レディース", "メンズ", "ベビー・キッズ", "インテリア・住まい・小物", "本・音楽・ゲーム", "おもちゃ・ホビー・グッズ", "コスメ・香水。美容",
+        "家電・スマホ・カメラ", "スポーツ・レジャー", "ハンドメイド", "チケット", "自動車・オートバイ", "食品", "ダイエット・健康", "花・園芸用品", "アート", "その他"
+    ]
 
     const [isLeftButtonVisible, setIsLeftButtonVisible] = useState(false);
     const [isRightButtonVisible, setIsRightButtonVisible] = useState(true);
@@ -64,15 +50,13 @@ const CategoryNavigation = () => {
                     <ArrowBack />
                 </StyledIconButtonLeft>
                 <StyledCategoryBar onScroll={handleIconVisible} ref={navRef}>
-                    {categories.map((category) => (
-                        <div key={category.id}>
-                            <Tooltip title={category.categoryName} placement='bottom' arrow>
-                                <StyledChip label={category.categoryName} clickable theme={theme}
-                                style={selectedCategoryId === category.id ? {
-                                    backgroundColor: theme.palette.text.categoryActive,
-                                    color: theme.palette.background.categoryActive} : null}
-                                onClick={() => handleSelectedCategory(category.id)}/>
-                            </Tooltip>
+                    {categories.map((category, index) => (
+                        <div key={index}>
+                            <StyledChip label={category} clickable theme={theme}
+                            style={selectedCategoryId === index + 1 ? {
+                                backgroundColor: theme.palette.text.categoryActive,
+                                color: theme.palette.background.categoryActive} : null}
+                            onClick={() => handleSelectedCategory(index + 1)}/>
                         </div>
                     ))}
                 </StyledCategoryBar>
@@ -81,7 +65,7 @@ const CategoryNavigation = () => {
                 </StyledIconButtonRight>
             </StyledCategoryBarParent>
         </StyledAppBar>
-        <div style={{width: "100%", height: "75px"}}></div>
+        <div style={{width: "100%", height: "60px"}}></div>
         </>
     )
 }
@@ -91,6 +75,7 @@ const StyledAppBar = styled(AppBar)`
     && {
         z-index: 100;
         box-shadow: none;
+        height: 60px;
         padding-right: ${(props) => (props.$isSideOpen && props.$isSmallScreen) || !props.$isScrollable ? '10px' : '0'};
     }
 `

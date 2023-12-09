@@ -43,7 +43,7 @@ const TrimmingExhibit = (props) => {
         const canvas = canvasRef.current;
         canvas.width = croppedAreaPixels.width;
         canvas.height = croppedAreaPixels.height;
-        const ctx = canvas.getContext('2d'); // canvasタグに画像を生成するためのオブジェクト(ctx)を取得します
+        const ctx = canvas.getContext('2d'); // canvasタグに画像を生成するためのオブジェクト(ctx)を取得
         ctx.drawImage(
             image, //これ、親から渡された画像です
             croppedAreaPixels.x, // 左上始点x

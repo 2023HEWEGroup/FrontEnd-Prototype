@@ -162,7 +162,7 @@ const Exhibit = () => {
       category: product.category ? " " : "カテゴリーを選択して下さい",
     }
     setProductHelper(newProductHelper);
-    if (!(!(product.name.trim() === "" ) && !(product.detail.trim() === "" ) && product.name && product.detail && product.price && product.status && product.shippingArea && product.deliveryCost && product.category)) {
+    if (!(!(product.name.trim() === "" ) && !(product.detail.trim() === "" ) && product.name && product.detail && product.price && product.price >= 300 && product.status && product.shippingArea && product.deliveryCost && product.category)) {
       setSnackWarning("入力内容が誤っています。");
       setIsErrorSnack(true);
       flag = true;

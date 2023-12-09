@@ -2,7 +2,7 @@ import { Avatar, Chip, Divider, IconButton, List, ListItemText, Paper, Popper, T
 import React, { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { AdsClick, ArrowBack, AssessmentOutlined, CachedOutlined, CreditCard, FavoriteBorder, HelpOutlineOutlined, InfoOutlined, Inventory2Outlined, Logout } from '@mui/icons-material';
+import { AdsClick, ArrowBack, AssessmentOutlined, CachedOutlined, CreditCard, CurrencyYen, FavoriteBorder, HelpOutlineOutlined, InfoOutlined, Inventory2Outlined, Logout } from '@mui/icons-material';
 import { isWindowScrollable } from '../../../../../redux/features/windowScrollaleSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { dropUser } from '../../../../../redux/features/userSlice';
@@ -87,13 +87,8 @@ const ProfilePopper = () => {
                         </StyledProfileListHeader>
                     </StyledLink>
 
-                    <StyledFollowHeader>
-                        <StyledFollowings theme={theme}><Styledspan theme={theme}>{user.followings.length}</Styledspan> フォロー</StyledFollowings>
-                        <StyledFollowers theme={theme}><Styledspan theme={theme}>{user.followers.length}</Styledspan> フォロワー</StyledFollowers>
-                    </StyledFollowHeader>
-
                     <StyledProfilePointHeader>
-                        <StyledPointAmountLabel label={`${user.points} ポイント`} variant='outlined' color='secondary' clickable/>
+                        <StyledPointAmountLabel icon={<CurrencyYen style={{color: theme.palette.secondary.main}} fontSize="small"/>} label={`${user.points} ポイント`} variant='outlined' color='secondary' clickable/>
                     </StyledProfilePointHeader>
 
                     <Divider style={{borderBottom: `solid 0.25px ${theme.palette.line.main}`, width: "95%", margin: "0 auto"}}/>
@@ -248,38 +243,6 @@ const StyledProfileAccountId = styled.div`
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-`
-
-const StyledFollowHeader = styled.div`
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    gap: 15px;
-    width: 85%;
-    margin: 10px auto;
-`
-
-const StyledFollowings = styled.div`
-    color: ${(props) => props.theme.palette.text.sub};
-    font-size: 0.9rem;
-`
-
-const StyledFollowers = styled.div`
-    color: ${(props) => props.theme.palette.text.sub};
-    font-size: 0.9rem;
-`
-
-const Styledspan = styled.span`
-    color: ${(props) => props.theme.palette.text.main};
-    font-size: 1rem;
-    cursor: pointer;
-
-    &:hover {
-        text-decoration: underline;
-    }
-    &:active {
-        text-decoration: none;
-    }
 `
 
 const StyledProfilePointHeader = styled.div`

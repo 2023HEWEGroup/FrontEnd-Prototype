@@ -134,7 +134,7 @@ const FollowersModal = (props) => {
 
     return (
         <>
-        <StyledModal open={props.open} onClose={() => props.setIsProfileChange(true)}>
+        <StyledModal open={props.open} onClose={() => props.setIsProfileChange(true)} slotProps={{backdrop: {sx: {backgroundColor: theme.palette.background.modalShadow}}}}>
             <StyledInner theme={theme}>
                 {props.user?
                 <>
@@ -220,7 +220,7 @@ const StyledInner = styled.div`
     max-width: 90vw;
     min-width: 40vw;
     height: 75%;
-    border: solid 1px ${(props) => props.theme.palette.line.main};
+    border: solid 1px ${(props) => props.theme.palette.line.disable};
     border-radius: 10px;
     overflow-x: hidden;
     overflow-y: hidden;

@@ -2,10 +2,11 @@ import { ArrowForwardIos, CurrencyYen, ExpandLess, ExpandMore, FavoriteBorder, S
 import { Alert, Avatar, Button, Card, CardActions, CardHeader, Chip, Divider, LinearProgress, Rating, useMediaQuery, useTheme } from '@mui/material'
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components'
 import ProductSlider from '../components/product/ProductSlider';
 import VerifiedBadge from '../layouts/badges/VerifiedBadge';
+import { formatRelativeTime } from '../utils/formatRelativeTime';
 
 
 const Product = () => {
@@ -18,6 +19,7 @@ const Product = () => {
   const [lineCount, setLineCount] = useState(NaN);
   const [sliderIndex, setSliderIndex] = useState(0);
   const theme = useTheme();
+  const navigate = useNavigate();
   const { productId } = useParams("productId");
   const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
@@ -47,7 +49,13 @@ const Product = () => {
         setSaller(sallerResponse.data);
         setIsLoading(false);
       } catch (err) {
-        console.log(err);
+        if (err.response) {
+          navigate("/notFound");
+        } else if (err.request) {
+          navigate("/timeOut");
+        } else {
+            console.log(err);
+        }
       }
     }
     fetchProduct();
@@ -157,6 +165,10 @@ const Product = () => {
             <StyledInfoRow>
               <StyledInfoTitle>発送元の地域</StyledInfoTitle>
               <StyledInfoContent>{product.shippingArea}</StyledInfoContent>
+            </StyledInfoRow>
+            <StyledInfoRow>
+              <StyledInfoTitle>出品日</StyledInfoTitle>
+              <StyledInfoContent>{formatRelativeTime(product.createdAt)}</StyledInfoContent>
             </StyledInfoRow>
           </StyledInfo>
 
