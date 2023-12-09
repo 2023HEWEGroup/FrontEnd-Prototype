@@ -130,7 +130,13 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
 
     '& .MuiInputBase-input': {
         color: '#777', // 入力文字の色
-        borderRadius: "5px"
+        borderRadius: "5px",
+    },
+    '& .MuiInputBase-root.Mui-disabled': {
+        backgroundColor: theme.palette.background.hover2,
+    },
+    "& .MuiInputBase-input.Mui-disabled": {
+        WebkitTextFillColor: theme.palette.text.sub,
     },
     '& .MuiOutlinedInput-root': {
         '& fieldset': {
@@ -152,6 +158,26 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
         color: theme.palette.secondary.main, // フォーカス時のラベルの色
         },
     },
+    '& .MuiInputLabel-root.Mui-disabled': {
+        color: theme.palette.text.sub,
+    },
+    "& .MuiFormHelperText-root.Mui-error": {
+        color: theme.palette.text.error,
+    },
+    "& .MuiFormLabel-root.Mui-error": {
+        color: theme.palette.text.error,
+    },
+    '& .MuiOutlinedInput-root.Mui-error': {
+        '&:hover fieldset': {
+            borderColor: theme.palette.text.error,
+        },
+        '&.Mui-focused fieldset': {
+            borderColor: theme.palette.text.error,
+        },
+        '&.Mui-focused:hover fieldset': {
+            borderColor: theme.palette.text.error,
+        }
+    }
 }));
 
 const StyledButtonZone = styled.div`

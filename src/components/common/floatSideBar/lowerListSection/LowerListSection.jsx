@@ -98,7 +98,7 @@ const LowerListSection = (props) => {
                 }
             </StyledListBlock>
 
-            <LoginRequiredModal open={isLoginModalSetting} onClose={() => setIsLoginModalSetting(false)} header="ログインが必要です。" desc={"アカウント設定を行うにはログインします"}/>
+            <LoginRequiredModal open={isLoginModalSetting} onClose={() => setIsLoginModalSetting(false)} header="ログインが必要です。" desc={"アカウント設定を行うにはログインします。"}/>
 
             {user ? <DestructionModal isDestructOpen={isDestructOpen} setIsDestructOpen={setIsDestructOpen} handleInputDelete={handleLogout} act="ログアウト"
             header="本当にログアウトしますか？" desc={`${user.username}からログアウトします。\nログアウト後はトップページに戻ります。`} /> : null}

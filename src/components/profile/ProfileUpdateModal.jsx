@@ -151,7 +151,7 @@ const ProfileUpdateModal = (props) => {
 
     return (
         <>
-        <StyledModal open={props.open} onClose={() => props.setUpdateModal(false)}>
+        <StyledModal open={props.open} onClose={() => props.setUpdateModal(false)} slotProps={{backdrop: {sx: {backgroundColor: theme.palette.background.modalShadow}}}}>
             <StyledInner theme={theme}>
                 {props.currentUser ?
                 
@@ -243,7 +243,7 @@ const StyledInner = styled.div`
     max-width: 90vw;
     min-width: 40vw;
     height: 75%;
-    border: solid 1px ${(props) => props.theme.palette.line.main};
+    border: solid 1px ${(props) => props.theme.palette.line.disable};
     border-radius: 10px;
     overflow-x: hidden;
     overflow-y: scroll;

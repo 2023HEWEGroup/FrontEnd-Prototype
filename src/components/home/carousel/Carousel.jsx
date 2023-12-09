@@ -57,6 +57,7 @@ const StyledSlider = styled(Slider)`
         aspect-ratio: 4/1;
         width: 90%;
         margin: 0 auto;
+        margin-top: 15px;
 
         .slick-dots li button:before {
         font-size: 20px;

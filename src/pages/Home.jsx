@@ -1,40 +1,81 @@
-import CategoryNavigation from '../components/common/categoryNavigation/CategoryNavigation'
+import CategoryNavigation from '../components/common/categoryNavigation/CategoryNavigation';
 import styled from 'styled-components';
-import { useMediaQuery, useTheme } from '@mui/material';
+import { CircularProgress, LinearProgress, useMediaQuery, useTheme } from '@mui/material';
 import Carousel from '../components/home/carousel/Carousel';
 import ProductCard from '../components/common/productCard/ProductCard';
 import UserApproach from '../components/home/userApproach/UserApproach';
 import GroupApproach from '../components/home/groupApproach/GroupApproach';
+import VerifyBar from '../components/home/verifyBar/VerifyBar';
+import { useEffect, useState } from 'react';
+import { debounce } from 'lodash';
+import axios from 'axios';
 
 
-const Home = () => {
+const Home = (props) => {
 
+  const [isVerifyRecommend, setIsVerifyRecommend] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [products, setProducts] = useState();
+  const [pageNumber, setPasgeNumber] = useState(1);
+  const [isNextLoading, setIsNextLoading] = useState(true);
+  const isLargeScreen = useMediaQuery((theme) => theme.breakpoints.down('xl'));
   const isMiddleScreen = useMediaQuery((theme) => theme.breakpoints.down('lg'));
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
   const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
-  const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
+  const PAGE_SIZE = 18;
   const theme = useTheme();
 
-  const products = [
-    {id: 1, productName: "HARDCORE TANO*C", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon_black.png`, point: 300},
-    {id: 2, productName: "HARDCORE TANO*C", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon.png`, point: 300},
-    {id: 3, productName: "HARDCORE TANO*Cccccccccccccccccccccccccccccccccccccccc", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon.png`, point: 300},
-    {id: 4, productName: "HARDCORE TANO*Caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon.png`, point: 300},
-    {id: 5, productName: "HARDCORE TANO*Cあああああああああああああああ", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon_black.png`, point: 300},
-    {id: 6, productName: "そうだ、温泉旅行に行こう！", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon_black.png`, point: 300},
-    {id: 7, productName: "もう準備万タンです", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon_black.png`, point: 300},
-    {id: 8, productName: "いーろん", sallerId: "twitter_japan", imageUrl: `${siteAssetsPath}/elon.png`, point: 9999999},
-    {id: 9, productName: "ショウガにミソ付けて食べるの美味しいのにあまり理解されない", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon.png`, point: 300},
-    {id: 10, productName: "自分で作った回路に電気が流れてさ、チェストにものがどんどん貯まっていくってもうあり得ない快感なんだよね", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon.png`, point: 300},
-    {id: 11, productName: "HARDCORE TANO*C", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon.png`, point: 300},
-    {id: 12, productName: "HARDCORE TANO*C", sallerId: "tanoc_net", imageUrl: `${siteAssetsPath}/tanoc_icon.png`, point: 300},
-    {id: 13, productName: "伊勢エビ(戦闘力53万)", sallerId: "elonmusk", imageUrl: `${siteAssetsPath}/iseebi.png`, point: 4000},
-  ] 
-  const limitedProducts = isXsScreen ? products.slice(0, 6) : isSmallScreen ? products.slice(0, 9) : isMiddleScreen ? products.slice(0, 12) :products;
+  useEffect(() => {
+
+    const handleScroll = debounce(async () => {
+      const scrollTop = window.scrollY;// 現在のスクロール位置
+      const pageHeight = document.documentElement.scrollHeight;// ページの高さ
+      const windowHeight = window.innerHeight;// ウィンドウの高さ
+      // 一番下までスクロールされたかどうかを判定(誤差絶対値5px許容)
+      if (Math.abs(scrollTop + windowHeight - pageHeight) <= 5) {
+        try {
+          const response = await axios.get(`http://localhost:5000/client/product/getNewest/?page=${pageNumber + 1}&pageSize=${PAGE_SIZE}`);
+          if (response.data.length === 0) {
+            setIsNextLoading(false);
+            return; // 商品がそれ以上フェッチできない場合、終了
+          }
+          setProducts((prev) => [...prev, ...response.data]);
+          setPasgeNumber((prev) => (prev + 1));
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    }, 500);
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [pageNumber]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/client/product/getNewest/?page=${1}&pageSize=${PAGE_SIZE}`);
+        setProducts(response.data);
+        setIsLoading(false);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    fetchProducts();
+  }, [])
+
+  const upperProducts = products ? isXsScreen ? products.slice(0, 6) : isSmallScreen ? products.slice(0, 9) : isMiddleScreen ? products.slice(0, 12) : isLargeScreen ? products.slice(0, 15) : products.slice(0, 18) : null;
+  const lowerProducts = products ? isXsScreen ? products.slice(6) : isSmallScreen ? products.slice(9) : isMiddleScreen ? products.slice(12) : isLargeScreen ? products.slice(15) : products.slice(18) : null;
 
   return (
     <>
+      {!isLoading ?
+      <>
       <CategoryNavigation/>
+
+      {props.currentUser ? !props.currentUser.isAuthorized && isVerifyRecommend ? <VerifyBar setIsVerifyRecommend={setIsVerifyRecommend} /> : null : null}
 
       <StyledHome>
 
@@ -43,8 +84,8 @@ const Home = () => {
         <StyledHomeInnner>
 
           <StyledProductZone>
-            {limitedProducts.map(product =>
-              <ProductCard key={product.id} product={product}/>
+            {upperProducts.map((product, index) =>
+              <ProductCard key={index} product={product}/>
               )}
           </StyledProductZone>
 
@@ -60,9 +101,23 @@ const Home = () => {
             <GroupApproach />
           </StyledApproachZone>
 
+          <StyledProductZoneScroll>
+            {lowerProducts.map((product, index) =>
+              <ProductCard key={index} product={product}/>
+              )}
+          </StyledProductZoneScroll>
+
+          <div style={{width: "100%", height: "100px", display: "flex", justifyContent: "center", alignItems: "center"}}>
+            {isNextLoading ? <CircularProgress color='secondary'/> : null}
+          </div>
+
         </StyledHomeInnner>
         
       </StyledHome>
+      </>
+      :
+      <LinearProgress color='secondary' style={{backgroundColor: "transparent"}}/>
+      }
     </>
   )
 }
@@ -86,6 +141,7 @@ const StyledHomeSection = styled.div`
 
 const StyledHomeInnner = styled.div`
   width: 90%;
+  height: fit-content;
   margin: 50px auto 0 auto;
 `
 
@@ -104,6 +160,15 @@ const StyledApproachZone = styled.div`
   width: 100%;
   height: fit-content;
   padding 25px 0;
+`
+
+const StyledProductZoneScroll = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+  margin-top: 30px;
 `
 
 

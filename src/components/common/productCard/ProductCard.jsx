@@ -1,6 +1,7 @@
 import { CurrencyYen, FavoriteBorder, MoreVert } from '@mui/icons-material';
 import { Alert, Avatar, IconButton, Paper, Popper, Slide, Snackbar, useMediaQuery, useTheme } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 
@@ -22,6 +23,7 @@ const ProductCard = (props) => {
     const theme = useTheme();
 
     const handleProductPopper = (e) => {
+        e.preventDefault();
         if (!isProductPopperOpen) {
         setIsProductPopperOpen(true);
         setProductAnchorEl(e.currentTarget)
@@ -67,22 +69,25 @@ const ProductCard = (props) => {
     }, [isMiddleScreen, isSmallScreen, isXsScreen]);
 
     return (
+        <>
         <StyledProduct $isLargeScreen={isLargeScreen} $isMiddleScreen={isMiddleScreen} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
-            <StyledProductImgZone>
-            <StyledAvatar variant='square' src={props.product.imageUrl} alt='商品画像' />
-            <StyledProductOption theme={theme} productAnchorEl={productAnchorEl}>
-                <StyledIconButton onClick={handleProductPopper}>
-                <MoreVert />
-                </StyledIconButton>
-            </StyledProductOption>
-            </StyledProductImgZone>
-            <StyledProductDesc>
-            <StyledSellerId theme={theme}>{`by @${props.product.sallerId}`}</StyledSellerId>
-            <StyledPriceAndLike>
-                <StyledPrice theme={theme}><StyledCurrencyYen />{`${props.product.point}`}</StyledPrice>
-                <StyledFavoriteBorder theme={theme}/>
-            </StyledPriceAndLike>
-            </StyledProductDesc>
+            <Link to={`/product/${props.product._id}`} style={{textDecoration: "none"}}>
+                <StyledProductImgZone>
+                <StyledAvatar variant='square' src={`http://localhost:5000/uploads/productImages/${props.product.productImg[0]}`} alt='商品画像' />
+                <StyledProductOption theme={theme} productAnchorEl={productAnchorEl}>
+                    <StyledIconButton onClick={handleProductPopper}>
+                    <MoreVert />
+                    </StyledIconButton>
+                </StyledProductOption>
+                </StyledProductImgZone>
+                <StyledProductDesc>
+                <StyledSellerId theme={theme}>{`by @${props.product.sellerId}`}</StyledSellerId>
+                <StyledPriceAndLike>
+                    <StyledPrice theme={theme}><StyledCurrencyYen />{`${props.product.price}`}</StyledPrice>
+                    <StyledFavoriteBorder theme={theme}/>
+                </StyledPriceAndLike>
+                </StyledProductDesc>
+            </Link>
 
             <Popper open={isProductPopperOpen} anchorEl={productAnchorEl} placement="bottom-end" theme={theme} ref={productPopperRef}>
             <StyledPopperPaper elevation={3} theme={theme}>
@@ -91,11 +96,12 @@ const ProductCard = (props) => {
                 <StyledPopperItem theme={theme}>いいねする</StyledPopperItem>
             </StyledPopperPaper>
             </Popper>
-
-            <Snackbar open={isLinkSnack} onClose={handleLinkSnackClose} TransitionComponent={SlideTransition} autoHideDuration={3000}>
-                <Alert severity='success'>リンクをコピーしました</Alert>
-            </Snackbar>
         </StyledProduct>
+
+        <Snackbar open={isLinkSnack} onClose={handleLinkSnackClose} TransitionComponent={SlideTransition} autoHideDuration={3000}>
+            <Alert severity='success'>リンクをコピーしました</Alert>
+        </Snackbar>
+        </>
     )
 }
 
@@ -151,7 +157,7 @@ const StyledProductDesc = styled.div`
 `
 
 const StyledSellerId = styled.div`
-    width: fit-content;
+    width: 100%;
     color: ${(props) => props.theme.palette.text.sub};
     font-size: 0.9rem;
     overflow: hidden;

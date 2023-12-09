@@ -1,5 +1,5 @@
 import { HighlightOff } from '@mui/icons-material'
-import { Modal, Tooltip, useMediaQuery } from '@mui/material'
+import { Modal, Tooltip, useMediaQuery, useTheme } from '@mui/material'
 import axios from 'axios';
 import React, { useRef, useState } from 'react'
 import styled from 'styled-components';
@@ -93,6 +93,7 @@ const TopModal = (props) => {
     const [isDestructOpen, setIsDestructOpen] = useState(false);
 
     const modalContainerRef = useRef(null);
+    const theme = useTheme();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((state) => state.user.value);
@@ -735,6 +736,7 @@ const TopModal = (props) => {
                 cvc: cardChecked ? creditCard.expiry : "",
                 expiry: cardChecked ? creditCard.cvc : "",
             }
+            console.log(creditCard.number)
             const user = await axios.post("http://localhost:5000/client/auth/register", newUser);
             dispatch(setUser(user.data));
             props.setIsRequesting(false);
@@ -742,7 +744,7 @@ const TopModal = (props) => {
         } catch (err) {
             props.setIsRequesting(false);
             if (err.response) {
-                setSnackWarning(`${err.response.data}`);
+                setSnackWarning("エラーが発生しました");
                 setIsErrorSnack(true);
             } else if (err.request) {
                 setSnackWarning("サーバーとの通信がタイムアウトしました。");
@@ -755,11 +757,11 @@ const TopModal = (props) => {
 
     return (
         <>
-            <Modal open={props.isTopModalOpen}>
+            <Modal open={props.isTopModalOpen} slotProps={{backdrop: {sx: {backgroundColor: theme.palette.background.modalShadow}}}}>
                 
             {isLogin ? 
 
-            <StyledTopModalInner $isLogin={isLogin} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
+            <StyledTopModalInner theme={theme} $isLogin={isLogin} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
                 <Tooltip title="閉じる" placement='top'>
                 <StyledHighlightOff onClick={handleModalClose}/>
                 </Tooltip>
@@ -774,7 +776,7 @@ const TopModal = (props) => {
 
             :
 
-            <StyledTopModalInner $isLogin={isLogin} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen} ref={modalContainerRef}>
+            <StyledTopModalInner theme={theme} $isLogin={isLogin} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen} ref={modalContainerRef}>
                 <Tooltip title="閉じる" placement='top'>
                 <StyledHighlightOff onClick={handleModalClose}/>
                 </Tooltip>
@@ -846,7 +848,6 @@ const TopModal = (props) => {
     )
 }
 
-
 const StyledTopModalInner = styled.div`
     display: flex;
     flex-direction: column;
@@ -862,8 +863,8 @@ const StyledTopModalInner = styled.div`
     overflow-y: scroll;
     overflow-x: hidden;
     border-radius: 15px;
-    border: solid 1px #444;
-    background-color: #111;
+    border: solid 1px ${(props) => props.theme.palette.line.disable};
+    background-color: ${(props) => props.theme.palette.background.modal};
 `
 
 const StyledHighlightOff = styled(HighlightOff)`

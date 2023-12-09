@@ -35,8 +35,13 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
 
     '& .MuiInputBase-input': {
         color: '#777', // 入力文字の色
-        backgroundColor: "#000",
-        borderRadius: "5px"
+        borderRadius: "5px",
+    },
+    '& .MuiInputBase-root.Mui-disabled': {
+        backgroundColor: theme.palette.background.hover2,
+    },
+    "& .MuiInputBase-input.Mui-disabled": {
+        WebkitTextFillColor: theme.palette.text.sub,
     },
     '& .MuiOutlinedInput-root': {
         '& fieldset': {
@@ -46,18 +51,38 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
         borderColor: '#777', // 非フォーカス時のホバー時のボーダー色(アウトライン)
         },
         '&.Mui-focused:hover fieldset': {
-        borderColor: theme.palette.top.main, // フォーカス時にホバーしたときのボーダー色(アウトライン)
+        borderColor: theme.palette.secondary.main, // フォーカス時にホバーしたときのボーダー色(アウトライン)
         },
         '&:focus-within fieldset': {
-        borderColor: theme.palette.top.main, // フォーカス時のボーダー色(アウトライン)
+        borderColor: theme.palette.secondary.main, // フォーカス時のボーダー色(アウトライン)
         },
     },
     '& .MuiInputLabel-root': {
         color: '#777', // ラベルの通常時の色
         '&.Mui-focused': {
-        color: theme.palette.top.main, // フォーカス時のラベルの色
+        color: theme.palette.secondary.main, // フォーカス時のラベルの色
         },
     },
+    '& .MuiInputLabel-root.Mui-disabled': {
+        color: theme.palette.text.sub,
+    },
+    "& .MuiFormHelperText-root.Mui-error": {
+        color: theme.palette.text.error,
+    },
+    "& .MuiFormLabel-root.Mui-error": {
+        color: theme.palette.text.error,
+    },
+    '& .MuiOutlinedInput-root.Mui-error': {
+        '&:hover fieldset': {
+            borderColor: theme.palette.text.error,
+        },
+        '&.Mui-focused fieldset': {
+            borderColor: theme.palette.text.error,
+        },
+        '&.Mui-focused:hover fieldset': {
+            borderColor: theme.palette.text.error,
+        }
+    }
 }));
 
 const StyledCardType = styled.div`

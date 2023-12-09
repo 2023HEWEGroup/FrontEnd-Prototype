@@ -12,10 +12,12 @@ export const darkBlueTheme = createTheme({
             mainHover: blue[800],
             progressed: blue[900],
             exhibitAny: grey["A700"],
-            disabled: blue[900]
+            disabled: blue[900],
+            premium: "#FFD700",
         },
         line: {
             main: "#888",
+            white: "#fff",
             disable: "#555",
             tab: "#333",
             successLine: "#042",
@@ -57,6 +59,7 @@ export const darkBlueTheme = createTheme({
             uploadImgHover: "rgba(255, 255, 255, 0.05)",
             scrollBar: "#444",
             modal: "#111111",
+            modalShadow: "rgba(230, 230, 255, 0.2)",
             destructDelete: "#f00",
             destructDeleteHover: "#c00",
             destructCancelHover: "#1a1a1a",

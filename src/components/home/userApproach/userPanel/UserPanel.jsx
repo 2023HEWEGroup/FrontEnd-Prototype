@@ -31,6 +31,7 @@ const UserPanel = (props) => {
 
 const StyledUserPanel = styled.div`
     height: 100%;
+    padding: 5px 0;
 `
 
 const StyledUserSlideAvatar = styled(Avatar)`

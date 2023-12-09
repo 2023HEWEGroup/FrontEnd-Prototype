@@ -53,7 +53,7 @@ const Profile = () => {
   const [headerCrop, setHeaderCrop] = useState({x: 0, y: 0});
   const [headerZoom, setHeaderZoom] = useState(1);
 
-  const [isFollowDisplay, setIsFollowDisplay] = useState(true)
+  const [isFollowDisplay, setIsFollowDisplay] = useState(true);
 
   const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
