@@ -736,9 +736,9 @@ const TopModal = (props) => {
                 cvc: cardChecked ? creditCard.expiry : "",
                 expiry: cardChecked ? creditCard.cvc : "",
             }
-            console.log(creditCard.number)
-            const user = await axios.post("http://localhost:5000/client/auth/register", newUser);
-            dispatch(setUser(user.data));
+            const response = await axios.post("http://localhost:5000/client/auth/register", newUser);
+            await axios.put(`http://localhost:5000/client/notify/welcome/${response.data._id}`);
+            dispatch(setUser(response.data));
             props.setIsRequesting(false);
             navigate("/home");
         } catch (err) {
