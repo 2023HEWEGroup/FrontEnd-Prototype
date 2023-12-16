@@ -13,9 +13,9 @@ const ProductRecognitionModal = (props) => {
         <Modal open={props.isModalOpen} onClose={props.handleModalClose}  slotProps={{backdrop: {sx: {backgroundColor: theme.palette.background.modalShadow}}}}>
             <StyledModalInner theme={theme}>
                 <Tooltip title="閉じる" placement='top'>
-                <StyledHighlightOff onClick={props.handleModalClose}/>
+                <StyledHighlightOff theme={theme} onClick={props.handleModalClose}/>
                 </Tooltip>
-                <StyledModalTitle>
+                <StyledModalTitle theme={theme}>
                 出品内容のご確認
                 </StyledModalTitle>
                 <StyledRecognitionInner>
@@ -86,7 +86,7 @@ const StyledModalInner = styled.div`
 
 const StyledModalTitle = styled.div`
     text-align: center;
-    color: #aaa;
+    color: ${(props) => props.theme.palette.text.main};
     font-size: 1.5rem;
     font-weight: bold;
     width: 70%;
@@ -100,7 +100,7 @@ const StyledHighlightOff = styled(HighlightOff)`
         right: 20px;
         width: 35px;
         height: 35px;
-        color: #444;
+        color: ${(props) => props.theme.palette.icon.main};
         cursor: pointer;
     }
 `
@@ -125,13 +125,13 @@ const StyledItem = styled.div`
 
 const StyledName = styled.div`
     width: 20%;
-    color: ${(props) => props.theme.palette.text.sub};
+    color: ${(props) => props.theme.palette.text.main};
     word-break: break-all;
 `
 
 const StyledElement = styled.div`
     width: 80%;
-    color: ${(props) => props.theme.palette.text.sub};
+    color: ${(props) => props.theme.palette.text.main};
     word-break: break-all;
     white-space: pre-line;
 `

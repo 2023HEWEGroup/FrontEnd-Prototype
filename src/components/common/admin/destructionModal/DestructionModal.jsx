@@ -92,6 +92,7 @@ const StyledButtons = styled.div`
 
 const StyledDeleteButton = styled(Button)`
     && {
+        color: ${(props) => props.theme.palette.text.main2};
         background-color: ${(props) => props.theme.palette.background.destructDelete};
         border-radius: 50px;
         font-weight: bold;
@@ -107,7 +108,6 @@ const StyledCancelButton = styled(Button)`
         border: solid 1px ${(props) => props.theme.palette.line.main};
         border-radius: 50px;
         font-weight: bold;
-        // background-color: #000;
 
         &:hover {
             background-color: ${(props) => props.theme.palette.background.destructCancelHover};

@@ -2,19 +2,19 @@ import { createTheme } from "@mui/material/styles";
 import { blue, grey } from "@mui/material/colors";
 
 
-export const darkBlueTheme = createTheme({
+export const LightBlueTheme = createTheme({
     palette: {
-        themeName: "ダークブルー",
-        siteLogo: "LMAP_logo_reversal.svg",
+        themeName: "ライトブルー",
+        siteLogo: "LMAP_logo.svg",
         primary: {
-            main: "#111",
-            listBack: `linear-gradient(to bottom right, ${blue[500]}, #000)`
+            main: "#f8fcff",
+            listBack: `linear-gradient(to bottom right, ${blue[500]}, 70%, ${blue[500]})`
         },
         secondary: {
             main: blue[500],
             mainHover: blue[800],
             progressed: blue[900],
-            exhibitAny: grey["A700"],
+            exhibitAny: grey[900],
             disabled: blue[900],
         },
         line: {
@@ -22,21 +22,21 @@ export const darkBlueTheme = createTheme({
             white: "#fff",
             disable: "#555",
             tab: "#333",
-            successLine: "#042",
-            warningLine: "#440",
+            successLine: "#084",
+            warningLine: "#880",
         },
         text: {
-            main: "#fff",
+            main: "#000",
             sub: "#777",
-            sub2: "#999",
+            sub2: "#777",
             main2: "#fff",
-            categoryActive: "#000",
-            tab: "#888",
+            categoryActive: "#fff",
+            tab: "#aaa",
             product: "#ccc",
             error: "#f00",
             error2: "#a00",
             admin: "#f0f",
-            alert: "#fff",
+            alert: "#000",
             verifyBar: "#fff",
         },
         icon: {
@@ -47,37 +47,37 @@ export const darkBlueTheme = createTheme({
             share: "#00e73d",
         },
         background: {
-            default: "#111",
-            pop: "#28282b",
-            searchPop: "#28282b",
-            profilePop: "#28282b",
-            commandPop: "#28282b", 
-            search: "#111",
-            hover: "#303035",
-            hover2: "#18191e",
-            hover3: "#28282f",
-            opacity: "rgba(255, 255, 255, 0.1)",
-            opacityHover: "rgba(255, 255, 255, 0.3)",
-            opacityActive: "rgba(255, 255, 255, 0.5)",
-            categoryActive: "#fff",
+            default: "#f8fcff",
+            pop: "#ddd",
+            searchPop: "#f8fcff",
+            profilePop: "#f8fcff",
+            commandPop: "#f8fcff",
+            search: "#f8fcff",
+            hover: blue[50],
+            hover2: blue[50],
+            hover3: blue[50],
+            opacity: "rgba(0, 0, 0, 0.1)",
+            opacityHover: blue[50],
+            opacityActive: "rgba(0, 0, 0, 0)",
+            categoryActive: blue[400],
             slideHover: "rgba(0, 0, 0, 0.3)",
-            slideComment: "rgba(0, 0, 0, 0.5)",
-            groupApproachBackground: "rgba(0, 0, 0, 0.6)",
-            uploadImgHover: "rgba(255, 255, 255, 0.05)",
+            slideComment: "rgba(0, 0, 0, 0.4)",
+            groupApproachBackground: "rgba(0, 0, 0, 0.4)",
+            uploadImgHover: "rgba(0, 0, 0, 0.1)",
             scrollBar: "#444",
-            modal: "#111111",
-            modalShadow: "rgba(230, 230, 255, 0.2)",
+            modal: "#f8fcff",
+            modalShadow: "rgba(0, 0, 0, 0.7)",
             destructDelete: "#f00",
             destructDeleteHover: "#c00",
-            destructCancelHover: "#1a1a1a",
-            productBack: "#33333a",
-            modalHeader: "#000",
-            modal2: "#000",
+            destructCancelHover: "#ddd",
+            productBack: blue[50],
+            modalHeader: "#f8fcff",
+            modal2: "#f8fcff",
             modalDisable: "#555",
-            userCard: "#222227",
-            top: "#111",
-            successBack: "rgba(0, 100, 50, 0.2)",
-            warningBack: "rgba(100, 100, 0, 0.2)",
+            userCard: "#f8fcff",
+            top: "#f8fcff",
+            successBack: "rgba(0, 200, 70, 0.6)",
+            warningBack: "rgba(200, 200, 0, 0.6)",
         },
         top: {
             main: "#88f",
@@ -97,7 +97,7 @@ export const darkBlueTheme = createTheme({
                 width: 10px;
             },
             ::-webkit-scrollbar-thumb {
-                background-color: #444;
+                background-color: #aaa;
                 border-radius: 10px;
             },
             ::-webkit-scrollbar-track {

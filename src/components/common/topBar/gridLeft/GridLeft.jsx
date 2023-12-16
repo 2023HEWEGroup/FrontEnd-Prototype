@@ -26,7 +26,7 @@ const GridLeft = () => {
         </StyledIconButtonLeft>
     </Tooltip>
     <Link to={"/home"} style={{ display: 'inline-flex'}}>
-        <StyledLmapLogo src={`${siteAssetsPath}/LMAP_logo_reversal.svg`} alt='LMAPロゴ' />
+        <StyledLmapLogo src={`${siteAssetsPath}/${theme.palette.siteLogo}`} alt='LMAPロゴ' />
     </Link>
     </>
     )

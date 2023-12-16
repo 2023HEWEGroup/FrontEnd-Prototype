@@ -14,7 +14,7 @@ const ProductSlider = (props) => {
         return (
         <StyledCustomArrow theme={theme} onClick={onClick} style={direction === "prev" ? {left: 0} : {right: 0}}>
             <StyledButton theme={theme}>
-            {direction === "prev" ? <ArrowBackIosNew /> : <ArrowForwardIos />}
+            {direction === "prev" ? <ArrowBackIosNew sx={{color: theme.palette.text.main2}} /> : <ArrowForwardIos sx={{color: theme.palette.text.main2}}/>}
             </StyledButton>
         </StyledCustomArrow>
         );
@@ -87,7 +87,6 @@ const StyledCustomArrow = styled.div`
     background-color: transparent;
 
     &: hover {
-        border: solid 1px ${(props) => props.theme.palette.text.main};
         background-color: ${(props) => props.theme.palette.background.slideHover};
     }
 `
@@ -126,7 +125,7 @@ const StyledNum = styled.div`
     width: fit-content;
     padding: 2px 10px;
     font-size: 1.2rem;
-    color: ${(props) => props.theme.palette.text.main};
+    color: ${(props) => props.theme.palette.text.main2};
     background-color: ${(props) => props.theme.palette.background.slideComment};
 `
 

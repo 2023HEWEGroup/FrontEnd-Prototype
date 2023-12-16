@@ -154,22 +154,20 @@ const Profile = () => {
     {!isLoading ? 
     <>
     <StyledProfile $isSmallScreen={isSmallScreen}>
-      <StyledHeaderZone backHeader={user.header ? `http://localhost:5000/uploads/userHeaders/${user.header}` : `${siteAssetsPath}/default_header/default_header.png`} theme={theme}>
-        <StyledHeaderDarkness>
-          <StyledInnerBack backHeader={user.header ? `http://localhost:5000/uploads/userHeaders/${user.header}` : `${siteAssetsPath}/default_header/default_header.png`} theme={theme}></StyledInnerBack>
-          <StyledButtons $isSmallScreen={isSmallScreen}>
-            <Tooltip title="リンクコピー" placement='top' arrow={true}>
-              <StyledIconButton theme={theme} onClick={handleLinkCopy}>
-                <ContentCopy />
-              </StyledIconButton>
-            </Tooltip>
-            <Tooltip title="その他" placement='top' arrow={true}>
-              <StyledIconButton theme={theme}>
-                <MoreVert />
-              </StyledIconButton>
-            </Tooltip>
-          </StyledButtons>
-        </StyledHeaderDarkness>
+      <StyledHeaderZone theme={theme}>
+        <StyledInnerBack backHeader={user.header ? `http://localhost:5000/uploads/userHeaders/${user.header}` : null} theme={theme}></StyledInnerBack>
+        <StyledButtons $isSmallScreen={isSmallScreen}>
+          <Tooltip title="リンクコピー" placement='top' arrow={true}>
+            <StyledIconButton theme={theme} onClick={handleLinkCopy}>
+              <ContentCopy />
+            </StyledIconButton>
+          </Tooltip>
+          <Tooltip title="その他" placement='top' arrow={true}>
+            <StyledIconButton theme={theme}>
+              <MoreVert />
+            </StyledIconButton>
+          </Tooltip>
+        </StyledButtons>
       </StyledHeaderZone>
 
       <StyledUserInfo $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
@@ -315,20 +313,7 @@ const StyledHeaderZone = styled.div`
   position: relative;
   aspect-ratio: 6/1;
   width: 100%;
-  background-image: url(${(props => props.backHeader)});
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
   background-color: ${(props) => props.theme.palette.background.productBack};
-`
-
-const StyledHeaderDarkness = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
 `
 
 const StyledInnerBack = styled.div`
@@ -354,19 +339,7 @@ const StyledButtons = styled.div`
 const StyledIconButton = styled(IconButton)`
   && {
     color: #fff;
-    background-color: rgba(255, 255, 255, 0.1);
-
-    .MuiTouchRipple-child {
-      background-color: transparent;
-  }
-
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.2);
-  }
-
-  &:active {
-      background-color: rgba(255, 255, 255, 0.1);
-  }
+    background-color: ${(props) => props.theme.palette.background.slideHover};
   }
 `
 
@@ -535,7 +508,7 @@ const StyledTab = styled(Tab)`
     && {
       flex: 1 1 0;
       max-width: 25%;
-      color: ${(props) => props.theme.palette.text.tab};
+      color: ${(props) => props.theme.palette.text.sub};
       border-bottom: solid 1px ${(props) => props.theme.palette.line.tab};
 
       &.Mui-selected {

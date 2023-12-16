@@ -5,8 +5,10 @@ import { pink, grey } from "@mui/material/colors";
 export const darkPinkTheme = createTheme({
     palette: {
         themeName: "ダークピンク",
+        siteLogo: "LMAP_logo_reversal.svg",
         primary: {
-            main: "#111"
+            main: "#111",
+            listBack: `linear-gradient(to bottom right, ${pink[500]}, #000)`
         },
         secondary: {
             main: pink[500],
@@ -27,7 +29,8 @@ export const darkPinkTheme = createTheme({
             main: "#fff",
             sub: "#777",
             sub2: "#999",
-            categoryActive: "#fff",
+            main2: "#fff",
+            categoryActive: "#000",
             tab: "#888",
             product: "#ccc",
             error: "#f00",
@@ -46,6 +49,9 @@ export const darkPinkTheme = createTheme({
         background: {
             default: "#111",
             pop: "#2b2828",
+            searchPop: "#2b2828",
+            profilePop: "#2b2828",
+            commandPop: "#2b2828", 
             search: "#111",
             hover: "#353030",
             hover2: "#1e1918",
@@ -53,7 +59,7 @@ export const darkPinkTheme = createTheme({
             opacity: "rgba(255, 255, 255, 0.1)",
             opacityHover: "rgba(255, 255, 255, 0.3)",
             opacityActive: "rgba(255, 255, 255, 0.5)",
-            categoryActive: "#000",
+            categoryActive: "#fff",
             slideHover: "rgba(0, 0, 0, 0.3)",
             slideComment: "rgba(0, 0, 0, 0.5)",
             groupApproachBackground: "rgba(0, 0, 0, 0.6)",
@@ -69,6 +75,7 @@ export const darkPinkTheme = createTheme({
             modal2: "#000",
             modalDisable: "#555",
             userCard: "#272222",
+            top: "#111",
             successBack: "rgba(0, 100, 50, 0.2)",
             warningBack: "rgba(100, 100, 0, 0.2)",
         },

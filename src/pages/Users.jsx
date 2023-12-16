@@ -218,7 +218,7 @@ const Users = () => {
                     {users.map(user =>
                         <StyledCard key={user._id} theme={theme} $isMiddleScreen={isMiddleScreen} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
                             <Link to={`/user/${user._id}`} style={{textDecoration: "none"}}>
-                                <StyledCardMedia image={user.header ? `http://localhost:5000/uploads/userHeaders/${user.header}` : `${siteAssetsPath}/default_header/default_header.png`}></StyledCardMedia>
+                                <StyledCardMedia image={user.header ? `http://localhost:5000/uploads/userHeaders/${user.header}` : null} theme={theme}></StyledCardMedia>
                                 <StyledCardHeader sx={{display: "flex", overflow: "hidden", "& .MuiCardHeader-content": {overflow: "hidden"}}} avatar={<Avatar src={user.icon ? `http://localhost:5000/uploads/userIcons/${user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}`}/>}
                                 title={UserBadge(user)} titleTypographyProps={{ noWrap: true, color: theme.palette.text.main, fontSize: "1.3rem"}}
                                 subheader={"@"+user.userId} subheaderTypographyProps={{ noWrap: true, color: theme.palette.text.sub}}>
@@ -306,7 +306,7 @@ const StyledPaper = styled(Paper)`
         border: solid 1px ${(props) => props.theme.palette.line.disable};
 
         &:focus-within {
-        outline: solid 2px ${(props) => props.theme.palette.secondary.main};
+        border: solid 2px ${(props) => props.theme.palette.secondary.main};
         }
     }
 `
@@ -427,6 +427,7 @@ const StyledCardMedia = styled(CardMedia)`
     && {
         width: 100%;
         aspect-ratio: 4/1;
+        background-color: ${(props) => props.theme.palette.background.productBack};
     }
 `
 

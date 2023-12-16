@@ -1,5 +1,5 @@
-import { ExitToApp, Shop } from '@mui/icons-material'
-import { AppBar, Chip, Grid, Toolbar, useTheme } from '@mui/material'
+import { ArrowForwardIos, ExitToApp, Shop } from '@mui/icons-material'
+import { Avatar, Card, CardHeader, Chip, Grid, useTheme } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
@@ -7,8 +7,9 @@ import styled from 'styled-components'
 import { setWindowScrollable } from '../redux/features/windowScrollaleSlice'
 import TopModal from '../components/top/topModal/TopModal'
 import IsProgress from '../components/common/isProgress/IsProgress'
-import particle from "../layouts/particles/topParticles.json"
-import Particles from 'react-tsparticles'
+// import particle from "../layouts/particles/topParticles.json"
+// import Particles from 'react-tsparticles'
+import VerifiedBadge from '../layouts/badges/VerifiedBadge'
 
 
 const Top = () => {
@@ -24,14 +25,39 @@ const Top = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const theme = useTheme();
+  const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
 
-  // 読み込み時に背景パーティクルをユーザーのテーマに変更、なければJSONデフォルトの色を適応
-  useEffect(() => {
-    if (user) {
-      particle.particles.color = theme.palette.particle.top;
-      particle.particles.links.color = theme.palette.particle.top;
-    }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  const UserBadge = () => {
+    return (
+      <div style={{display: "flex", alignItems: "center", gap: "2px"}}>
+        {user ? (
+          user.isAuthorized ? (
+            <>
+              <VerifiedBadge fontSize="small"/>
+              <span>{user.username}</span>
+            </>
+          ) : (
+            <span>{user.username}</span>
+          )
+        )
+        :
+        (
+          <>
+            <span>ログイン</span>
+          </>
+        )
+        }
+      </div>
+    );
+  };
+
+  // // 読み込み時に背景パーティクルをユーザーのテーマに変更、なければJSONデフォルトの色を適応
+  // useEffect(() => {
+  //   if (user) {
+  //     particle.particles.color = theme.palette.particle.top;
+  //     particle.particles.links.color = theme.palette.particle.top;
+  //   }
+  // }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleTopModalOpen = () => {
     setIsTopModalOpen(true);
@@ -41,6 +67,12 @@ const Top = () => {
     setIsTopModalOpen(false);
     if (recommend === "true") {
       navigate(back);
+    }
+  }
+
+  const handleIsLogin = () => {
+    if (!user) {
+      setIsTopModalOpen(true);
     }
   }
 
@@ -60,11 +92,11 @@ const Top = () => {
   }, [isScrollable]);
 
   useEffect(() => {
-    // Topページがマウントされたときに限定してスクロールバーのトラック部分の色を変更する
+    // Topページがマウントされたときに限定して背景部分の色を変更する
     const style = document.createElement('style');
     style.innerHTML = `
       body {
-        background-color: #000;
+        background-color: ${theme.palette.background.top};
       }
     `;
     document.head.appendChild(style);
@@ -72,16 +104,26 @@ const Top = () => {
     return () => {
       document.head.removeChild(style);
     };
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
     <StyledFullScrean>
-      <StyledAppBar>
-        <Toolbar>
-          
-        </Toolbar>
-      </StyledAppBar>
+      <StyledTopHeader>
+        <Link to={"/home"} style={{ display: 'inline-flex'}}>
+          <StyledLmapLogo src={`${siteAssetsPath}/${theme.palette.siteLogo}`} alt='LMAPロゴ' />
+        </Link>
+        <StyledAccountHeader>
+          <StyledCard theme={theme} elevation={0}>
+            <Link to={user ? `/user/${user._id}` : "#"} style={{textDecoration: "none"}} onClick={handleIsLogin}>
+                <StyledCardHeader sx={{display: "flex", overflow: "hidden", "& .MuiCardHeader-content": {overflow: "hidden"}}} avatar={<Avatar sx={{ width: 40, height: 40 }} src={user ? user.icon ? `http://localhost:5000/uploads/userIcons/$user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}` : null}/>}
+                title={UserBadge()} titleTypographyProps={{ noWrap: true, color: theme.palette.text.main, fontSize: "1.1rem"}} action={<ArrowForwardIos style={{color: theme.palette.icon.main}}/>}
+                subheader={user ? "@"+user.userId : "@aaaa"} subheaderTypographyProps={{ noWrap: true, color: theme.palette.text.sub}}>
+                </StyledCardHeader>
+            </Link>
+          </StyledCard>
+        </StyledAccountHeader>
+      </StyledTopHeader>
       
         <StyledGridContainer container>
           <StyledGridItem item xs={12} sm={12} md={12} lg={6}>
@@ -105,7 +147,7 @@ const Top = () => {
         
     </StyledFullScrean>
 
-    <Particles options={particle}/>
+    {/* <Particles options={particle}/> */}
 
     </>
   )
@@ -118,10 +160,40 @@ const StyledFullScrean = styled.div`
   overflow-y: scroll;
 `
 
-const StyledAppBar = styled(AppBar)`
+const StyledTopHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 55px;
+`
+
+const StyledLmapLogo = styled.img`
+    width: 150px;
+    margin-left: 15px;
+    cursor: pointer;
+`;
+
+const StyledAccountHeader = styled.div`
+  height: 100%;
+  width: 300px;
+`
+
+const StyledCard = styled(Card)`
   && {
-    background-color: #222;
-    height: 55px;
+    background-color: transparent;
+    height: 100%;
+    width: 100%;
+    padding-left: 5%;
+  }
+`
+
+const StyledCardHeader = styled(CardHeader)`
+  && {
+    height: 100%;
   }
 `
 

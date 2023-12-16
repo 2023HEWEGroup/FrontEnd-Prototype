@@ -1,4 +1,4 @@
-import { Avatar, Chip, Tooltip, useMediaQuery, useTheme } from '@mui/material'
+import { Avatar, Chip, useMediaQuery, useTheme } from '@mui/material'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -19,9 +19,7 @@ const UserPanel = (props) => {
                         <StyledUserSlideName theme={theme}>{props.userSlide.userName}</StyledUserSlideName>
                         <StyledUserSlideId theme={theme}>{`@${props.userSlide.userId}`}</StyledUserSlideId>
                     </div>
-                    <Tooltip title="フォローする" placement='top' arrow={true}>
                     <StyledFollowTab label="フォロー" variant="outlined" color="secondary" clickable onClick={props.handleFollowSnack}/>
-                    </Tooltip>
                 </div>
             </StyledUserPanel>
         </>

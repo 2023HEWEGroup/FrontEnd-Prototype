@@ -183,7 +183,7 @@ const StyledProfilePopperPaper = styled(Paper)`
         overflow-x: hidden;
         overflow-y: scroll;
         border-radius: 15px;
-        background-color: ${(props) => props.theme.palette.background.pop};
+        background-color: ${(props) => props.theme.palette.background.profilePop};
 
         &::-webkit-scrollbar {
             display: none;

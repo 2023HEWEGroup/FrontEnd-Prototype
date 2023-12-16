@@ -1,21 +1,21 @@
 import { createTheme } from "@mui/material/styles";
-import { lime, grey } from "@mui/material/colors";
+import { deepOrange, grey } from "@mui/material/colors";
 
 
-export const darkLimeTheme = createTheme({
+export const darkOrangeTheme= createTheme({
     palette: {
-        themeName: "ダークライム",
+        themeName: "ダークオレンジ",
         siteLogo: "LMAP_logo_reversal.svg",
         primary: {
             main: "#111",
-            listBack: `linear-gradient(to bottom right, ${lime[500]}, #000)`
+            listBack: `linear-gradient(to bottom right, ${deepOrange[500]}, #000)`
         },
         secondary: {
-            main: lime[500],
-            mainHover: lime[800],
-            progressed: lime[900],
+            main: deepOrange[500],
+            mainHover: deepOrange[800],
+            progressed: deepOrange[900],
             exhibitAny: grey["A700"],
-            disabled: lime[900],
+            disabled: deepOrange[900],
         },
         line: {
             main: "#888",
@@ -34,10 +34,10 @@ export const darkLimeTheme = createTheme({
             tab: "#888",
             product: "#ccc",
             error: "#f00",
-            error2: "#0a0",
+            error2: "#a00",
             admin: "#f0f",
             alert: "#fff",
-            verifyBar: "#000",
+            verifyBar: "#fff",
         },
         icon: {
             main: "#777",
@@ -48,14 +48,14 @@ export const darkLimeTheme = createTheme({
         },
         background: {
             default: "#111",
-            pop: "#2b2b28",
-            searchPop: "#2b2b28",
-            profilePop: "#2b2b28",
-            commandPop: "#2b2b28", 
+            pop: "#2f2b28",
+            searchPop: "#2f2b28",
+            profilePop: "#2f2b28",
+            commandPop: "#2f2b28", 
             search: "#111",
-            hover: "#353530",
-            hover2: "#1e1e18",
-            hover3: "#2f2f28",
+            hover: "#3a3530",
+            hover2: "#1f1c18",
+            hover3: "#2f2c28",
             opacity: "rgba(255, 255, 255, 0.1)",
             opacityHover: "rgba(255, 255, 255, 0.3)",
             opacityActive: "rgba(255, 255, 255, 0.5)",
@@ -66,28 +66,28 @@ export const darkLimeTheme = createTheme({
             uploadImgHover: "rgba(255, 255, 255, 0.05)",
             scrollBar: "#444",
             modal: "#111111",
-            modalShadow: "rgba(255, 255, 230, 0.2)",
+            modalShadow: "rgba(255, 230, 200, 0.2)",
             destructDelete: "#f00",
             destructDeleteHover: "#c00",
             destructCancelHover: "#1a1a1a",
-            productBack: "#3a3a33",
+            productBack: "#3c3a33",
             modalHeader: "#000",
             modal2: "#000",
             modalDisable: "#555",
-            userCard: "#272722",
+            userCard: "#272422",
             top: "#111",
             successBack: "rgba(0, 100, 50, 0.2)",
             warningBack: "rgba(100, 100, 0, 0.2)",
         },
         top: {
-            main: "#ff8",
+            main: "#fc8",
             secondary: "#fff",
-            titleGradation: "#d0d058, #d3d3d3",
-            mainHover: "rgba(136, 255, 136, 0.1)",
+            titleGradation: "#fc8, #d3d3d3",
+            mainHover: "rgba(255, 200, 136, 0.1)",
             secondaryHover: "rgba(255, 255, 255, 0.1)"
         },
         particle: {
-            top: lime[500],
+            top: deepOrange[500],
         }
     },
     components: {

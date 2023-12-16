@@ -54,8 +54,8 @@ const CategoryNavigation = () => {
                         <div key={index}>
                             <StyledChip label={category} clickable theme={theme}
                             style={selectedCategoryId === index + 1 ? {
-                                backgroundColor: theme.palette.text.categoryActive,
-                                color: theme.palette.background.categoryActive} : null}
+                                backgroundColor: theme.palette.background.categoryActive,
+                                color: theme.palette.text.categoryActive} : null}
                             onClick={() => handleSelectedCategory(index + 1)}/>
                         </div>
                     ))}

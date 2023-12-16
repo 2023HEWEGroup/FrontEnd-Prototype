@@ -80,7 +80,7 @@ const NotifyPopperInner = (props) => {
 
             <StyledNotifyListHeader>
                 <div style={{color: theme.palette.text.main}}>通知</div>
-                <SettingsOutlined sx={{color: theme.palette.text.main}}/>
+                <SettingsOutlined sx={{color: theme.palette.icon.main}}/>
             </StyledNotifyListHeader>
 
             <Divider style={{borderBottom: `solid 0.5px ${theme.palette.line.main}`}}/>
@@ -111,6 +111,7 @@ const NotifyPopperInner = (props) => {
                 }
             </StyledNotifyList>
             :
+            user &&
             <StyledNextZone>
                 <CircularProgress color='secondary'/>
             </StyledNextZone>
@@ -134,7 +135,7 @@ const StyledNotifyPopperPaper = styled(Paper)`
         width: 425px;
         max-width: 60vw;
         border-radius: 15px;
-        background-color: ${(props) => props.theme.palette.background.pop}
+        background-color: ${(props) => props.theme.palette.background.profilePop}
     }
 `
 
