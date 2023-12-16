@@ -36,12 +36,11 @@ const SelectThemeSetting = (props) => {
             <StyledDesc theme={theme}>テーマを選びやがれ下さい</StyledDesc>
         </StyledHeader>
         <StyledThemeZone>
-            <StyledThemeHeader></StyledThemeHeader>
             <StyledThemes>
             {themeList.map((theme, index) =>
                 <Tooltip key={index} title={theme.palette.themeName} arrow>
                     <StyledThemeBox
-                    style={{backgroundColor: theme.palette.secondary.main}}
+                    style={{background: theme.palette.primary.listBack}}
                     onClick={() => handleUpdate(theme.palette.themeName)}
                     $isLargeScreen={isLargeScreen}
                     $isMiddleScreen={isMiddleScreen}
@@ -106,12 +105,6 @@ const StyledThemeZone = styled.div`
     padding: 15px;
 `
 
-const StyledThemeHeader = styled.div`
-    width: 100%;
-    height: 60px;
-    background-color: #aff;
-`
-
 const StyledThemes = styled.div`
     display: flex;
     justify-content: start;
@@ -119,7 +112,7 @@ const StyledThemes = styled.div`
     flex-wrap: wrap;
     gap: 10px;
     width: 100%;
-    height: 1000px;
+    padding: 10px 0 0 10px;
 `
 
 const StyledThemeBox = styled.div`

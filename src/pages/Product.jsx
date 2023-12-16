@@ -111,7 +111,6 @@ const Product = () => {
             {product.productName}
             <StyledPrice theme={theme}><StyledCurrencyYen />{product.price}<span style={{color: theme.palette.text.sub, fontSize: "0.9rem", fontWeight: "normal", marginLeft: "5px"}}>{product.deliveryCost === "着払い（購入者負担）" ? "送料込み" : "送料込み(出品者負担)"}</span></StyledPrice>
           </StyledProductName>
-            {/* <StyledPurchaseChip theme={theme} label="商品を購入" clickable/> */}
 
           <StyledProductDesc>
             <StyledDescTitle>商品説明</StyledDescTitle>
@@ -176,7 +175,7 @@ const Product = () => {
             <StyledDescTitle>出品者情報</StyledDescTitle>
             <StyledDivider theme={theme}/>
             <StyledsellerInner>
-              <StyledCard theme={theme}>
+              <StyledCard theme={theme} elevation={0}>
                   <Link to={`/user/${saller._id}`} style={{textDecoration: "none"}}>
                       <CardHeader sx={{display: "flex", overflow: "hidden", "& .MuiCardHeader-content": {overflow: "hidden"}}} avatar={<Avatar sx={{ width: 50, height: 50 }} src={saller.icon ? `http://localhost:5000/uploads/userIcons/${saller.icon}` : `${siteAssetsPath}/default_icons/${saller.defaultIcon}`}/>}
                       title={UserBadge()} titleTypographyProps={{ noWrap: true, color: theme.palette.text.main, fontSize: "1.3rem"}} action={<ArrowForwardIos style={{color: theme.palette.icon.main}}/>}
@@ -258,7 +257,7 @@ const StyledCommandAvatarZone = styled.div`
   aspect-ratio: 1/1;
   border-radius: 5px;
   overflow: hidden;
-  outline: ${(props) => props.$current ? `solid 2px ${props.theme.palette.secondary.main}` : "none"};
+  outline: ${(props) => props.$current ? `solid 3px ${props.theme.palette.secondary.main}` : "none"};
   background-color: ${(props) => props.theme.palette.background.productBack};
 `
 

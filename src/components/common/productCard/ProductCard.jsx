@@ -1,7 +1,7 @@
 import { CurrencyYen, FavoriteBorder, MoreVert } from '@mui/icons-material';
 import { Alert, Avatar, IconButton, Paper, Popper, Slide, Snackbar, useMediaQuery, useTheme } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 
@@ -21,6 +21,7 @@ const ProductCard = (props) => {
     const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
     const productPopperRef = useRef(null);
     const theme = useTheme();
+    const navigate = useNavigate();
 
     const handleProductPopper = (e) => {
         e.preventDefault();
@@ -46,6 +47,11 @@ const ProductCard = (props) => {
     const handleLinkSnackClose = () => {
         setIsLinkSnack(false)
     };
+
+    const handleGoToSeller = (e, _id) => {
+        e.preventDefault();
+        navigate(`/user/${_id}`);
+    }
 
     useEffect(() => {
         const handleProductPopperClose = (e) => {
@@ -81,7 +87,7 @@ const ProductCard = (props) => {
                 </StyledProductOption>
                 </StyledProductImgZone>
                 <StyledProductDesc>
-                <StyledSellerId theme={theme}>{`by @${props.product.sellerId}`}</StyledSellerId>
+                <StyledSellerId theme={theme} onClick={(e) => handleGoToSeller(e, props.product.sellerId._id)}>{`by @${props.product.sellerId.userId}`}</StyledSellerId>
                 <StyledPriceAndLike>
                     <StyledPrice theme={theme}><StyledCurrencyYen />{`${props.product.price}`}</StyledPrice>
                     <StyledFavoriteBorder theme={theme}/>
@@ -211,7 +217,7 @@ const StyledPopperPaper = styled(Paper)`
         padding: 5px 0;
         border-radius: 10px;
         color: ${(props) => props.theme.palette.text.main};
-        background-color: ${(props) => props.theme.palette.background.pop};
+        background-color: ${(props) => props.theme.palette.background.commandPop};
     }
 `
 

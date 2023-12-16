@@ -1,5 +1,5 @@
 import { ArrowBack } from '@mui/icons-material';
-import { Button, IconButton, TextField, useTheme } from '@mui/material'
+import { Button, IconButton, useTheme } from '@mui/material'
 import axios from 'axios';
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import { setUser } from '../../../../redux/features/userSlice';
 import ErrorSnack from '../../../common/errorSnack/ErrorSnack';
 import IsProgress from '../../../common/isProgress/IsProgress';
+import { StyledTextField } from '../../../../utils/StyledTextField';
 
 
 const UserIdSetting = (props) => {
@@ -125,60 +126,6 @@ const StyledInputZone = styled.div`
     padding: 15px;
     border-bottom: solid 1px ${(props) => props.theme.palette.line.tab};
 `
-
-const StyledTextField = styled(TextField)(({ theme }) => ({
-
-    '& .MuiInputBase-input': {
-        color: '#777', // 入力文字の色
-        borderRadius: "5px",
-    },
-    '& .MuiInputBase-root.Mui-disabled': {
-        backgroundColor: theme.palette.background.hover2,
-    },
-    "& .MuiInputBase-input.Mui-disabled": {
-        WebkitTextFillColor: theme.palette.text.sub,
-    },
-    '& .MuiOutlinedInput-root': {
-        '& fieldset': {
-        borderColor: '#777', // 通常時のボーダー色(アウトライン)
-        },
-        '&:hover:not(.Mui-disabled) fieldset': {
-        borderColor: '#777', // 非フォーカス時のホバー時のボーダー色(アウトライン)
-        },
-        '&.Mui-focused:hover fieldset': {
-        borderColor: theme.palette.secondary.main, // フォーカス時にホバーしたときのボーダー色(アウトライン)
-        },
-        '&:focus-within fieldset': {
-        borderColor: theme.palette.secondary.main, // フォーカス時のボーダー色(アウトライン)
-        },
-    },
-    '& .MuiInputLabel-root': {
-        color: '#777', // ラベルの通常時の色
-        '&.Mui-focused': {
-        color: theme.palette.secondary.main, // フォーカス時のラベルの色
-        },
-    },
-    '& .MuiInputLabel-root.Mui-disabled': {
-        color: theme.palette.text.sub,
-    },
-    "& .MuiFormHelperText-root.Mui-error": {
-        color: theme.palette.text.error,
-    },
-    "& .MuiFormLabel-root.Mui-error": {
-        color: theme.palette.text.error,
-    },
-    '& .MuiOutlinedInput-root.Mui-error': {
-        '&:hover fieldset': {
-            borderColor: theme.palette.text.error,
-        },
-        '&.Mui-focused fieldset': {
-            borderColor: theme.palette.text.error,
-        },
-        '&.Mui-focused:hover fieldset': {
-            borderColor: theme.palette.text.error,
-        }
-    }
-}));
 
 const StyledButtonZone = styled.div`
     display: flex;

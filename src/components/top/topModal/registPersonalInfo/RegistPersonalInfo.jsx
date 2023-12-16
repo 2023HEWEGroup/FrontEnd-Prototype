@@ -1,6 +1,7 @@
-import { TextField, useTheme } from '@mui/material';
+import { useTheme } from '@mui/material';
 import React from 'react'
 import styled from 'styled-components'
+import { StyledTextField } from '../../../../utils/StyledTextField';
 
 
 const RegistPersonalInfo = (props) => {
@@ -27,11 +28,11 @@ const RegistPersonalInfo = (props) => {
             <StyledPostalComment>郵便番号から住所が自動で入力されます</StyledPostalComment>
             </StyledPostalCode>
             <StyledTextField style={{marginBottom: "15px", pointerEvents: "none"}} theme={theme} fullWidth label="都道府県 (自動入力)"
-                autoComplete='new-off' variant='filled' value={props.prefecture}/>
+                autoComplete='new-off' variant='filled' value={props.prefecture} disabled/>
             <StyledTextField style={{marginBottom: "15px", pointerEvents: "none"}} theme={theme} fullWidth label="市区町村 (自動入力)"
-                autoComplete='new-off' variant='filled' value={props.city}/>
+                autoComplete='new-off' variant='filled' value={props.city} disabled/>
             <StyledTextField style={{marginBottom: "40px", pointerEvents: "none"}} theme={theme} fullWidth label="町名 (自動入力)"
-                autoComplete='new-off' variant='filled' value={props.town}/>
+                autoComplete='new-off' variant='filled' value={props.town} disabled/>
             <StyledTextField style={{marginBottom: "15px"}} helperText=" " theme={theme} fullWidth label="番地・建物名など"
                 autoComplete='new-off' variant='outlined' inputProps={{maxLength: 50}} value={props.houseNumber} onChange={props.handleHouseNumberInput}/>
             <StyledTextField style={{marginBottom: "15px"}} helperText={props.phoneNumberHelper} error={props.phoneNumberError} theme={theme} fullWidth label="携帯電話番号 (数字11ケタ)" required
@@ -39,61 +40,6 @@ const RegistPersonalInfo = (props) => {
         </>
     )
 }
-
-
-const StyledTextField = styled(TextField)(({ theme }) => ({
-
-    '& .MuiInputBase-input': {
-        color: '#777', // 入力文字の色
-        borderRadius: "5px",
-    },
-    '& .MuiInputBase-root.Mui-disabled': {
-        backgroundColor: theme.palette.background.hover2,
-    },
-    "& .MuiInputBase-input.Mui-disabled": {
-        WebkitTextFillColor: theme.palette.text.sub,
-    },
-    '& .MuiOutlinedInput-root': {
-        '& fieldset': {
-        borderColor: '#777', // 通常時のボーダー色(アウトライン)
-        },
-        '&:hover:not(.Mui-disabled) fieldset': {
-        borderColor: '#777', // 非フォーカス時のホバー時のボーダー色(アウトライン)
-        },
-        '&.Mui-focused:hover fieldset': {
-        borderColor: theme.palette.secondary.main, // フォーカス時にホバーしたときのボーダー色(アウトライン)
-        },
-        '&:focus-within fieldset': {
-        borderColor: theme.palette.secondary.main, // フォーカス時のボーダー色(アウトライン)
-        },
-    },
-    '& .MuiInputLabel-root': {
-        color: '#777', // ラベルの通常時の色
-        '&.Mui-focused': {
-        color: theme.palette.secondary.main, // フォーカス時のラベルの色
-        },
-    },
-    '& .MuiInputLabel-root.Mui-disabled': {
-        color: theme.palette.text.sub,
-    },
-    "& .MuiFormHelperText-root.Mui-error": {
-        color: theme.palette.text.error,
-    },
-    "& .MuiFormLabel-root.Mui-error": {
-        color: theme.palette.text.error,
-    },
-    '& .MuiOutlinedInput-root.Mui-error': {
-        '&:hover fieldset': {
-            borderColor: theme.palette.text.error,
-        },
-        '&.Mui-focused fieldset': {
-            borderColor: theme.palette.text.error,
-        },
-        '&.Mui-focused:hover fieldset': {
-            borderColor: theme.palette.text.error,
-        }
-    }
-}));
 
 const StyledName = styled.div`
     display: flex;

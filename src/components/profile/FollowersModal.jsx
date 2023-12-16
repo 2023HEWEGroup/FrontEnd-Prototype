@@ -241,7 +241,7 @@ const StyledModalHeader = styled.div`
 `
 
 const StyledHeaderDesc = styled.div`
-    color: ${(props => props.theme.palette.top.secondary)};
+    color: ${(props => props.theme.palette.text.main)};
     font-size: 1.1rem;
     font-weight: bold;
     white-space: nowrap;
@@ -253,6 +253,8 @@ const StyledSaveButton = styled(Button)`
     && {
         height: 70%;
         font-weight: bold;
+        color: ${(props => props.theme.palette.text.main)};
+        background-color: ${(props => props.theme.palette.text.main2)};
     }
 `
 

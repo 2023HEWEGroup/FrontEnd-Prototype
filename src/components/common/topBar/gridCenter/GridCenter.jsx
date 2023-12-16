@@ -144,7 +144,7 @@ const StyledPaper = styled(Paper)`
     border: solid 1px ${(props) => props.theme.palette.line.disable};
 
     &:focus-within {
-      outline: solid 2px ${(props) => props.theme.palette.secondary.main};
+      border: solid 2px ${(props) => props.theme.palette.secondary.main};
     }
   }
 `;
@@ -180,7 +180,7 @@ const StyledPopperPaper = styled(Paper)`
   && {
     height: 200px;
     color: ${(props) => props.theme.palette.text.main};
-    background-color: ${(props) => props.theme.palette.background.pop};
+    background-color: ${(props) => props.theme.palette.background.searchPop};
   }
 `;
 

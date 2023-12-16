@@ -763,9 +763,9 @@ const TopModal = (props) => {
 
             <StyledTopModalInner theme={theme} $isLogin={isLogin} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
                 <Tooltip title="閉じる" placement='top'>
-                <StyledHighlightOff onClick={handleModalClose}/>
+                <StyledHighlightOff theme={theme} onClick={handleModalClose}/>
                 </Tooltip>
-                <StyledModalIntro $isLogin={isLogin}>
+                <StyledModalIntro theme={theme} $isLogin={isLogin}>
                 {user ? "ログインしてアカウント切り替え" : "マーケットにログインしましょう"}
                 </StyledModalIntro>
                 <LoginForm isUserIdLogin={isUserIdLogin} handleIsLogin={handleIsLogin} userId={userId} mailAddress={mailAddress} password={password}
@@ -778,9 +778,9 @@ const TopModal = (props) => {
 
             <StyledTopModalInner theme={theme} $isLogin={isLogin} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen} ref={modalContainerRef}>
                 <Tooltip title="閉じる" placement='top'>
-                <StyledHighlightOff onClick={handleModalClose}/>
+                <StyledHighlightOff theme={theme} onClick={handleModalClose}/>
                 </Tooltip>
-                <StyledModalIntro $isLogin={isLogin}>
+                <StyledModalIntro theme={theme} $isLogin={isLogin}>
                 アカウントを作成する
                 </StyledModalIntro>
 
@@ -874,7 +874,7 @@ const StyledHighlightOff = styled(HighlightOff)`
         right: 20px;
         width: 35px;
         height: 35px;
-        color: #444;
+        color: ${(props) => props.theme.palette.icon.main};
         cursor: pointer;
     }
 `
@@ -889,7 +889,7 @@ const Styledform = styled.form`
 
 const StyledModalIntro = styled.div`
     text-align: center;
-    color: #aaa;
+    color: ${(props) => props.theme.palette.text.main};
     font-size: 1.5rem;
     font-weight: bold;
     width: 70%;

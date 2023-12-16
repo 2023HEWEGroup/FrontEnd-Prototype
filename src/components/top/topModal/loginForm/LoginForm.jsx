@@ -1,9 +1,10 @@
 import { OpenInNew, Visibility, VisibilityOff } from '@mui/icons-material'
 import { LoadingButton } from '@mui/lab'
-import { Button, InputAdornment, TextField, useTheme } from '@mui/material'
+import { Button, InputAdornment, useTheme } from '@mui/material'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
+import { StyledTextField } from '../../../../utils/StyledTextField'
 
 
 const LoginForm = (props) => {
@@ -47,66 +48,13 @@ const StyledLoginForm = styled.div`
     width: 70%;
 `
 
-const StyledTextField = styled(TextField)(({ theme }) => ({
-
-    '& .MuiInputBase-input': {
-        color: '#777', // 入力文字の色
-        borderRadius: "5px",
-    },
-    '& .MuiInputBase-root.Mui-disabled': {
-        backgroundColor: theme.palette.background.hover2,
-    },
-    "& .MuiInputBase-input.Mui-disabled": {
-        WebkitTextFillColor: theme.palette.text.sub,
-    },
-    '& .MuiOutlinedInput-root': {
-        '& fieldset': {
-        borderColor: '#777', // 通常時のボーダー色(アウトライン)
-        },
-        '&:hover:not(.Mui-disabled) fieldset': {
-        borderColor: '#777', // 非フォーカス時のホバー時のボーダー色(アウトライン)
-        },
-        '&.Mui-focused:hover fieldset': {
-        borderColor: theme.palette.secondary.main, // フォーカス時にホバーしたときのボーダー色(アウトライン)
-        },
-        '&:focus-within fieldset': {
-        borderColor: theme.palette.secondary.main, // フォーカス時のボーダー色(アウトライン)
-        },
-    },
-    '& .MuiInputLabel-root': {
-        color: '#777', // ラベルの通常時の色
-        '&.Mui-focused': {
-        color: theme.palette.secondary.main, // フォーカス時のラベルの色
-        },
-    },
-    '& .MuiInputLabel-root.Mui-disabled': {
-        color: theme.palette.text.sub,
-    },
-    "& .MuiFormHelperText-root.Mui-error": {
-        color: theme.palette.text.error,
-    },
-    "& .MuiFormLabel-root.Mui-error": {
-        color: theme.palette.text.error,
-    },
-    '& .MuiOutlinedInput-root.Mui-error': {
-        '&:hover fieldset': {
-            borderColor: theme.palette.text.error,
-        },
-        '&.Mui-focused fieldset': {
-            borderColor: theme.palette.text.error,
-        },
-        '&.Mui-focused:hover fieldset': {
-            borderColor: theme.palette.text.error,
-        }
-    }
-}));
-
 const StyledOptionChange = styled.div`
     margin-bottom: 15px;
     width: fit-content;
     color: #888;
     font-size: 0.9rem;
     cursor: pointer;
+    user-select: none;
 
     &:hover {
         text-decoration: underline;

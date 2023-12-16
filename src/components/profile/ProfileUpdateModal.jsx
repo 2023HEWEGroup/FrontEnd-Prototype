@@ -1,5 +1,5 @@
 import { AddToPhotosOutlined, Clear } from '@mui/icons-material';
-import { Avatar, Button, IconButton, Modal, TextField, Tooltip, useTheme } from '@mui/material'
+import { Avatar, Button, IconButton, Modal, Tooltip, useTheme } from '@mui/material'
 import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 import IconTrimming from './IconTrimming';
@@ -9,6 +9,7 @@ import { setUser } from '../../redux/features/userSlice';
 import HeaderTrimming from './headerTrimming';
 import ErrorSnack from '../common/errorSnack/ErrorSnack';
 import IsProgress from '../common/isProgress/IsProgress';
+import { StyledTextField } from '../../utils/StyledTextField';
 
 
 const ProfileUpdateModal = (props) => {
@@ -266,7 +267,7 @@ const StyledModalHeader = styled.div`
 `
 
 const StyledHeaderDesc = styled.div`
-    color: ${(props => props.theme.palette.top.secondary)};
+    color: ${(props => props.theme.palette.text.main)};
     font-size: 1.1rem;
     font-weight: bold;
 `
@@ -276,7 +277,7 @@ const StyledSaveButton = styled(Button)`
         height: 70%;
         font-weight: bold;
         pointer-events: ${(props) => props.$usernameError || props.profile.username.length === 0 ? "none" : "auto"};
-        background-color: ${(props) => props.$usernameError || props.profile.username.length === 0 ? props.theme.palette.background.modalDisable : props.theme.palette.text.main};
+        background-color: ${(props) => props.$usernameError || props.profile.username.length === 0 ? props.theme.palette.background.modalDisable : props.theme.palette.text.main2};
     }
 `
 
@@ -310,33 +311,21 @@ const StyledHeaderIcons = styled.div`
 
 const StyledIconButton = styled(IconButton)`
     && {
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: ${(props) => props.theme.palette.background.slideHover};
         height: 100%;
         aspect-ratio: 1/1;
-
-        .MuiTouchRipple-child {
-            background-color: transparent;
-        }
-
-        &:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-
-        &:active {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
     }
 
 `
 
 const StyledAddToPhotosOutlined = styled(AddToPhotosOutlined)`
-    color: ${(props) => props.theme.palette.text.main};
+    color: ${(props) => props.theme.palette.text.main2};
     width: 30px;
     height: 30px;
 `
 
 const StyledClear = styled(Clear)`
-    color: ${(props) => props.theme.palette.text.main};
+    color: ${(props) => props.theme.palette.text.main2};
     width: 30px;
     height: 30px;
 `
@@ -418,35 +407,6 @@ const StyledDeleteButton = styled(Button)`
     }
 `
 
-const StyledTextField = styled(TextField)(({ theme }) => ({
-
-    '& .MuiInputBase-input': {
-        color: theme.palette.text.main, // 入力文字の色
-        backgroundColor: "#000",
-        borderRadius: "5px"
-    },
-    '& .MuiOutlinedInput-root': {
-        '& fieldset': {
-        borderColor: '#777', // 通常時のボーダー色(アウトライン)
-        },
-        '&:hover:not(.Mui-disabled) fieldset': {
-        borderColor: '#777', // 非フォーカス時のホバー時のボーダー色(アウトライン)
-        },
-        '&.Mui-focused:hover fieldset': {
-        borderColor: theme.palette.secondary.main, // フォーカス時にホバーしたときのボーダー色(アウトライン)
-        },
-        '&:focus-within fieldset': {
-        borderColor: theme.palette.secondary.main, // フォーカス時のボーダー色(アウトライン)
-        },
-    },
-    '& .MuiInputLabel-root': {
-        color: '#777', // ラベルの通常時の色
-        '&.Mui-focused': {
-        color: theme.palette.secondary.main, // フォーカス時のラベルの色
-        },
-    },
-}));
-
 const StyledUserNameAndDesc = styled.div`
     width: 100%;
     height: fit-content;
@@ -469,7 +429,7 @@ const StyledTextArea = styled.textarea`
     height: 200px;
     padding: 20px 15px;
     color: ${(props) => props.theme.palette.text.main};
-    background-color: #000;
+    background-color: transparent;
     outline: solid 1px ${(props) => props.theme.palette.line.main};
     border-radius: 5px;
     border: none;

@@ -21,7 +21,7 @@ const Carousel = () => {
         return (
         <StyledCustomArrow theme={theme} onClick={onClick} style={direction === "prev" ? {left: 0} : {right: 0}}>
             <StyledButton theme={theme}>
-            {direction === "prev" ? <ArrowBackIosNew /> : <ArrowForwardIos />}
+            {direction === "prev" ? <ArrowBackIosNew style={{color: theme.palette.text.main2}}/> : <ArrowForwardIos style={{color: theme.palette.text.main2}}/>}
             </StyledButton>
         </StyledCustomArrow>
         );
@@ -78,7 +78,7 @@ const StyledSlide = styled.div`
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    background-color: ${(props) => props.theme.palette.background.pop};
+    background-color: ${(props) => props.theme.palette.background.productBack};
 `
 
 const StyledSlideComment = styled.div`
@@ -89,7 +89,7 @@ const StyledSlideComment = styled.div`
     height: fit-content;
     padding: 0 50px;
     overflow: hidden;
-    color: ${(props) => props.theme.palette.text.main};
+    color: ${(props) => props.theme.palette.text.main2};
     background-color: ${(props) => props.theme.palette.background.slideComment};
     text-overflow: ellipsis;
     -webkit-line-clamp: ${(props) => (props.$isXsScreen ? 1 : 2)};
@@ -126,7 +126,6 @@ const StyledButton = styled(Button)`
         align-items: center;
         width: 100%;
         height: 100%;
-        color: ${(props) => props.theme.palette.text.tab};
     }
 `
 

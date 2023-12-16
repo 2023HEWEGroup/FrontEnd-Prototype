@@ -286,7 +286,7 @@ const Exhibit = () => {
     <StyledExhibit>
 
       <StyledTitle theme={theme}>
-        <StyledLmapLogo src={`${siteAssetsPath}/LMAP_logo_reversal.svg`} alt='LMAPロゴ' />
+        <StyledLmapLogo src={`${siteAssetsPath}/${theme.palette.siteLogo}`} alt='LMAPロゴ' />
         <div>商品を出品する</div>
       </StyledTitle>
 
@@ -434,6 +434,7 @@ const StyledRequired = styled.div`
   align-items: center;
   padding: 2.5px 10px;
   border-radius: 5px;
+  color: ${(props) => props.theme.palette.text.verifyBar};
   background-color: ${(props) => props.theme.palette.secondary.main};
   font-size: 1rem;
 `
@@ -445,6 +446,7 @@ const StyledAny = styled.div`
   padding: 2.5px 10px;
   border-radius: 5px;
   background-color: ${(props) => props.theme.palette.secondary.exhibitAny};
+  color: ${(props) => props.theme.palette.text.main2};
   font-size: 1rem;
 `
 

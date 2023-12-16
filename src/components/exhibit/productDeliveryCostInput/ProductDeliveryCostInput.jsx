@@ -35,7 +35,7 @@ const ProductDeliveryCostInput = (props) => {
                 MenuProps={{
                     PaperProps: {
                         sx: {
-                            bgcolor: theme.palette.background.pop,
+                            bgcolor: theme.palette.background.commandPop,
                             color: theme.palette.text.main,
                         }
                     }

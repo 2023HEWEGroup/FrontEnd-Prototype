@@ -42,7 +42,7 @@ const StagingImagePopper = (props) => {
 
     return (
         <Popper open={props.isPopperOpen} anchorEl={props.anchorEl} placement="bottom-end" ref={props.popperRef}>
-            <StyledPopperPaper theme={theme}>
+            <StyledPopperPaper theme={theme} elevation={3}>
                 <StyledPopperItem theme={theme} onClick={handleTrimmingModalOpen}>トリミング</StyledPopperItem>
                 <StyledPopperItem theme={theme} onClick={() => handleImageDelete(props.index)}><StyledSpan theme={theme}>削除</StyledSpan></StyledPopperItem>
             </StyledPopperPaper>
@@ -58,7 +58,7 @@ const StyledPopperPaper = styled(Paper)`
         padding: 5px 0;
         border-radius: 10px;
         color: ${(props) => props.theme.palette.text.main};
-        background-color: ${(props) => props.theme.palette.background.pop};
+        background-color: ${(props) => props.theme.palette.background.commandPop};
     }
 `
 

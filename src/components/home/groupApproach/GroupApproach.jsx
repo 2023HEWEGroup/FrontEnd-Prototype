@@ -13,7 +13,7 @@ const GroupApproach = () => {
 
     const CustomGroupArrow = ({ onClick, theme, direction }) => {
         return (
-        <StyledCustomGroupArrow theme={theme} onClick={onClick} style={direction === "prev" ? {left: "-50px"} : {right: "-50px"}}>
+        <StyledCustomGroupArrow theme={theme} onClick={onClick} style={direction === "prev" ? {left: "-100px"} : {right: "-100px"}}>
             <StyledButton theme={theme}>
             {direction === "prev" ? <ArrowBackIosNew /> : <ArrowForwardIos />}
             </StyledButton>
@@ -147,7 +147,7 @@ const StyledAvatar = styled(Avatar)`
 `
 
 const StyledGroupName = styled.div`
-    color: ${(props) => props.theme.palette.text.main};
+    color: ${(props) => props.theme.palette.text.main2};
     font-size: 1.2rem;
     font-weight: bold;
     width: 90%;
@@ -170,7 +170,7 @@ const StyledSlideDesc = styled.div`
 const StyledGroupDesc = styled.div`
     width: 90%;
     height: 100%;
-    color: ${(props) => props.theme.palette.text.main};
+    color: ${(props) => props.theme.palette.text.main2};
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -191,7 +191,7 @@ const StyledCustomGroupArrow = styled.div`
     justify-content: center;
     align-items: center;
     position: absolute;
-    width: 50px;
+    width: 100px;
     height: 100%;
     overflow: hidden;
     border-radius: 5px;
@@ -199,7 +199,6 @@ const StyledCustomGroupArrow = styled.div`
 
     &: hover {
         border: solid 1px ${(props) => props.theme.palette.line.main};
-        background-color: ${(props) => props.theme.palette.background.slideHover};
     }
 `
 
