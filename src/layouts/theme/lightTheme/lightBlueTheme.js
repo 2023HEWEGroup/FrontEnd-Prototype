@@ -59,7 +59,7 @@ export const LightBlueTheme = createTheme({
             opacity: "rgba(0, 0, 0, 0.1)",
             opacityHover: blue[50],
             opacityActive: "rgba(0, 0, 0, 0)",
-            categoryActive: blue[400],
+            categoryActive: blue[500],
             slideHover: "rgba(0, 0, 0, 0.3)",
             slideComment: "rgba(0, 0, 0, 0.4)",
             groupApproachBackground: "rgba(0, 0, 0, 0.4)",
