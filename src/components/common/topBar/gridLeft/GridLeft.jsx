@@ -1,22 +1,30 @@
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { IconButton, Tooltip, useTheme } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux';
 import { booleanFloatSideBar } from '../../../../redux/features/floatSideBarSlice';
+import { useGlitch } from 'react-powerglitch';
 
 const GridLeft = () => {
 
     const dispatch = useDispatch();
     const theme = useTheme();
+    const glitch = useGlitch();
     const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
     const isSideOpen = useSelector((state => state.floatSideBar.value));
 
     const handleMenuIconClick = () =>{
         dispatch(booleanFloatSideBar());
     }
+
+    useEffect(() => {
+        glitch.setOptions({
+            playMode: "hover"
+        })
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
     <>
@@ -25,7 +33,7 @@ const GridLeft = () => {
         {isSideOpen ? <StyledCloseIcon color="icon"/> : <StyledMenuIcon color="icon"/>}
         </StyledIconButtonLeft>
     </Tooltip>
-    <Link to={"/home"} style={{ display: 'inline-flex'}}>
+    <Link to={"/home"} style={{ display: 'inline-flex'}} ref={glitch.ref}>
         <StyledLmapLogo src={`${siteAssetsPath}/${theme.palette.siteLogo}`} alt='LMAPロゴ' />
     </Link>
     </>

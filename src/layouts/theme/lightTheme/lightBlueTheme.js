@@ -75,16 +75,19 @@ export const LightBlueTheme = createTheme({
             modal2: "#f8fcff",
             modalDisable: "#555",
             userCard: "#f8fcff",
-            top: "#f8fcff",
+            top: "#000",
             successBack: "rgba(0, 200, 70, 0.6)",
             warningBack: "rgba(200, 200, 0, 0.6)",
         },
         top: {
             main: "#88f",
             secondary: "#fff",
-            titleGradation: "#4158d0, #d3d3d3",
-            mainHover: "rgba(136, 136, 255, 0.1)",
-            secondaryHover: "rgba(255, 255, 255, 0.1)"
+            title: "#fff",
+            tabBack: "#000",
+            tabHover: "#111",
+            modal: "#000",
+            disabled: "#33333a",
+            modalShadow: "rgba(0, 0, 0, 0.3)"
         },
         particle: {
             top: blue[500],

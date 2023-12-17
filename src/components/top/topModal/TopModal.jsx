@@ -11,11 +11,11 @@ import RegistPersonalInfo from './registPersonalInfo/RegistPersonalInfo';
 import RegistCreditCard from './registCreditCard/RegistCreditCard';
 import RegistRecognition from './registRecognition/RegistRecognition';
 import { usePaymentInputs } from 'react-payment-inputs';
-import DestructionModal from '../../common/admin/destructionModal/DestructionModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../../../redux/features/userSlice';
 import { useNavigate } from 'react-router-dom';
 import ErrorSnack from '../../common/errorSnack/ErrorSnack';
+import DestructionModalTop from '../../common/admin/destructionModal/DestructionModalTop';
 
 
 const TopModal = (props) => {
@@ -757,7 +757,7 @@ const TopModal = (props) => {
 
     return (
         <>
-            <Modal open={props.isTopModalOpen} slotProps={{backdrop: {sx: {backgroundColor: theme.palette.background.modalShadow}}}}>
+            <Modal open={props.isTopModalOpen} slotProps={{backdrop: {sx: {backgroundColor: theme.palette.top.modalShadow}}}}>
                 
             {isLogin ? 
 
@@ -842,7 +842,7 @@ const TopModal = (props) => {
 
             <ErrorSnack open={isErrorSnack} onClose={() => setIsErrorSnack(false)} warning={snackWarning}/>
 
-            <DestructionModal isDestructOpen={isDestructOpen} handleInputDelete={handleInputDelete} setIsDestructOpen={setIsDestructOpen}
+            <DestructionModalTop isDestructOpen={isDestructOpen} handleInputDelete={handleInputDelete} setIsDestructOpen={setIsDestructOpen}
             header="入力内容を破棄しますか？" desc="この操作は取り消しできません。変更は失われます。"/>
         </>
     )
@@ -864,7 +864,7 @@ const StyledTopModalInner = styled.div`
     overflow-x: hidden;
     border-radius: 15px;
     border: solid 1px ${(props) => props.theme.palette.line.disable};
-    background-color: ${(props) => props.theme.palette.background.modal};
+    background-color: ${(props) => props.theme.palette.top.modal};
 `
 
 const StyledHighlightOff = styled(HighlightOff)`
@@ -889,7 +889,7 @@ const Styledform = styled.form`
 
 const StyledModalIntro = styled.div`
     text-align: center;
-    color: ${(props) => props.theme.palette.text.main};
+    color: ${(props) => props.theme.palette.text.main2};
     font-size: 1.5rem;
     font-weight: bold;
     width: 70%;

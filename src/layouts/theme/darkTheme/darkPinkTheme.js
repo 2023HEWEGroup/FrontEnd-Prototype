@@ -75,16 +75,19 @@ export const darkPinkTheme = createTheme({
             modal2: "#000",
             modalDisable: "#555",
             userCard: "#272222",
-            top: "#111",
+            top: "#000",
             successBack: "rgba(0, 100, 50, 0.2)",
             warningBack: "rgba(100, 100, 0, 0.2)",
         },
         top: {
             main: "#f88",
             secondary: "#fff",
-            titleGradation: "#d05841, #d3d3d3",
-            mainHover: "rgba(255, 136, 136, 0.1)",
-            secondaryHover: "rgba(255, 255, 255, 0.1)"
+            title: "#fff",
+            tabBack: "#000",
+            tabHover: "#111",
+            modal: "#000",
+            disabled: "#1e1918",
+            modalShadow: "rgba(0, 0, 0, 0.3)"
         },
         particle: {
             top: pink[500],

@@ -1,5 +1,5 @@
 import { ArrowForwardIos, ExitToApp, Shop } from '@mui/icons-material'
-import { Avatar, Card, CardHeader, Chip, Grid, useTheme } from '@mui/material'
+import { Avatar, Card, CardHeader, Chip, Grid, useMediaQuery, useTheme } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
@@ -10,11 +10,14 @@ import IsProgress from '../components/common/isProgress/IsProgress'
 // import particle from "../layouts/particles/topParticles.json"
 // import Particles from 'react-tsparticles'
 import VerifiedBadge from '../layouts/badges/VerifiedBadge'
+import TopBack from '../components/top/topBack/TopBack'
+import { useGlitch } from 'react-powerglitch'
 
 
 const Top = () => {
 
   const location = useLocation();
+  const glitch = useGlitch();
   const searchParams = new URLSearchParams(location.search);
   const recommend = searchParams.get('recommend');
   const back = searchParams.get('back');
@@ -22,6 +25,7 @@ const Top = () => {
   const [isRequesting, setIsRequesting] = useState(false);
   const user = useSelector((state) => state.user.value);
   const isScrollable = useSelector((state => state.windowScrollable.value));
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -76,6 +80,12 @@ const Top = () => {
     }
   }
 
+  useEffect(() => {
+    glitch.setOptions({
+      playMode: "hover"
+    },)
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   // 同様にスクロール可否を問う。Poppr展開中に遷移した場合ポッパーは遷移に伴って強制的にデフォルトの閉じ状態になる(正式な閉じる手順を踏まない)
   // ため、ページマウント時にスクロールをuseEffectで可能とセットして、もう一つのseEffectでスクロール状態をdispatchする。
   // ページマウント時は必ずスクロール可能とする
@@ -110,41 +120,37 @@ const Top = () => {
     <>
     <StyledFullScrean>
       <StyledTopHeader>
-        <Link to={"/home"} style={{ display: 'inline-flex'}}>
-          <StyledLmapLogo src={`${siteAssetsPath}/${theme.palette.siteLogo}`} alt='LMAPロゴ' />
+        <Link to={"/home"} style={{ display: 'inline-flex'}} ref={glitch.ref}>
+          <StyledLmapLogo src={`${siteAssetsPath}/LMAP_logo_reversal.svg`} alt='LMAPロゴ' />
         </Link>
         <StyledAccountHeader>
           <StyledCard theme={theme} elevation={0}>
             <Link to={user ? `/user/${user._id}` : "#"} style={{textDecoration: "none"}} onClick={handleIsLogin}>
                 <StyledCardHeader sx={{display: "flex", overflow: "hidden", "& .MuiCardHeader-content": {overflow: "hidden"}}} avatar={<Avatar sx={{ width: 40, height: 40 }} src={user ? user.icon ? `http://localhost:5000/uploads/userIcons/$user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}` : null}/>}
-                title={UserBadge()} titleTypographyProps={{ noWrap: true, color: theme.palette.text.main, fontSize: "1.1rem"}} action={<ArrowForwardIos style={{color: theme.palette.icon.main}}/>}
+                title={UserBadge()} titleTypographyProps={{ noWrap: true, color: theme.palette.text.main2, fontSize: "1.1rem"}} action={<ArrowForwardIos style={{color: theme.palette.icon.main}}/>}
                 subheader={user ? "@"+user.userId : "@aaaa"} subheaderTypographyProps={{ noWrap: true, color: theme.palette.text.sub}}>
                 </StyledCardHeader>
             </Link>
           </StyledCard>
         </StyledAccountHeader>
       </StyledTopHeader>
-      
-        <StyledGridContainer container>
-          <StyledGridItem item xs={12} sm={12} md={12} lg={6}>
-            <StyledWelcomeZone>
-              <StyledWelcomeMessage theme={theme}>Welcome<br/>To The<br/>LMAP</StyledWelcomeMessage>
-              <StyledButtons>
-                <StyledLink to={"/home"}>
-                  <StyledGoToShopLabel theme={theme} icon={<Shop style={{color: theme.palette.top.secondary}}/>} label="ショップを見てみる" clickable/>
-                </StyledLink>
-                <StyledLoginLabel theme={theme} icon={<ExitToApp style={{color: theme.palette.top.main}}/>} label="アカウント" clickable onClick={handleTopModalOpen}/>
-              </StyledButtons>
-            </StyledWelcomeZone>
-          </StyledGridItem>
-          <StyledGridItem item xs={12} sm={12} md={12} lg={6}>
-          </StyledGridItem>
-        </StyledGridContainer>
+
+      <StyledWelcomeZone $isSmallScreen={isSmallScreen}>
+        <StyledWelcomeMessage $isSmallScreen={isSmallScreen} theme={theme}>Welcome<br/>To The<br/>LMAP</StyledWelcomeMessage>
+        <StyledButtons $isSmallScreen={isSmallScreen}>
+          <StyledLink to={"/home"}>
+            <StyledGoToShopLabel ref={glitch.ref} theme={theme} icon={<Shop style={{color: theme.palette.top.secondary}}/>} label="ショップを見てみる" clickable/>
+          </StyledLink>
+          <StyledLoginLabel ref={glitch.ref} theme={theme} icon={<ExitToApp style={{color: theme.palette.top.main}}/>} label="アカウント" clickable onClick={handleTopModalOpen}/>
+        </StyledButtons>
+      </StyledWelcomeZone>
 
         <TopModal isTopModalOpen={isTopModalOpen} setIsTopModalOpen={setIsTopModalOpen} handleTopModalClose={handleTopModalClose} isRequesting={isRequesting} setIsRequesting={setIsRequesting}/>
 
         <IsProgress isProgress={isRequesting} style={{zIndex: 9000}}/>
-        
+
+        <TopBack />
+
     </StyledFullScrean>
 
     {/* <Particles options={particle}/> */}
@@ -155,9 +161,11 @@ const Top = () => {
 
 
 const StyledFullScrean = styled.div`
-  width: 100vw;
-  height: 2000px;
-  overflow-y: scroll;
+  z-index: 10;
+  width: 100%;
+  max-width: 2000px;
+  height: 100%;
+  margin: 0 auto;
 `
 
 const StyledTopHeader = styled.div`
@@ -197,45 +205,38 @@ const StyledCardHeader = styled(CardHeader)`
   }
 `
 
-const StyledGridContainer = styled(Grid)`
-  && {
-    margin-top: 55px;
-    padding: 100px 0;
-  }
-`
-
-const StyledGridItem = styled(Grid)`
-  && {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-`
-
 const StyledWelcomeZone = styled.div`
-  width: 80%;
+  display: ${(props) => props.$isSmallScreen ? "flex" : "block"};
+  align-items: ${(props) => props.$isSmallScreen ? "center" : "normal"};
+  flex-direction: ${(props) => props.$isSmallScreen ? "column" : "row"};
+  width: 100%;
+  height: calc(100% - 55px);
+  margin-top: 55px;
+  padding: ${(props) => props.$isSmallScreen ? "100px 0 0 0" : "100px 0 0 100px"};
 `
 
 const StyledWelcomeMessage = styled.div`
-  text-align: left;
+  text-align: ${(props) => props.$isSmallScreen ? "center" : "left"};
   line-height: 1.2;
   font-size: 5.5rem;
   font-weight: bold;
   font-family: 'Michroma', sans-serif;
-
-  display: inline-block;
-  background: linear-gradient(90deg, ${(props => props.theme.palette.top.titleGradation)});
-  background: -webkit-linear-gradient(0deg, ${(props => props.theme.palette.top.titleGradation)});
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: ${(props) => props.theme.palette.top.title};
   user-select: none;
+  width: ${(props) => props.$isSmallScreen ? "95%" : "fit-content"};
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `
 
 const StyledButtons = styled.div`
   display: flex;
-  gap: 25px;
-  width: fit-content;
-  margin-top: 75px;
+  justify-content: center;
+  align-items: ${(props) => props.$isSmallScreen ? "center" : "normal"};
+  flex-direction: ${(props) => props.$isSmallScreen ? "column" : "row"};
+  gap: ${(props) => props.$isSmallScreen ? "15px" : "25px"};
+  width: ${(props) => props.$isSmallScreen ? "95%" : "fit-content"};
+  margin: ${(props) => props.$isSmallScreen ? "75px auto 0 auto" : "75px 0"};
 `
 
 const StyledLink = styled(Link)`
@@ -251,8 +252,9 @@ const StyledGoToShopLabel = styled(Chip)`
     color: ${(props => props.theme.palette.top.secondary)};
     border: solid 2px ${(props => props.theme.palette.top.secondary)};
     border-radius: 25px;
+    background-color: ${(props => props.theme.palette.top.tabHover)};
     &:hover {
-      background-color: ${(props => props.theme.palette.top.secondaryHover)};
+      background-color: ${(props => props.theme.palette.top.tabHover)};
     }
   }
 `
@@ -264,8 +266,9 @@ const StyledLoginLabel = styled(Chip)`
     color: ${(props => props.theme.palette.top.main)};
     border: solid 2px ${(props => props.theme.palette.top.main)};
     border-radius: 25px;
+    background-color: ${(props => props.theme.palette.top.tabHover)};
     &:hover {
-      background-color: ${(props => props.theme.palette.top.mainHover)};
+      background-color: ${(props => props.theme.palette.top.tabHover)};
     }
   }
 `

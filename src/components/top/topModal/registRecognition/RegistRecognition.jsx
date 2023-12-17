@@ -2,9 +2,12 @@ import { Visibility, VisibilityOff } from '@mui/icons-material'
 import React from 'react'
 import styled from 'styled-components'
 import images from 'react-payment-inputs/images';
+import { useTheme } from '@mui/material';
 
 
 const RegistRecognition = (props) => {
+
+    const theme = useTheme();
 
     function formatPhoneNumber(phoneNumber) {
         const formattedNumber = phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
@@ -14,41 +17,41 @@ const RegistRecognition = (props) => {
     return (
         <>
         <StyledRecognition>
-            <StyledRecognitionItem>
+            <StyledRecognitionItem theme={theme}>
             <StyledRecognitionName>ユーザーネーム</StyledRecognitionName>
             <StyledRecognitionContent>{props.registUserName.trim()}</StyledRecognitionContent>
             </StyledRecognitionItem>
-            <StyledRecognitionItem>
+            <StyledRecognitionItem theme={theme}>
             <StyledRecognitionName>ユーザーID</StyledRecognitionName>
             <StyledRecognitionContent>{props.registUserId}</StyledRecognitionContent>
             </StyledRecognitionItem>
-            <StyledRecognitionItem>
+            <StyledRecognitionItem theme={theme}>
             <StyledRecognitionName>パスワード</StyledRecognitionName>
             <StyledRecognitionContent>{props.recognitionPasswordVisible ? props.registPassword : "*".repeat(props.registPassword.length)}{props.recognitionPasswordVisible ? <StyledVisibility onClick={props.handleRecognitionPasswordVisible}/> : <StyledVisibilityOff onClick={props.handleRecognitionPasswordVisible}/>}</StyledRecognitionContent>
             </StyledRecognitionItem>
-            <StyledRecognitionItem>
+            <StyledRecognitionItem theme={theme}>
             <StyledRecognitionName>メールアドレス</StyledRecognitionName>
             <StyledRecognitionContent>{props.registMailAddress}</StyledRecognitionContent>
             </StyledRecognitionItem>
         </StyledRecognition>
         <StyledRecognition>
-            <StyledRecognitionItem>
+            <StyledRecognitionItem  theme={theme}>
             <StyledRecognitionName>お名前</StyledRecognitionName>
             <StyledRecognitionContent>{props.upperName} {props.lowerName}</StyledRecognitionContent>
             </StyledRecognitionItem>
-            <StyledRecognitionItem>
+            <StyledRecognitionItem  theme={theme}>
             <StyledRecognitionName>お名前 (フリガナ)</StyledRecognitionName>
             <StyledRecognitionContent>{props.upperNameKana} {props.lowerNameKana}</StyledRecognitionContent>
             </StyledRecognitionItem>
-            <StyledRecognitionItem>
+            <StyledRecognitionItem theme={theme}>
             <StyledRecognitionName>郵便番号</StyledRecognitionName>
             <StyledRecognitionContent>{props.formatPostalCode(props.postalCode)}</StyledRecognitionContent>
             </StyledRecognitionItem>
-            <StyledRecognitionItem>
+            <StyledRecognitionItem theme={theme}>
             <StyledRecognitionName>住所</StyledRecognitionName>
             <StyledRecognitionContent>{props.prefecture}{props.city}{props.town}{props.houseNumber}</StyledRecognitionContent>
             </StyledRecognitionItem>
-            <StyledRecognitionItem>
+            <StyledRecognitionItem theme={theme}>
             <StyledRecognitionName>電話番号</StyledRecognitionName>
             <StyledRecognitionContent>{formatPhoneNumber(props.phoneNumber)}</StyledRecognitionContent>
             </StyledRecognitionItem>
@@ -56,26 +59,26 @@ const RegistRecognition = (props) => {
         <StyledRecognition>
             {props.cardChecked ?
                 <>
-                <StyledRecognitionItem>
+                <StyledRecognitionItem theme={theme}>
                 <StyledRecognitionName><StyledRecognitionCardImg {...props.getCardImageProps({ images })} /></StyledRecognitionName>
                 <StyledRecognitionContent>{props.meta.cardType ? props.meta.cardType.displayName : "クレジットカードが選択されていません"}</StyledRecognitionContent>
                 </StyledRecognitionItem>
-                <StyledRecognitionItem>
+                <StyledRecognitionItem theme={theme}>
                 <StyledRecognitionName>カード番号</StyledRecognitionName>
                 <StyledRecognitionContent>{props.creditCard.number}</StyledRecognitionContent>
                 </StyledRecognitionItem>
-                <StyledRecognitionItem>
+                <StyledRecognitionItem theme={theme}>
                 <StyledRecognitionName>有効期限</StyledRecognitionName>
                 <StyledRecognitionContent>{props.creditCard.expiry}</StyledRecognitionContent>
                 </StyledRecognitionItem>
-                <StyledRecognitionItem>
+                <StyledRecognitionItem theme={theme}>
                 <StyledRecognitionName>CVC</StyledRecognitionName>
                 <StyledRecognitionContent>{props.recognitionCVCVisible ? props.creditCard.cvc : "*".repeat(props.creditCard.cvc.length)} {props.recognitionCVCVisible ? <StyledVisibility onClick={props.handleRecognitionCVCVisible}/> : <StyledVisibilityOff onClick={props.handleRecognitionCVCVisible}/>}</StyledRecognitionContent>
                 </StyledRecognitionItem>
                 </>
                 :
                 <>
-                <StyledRecognitionItem>
+                <StyledRecognitionItem theme={theme}>
                     <StyledRecognitionName style={{width: "100%"}}>クレジットカードの登録なし</StyledRecognitionName>
                 </StyledRecognitionItem>
                 </>
@@ -123,7 +126,7 @@ const StyledRecognitionItem = styled.div`
     width: 100%;
     min-height: 50px;
     padding: 5px;
-    color: #777;
+    color: ${(props) => props.theme.palette.text.main2};
 `
 
 const StyledRecognitionName = styled.div`
