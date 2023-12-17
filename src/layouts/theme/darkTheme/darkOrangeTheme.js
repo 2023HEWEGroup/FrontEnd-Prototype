@@ -75,16 +75,19 @@ export const darkOrangeTheme= createTheme({
             modal2: "#000",
             modalDisable: "#555",
             userCard: "#272422",
-            top: "#111",
+            top: "#000",
             successBack: "rgba(0, 100, 50, 0.2)",
             warningBack: "rgba(100, 100, 0, 0.2)",
         },
         top: {
             main: "#fc8",
             secondary: "#fff",
-            titleGradation: "#fc8, #d3d3d3",
-            mainHover: "rgba(255, 200, 136, 0.1)",
-            secondaryHover: "rgba(255, 255, 255, 0.1)"
+            title: "#fff",
+            tabBack: "#000",
+            tabHover: "#111",
+            modal: "#000",
+            disabled: "#1f1c18",
+            modalShadow: "rgba(0, 0, 0, 0.3)"
         },
         particle: {
             top: deepOrange[500],

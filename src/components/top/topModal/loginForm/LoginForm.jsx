@@ -4,7 +4,7 @@ import { Button, InputAdornment, useTheme } from '@mui/material'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { StyledTextField } from '../../../../utils/StyledTextField'
+import { StyledTextFieldTop } from '../../../../utils/StyledTextFieldTop'
 
 
 const LoginForm = (props) => {
@@ -21,13 +21,13 @@ const LoginForm = (props) => {
     return (
         <StyledLoginForm noValidate>
         {props.isUserIdLogin ? 
-        <StyledTextField style={{marginBottom: "15px"}} helperText={props.userIdHelper} error={props.userIdError} theme={theme} fullWidth label="ユーザーID (3~20字)"
-            autoComplete='new-off' variant='outlined' inputProps={{maxLength: 20}} value={props.userId} onChange={props.handleUserIdInput} onKeyDown={handleKeyPress}/>
+        <StyledTextFieldTop style={{marginBottom: "15px"}} helperText={props.userIdHelper} error={props.userIdError} theme={theme} fullWidth label="ユーザーID (3~20字)"
+            autoComplete='new-off' variant='outlined' inputProps={{maxLength: 20, color: theme.palette.text.main2}} value={props.userId} onChange={props.handleUserIdInput} onKeyDown={handleKeyPress}/>
         :
-        <StyledTextField style={{marginBottom: "15px"}} helperText={props.mailAddressHelper} error={props.mailAddressError} theme={theme} fullWidth label="メールアドレス"
+        <StyledTextFieldTop style={{marginBottom: "15px"}} helperText={props.mailAddressHelper} error={props.mailAddressError} theme={theme} fullWidth label="メールアドレス"
             autoComplete='new-off' variant='outlined' value={props.mailAddress} onChange={props.handleMailAddressInput} onKeyDown={handleKeyPress}/>
         }
-        <StyledTextField style={{marginBottom: "15px"}} helperText={props.passwordHelper} error={props.passwordError} theme={theme} fullWidth label="パスワード (8~20字)"
+        <StyledTextFieldTop style={{marginBottom: "15px"}} helperText={props.passwordHelper} error={props.passwordError} theme={theme} fullWidth label="パスワード (8~20字)"
             autoComplete='new-off' variant='outlined' value={props.password} type={props.passwordVisible ? "text" : 'password'} onChange={props.handlePasswordInput} onKeyDown={handleKeyPress}
             inputProps={{maxLength: 30}} InputProps={{endAdornment: (<InputAdornment position="end" onClick={props.handlePasswordVisible}>{props.passwordVisible ? <StyledVisibility /> : <StyledVisibilityOff />}</InputAdornment>)}}/>
         <div style={{width: "100%"}}>

@@ -75,16 +75,19 @@ export const darkBlueTheme = createTheme({
             modal2: "#000",
             modalDisable: "#555",
             userCard: "#222227",
-            top: "#111",
+            top: "#000",
             successBack: "rgba(0, 100, 50, 0.2)",
             warningBack: "rgba(100, 100, 0, 0.2)",
         },
         top: {
             main: "#88f",
             secondary: "#fff",
-            titleGradation: "#4158d0, #d3d3d3",
-            mainHover: "rgba(136, 136, 255, 0.1)",
-            secondaryHover: "rgba(255, 255, 255, 0.1)"
+            title: "#fff",
+            tabBack: "#000",
+            tabHover: "#111",
+            modal: "#000",
+            disabled: "#18191e",
+            modalShadow: "rgba(0, 0, 0, 0.3)"
         },
         particle: {
             top: blue[500],
