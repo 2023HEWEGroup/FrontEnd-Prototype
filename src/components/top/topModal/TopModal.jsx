@@ -1,7 +1,7 @@
 import { HighlightOff } from '@mui/icons-material'
 import { Modal, Tooltip, useMediaQuery, useTheme } from '@mui/material'
 import axios from 'axios';
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components';
 import LoginForm from './loginForm/LoginForm';
 import RegistUserInfo from './registUserInfo/RegistUserInfo';
@@ -754,6 +754,19 @@ const TopModal = (props) => {
             }
         }
     }
+
+    useEffect(() => {
+        const styleElement = document.createElement('style');
+        styleElement.innerHTML = `
+        ::-webkit-scrollbar-thumb {
+            background-color: #444;
+        }
+        `;
+        document.head.appendChild(styleElement);
+        return () => {
+            document.head.removeChild(styleElement);
+        };
+    }, []);
 
     return (
         <>
