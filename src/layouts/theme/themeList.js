@@ -5,6 +5,11 @@ import { darkOrangeTheme } from "./darkTheme/darkOrangeTheme";
 import { darkPinkTheme } from "./darkTheme/darkPinkTheme";
 import { darklightPurpleTheme } from "./darkTheme/darkPurpleTheme";
 import { LightBlueTheme } from "./lightTheme/lightBlueTheme";
+import { LightGreenTheme } from "./lightTheme/lightGreenTheme";
+import { LightLimeTheme } from "./lightTheme/lightLimeTheme";
+import { LightOrangeTheme } from "./lightTheme/lightOrangeTheme";
+import { LighPinkTheme } from "./lightTheme/lightPinkTheme";
+import { LightPurpleTheme } from "./lightTheme/lightPurpleTheme";
 
 
 
@@ -16,4 +21,9 @@ export const themeList = [
     darklightPurpleTheme,
     darkOrangeTheme,
     LightBlueTheme,
+    LighPinkTheme,
+    LightGreenTheme,
+    LightLimeTheme,
+    LightPurpleTheme,
+    LightOrangeTheme,
 ];

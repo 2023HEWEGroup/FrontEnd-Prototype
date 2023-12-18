@@ -1,5 +1,5 @@
 import { ArrowForwardIos, ExitToApp, Shop } from '@mui/icons-material'
-import { Avatar, Card, CardHeader, Chip, Grid, useMediaQuery, useTheme } from '@mui/material'
+import { Avatar, Card, CardHeader, Chip, useMediaQuery, useTheme } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
@@ -145,7 +145,7 @@ const Top = () => {
         </StyledButtons>
       </StyledWelcomeZone>
 
-        <TopModal isTopModalOpen={isTopModalOpen} setIsTopModalOpen={setIsTopModalOpen} handleTopModalClose={handleTopModalClose} isRequesting={isRequesting} setIsRequesting={setIsRequesting}/>
+        {isTopModalOpen && <TopModal isTopModalOpen={isTopModalOpen} setIsTopModalOpen={setIsTopModalOpen} handleTopModalClose={handleTopModalClose} isRequesting={isRequesting} setIsRequesting={setIsRequesting}/>}
 
         <IsProgress isProgress={isRequesting} style={{zIndex: 9000}}/>
 
