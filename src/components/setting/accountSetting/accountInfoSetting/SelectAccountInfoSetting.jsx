@@ -1,14 +1,13 @@
 import { ArrowBack, KeyboardArrowRight } from '@mui/icons-material';
 import { IconButton, List, ListItemButton, ListItemText, useTheme } from '@mui/material'
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 
 
 const SelectAccountInfoSetting = (props) => {
 
     const theme = useTheme();
-    const navigate = useNavigate();
 
     const returnSpan = () => {
         if (!props.currentUser.isAuthorized) {
@@ -32,9 +31,11 @@ const SelectAccountInfoSetting = (props) => {
         <>
         <StyledHeader>
             <StyledTitle theme={theme}>
-                <IconButton color='secondary' onClick={() => navigate(-1)}>
-                    <ArrowBack style={{color: theme.palette.text.main}}/>
-                </IconButton>
+                <Link to="/setting/account">
+                    <IconButton color='secondary'>
+                        <ArrowBack style={{color: theme.palette.text.main}}/>
+                    </IconButton>
+                </Link>
                 <div>アカウント情報</div>
             </StyledTitle>
             <StyledDesc theme={theme}>アカウント情報の設定です</StyledDesc>

@@ -28,6 +28,7 @@ import UserIdSetting from "./components/setting/accountSetting/accountInfoSettin
 import PhoneNumberSetting from "./components/setting/accountSetting/accountInfoSetting/PhoneNumberSetting";
 import MailAddressSetting from "./components/setting/accountSetting/accountInfoSetting/MailAddressSetting";
 import SelectThemeSetting from "./components/setting/themeSetting/SelectThemeSetting";
+import SelectSetting from "./components/setting/SelectSetting";
 
 
 const Routing = () => {
@@ -57,7 +58,7 @@ const Routing = () => {
         <Route path="notFound" element={<NotFound />} />
 
         <Route path="setting" element={user ? <SettingLayout /> : <Navigate to="/?recommend=true&back=/" />}>
-          <Route index element={<Navigate to="/setting/account" />} />
+          <Route index element={<SelectSetting />} />
           <Route path="account" element={<SelectAccountSetting />} />
           <Route path="account/accountInfo" element={<SelectAccountInfoSetting currentUser={user}/>} />
           <Route path="account/userId" element={<UserIdSetting currentUser={user}/>} />

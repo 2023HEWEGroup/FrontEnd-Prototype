@@ -1,5 +1,5 @@
 import { KeyboardArrowRight } from '@mui/icons-material';
-import { List, ListItemButton, ListItemText, useTheme } from '@mui/material'
+import { List, ListItemButton, ListItemText, useMediaQuery, useTheme } from '@mui/material'
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components'
@@ -10,19 +10,20 @@ const SelectSetting = () => {
     const theme = useTheme();
     const location = useLocation();
     const path = location.pathname;
+    const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
     return (
         <StyledSelectSetting theme={theme}>
             <StyledHeader theme={theme}>設定</StyledHeader>
             <List>
                 <Link to="/setting/account" style={{textDecoration: "none", color: "transparent"}}>
-                    <StyledListItemButton $selected={path === "/setting/account"} theme={theme}>
+                    <StyledListItemButton $selected={path === "/setting/account" && !isSmallScreen} theme={theme}>
                         <StyledListItemText theme={theme} primary="アカウント"/>
                         <KeyboardArrowRight style={{color: theme.palette.icon.main}}/>
                     </StyledListItemButton>
                 </Link>
-                <Link to="/setting/theme" style={{textDecoration: "none", color: "transparent"}}>
-                    <StyledListItemButton $selected={path === "/setting/theme"} theme={theme}>
+                <Link to= "/setting/theme" style={{textDecoration: "none", color: "transparent"}}>
+                    <StyledListItemButton $selected={path === "/setting/theme" && !isSmallScreen} theme={theme}>
                         <StyledListItemText theme={theme} primary="テーマ"/>
                         <KeyboardArrowRight style={{color: theme.palette.icon.main}}/>
                     </StyledListItemButton>
@@ -35,7 +36,7 @@ const SelectSetting = () => {
 
 const StyledSelectSetting = styled.div`
     width: 100%;
-    height: 100%;
+    min-height: calc(100vh - 55px);
     padding: 20px 0;
     border-left: solid 1px ${(props) => props.theme.palette.line.tab};
     border-right: solid 1px ${(props) => props.theme.palette.line.tab};

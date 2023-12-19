@@ -41,11 +41,14 @@ const TopBar = (props) => {
 
 const StyledAppBar = styled(AppBar)`
   && {
+    position: fixed;
+    top: 0;
+    left: 0;
     z-index: 150;
     justify-content: center;
     height: 55px;
+    width: calc(100vw - 10px);
     box-shadow: none;
-    padding-right: ${(props) => (props.$isSideOpen && props.$isSmallScreen) || !props.$isScrollable ? '10px' : '0'};
   }
 `;
 

@@ -3,7 +3,7 @@ import { Button, IconButton, useTheme } from '@mui/material'
 import axios from 'axios';
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import { setUser } from '../../../../redux/features/userSlice';
 import ErrorSnack from '../../../common/errorSnack/ErrorSnack';
@@ -21,7 +21,6 @@ const UserIdSetting = (props) => {
     const [snackInfo, setSnackInfo] = useState("");
     const theme = useTheme();
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const handleInput = async (e) => {
         setUserId((prev) => ({...prev, value: e.target.value}));
@@ -73,9 +72,11 @@ const UserIdSetting = (props) => {
         <>
         <StyledHeader>
             <StyledTitle theme={theme}>
-                <IconButton color='secondary' onClick={() => navigate(-1)}>
-                    <ArrowBack style={{color: theme.palette.text.main}}/>
-                </IconButton>
+                <Link to="/setting/account/accountInfo">
+                    <IconButton color='secondary'>
+                        <ArrowBack style={{color: theme.palette.text.main}}/>
+                    </IconButton>
+                </Link>
                 <div>ユーザーIDを変更</div>
             </StyledTitle>
         </StyledHeader>

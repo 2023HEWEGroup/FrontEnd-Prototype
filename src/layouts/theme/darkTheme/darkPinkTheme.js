@@ -30,6 +30,7 @@ export const darkPinkTheme = createTheme({
             sub: "#777",
             sub2: "#999",
             main2: "#fff",
+            main3: "#000",
             categoryActive: "#000",
             tab: "#888",
             product: "#ccc",
@@ -38,6 +39,7 @@ export const darkPinkTheme = createTheme({
             admin: "#f0f",
             alert: "#fff",
             verifyBar: "#fff",
+            following: "#000",
         },
         icon: {
             main: "#777",
@@ -55,7 +57,7 @@ export const darkPinkTheme = createTheme({
             search: "#111",
             hover: "#353030",
             hover2: "#1e1918",
-            hover3: "#2f2828",
+            hover3: "rgba(255, 255, 255, 0.1)",
             opacity: "rgba(255, 255, 255, 0.1)",
             opacityHover: "rgba(255, 255, 255, 0.3)",
             opacityActive: "rgba(255, 255, 255, 0.5)",
@@ -76,6 +78,7 @@ export const darkPinkTheme = createTheme({
             modalDisable: "#555",
             userCard: "#272222",
             top: "#000",
+            following: "transparent",
             successBack: "rgba(0, 100, 50, 0.2)",
             warningBack: "rgba(100, 100, 0, 0.2)",
         },
@@ -91,6 +94,9 @@ export const darkPinkTheme = createTheme({
         },
         particle: {
             top: pink[500],
+        },
+        type: {
+            followButton: "outlined",
         }
     },
     components: {

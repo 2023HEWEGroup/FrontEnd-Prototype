@@ -19,7 +19,7 @@ const UserPanel = (props) => {
                         <StyledUserSlideName theme={theme}>{props.userSlide.userName}</StyledUserSlideName>
                         <StyledUserSlideId theme={theme}>{`@${props.userSlide.userId}`}</StyledUserSlideId>
                     </div>
-                    <StyledFollowTab label="フォロー" variant="outlined" color="secondary" clickable onClick={props.handleFollowSnack}/>
+                    <StyledFollowTab label="フォロー" variant="contained" color="secondary" clickable onClick={props.handleFollowSnack}/>
                 </div>
             </StyledUserPanel>
         </>

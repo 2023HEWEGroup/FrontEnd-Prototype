@@ -30,6 +30,7 @@ export const LightGreenTheme = createTheme({
             sub: "#777",
             sub2: "#777",
             main2: "#fff",
+            main3: "#000",
             categoryActive: "#fff",
             tab: "#aaa",
             product: "#ccc",
@@ -38,6 +39,7 @@ export const LightGreenTheme = createTheme({
             admin: "#f0f",
             alert: "#000",
             verifyBar: "#fff",
+            following: "#fff",
         },
         icon: {
             main: "#777",
@@ -55,7 +57,7 @@ export const LightGreenTheme = createTheme({
             search: "#f8fcff",
             hover: green[50],
             hover2: green[50],
-            hover3: green[50],
+            hover3: grey[900],
             opacity: "rgba(0, 0, 0, 0.1)",
             opacityHover: green[50],
             opacityActive: "rgba(0, 0, 0, 0)",
@@ -76,6 +78,7 @@ export const LightGreenTheme = createTheme({
             modalDisable: "#555",
             userCard: "#f8fcff",
             top: "#000",
+            following: "#000",
             successBack: "rgba(0, 200, 70, 0.6)",
             warningBack: "rgba(200, 200, 0, 0.6)",
         },
@@ -91,6 +94,9 @@ export const LightGreenTheme = createTheme({
         },
         particle: {
             top: green[500],
+        },
+        type: {
+            followButton: "contained",
         }
     },
     components: {
