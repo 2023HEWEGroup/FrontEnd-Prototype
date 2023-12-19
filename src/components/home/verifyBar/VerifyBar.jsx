@@ -23,7 +23,7 @@ const VerifyBar = (props) => {
                 </StyledLink>
             </StyledBarInner>
         </StyledVerifyBar>
-        <div style={{width: "100%", height: "30px", backgroundColor: "#aff"}}></div>
+        <div style={{width: "100%", height: "30px"}}></div>
         </>
     )
 }
@@ -37,9 +37,9 @@ const StyledVerifyBar = styled(AppBar)`
         align-items: center;
         position: fixed;
         top: 115px;
+        left: ${(props) => props.$isSideOpen ? "240px" : "75px"};
         height: 30px;
-        width: ${(props) => props.$isSideOpen ? "calc(100% - 240px)" : "calc(100% - 75px)"};
-        padding-left: ${(props) => props.$isScrollable ? "10px" : "0"};
+        width: ${(props) => props.$isSideOpen ? "calc(100vw - 250px)" : "calc(100vw - 85px)"};
         color: ${(props) => props.theme.palette.text.verifyBar};
         background-color: ${(props) => props.theme.palette.secondary.main};
     }

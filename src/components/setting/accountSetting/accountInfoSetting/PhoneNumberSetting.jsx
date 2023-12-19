@@ -3,12 +3,12 @@ import { Button, IconButton, useTheme } from '@mui/material'
 import axios from 'axios';
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import { setUser } from '../../../../redux/features/userSlice';
 import ErrorSnack from '../../../common/errorSnack/ErrorSnack';
 import IsProgress from '../../../common/isProgress/IsProgress';
 import { StyledTextField } from '../../../../utils/StyledTextField';
+import { Link } from 'react-router-dom';
 
 
 const PhoneNumberSetting = (props) => {
@@ -21,7 +21,6 @@ const PhoneNumberSetting = (props) => {
     const [snackInfo, setSnackInfo] = useState("");
     const theme = useTheme();
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     function formatPhoneNumber(phoneNumber) {
         const formattedNumber = phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
@@ -81,9 +80,11 @@ const PhoneNumberSetting = (props) => {
         <>
         <StyledHeader>
             <StyledTitle theme={theme}>
-                <IconButton color='secondary' onClick={() => navigate(-1)}>
-                    <ArrowBack style={{color: theme.palette.text.main}}/>
-                </IconButton>
+                <Link to="/setting/account/accountInfo">
+                    <IconButton color='secondary'>
+                        <ArrowBack style={{color: theme.palette.text.main}}/>
+                    </IconButton>
+                </Link>
                 <div>携帯電話番号を変更</div>
             </StyledTitle>
         </StyledHeader>

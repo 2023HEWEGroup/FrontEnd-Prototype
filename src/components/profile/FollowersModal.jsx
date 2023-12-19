@@ -165,9 +165,9 @@ const FollowersModal = (props) => {
                                     <StyledTabArea>
                                         {props.currentUser._id !== user._id ?
                                             props.currentUser.followings.includes(user._id) ?
-                                            <StyledUnFollowTab label="フォロー中" $isFollowDisabled={isFollowDisabled} theme={theme} variant="outlined" clickable onClick={(e) => handleFollow(e, user, 0)}/>
+                                            <StyledUnFollowTab label="フォロー中" $isFollowDisabled={isFollowDisabled} theme={theme} variant={theme.palette.type.followButton} clickable onClick={(e) => handleFollow(e, user, 0)}/>
                                             :
-                                            <StyledFollowTab label="フォロー" $isFollowDisabled={isFollowDisabled} variant="outlined" color="secondary" clickable onClick={(e) => handleFollow(e, user, 1)}/>
+                                            <StyledFollowTab label="フォロー" $isFollowDisabled={isFollowDisabled} variant={theme.palette.type.followButton} color="secondary" clickable onClick={(e) => handleFollow(e, user, 1)}/>
                                         :
                                         null
                                         }
@@ -253,7 +253,7 @@ const StyledSaveButton = styled(Button)`
     && {
         height: 70%;
         font-weight: bold;
-        color: ${(props => props.theme.palette.text.main)};
+        color: ${(props => props.theme.palette.text.main3)};
         background-color: ${(props => props.theme.palette.text.main2)};
     }
 `
@@ -402,7 +402,11 @@ const StyledUnFollowTab = styled(Chip)`
         font-size: 1rem;
         font-weight: bold;
         pointer-events: ${(props) => props.$isFollowDisabled ? "none" : "auto"};
-        color: ${(props) => props.theme.palette.text.main};
+        color: ${(props) => props.theme.palette.text.main2};
+        background-color: ${(props) => props.theme.palette.background.following};
+        &&:hover {
+            background-color: ${(props) => props.theme.palette.background.hover3};
+        }
     }
 `
 

@@ -30,6 +30,7 @@ export const darkGreenTheme = createTheme({
             sub: "#777",
             sub2: "#999",
             main2: "#fff",
+            main3: "#000",
             categoryActive: "#000",
             tab: "#888",
             product: "#ccc",
@@ -38,6 +39,7 @@ export const darkGreenTheme = createTheme({
             admin: "#f0f",
             alert: "#fff",
             verifyBar: "#fff",
+            following: "#000",
         },
         icon: {
             main: "#777",
@@ -55,7 +57,7 @@ export const darkGreenTheme = createTheme({
             search: "#111",
             hover: "#303530",
             hover2: "#181e18",
-            hover3: "#282f28",
+            hover3: "rgba(255, 255, 255, 0.1)",
             opacity: "rgba(255, 255, 255, 0.1)",
             opacityHover: "rgba(255, 255, 255, 0.3)",
             opacityActive: "rgba(255, 255, 255, 0.5)",
@@ -76,6 +78,7 @@ export const darkGreenTheme = createTheme({
             modalDisable: "#555",
             userCard: "#222722",
             top: "#000",
+            following: "transparent",
             successBack: "rgba(0, 100, 50, 0.2)",
             warningBack: "rgba(100, 100, 0, 0.2)",
         },
@@ -91,6 +94,9 @@ export const darkGreenTheme = createTheme({
         },
         particle: {
             top: green[500],
+        },
+        type: {
+            followButton: "outlined",
         }
     },
     components: {

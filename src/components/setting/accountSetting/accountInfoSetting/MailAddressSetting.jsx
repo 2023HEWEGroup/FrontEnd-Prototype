@@ -3,7 +3,7 @@ import { Button, CircularProgress, IconButton, InputAdornment, useTheme } from '
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components'
 import { setUser } from '../../../../redux/features/userSlice';
 import ErrorSnack from '../../../common/errorSnack/ErrorSnack';
@@ -27,7 +27,6 @@ const MailAddressSetting = (props) => {
     const [snackInfo, setSnackInfo] = useState("");
     const theme = useTheme();
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const handleInput = async (e) => {
         setMailAddress((prev) => ({...prev, value: e.target.value}));
@@ -191,9 +190,11 @@ const MailAddressSetting = (props) => {
         <>
         <StyledHeader>
             <StyledTitle theme={theme}>
-                <IconButton color='secondary' onClick={() => navigate(-1)}>
-                    <ArrowBack style={{color: theme.palette.text.main}}/>
-                </IconButton>
+                <Link to="/setting/account/accountInfo">
+                    <IconButton color='secondary'>
+                        <ArrowBack style={{color: theme.palette.text.main}}/>
+                    </IconButton>
+                </Link>
                 <div>{"メールアドレス設定"}</div> {/*未認証なら変更か認証なので「設定」、認証済みなら変更のみなので「変更」*/}
             </StyledTitle>
         </StyledHeader>

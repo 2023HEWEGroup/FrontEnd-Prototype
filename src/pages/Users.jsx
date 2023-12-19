@@ -229,9 +229,9 @@ const Users = () => {
                                         <StyledMyButton variant="outlined" color="text">ログイン中のユーザー</StyledMyButton>
                                         :
                                         currentUser.followings.includes(user._id) ?
-                                        <StyledFollowingButton $isFollowDisabled={isFollowDisabled} variant="outlined" theme={theme} onClick={(e) => handleFollow(e, user, 0)}>フォロー中</StyledFollowingButton>
+                                        <StyledFollowingButton $isFollowDisabled={isFollowDisabled} variant={theme.palette.type.followButton} theme={theme} onClick={(e) => handleFollow(e, user, 0)}>フォロー中</StyledFollowingButton>
                                         :
-                                        <StyledFollowButton $isFollowDisabled={isFollowDisabled} variant="outlined" color="secondary" onClick={(e) => handleFollow(e, user, 1)}>フォロー</StyledFollowButton>
+                                        <StyledFollowButton $isFollowDisabled={isFollowDisabled} variant={theme.palette.type.followButton} color="secondary" onClick={(e) => handleFollow(e, user, 1)}>フォロー</StyledFollowButton>
                                     :
                                     null
                                     }
@@ -393,7 +393,8 @@ const StyledFollowingButton = styled(Button)`
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-        color: ${(props) => props.theme.palette.text.main};
+        color: ${(props) => props.theme.palette.text.main2};
+        background-color: ${(props) => props.theme.palette.background.following};
         border: solid 1px ${(props) => props.theme.palette.line.disable};
         pointer-events: ${(props) => props.$isFollowDisabled ? "none" : "auto"};
         &:hover {

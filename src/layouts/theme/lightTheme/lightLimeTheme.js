@@ -11,7 +11,7 @@ export const LightLimeTheme = createTheme({
             listBack: `linear-gradient(to bottom right, ${lime[500]}, 70%, ${lime[500]})`
         },
         secondary: {
-            main: lime[600],
+            main: lime[500],
             mainHover: lime[800],
             progressed: lime[900],
             exhibitAny: grey[900],
@@ -30,6 +30,7 @@ export const LightLimeTheme = createTheme({
             sub: "#777",
             sub2: "#777",
             main2: "#fff",
+            main3: "#000",
             categoryActive: "#fff",
             tab: "#aaa",
             product: "#ccc",
@@ -37,7 +38,8 @@ export const LightLimeTheme = createTheme({
             error2: "#a00",
             admin: "#f0f",
             alert: "#000",
-            verifyBar: "#fff",
+            verifyBar: "#000",
+            following: "#fff",
         },
         icon: {
             main: "#777",
@@ -53,9 +55,9 @@ export const LightLimeTheme = createTheme({
             profilePop: "#f8fcff",
             commandPop: "#f8fcff",
             search: "#f8fcff",
-            hover: lime[50],
-            hover2: lime[50],
-            hover3: lime[50],
+            hover: lime[100],
+            hover2: lime[100],
+            hover3: grey[900],
             opacity: "rgba(0, 0, 0, 0.1)",
             opacityHover: lime[50],
             opacityActive: "rgba(0, 0, 0, 0)",
@@ -76,6 +78,7 @@ export const LightLimeTheme = createTheme({
             modalDisable: "#555",
             userCard: "#f8fcff",
             top: "#000",
+            following: "#000",
             successBack: "rgba(0, 200, 70, 0.6)",
             warningBack: "rgba(200, 200, 0, 0.6)",
         },
@@ -91,6 +94,9 @@ export const LightLimeTheme = createTheme({
         },
         particle: {
             top: lime[500],
+        },
+        type: {
+            followButton: "contained",
         }
     },
     components: {

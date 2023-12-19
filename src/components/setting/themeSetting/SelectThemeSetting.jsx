@@ -1,12 +1,13 @@
-import { Avatar, Tooltip, useMediaQuery, useTheme } from '@mui/material'
+import { Avatar, IconButton, Tooltip, useMediaQuery, useTheme } from '@mui/material'
 import React from 'react'
 import styled from 'styled-components';
 import { themeList } from '../../../layouts/theme/themeList';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../../redux/features/userSlice';
-import { Check } from '@mui/icons-material';
+import { ArrowBack, Check } from '@mui/icons-material';
 import { debounce } from 'lodash';
+import { Link } from 'react-router-dom';
 
 
 const SelectThemeSetting = (props) => {
@@ -32,7 +33,16 @@ const SelectThemeSetting = (props) => {
     return (
         <>
         <StyledHeader>
-            <StyledTitle theme={theme}>テーマ</StyledTitle>
+            <StyledTitle theme={theme}>
+                {isSmallScreen &&
+                <Link to="/setting">
+                    <IconButton color='secondary'>
+                        <ArrowBack style={{color: theme.palette.text.main}}/>
+                    </IconButton>
+                </Link>
+                }
+                <div>テーマ</div>
+            </StyledTitle>
             <StyledDesc theme={theme}>テーマを選びやがれ下さい</StyledDesc>
         </StyledHeader>
         <StyledThemeZone>
@@ -75,6 +85,7 @@ const StyledTitle = styled.div`
     display: flex;
     justify-content: start;
     align-items: center;
+    gap: 30px;
     width: 100%;
     height: 50px;
     color: ${(props) => props.theme.palette.text.main};

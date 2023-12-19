@@ -1,5 +1,5 @@
-import { AccountCircleOutlined, KeyboardArrowRight, VpnKeyOutlined } from '@mui/icons-material';
-import { List, ListItemAvatar, ListItemButton, ListItemText, useTheme } from '@mui/material'
+import { AccountCircleOutlined, ArrowBack, KeyboardArrowRight, VpnKeyOutlined } from '@mui/icons-material';
+import { IconButton, List, ListItemAvatar, ListItemButton, ListItemText, useMediaQuery, useTheme } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
@@ -8,11 +8,21 @@ import styled from 'styled-components'
 const SelectAccountSetting = () => {
 
     const theme = useTheme();
+    const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
     return (
         <>
         <StyledHeader>
-            <StyledTitle theme={theme}>アカウント</StyledTitle>
+            <StyledTitle theme={theme}>
+                {isSmallScreen &&
+                <Link to="/setting">
+                    <IconButton color='secondary'>
+                        <ArrowBack style={{color: theme.palette.text.main}}/>
+                    </IconButton>
+                </Link>
+                }
+                <div>アカウント</div>
+            </StyledTitle>
             <StyledDesc theme={theme}>アカウント関連の設定ですあああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</StyledDesc>
         </StyledHeader>
 
@@ -55,6 +65,7 @@ const StyledTitle = styled.div`
     display: flex;
     justify-content: start;
     align-items: center;
+    gap: 30px;
     width: 100%;
     height: 50px;
     color: ${(props) => props.theme.palette.text.main};

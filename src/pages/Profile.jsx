@@ -190,9 +190,9 @@ const Profile = () => {
                   <StyledFollowTab label="プロフィール編集" variant="outlined" style={{color: theme.palette.text.main}} clickable onClick={() => setUpdateModal(true)}/>
                   :
                   currentUser.followings.includes(user._id) ?
-                    <StyledUnFollowTab label="フォロー中" variant="outlined" theme={theme} $isFollowDisabled={isFollowDisabled} clickable onClick={() => handleFollow(0)}/>
+                    <StyledUnFollowTab label="フォロー中" variant={theme.palette.type.followButton} theme={theme} $isFollowDisabled={isFollowDisabled} clickable onClick={() => handleFollow(0)}/>
                   :
-                  <StyledFollowTab label="フォロー" variant="outlined" color="secondary" $isFollowDisabled={isFollowDisabled} clickable onClick={() => handleFollow(1)}/>
+                  <StyledFollowTab label="フォロー" variant={theme.palette.type.followButton} color="secondary" $isFollowDisabled={isFollowDisabled} clickable onClick={() => handleFollow(1)}/>
                 :
                 null
               }
@@ -435,7 +435,12 @@ const StyledUnFollowTab = styled(Chip)`
     font-size: 1rem;
     font-weight: bold;
     pointer-events: ${(props) => props.$isFollowDisabled ? "none" : "auto"};
-    color: ${(props) => props.theme.palette.text.main};
+    color: ${(props) => props.theme.palette.text.main2};
+    background-color: ${(props) => props.theme.palette.background.following};
+
+    &&:hover {
+      background-color: ${(props) => props.theme.palette.background.hover3};
+    }
   }
 `
 

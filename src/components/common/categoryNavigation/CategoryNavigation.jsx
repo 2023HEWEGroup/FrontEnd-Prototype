@@ -44,7 +44,7 @@ const CategoryNavigation = () => {
 
     return (
         <>
-        <StyledAppBar $isSideOpen={isSideOpen} $isSmallScreen={isSmallScreen} $isScrollable={isScrollable} style={ isSideOpen ? {top: "55px", left: "240px", width: "calc(100% - 240px)"} : {top: "55px", left: "75px", width: "calc(100% - 75px)"}}>
+        <StyledAppBar $isSideOpen={isSideOpen} $isSmallScreen={isSmallScreen} $isScrollable={isScrollable} style={ isSideOpen ? {top: "55px", left: "240px", width: "calc(100vw - 250px)"} : {top: "55px", left: "75px", width: "calc(100vw - 85px)"}}>
             <StyledCategoryBarParent>
                 <StyledIconButtonLeft onClick={() => handleScroll("left")} theme={theme} style={isLeftButtonVisible ? null : {display: "none"}}>
                     <ArrowBack />
@@ -76,7 +76,6 @@ const StyledAppBar = styled(AppBar)`
         z-index: 100;
         box-shadow: none;
         height: 60px;
-        padding-right: ${(props) => (props.$isSideOpen && props.$isSmallScreen) || !props.$isScrollable ? '10px' : '0'};
     }
 `
 
