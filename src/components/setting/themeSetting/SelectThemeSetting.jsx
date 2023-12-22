@@ -43,7 +43,7 @@ const SelectThemeSetting = (props) => {
                 }
                 <div>テーマ</div>
             </StyledTitle>
-            <StyledDesc theme={theme}>テーマを選びやがれ下さい</StyledDesc>
+            <StyledDesc theme={theme}>サイトのテーマをカスタマイズすることができます。</StyledDesc>
         </StyledHeader>
         <StyledThemeZone>
             <StyledThemes>

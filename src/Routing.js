@@ -29,6 +29,9 @@ import PhoneNumberSetting from "./components/setting/accountSetting/accountInfoS
 import MailAddressSetting from "./components/setting/accountSetting/accountInfoSetting/MailAddressSetting";
 import SelectThemeSetting from "./components/setting/themeSetting/SelectThemeSetting";
 import SelectSetting from "./components/setting/SelectSetting";
+import SelectPaymentInfoSetting from "./components/setting/accountSetting/accountInfoSetting/SelectPaymentInfoSetting";
+import PointSetting from "./components/setting/accountSetting/accountInfoSetting/PointSetting";
+import CreditCardDetailSetting from "./components/setting/accountSetting/accountInfoSetting/CreditCardDetailSetting";
 
 
 const Routing = () => {
@@ -59,11 +62,15 @@ const Routing = () => {
 
         <Route path="setting" element={user ? <SettingLayout /> : <Navigate to="/?recommend=true&back=/" />}>
           <Route index element={<SelectSetting />} />
-          <Route path="account" element={<SelectAccountSetting />} />
+          <Route path="account" element={<SelectAccountSetting currentUser={user}/>} />
           <Route path="account/accountInfo" element={<SelectAccountInfoSetting currentUser={user}/>} />
           <Route path="account/userId" element={<UserIdSetting currentUser={user}/>} />
           <Route path="account/phoneNumber" element={<PhoneNumberSetting currentUser={user}/>} />
           <Route path="account/mailAddress" element={<MailAddressSetting currentUser={user}/>} />
+
+          <Route path="account/paymentInfo" element={<SelectPaymentInfoSetting currentUser={user}/>} />
+          <Route path="account/point" element={<PointSetting currentUser={user}/>} />
+          <Route path="account/creditCardDetail" element={<CreditCardDetailSetting currentUser={user}/>} />
 
           <Route path="theme" element={<SelectThemeSetting currentUser={user}/>} />
         </Route>

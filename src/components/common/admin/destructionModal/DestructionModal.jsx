@@ -17,7 +17,7 @@ const DestructionModal = (props) => {
                                 <StyledDesc theme={theme}>{props.desc}</StyledDesc>
                             </StyledDetails>
                             <StyledButtons>
-                                <StyledDeleteButton fullWidth size='large' variant='contained' onClick={props.handleInputDelete} theme={theme}>{props.act || "破棄"}</StyledDeleteButton>
+                                <StyledDeleteButton fullWidth size='large' variant='contained' onClick={props.handleInputDelete} theme={theme} $secondary={props.secondary ? true : false}>{props.act || "破棄"}</StyledDeleteButton>
                                 <StyledCancelButton fullWidth size='large' color='primary' variant='contained' onClick={() => props.setIsDestructOpen(false)} theme={theme}>キャンセル</StyledCancelButton>
                             </StyledButtons>
                         </StyledInner>
@@ -93,12 +93,12 @@ const StyledButtons = styled.div`
 const StyledDeleteButton = styled(Button)`
     && {
         color: ${(props) => props.theme.palette.text.main2};
-        background-color: ${(props) => props.theme.palette.background.destructDelete};
+        background-color: ${(props) => props.$secondary ? props.theme.palette.secondary.main : props.theme.palette.background.destructDelete};
         border-radius: 50px;
         font-weight: bold;
 
         &:hover {
-            background-color: ${(props) => props.theme.palette.background.destructDeleteHover};
+            background-color: ${(props) => props.$secondary ? props.theme.palette.secondary.mainHover : props.theme.palette.background.destructDeleteHover};
         }
     }
 `

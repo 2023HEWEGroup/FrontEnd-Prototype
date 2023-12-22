@@ -8,7 +8,8 @@ export const LightPurpleTheme = createTheme({
         siteLogo: "LMAP_logo.svg",
         primary: {
             main: "#f8fcff",
-            listBack: `linear-gradient(to bottom right, ${purple[500]}, 70%, ${purple[500]})`
+            listBack: `linear-gradient(to bottom right, ${purple[500]}, 70%, ${purple[500]})`,
+            disabled: "#aaa",
         },
         secondary: {
             main: purple[500],
@@ -40,6 +41,7 @@ export const LightPurpleTheme = createTheme({
             alert: "#000",
             verifyBar: "#fff",
             following: "#fff",
+            disabled: "#555",
         },
         icon: {
             main: "#777",

@@ -8,7 +8,8 @@ export const darkGreenTheme = createTheme({
         siteLogo: "LMAP_logo_reversal.svg",
         primary: {
             main: "#111",
-            listBack: `linear-gradient(to bottom right, ${green[500]}, #000)`
+            listBack: `linear-gradient(to bottom right, ${green[500]}, #000)`,
+            disabled: "#444",
         },
         secondary: {
             main: green["A700"],
@@ -40,6 +41,7 @@ export const darkGreenTheme = createTheme({
             alert: "#fff",
             verifyBar: "#fff",
             following: "#000",
+            disabled: "#000",
         },
         icon: {
             main: "#777",

@@ -9,6 +9,7 @@ import { setUser } from '../../../../redux/features/userSlice';
 import ErrorSnack from '../../../common/errorSnack/ErrorSnack';
 import IsProgress from '../../../common/isProgress/IsProgress';
 import { StyledTextField } from '../../../../utils/StyledTextField';
+import { StyledDisabledButton } from '../../../../utils/StyledDisabledButton';
 
 const MailAddressSetting = (props) => {
 
@@ -238,7 +239,7 @@ const MailAddressSetting = (props) => {
                     autoComplete='new-off' type='email' variant='outlined' value={recognitionMailAddress.value} onChange={handleRecognitionInput} inputProps={{maxLength: 319}}/>
             </div>
             <StyledButtonZone>
-                <Button color="secondary" variant="contained" disabled={mailAddress.error || mailAddress.value.length === 0 || recognitionMailAddress.error || recognitionMailAddress.value.length === 0} onClick={handleUpdate}>保存</Button>
+                <StyledDisabledButton theme={theme} color="secondary" variant="contained" disabled={mailAddress.error || mailAddress.value.length === 0 || recognitionMailAddress.error || recognitionMailAddress.value.length === 0} onClick={handleUpdate}>保存</StyledDisabledButton>
             </StyledButtonZone>
         </StyledInputZone>
 

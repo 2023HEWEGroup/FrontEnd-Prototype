@@ -1,31 +1,28 @@
 import { ArrowBack, KeyboardArrowRight } from '@mui/icons-material';
 import { IconButton, List, ListItemButton, ListItemText, useTheme } from '@mui/material'
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 
 
-const SelectAccountInfoSetting = (props) => {
+const SelectPaymentInfoSetting = (props) => {
 
+    const [number, setNumber] = useState("");
     const theme = useTheme();
 
-    const returnSpan = () => {
-        if (!props.currentUser.isAuthorized) {
-            return (
-                    <>
-                    <div>メールアドレス</div>
-                    <span style={{color: theme.palette.text.error, fontSize: "0.8rem"}}>未認証</span>
-                    </>
-            )
-        } else {
-            return "メールアドレス"
+    useEffect(() => {
+        const fetchCardNumber = async () => {
+            if (!props.currentUser.creditCard.number) return;
+            try {
+                const response = await axios.get(`http://localhost:5000/client/auth/number/${props.currentUser._id}`);
+                setNumber(response.data);
+            } catch (err) {
+                console.log(err);
+            }
         }
-    }
-
-    function formatPhoneNumber(phoneNumber) {
-        const formattedNumber = phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
-        return formattedNumber;
-    }
+        fetchCardNumber();
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <>
@@ -36,30 +33,23 @@ const SelectAccountInfoSetting = (props) => {
                         <ArrowBack style={{color: theme.palette.text.main}}/>
                     </IconButton>
                 </Link>
-                <div>アカウント情報</div>
+                <div>お支払い方法</div>
             </StyledTitle>
-            <StyledDesc theme={theme}>メールアドレスや住所などのアカウント情報を管理できます。</StyledDesc>
+            <StyledDesc theme={theme}>ポイントやクレジットカードなどの情報を管理できます。</StyledDesc>
         </StyledHeader>
 
         <StyledList>
             <StyledListInner theme={theme}>
-                <Link to="/setting/account/userId" style={{textDecoration: "none", color: "transparent"}}>
+                <Link to="/setting/account/point" style={{textDecoration: "none", color: "transparent"}}>
                     <StyledListItemButton theme={theme}>
-                        <ListItemText primary="ユーザーID" secondary={`@${props.currentUser.userId}`}
-                        primaryTypographyProps={{ color: theme.palette.text.main }} secondaryTypographyProps={{ color: theme.palette.text.sub }}/>
+                        <ListItemText primary="コードを利用" secondary={`${props.currentUser.points} ポイント`}
+                        primaryTypographyProps={{ color: theme.palette.text.main }} secondaryTypographyProps={{ color: theme.palette.secondary.main }}/>
                         <KeyboardArrowRight style={{color: theme.palette.icon.main}}/>
                     </StyledListItemButton>
                 </Link>
-                <Link to="/setting/account/phoneNumber" style={{textDecoration: "none", color: "transparent"}}>
+                <Link to="/setting/account/creditCardDetail" style={{textDecoration: "none", color: "transparent"}}>
                     <StyledListItemButton theme={theme}>
-                        <ListItemText primary="電話番号" secondary={formatPhoneNumber(props.currentUser.phoneNumber)}
-                        primaryTypographyProps={{ color: theme.palette.text.main }} secondaryTypographyProps={{ color: theme.palette.text.sub }}/>
-                        <KeyboardArrowRight style={{color: theme.palette.icon.main}}/>
-                    </StyledListItemButton>
-                </Link>
-                <Link to="/setting/account/mailAddress" style={{textDecoration: "none", color: "transparent"}}>
-                    <StyledListItemButton theme={theme}>
-                        <ListItemText primary={returnSpan()} secondary={props.currentUser.isAuthorized ? props.currentUser.email : props.currentUser.authToken.unverifiedEmail} 
+                        <ListItemText primary={props.currentUser.creditCard.number ? "クレジットカード詳細" : "クレジットカードを追加"} secondary={number ? number : ""}
                         primaryTypographyProps={{ color: theme.palette.text.main }} secondaryTypographyProps={{ color: theme.palette.text.sub }}/>
                         <KeyboardArrowRight style={{color: theme.palette.icon.main}}/>
                     </StyledListItemButton>
@@ -127,4 +117,4 @@ const StyledListItemButton = styled(ListItemButton)`
 `
 
 
-export default SelectAccountInfoSetting
+export default SelectPaymentInfoSetting

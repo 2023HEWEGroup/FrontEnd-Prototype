@@ -3,68 +3,72 @@ import { IconButton, useTheme } from '@mui/material'
 import axios from 'axios';
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import { setUser } from '../../../../redux/features/userSlice';
 import ErrorSnack from '../../../common/errorSnack/ErrorSnack';
 import IsProgress from '../../../common/isProgress/IsProgress';
 import { StyledTextField } from '../../../../utils/StyledTextField';
-import { Link } from 'react-router-dom';
+import DestructionModal from '../../../common/admin/destructionModal/DestructionModal';
 import { StyledDisabledButton } from '../../../../utils/StyledDisabledButton';
 
 
-const PhoneNumberSetting = (props) => {
+const PointSetting = (props) => {
 
-    const [phoneNumber, setphoneNumber] = useState({value: props.currentUser.phoneNumber || "", error: false, helper: ""});
+    const [code, setCode] = useState({value: "", error: false, helper: ""});
+    const [point, setPoint] = useState(NaN);
     const [isProgress, setIsProgress] = useState(false);
     const [isErrorSnack, setIsErrorSnack] = useState(false);
     const [snackWarning, setSnackWarning] = useState("");
     const [isInfoSnack, setIsInfoSnack] = useState(false);
     const [snackInfo, setSnackInfo] = useState("");
+    const [isDestructOpen, setIsDestructOpen] = useState(false);
     const theme = useTheme();
     const dispatch = useDispatch();
 
-    function formatPhoneNumber(phoneNumber) {
-        const formattedNumber = phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
-        return formattedNumber;
-    }
-
     const handleInput = async (e) => {
-        const value = e.target.value.replace(/[^0-9]/g, '');
-        setphoneNumber((prev) => ({...prev, value: value}));
-        if (value.length === 0) {
-            setphoneNumber((prev) => ({...prev, error: false}));
-            setphoneNumber((prev) => ({...prev, helper: ""}));
-        } else if (!value.match(/^[0-9]{11}$/)) {
-            setphoneNumber((prev) => ({...prev, error: true}));
-            setphoneNumber((prev) => ({...prev, helper: "半角数字11ケタで入力して下さい"}));
-        } else if (!value.match(/^(090|080|070)\d{8}$/)) {
-            setphoneNumber((prev) => ({...prev, error: true}));
-            setphoneNumber((prev) => ({...prev, helper: "正しい携帯電話番号を入力して下さい"}));
-        } else {
-            setphoneNumber((prev) => ({...prev, error: false}));
-            setphoneNumber((prev) => ({...prev, helper: ""}));
-            try {
-                const user = await axios.get(`http://localhost:5000/client/user/getByPhone/${value.toString()}`);
-                if (user.data) {
-                    setphoneNumber((prev) => ({...prev, error: true}));
-                    setphoneNumber((prev) => ({...prev, helper: "この携帯電話番号はすでに使用されています"}));
-                }
-            } catch (err) {
-                
-            }
-        }
+        setCode((prev) => ({...prev, value: e.target.value, error: false, helper: ""}));
     }
 
     const handleUpdate = async () => {
         try {
             setIsProgress(true);
-            await axios.put(`http://localhost:5000/client/setting/phoneNumber/${props.currentUser._id}`, {phoneNumber: phoneNumber.value.toString()});
+            const isExist = await axios.post(`http://localhost:5000/client/setting/codeExist/`, {code: code.value});
+            setPoint(isExist.data);
+            setTimeout(() => {
+                setIsProgress(false);
+                setIsDestructOpen(true);
+            }, 1000);
+        } catch (err) {
+            setTimeout(() => {
+                setIsProgress(false);
+                if (err.response) {
+                    if (err.response.status === 400) {
+                        setCode((prev) => ({...prev, error: true, helper: err.response.data}));
+                    }
+                } else if (err.request) {
+                    setSnackWarning("サーバーとの通信がタイムアウトしました。");
+                    setIsErrorSnack(true);
+                } else {
+                    console.log(err);
+                }
+            }, 1000);
+        }
+    }
+
+    const handleCharge = async () => {
+        try {
+            setIsProgress(true);
+            await axios.put(`http://localhost:5000/client/setting/charge/${props.currentUser._id}/`, {point: point});
             const response = await axios.get(`http://localhost:5000/client/user/getById/${props.currentUser._id}`);
             dispatch(setUser(response.data));
-            setIsProgress(false);
-            setSnackInfo(`新しい携帯電話番号: ${formatPhoneNumber(response.data.phoneNumber)}`);
+            setCode((prev) => ({...prev, value: "", error: false, helper: ""}));
+            setSnackInfo(`ポイントがチャージされました。現在の残高: ${response.data.points}`);
             setIsInfoSnack(true);
+            setIsDestructOpen(false);
+            setIsProgress(false);
         } catch (err) {
+            setIsDestructOpen(false);
             setIsProgress(false);
             if (err.response) {
                 console.log(err);
@@ -81,26 +85,29 @@ const PhoneNumberSetting = (props) => {
         <>
         <StyledHeader>
             <StyledTitle theme={theme}>
-                <Link to="/setting/account/accountInfo">
+                <Link to="/setting/account/paymentInfo">
                     <IconButton color='secondary'>
                         <ArrowBack style={{color: theme.palette.text.main}}/>
                     </IconButton>
                 </Link>
-                <div>携帯電話番号を変更</div>
+                <div>コードを利用</div>
             </StyledTitle>
         </StyledHeader>
         <StyledInputZone theme={theme}>
-        <StyledTextField helperText={phoneNumber.helper} error={phoneNumber.error} theme={theme} fullWidth label="携帯電話番号 (数字11ケタ)"
-            autoComplete='new-off' variant='outlined' inputProps={{maxLength: 11}} value={phoneNumber.value} onChange={handleInput}/>
+        <StyledTextField helperText={code.helper} error={code.error} theme={theme} fullWidth label="コードを入力"
+            autoComplete='new-off' variant='outlined' inputProps={{maxLength: 30}} value={code.value} onChange={handleInput}/>
         </StyledInputZone>
         <StyledButtonZone>
-            <StyledDisabledButton theme={theme} color="secondary" variant="contained" disabled={phoneNumber.error || phoneNumber.value.length === 0 || props.currentUser.phoneNumber === phoneNumber.value} onClick={handleUpdate}>保存</StyledDisabledButton>
+            <StyledDisabledButton theme={theme} color="secondary" variant="contained" disabled={code.error || code.value.length === 0} onClick={handleUpdate}>送信</StyledDisabledButton>
         </StyledButtonZone>
 
         <IsProgress isProgress={isProgress} style={{zIndex: 9000}}/>
 
         <ErrorSnack open={isErrorSnack} onClose={() => setIsErrorSnack(false)} warning={snackWarning} />
         <ErrorSnack open={isInfoSnack} onClose={() => setIsInfoSnack(false)} warning={snackInfo} severity="info"/>
+
+        <DestructionModal isDestructOpen={isDestructOpen} setIsDestructOpen={setIsDestructOpen} secondary handleInputDelete={handleCharge}
+            header="ポイントをチャージ" desc={`${point}ポイントをチャージしようとしています。`} act="残高をチャージ"/>
         </>
     )
 }
@@ -146,4 +153,4 @@ const StyledButtonZone = styled.div`
 `
 
 
-export default PhoneNumberSetting
+export default PointSetting

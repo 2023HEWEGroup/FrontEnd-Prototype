@@ -163,13 +163,14 @@ const FollowersModal = (props) => {
                                         </StyledNameAndId>
                                     </StyledIconAndName>
                                     <StyledTabArea>
-                                        {props.currentUser._id !== user._id ?
-                                            props.currentUser.followings.includes(user._id) ?
-                                            <StyledUnFollowTab label="フォロー中" $isFollowDisabled={isFollowDisabled} theme={theme} variant={theme.palette.type.followButton} clickable onClick={(e) => handleFollow(e, user, 0)}/>
+                                        {props.currentUser &&
+                                            props.currentUser._id !== user._id ?
+                                                props.currentUser.followings.includes(user._id) ?
+                                                <StyledUnFollowTab label="フォロー中" $isFollowDisabled={isFollowDisabled} theme={theme} variant={theme.palette.type.followButton} clickable onClick={(e) => handleFollow(e, user, 0)}/>
+                                                :
+                                                <StyledFollowTab label="フォロー" $isFollowDisabled={isFollowDisabled} variant={theme.palette.type.followButton} color="secondary" clickable onClick={(e) => handleFollow(e, user, 1)}/>
                                             :
-                                            <StyledFollowTab label="フォロー" $isFollowDisabled={isFollowDisabled} variant={theme.palette.type.followButton} color="secondary" clickable onClick={(e) => handleFollow(e, user, 1)}/>
-                                        :
-                                        null
+                                            null
                                         }
                                     </StyledTabArea>
                                 </StyledUpperSection>
