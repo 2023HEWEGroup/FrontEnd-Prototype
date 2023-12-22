@@ -8,7 +8,8 @@ export const LighPinkTheme = createTheme({
         siteLogo: "LMAP_logo.svg",
         primary: {
             main: "#f8fcff",
-            listBack: `linear-gradient(to bottom right, ${pink[500]}, 70%, ${pink[500]})`
+            listBack: `linear-gradient(to bottom right, ${pink[500]}, 70%, ${pink[500]})`,
+            disabled: "#aaa",
         },
         secondary: {
             main: pink[500],
@@ -40,6 +41,7 @@ export const LighPinkTheme = createTheme({
             alert: "#000",
             verifyBar: "#fff",
             following: "#fff",
+            disabled: "#555",
         },
         icon: {
             main: "#777",

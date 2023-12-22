@@ -8,7 +8,8 @@ export const LightLimeTheme = createTheme({
         siteLogo: "LMAP_logo.svg",
         primary: {
             main: "#f8fcff",
-            listBack: `linear-gradient(to bottom right, ${lime[500]}, 70%, ${lime[500]})`
+            listBack: `linear-gradient(to bottom right, ${lime[500]}, 70%, ${lime[500]})`,
+            disabled: "#aaa",
         },
         secondary: {
             main: lime[500],
@@ -40,6 +41,7 @@ export const LightLimeTheme = createTheme({
             alert: "#000",
             verifyBar: "#000",
             following: "#fff",
+            disabled: "#555",
         },
         icon: {
             main: "#777",

@@ -277,7 +277,8 @@ const StyledSaveButton = styled(Button)`
         height: 70%;
         font-weight: bold;
         pointer-events: ${(props) => props.$usernameError || props.profile.username.length === 0 ? "none" : "auto"};
-        background-color: ${(props) => props.$usernameError || props.profile.username.length === 0 ? props.theme.palette.background.modalDisable : props.theme.palette.text.main2};
+        color: ${(props) => props.$usernameError || props.profile.username.length === 0 ? props.theme.palette.text.disabled : props.theme.palette.text.main3};
+        background-color: ${(props) => props.$usernameError || props.profile.username.length === 0 ? props.theme.palette.primary.disabled : props.theme.palette.text.main2};
     }
 `
 

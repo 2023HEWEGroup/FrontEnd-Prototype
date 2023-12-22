@@ -288,12 +288,11 @@ const Profile = () => {
     uploadHeader={uploadHeader} setUploadHeader={setUploadHeader} originalHeader={originalHeader} setOriginalHeader={setOriginalHeader} binaryHeader={binaryHeader} setBinaryHeader={setBinaryHeader}
     headerCrop={headerCrop} setHeaderCrop={setHeaderCrop} headerZoom={headerZoom} setHeaderZoom={setHeaderZoom} uploadPrevHeader={uploadPrevHeader} setUploadPrevHeader={setUploadPrevHeader} originalPrevHeader={originalPrevHeader}
     setOriginalPrevHeader={setOriginalPrevHeader} binaryPrevHeader={binaryPrevHeader} setBinaryPrevHeader={setBinaryPrevHeader}/>
-
-    {followersModal ? <FollowersModal open={followersModal} setOpen={setFollowersModal} user={user} setIsProfileChange={setIsProfileChange} currentUser={currentUser} isFollowDisplay={isFollowDisplay} setIsFollowDisplay={setIsFollowDisplay}/> : null}
     </>
     :
     null
     }
+    {followersModal ? <FollowersModal open={followersModal} setOpen={setFollowersModal} user={user} setIsProfileChange={setIsProfileChange} currentUser={currentUser} isFollowDisplay={isFollowDisplay} setIsFollowDisplay={setIsFollowDisplay}/> : null}
     </>
   )
 }

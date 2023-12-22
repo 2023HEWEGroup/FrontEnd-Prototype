@@ -8,7 +8,8 @@ export const darkOrangeTheme= createTheme({
         siteLogo: "LMAP_logo_reversal.svg",
         primary: {
             main: "#111",
-            listBack: `linear-gradient(to bottom right, ${deepOrange[500]}, #000)`
+            listBack: `linear-gradient(to bottom right, ${deepOrange[500]}, #000)`,
+            disabled: "#444",
         },
         secondary: {
             main: deepOrange[500],
@@ -40,6 +41,7 @@ export const darkOrangeTheme= createTheme({
             alert: "#fff",
             verifyBar: "#fff",
             following: "#000",
+            disabled: "#000",
         },
         icon: {
             main: "#777",

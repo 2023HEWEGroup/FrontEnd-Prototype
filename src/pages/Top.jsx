@@ -12,6 +12,7 @@ import IsProgress from '../components/common/isProgress/IsProgress'
 import VerifiedBadge from '../layouts/badges/VerifiedBadge'
 import TopBack from '../components/top/topBack/TopBack'
 import { useGlitch } from 'react-powerglitch'
+import ErrorSnack from '../components/common/errorSnack/ErrorSnack'
 
 
 const Top = () => {
@@ -23,6 +24,8 @@ const Top = () => {
   const back = searchParams.get('back');
   const [isTopModalOpen, setIsTopModalOpen] = useState(recommend === "true" ? true : false);
   const [isRequesting, setIsRequesting] = useState(false);
+  const [isErrorSnack, setIsErrorSnack] = useState(false);
+  const [snackWarning, setSnackWarning] = useState("");
   const user = useSelector((state) => state.user.value);
   const isScrollable = useSelector((state => state.windowScrollable.value));
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
@@ -145,7 +148,8 @@ const Top = () => {
         </StyledButtons>
       </StyledWelcomeZone>
 
-        {isTopModalOpen && <TopModal isTopModalOpen={isTopModalOpen} setIsTopModalOpen={setIsTopModalOpen} handleTopModalClose={handleTopModalClose} isRequesting={isRequesting} setIsRequesting={setIsRequesting}/>}
+        {isTopModalOpen && <TopModal isTopModalOpen={isTopModalOpen} setIsTopModalOpen={setIsTopModalOpen} handleTopModalClose={handleTopModalClose} isRequesting={isRequesting} setIsRequesting={setIsRequesting}
+        isErrorSnack={isErrorSnack} setIsErrorSnack={setIsErrorSnack} snackWarning={snackWarning} setSnackWarning={setSnackWarning}/>}
 
         <IsProgress isProgress={isRequesting} style={{zIndex: 9000}}/>
 
@@ -154,6 +158,8 @@ const Top = () => {
     </StyledFullScrean>
 
     {/* <Particles options={particle}/> */}
+
+    <ErrorSnack open={isErrorSnack} onClose={() => setIsErrorSnack(false)} warning={snackWarning}/>
 
     </>
   )

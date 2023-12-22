@@ -14,7 +14,6 @@ import { usePaymentInputs } from 'react-payment-inputs';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../../../redux/features/userSlice';
 import { useNavigate } from 'react-router-dom';
-import ErrorSnack from '../../common/errorSnack/ErrorSnack';
 import DestructionModalTop from '../../common/admin/destructionModal/DestructionModalTop';
 
 
@@ -88,8 +87,7 @@ const TopModal = (props) => {
     const [recognitionPasswordVisible, setRecognitionPasswordVisible] = useState(false);
     const [recognitionCVCVisible, setRecognitionCVCVisible] = useState(false);
 
-    const [isErrorSnack, setIsErrorSnack] = useState(false);
-    const [snackWarning, setSnackWarning] = useState("");
+    
     const [isDestructOpen, setIsDestructOpen] = useState(false);
 
     const modalContainerRef = useRef(null);
@@ -114,8 +112,8 @@ const TopModal = (props) => {
         props.handleTopModalClose();
         handleDeleteInput();
         setCurrentStep(0);
-        setIsErrorSnack(false);
-        setSnackWarning("");
+        props.setIsErrorSnack(false);
+        props.setSnackWarning("");
         setIsLogin(true);
         setIsUserIdLogin(true);
         setIsDestructOpen(false);
@@ -193,23 +191,23 @@ const TopModal = (props) => {
     }
 
     const handleNextStep1 = async () => {
-        setSnackWarning("");
+        props.setSnackWarning("");
         let flag = false;
         if (!(registUserName && registUserId && registPassword && registConfirmPassword && registMailAddress && registConfirmMailAddress)) {
-            setSnackWarning("入力内容が不足しています。");
+            props.setSnackWarning("入力内容が不足しています。");
             flag = true;
         }
         if (isRegistUserNameError || isRegistUserIdError || isRegistPasswordError || isRegistConfirmPasswordError || isRegistMailAddressError || isRegistConfirmMailAddressError) {
-            setSnackWarning((prev) => prev + "入力内容が誤っています。");
+            props.setSnackWarning((prev) => prev + "入力内容が誤っています。");
             flag = true;
         }
         if (flag) {
-            setIsErrorSnack(true);
+            props.setIsErrorSnack(true);
             return;
         }
         else if (registUserName && registUserId && registPassword && registConfirmPassword && registMailAddress && registConfirmMailAddress) {
-            setIsErrorSnack(false);
-            setSnackWarning(null);
+            props.setIsErrorSnack(false);
+            props.setSnackWarning(null);
             setCurrentStep(currentStep + 1);
             if (modalContainerRef.current) {
                 modalContainerRef.current.scrollTop = 0;
@@ -218,22 +216,22 @@ const TopModal = (props) => {
     }
 
     const handleNextStep2 = () => {
-        setSnackWarning("");
+        props.setSnackWarning("");
         let flag = false;
         if (!(upperName && lowerName && upperNameKana && lowerNameKana && postalCode && phoneNumber)) {
-            setSnackWarning("入力内容が不足しています。");
+            props.setSnackWarning("入力内容が不足しています。");
             flag = true;
         }
         if (upperNameError || lowerNameError || upperNameKanaError || lowerNameKanaError || postalCodeError || phoneNumberError) {
-            setSnackWarning((prev) => prev + "入力内容が誤っています。");
+            props.setSnackWarning((prev) => prev + "入力内容が誤っています。");
             flag = true;
         }
         if (flag) {
-            setIsErrorSnack(true);
+            props.setIsErrorSnack(true);
             return;
         }
         else if (upperName && lowerName && upperNameKana && lowerNameKana && postalCode && prefecture && city && phoneNumber) {
-            setSnackWarning("");
+            props.setSnackWarning("");
             setCurrentStep(currentStep + 1);
             if (modalContainerRef.current) {
                 modalContainerRef.current.scrollTop = 0;
@@ -242,7 +240,7 @@ const TopModal = (props) => {
     }
 
     const handleNextStep3 = () => {
-        setSnackWarning("");
+        props.setSnackWarning("");
         if (cardChecked) {
             const newCreditCardError = {
                 ...creditCardError,
@@ -259,8 +257,8 @@ const TopModal = (props) => {
             }
             setCreditCardHelper(newCreditCardHelper);
             if (meta.erroredInputs.cardNumber || meta.erroredInputs.expiryDate || meta.erroredInputs.cvc) {
-                setSnackWarning("入力内容に誤りがあります。");
-                setIsErrorSnack(true);
+                props.setSnackWarning("入力内容に誤りがあります。");
+                props.setIsErrorSnack(true);
                 return;
             } else if (!(creditCard.number && creditCard.expiry && creditCard.cvc)) {
                 return;
@@ -673,7 +671,7 @@ const TopModal = (props) => {
     };
 
     const handleLogin = async () => {
-        setSnackWarning("");
+        props.setSnackWarning("");
         if (isUserIdLogin) {
             if (userIdError || passwordError) {
                 return;
@@ -699,20 +697,20 @@ const TopModal = (props) => {
         } catch (err) {
             if (err.response) {
                 if (err.response.status === 401) {
-                    setSnackWarning(err.response.data);
+                    props.setSnackWarning(err.response.data);
                 }
             } else if (err.request) {
-                setSnackWarning("サーバーとの通信がタイムアウトしました。");
+                props.setSnackWarning("サーバーとの通信がタイムアウトしました。");
             } else {
                 console.log(err);
             }
-            setIsErrorSnack(true);
+            props.setIsErrorSnack(true);
         }
     }
 
     const handleRegister = async () => {
         try {
-            setSnackWarning("");
+            props.setSnackWarning("");
             props.setIsRequesting(true);
             const newUser = {
                 username: registUserName.trim(),
@@ -733,8 +731,8 @@ const TopModal = (props) => {
                 phoneNumber: phoneNumber.toString(),
                 cardName: cardChecked ? meta.cardType.displayName : "",
                 number: cardChecked ? creditCard.number : "",
-                cvc: cardChecked ? creditCard.expiry : "",
-                expiry: cardChecked ? creditCard.cvc : "",
+                cvc: cardChecked ? creditCard.cvc : "",
+                expiry: cardChecked ? creditCard.expiry : "",
             }
             const response = await axios.post("http://localhost:5000/client/auth/register", newUser);
             await axios.put(`http://localhost:5000/client/notify/welcome/${response.data._id}`);
@@ -744,11 +742,11 @@ const TopModal = (props) => {
         } catch (err) {
             props.setIsRequesting(false);
             if (err.response) {
-                setSnackWarning("エラーが発生しました");
-                setIsErrorSnack(true);
+                props.setSnackWarning("エラーが発生しました");
+                props.setIsErrorSnack(true);
             } else if (err.request) {
-                setSnackWarning("サーバーとの通信がタイムアウトしました。");
-                setIsErrorSnack(true);
+                props.setSnackWarning("サーバーとの通信がタイムアウトしました。");
+                props.setIsErrorSnack(true);
             } else {
                 console.log(err);
             }
@@ -852,8 +850,6 @@ const TopModal = (props) => {
             }
 
             </Modal>
-
-            <ErrorSnack open={isErrorSnack} onClose={() => setIsErrorSnack(false)} warning={snackWarning}/>
 
             <DestructionModalTop isDestructOpen={isDestructOpen} handleInputDelete={handleInputDelete} setIsDestructOpen={setIsDestructOpen}
             header="入力内容を破棄しますか？" desc="この操作は取り消しできません。変更は失われます。"/>

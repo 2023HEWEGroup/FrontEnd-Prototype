@@ -8,7 +8,8 @@ export const LightGreenTheme = createTheme({
         siteLogo: "LMAP_logo.svg",
         primary: {
             main: "#f8fcff",
-            listBack: `linear-gradient(to bottom right, ${green[500]}, 70%, ${green[500]})`
+            listBack: `linear-gradient(to bottom right, ${green[500]}, 70%, ${green[500]})`,
+            disabled: "#aaa",
         },
         secondary: {
             main: green[600],
@@ -40,6 +41,7 @@ export const LightGreenTheme = createTheme({
             alert: "#000",
             verifyBar: "#fff",
             following: "#fff",
+            disabled: "#555",
         },
         icon: {
             main: "#777",

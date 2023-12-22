@@ -1,11 +1,11 @@
-import { AccountCircleOutlined, ArrowBack, KeyboardArrowRight, VpnKeyOutlined } from '@mui/icons-material';
+import { AccountCircleOutlined, ArrowBack, KeyboardArrowRight, Payment, VpnKeyOutlined } from '@mui/icons-material';
 import { IconButton, List, ListItemAvatar, ListItemButton, ListItemText, useMediaQuery, useTheme } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 
 
-const SelectAccountSetting = () => {
+const SelectAccountSetting = (props) => {
 
     const theme = useTheme();
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
@@ -23,7 +23,7 @@ const SelectAccountSetting = () => {
                 }
                 <div>アカウント</div>
             </StyledTitle>
-            <StyledDesc theme={theme}>アカウント関連の設定ですあああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</StyledDesc>
+            <StyledDesc theme={theme}>アカウントについての設定を変更することが出来ます。</StyledDesc>
         </StyledHeader>
 
         <StyledList>
@@ -32,7 +32,17 @@ const SelectAccountSetting = () => {
                     <ListItemAvatar>
                         <AccountCircleOutlined style={{color: theme.palette.icon.main}}/>
                     </ListItemAvatar>
-                    <ListItemText primary="アカウント情報" secondary="メールアドレスや住所などのアカウント情報を管理できます" 
+                    <ListItemText primary="アカウント情報" secondary="メールアドレスや住所などのアカウント情報を管理できます。" 
+                    primaryTypographyProps={{ color: theme.palette.text.main }} secondaryTypographyProps={{ color: theme.palette.text.sub }}/>
+                    <KeyboardArrowRight style={{color: theme.palette.icon.main}}/>
+                </StyledListItemButton>
+            </Link>
+            <Link to="/setting/account/paymentInfo" style={{textDecoration: "none", color: "transparent"}}>
+                <StyledListItemButton theme={theme}>
+                    <ListItemAvatar>
+                        <Payment style={{color: theme.palette.icon.main}}/>
+                    </ListItemAvatar>
+                    <ListItemText primary="お支払い方法" secondary="ポイントやクレジットカードなどの情報を管理できます。" 
                     primaryTypographyProps={{ color: theme.palette.text.main }} secondaryTypographyProps={{ color: theme.palette.text.sub }}/>
                     <KeyboardArrowRight style={{color: theme.palette.icon.main}}/>
                 </StyledListItemButton>
@@ -41,7 +51,7 @@ const SelectAccountSetting = () => {
                 <ListItemAvatar>
                     <VpnKeyOutlined style={{color: theme.palette.icon.main}}/>
                 </ListItemAvatar>
-                <ListItemText primary="パスワードを変更する" secondary="パスワードはいつでも変更できます" 
+                <ListItemText primary="パスワードを変更する" secondary="パスワードはいつでも変更できます。" 
                 primaryTypographyProps={{ color: theme.palette.text.main }} secondaryTypographyProps={{ color: theme.palette.text.sub }}/>
                 <KeyboardArrowRight style={{color: theme.palette.icon.main}}/>
             </StyledListItemButton>

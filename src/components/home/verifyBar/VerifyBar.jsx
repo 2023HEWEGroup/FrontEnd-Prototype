@@ -1,5 +1,5 @@
 import { Close } from '@mui/icons-material';
-import { AppBar, Button, useTheme } from '@mui/material'
+import { AppBar, Button, useMediaQuery, useTheme } from '@mui/material'
 import React from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -10,11 +10,12 @@ const VerifyBar = (props) => {
 
     const isSideOpen = useSelector((state => state.floatSideBar.value));
     const isScrollable = useSelector((state => state.windowScrollable.value));
+    const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
     const theme = useTheme();
 
     return (
         <>
-        <StyledVerifyBar $isScrollable={isScrollable} $isSideOpen={isSideOpen} theme={theme}>
+        <StyledVerifyBar $isSmallScreen={isSmallScreen} $isScrollable={isScrollable} $isSideOpen={isSideOpen} theme={theme}>
             <StyledClose theme={theme} onClick={() => props.setIsVerifyRecommend(false)}/>
             <StyledBarInner>
                 <StyledTitle>アカウントの二段階認証が完了していません。認証コードを入力してメールアドレスを認証して下さい。</StyledTitle>
@@ -37,9 +38,9 @@ const StyledVerifyBar = styled(AppBar)`
         align-items: center;
         position: fixed;
         top: 115px;
-        left: ${(props) => props.$isSideOpen ? "240px" : "75px"};
+        left: ${(props) => props.$isSideOpen ? props.$isSmallScreen ? "0px" : "240px" : props.$isSmallScreen ? "0px" : "75px"};
         height: 30px;
-        width: ${(props) => props.$isSideOpen ? "calc(100vw - 250px)" : "calc(100vw - 85px)"};
+        width: ${(props) => props.$isSideOpen ? props.$isSmallScreen ? "calc(100vw - 10px)" : "calc(100vw - 250px)" : props.$isSmallScreen ? "calc(100vw - 10px)" : "calc(100vw - 85px)"};
         color: ${(props) => props.theme.palette.text.verifyBar};
         background-color: ${(props) => props.theme.palette.secondary.main};
     }

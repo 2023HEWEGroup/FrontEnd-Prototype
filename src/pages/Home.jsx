@@ -95,7 +95,7 @@ const Home = (props) => {
       {!isLoading ?
       <>
 
-      {props.currentUser ? !props.currentUser.isAuthorized && isVerifyRecommend ? <VerifyBar setIsVerifyRecommend={setIsVerifyRecommend} /> : null : null}
+      {props.currentUser ? !props.currentUser.isAuthorized && isVerifyRecommend && !isXsScreen ? <VerifyBar setIsVerifyRecommend={setIsVerifyRecommend} /> : null : null}
 
       <StyledHome>
 

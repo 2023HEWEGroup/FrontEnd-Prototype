@@ -1,5 +1,5 @@
 import { ArrowBack } from '@mui/icons-material';
-import { Button, IconButton, useTheme } from '@mui/material'
+import { IconButton, useTheme } from '@mui/material'
 import axios from 'axios';
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
@@ -9,6 +9,7 @@ import { setUser } from '../../../../redux/features/userSlice';
 import ErrorSnack from '../../../common/errorSnack/ErrorSnack';
 import IsProgress from '../../../common/isProgress/IsProgress';
 import { StyledTextField } from '../../../../utils/StyledTextField';
+import { StyledDisabledButton } from '../../../../utils/StyledDisabledButton';
 
 
 const UserIdSetting = (props) => {
@@ -85,7 +86,7 @@ const UserIdSetting = (props) => {
             autoComplete='new-off' variant='outlined' inputProps={{maxLength: 30}} value={userId.value} onChange={handleInput}/>
         </StyledInputZone>
         <StyledButtonZone>
-            <Button color="secondary" variant="contained" disabled={userId.error || userId.value.length === 0 || props.currentUser.userId === userId.value} onClick={handleUpdate}>保存</Button>
+            <StyledDisabledButton theme={theme} color="secondary" variant="contained" disabled={userId.error || userId.value.length === 0 || props.currentUser.userId === userId.value} onClick={handleUpdate}>保存</StyledDisabledButton>
         </StyledButtonZone>
 
         <IsProgress isProgress={isProgress} style={{zIndex: 9000}}/>

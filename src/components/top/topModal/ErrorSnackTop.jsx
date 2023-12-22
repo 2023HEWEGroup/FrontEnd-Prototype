@@ -7,7 +7,7 @@ const SlideTransition = (props) => {
 };
 
 
-const ErrorSnack = (props) => {
+const ErrorSnackTop = (props) => {
 
     return (
         <Snackbar open={props.open} onClose={props.onClose} TransitionComponent={SlideTransition} autoHideDuration={props.infinite ? null : 5000} anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
@@ -21,4 +21,4 @@ const ErrorSnack = (props) => {
 }
 
 
-export default ErrorSnack
+export default ErrorSnackTop
