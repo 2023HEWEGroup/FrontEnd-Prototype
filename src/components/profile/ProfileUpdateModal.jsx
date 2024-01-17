@@ -187,7 +187,7 @@ const ProfileUpdateModal = (props) => {
                                 </StyledIconDarkness>
                             </StyledIcon>
                             <StyledIconButtons>
-                                <StyledChangeButton onClick={handleUploadClick} fullWidth variant="contained" theme={theme} ref={buttonRef2}>アイコンを変更</StyledChangeButton>
+                                <StyledChangeButton onClick={handleUploadClick} fullWidth variant="outlined" theme={theme} ref={buttonRef2} color='text'>アイコンを変更</StyledChangeButton>
                                 {(props.currentUser.icon && !isIconDelete) || props.uploadIcon ? <StyledDeleteButton fullWidth variant="contained" theme={theme} onClick={handleUploadIconDelete}>アイコンを削除</StyledDeleteButton> : null}
                             </StyledIconButtons>
                         </StyledIconInner>
@@ -398,7 +398,9 @@ const StyledIconButtons = styled.div`
 
 const StyledChangeButton = styled(Button)`
     && {
-        color: ${(props) => props.theme.palette.secondary.main};
+        &:hover {
+            background-color: transparent;
+        }
     }
 `
 

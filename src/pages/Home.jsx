@@ -46,6 +46,9 @@ const Home = (props) => {
           }
           setProducts((prev) => [...prev, ...response.data]);
           setPasgeNumber((prev) => (prev + 1));
+          if (response.data.length < PAGE_SIZE) {
+            setIsNextLoading(false);
+          }
         } catch (err) {
           if (err.response) {
             console.log(err);

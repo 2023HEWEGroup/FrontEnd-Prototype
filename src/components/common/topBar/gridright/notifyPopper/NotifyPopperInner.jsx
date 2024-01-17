@@ -132,10 +132,11 @@ const StyledPopper = styled(Popper)`
 const StyledNotifyPopperPaper = styled(Paper)`
     && {
         height: 600px;
+        max-height: calc(100vh - 55px);
         width: 425px;
         max-width: 60vw;
         border-radius: 15px;
-        background-color: ${(props) => props.theme.palette.background.profilePop}
+        background-color: ${(props) => props.theme.palette.background.profilePop};
     }
 `
 

@@ -21,7 +21,7 @@ export const LighPinkTheme = createTheme({
         line: {
             main: "#888",
             white: "#fff",
-            disable: "#555",
+            disable: "#aaa",
             tab: "#333",
             successLine: "#084",
             warningLine: "#880",

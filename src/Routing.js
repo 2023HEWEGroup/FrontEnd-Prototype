@@ -46,7 +46,7 @@ const Routing = () => {
 
       <Route path="/" element={<CommonLayouts />}>
         <Route path="home" element={<Home currentUser={user}/>} />
-        <Route path="product/:productId" element={<Product />} />
+        <Route path="product/:productId" element={<Product currentUser={user}/>} />
         <Route path="following" element={<Following />} />
         <Route path="group" element={<Group />} />
         <Route path="notify" element={<Notify />} />

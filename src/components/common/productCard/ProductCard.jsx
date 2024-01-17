@@ -79,12 +79,14 @@ const ProductCard = (props) => {
         <StyledProduct $isLargeScreen={isLargeScreen} $isMiddleScreen={isMiddleScreen} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
             <Link to={`/product/${props.product._id}`} style={{textDecoration: "none"}}>
                 <StyledProductImgZone theme={theme}>
-                <StyledAvatar variant='square' src={`http://localhost:5000/uploads/productImages/${props.product.productImg[0]}`} alt='商品画像' />
-                <StyledProductOption theme={theme} productAnchorEl={productAnchorEl}>
-                    <StyledIconButton onClick={handleProductPopper}>
-                    <MoreVert />
-                    </StyledIconButton>
-                </StyledProductOption>
+                    <StyledSoldLabel theme={theme} isSold={props.product.purchasingId}>SOLD</StyledSoldLabel>
+                    <StyledDarkness isSold={props.product.purchasingId} />
+                    <StyledAvatar variant='square' src={`http://localhost:5000/uploads/productImages/${props.product.productImg[0]}`} alt='商品画像' />
+                    <StyledProductOption theme={theme} productAnchorEl={productAnchorEl}>
+                        <StyledIconButton onClick={handleProductPopper}>
+                        <MoreVert />
+                        </StyledIconButton>
+                    </StyledProductOption>
                 </StyledProductImgZone>
                 <StyledProductDesc>
                 <StyledSellerId theme={theme} onClick={(e) => handleGoToSeller(e, props.product.sellerId._id)}>{`by @${props.product.sellerId.userId}`}</StyledSellerId>
@@ -95,7 +97,7 @@ const ProductCard = (props) => {
                 </StyledProductDesc>
             </Link>
 
-            <Popper open={isProductPopperOpen} anchorEl={productAnchorEl} placement="bottom-end" theme={theme} ref={productPopperRef}>
+            <Popper sx={{zIndex: 60}} open={isProductPopperOpen} anchorEl={productAnchorEl} placement="bottom-end" theme={theme} ref={productPopperRef}>
             <StyledPopperPaper elevation={3} theme={theme}>
                 <StyledPopperItem theme={theme} onClick={handleLinkCopy}>リンクをコピー</StyledPopperItem>
                 <StyledPopperItem theme={theme}>共有</StyledPopperItem>
@@ -135,11 +137,42 @@ const StyledProductImgZone = styled.div`
     background-color: ${(props) => props.theme.palette.background.productBack};
 `
 
+const StyledSoldLabel = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    display: ${(props) => props.isSold ? "flex" : "none"};
+    justify-content: center;
+    align-items: end;
+    width: 70%;
+    height: 70%;
+    padding-bottom: 6%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    font-size: 1.3rm;
+    font-weight: bold;
+    letter-spacing: .1rem;
+    color: ${(props) => props.theme.palette.text.main2};
+    background-color: ${(props) => props.theme.palette.secondary.main};
+`
+
+const StyledDarkness = styled.div`
+    display: ${(props) => props.isSold ? "block" : "none"};
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 40;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+`
+
 const StyledProductOption = styled.div`
     opacity: 0;
     position: absolute;
     top: 5px;
     right: 5px;
+    z-index: 60;
     background-color: ${(props) => props.theme.palette.background.slideHover};
     border-radius: 50%;
     pointer-events: ${(props) => (props.productAnchorEl !== null ? "none" : "auto")};
