@@ -7,9 +7,11 @@ import styled from 'styled-components'
 import ProductSlider from '../components/product/ProductSlider';
 import VerifiedBadge from '../layouts/badges/VerifiedBadge';
 import { formatRelativeTime } from '../utils/formatRelativeTime';
+import PurchaseModal from '../components/product/PurchaseModal';
+import LoginRequiredModal from '../components/common/loginRequiredModal/LoginRequiredModal';
 
 
-const Product = () => {
+const Product = (props) => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [product, setProduct] = useState(null);
@@ -18,6 +20,8 @@ const Product = () => {
   const [truncatedText, setTruncatedText] = useState("");
   const [lineCount, setLineCount] = useState(NaN);
   const [sliderIndex, setSliderIndex] = useState(0);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
   const theme = useTheme();
   const navigate = useNavigate();
   const { productId } = useParams("productId");
@@ -40,24 +44,32 @@ const Product = () => {
     );
   };
 
-  useEffect((() => {
-    const fetchProduct = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/client/product/get/${productId}`);
-        const sallerResponse = await axios.get(`http://localhost:5000/client/user/getById/${response.data.sellerId}`);
-        setProduct(response.data);
-        setSaller(sallerResponse.data);
-        setIsLoading(false);
-      } catch (err) {
-        if (err.response) {
-          navigate("/notFound");
-        } else if (err.request) {
-          navigate("/timeOut");
-        } else {
-            console.log(err);
-        }
+  const handlePurchase = () => {
+    if (!props.currentUser) {
+      setLoginOpen(true);
+    } else {
+      setModalOpen(true);
+    }
+  }
+
+  const fetchProduct = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/client/product/get/${productId}`);
+      const sallerResponse = await axios.get(`http://localhost:5000/client/user/getById/${response.data.sellerId}`);
+      setProduct(response.data);
+      setSaller(sallerResponse.data);
+      setIsLoading(false);
+    } catch (err) {
+      if (err.response) {
+        navigate("/notFound");
+      } else if (err.request) {
+        navigate("/timeOut");
+      } else {
+          console.log(err);
       }
     }
+  }
+  useEffect((() => {
     fetchProduct();
   }), []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -204,7 +216,14 @@ const Product = () => {
                   <StyledIconDetail>共有</StyledIconDetail>
                 </StyledIconAndName3>
               </StyledIcons>
-              <Button color="secondary" variant="contained" fullWidth>購入取引へ</Button>
+              {props.currentUser ?
+                props.currentUser._id !== saller._id && !product.purchasingId ?
+                  <Button color="secondary" variant="contained" fullWidth onClick={handlePurchase}>購入取引へ</Button>
+                  :
+                  null
+                :
+                <Button color="secondary" variant="contained" fullWidth onClick={handlePurchase}>購入取引へ</Button>
+              }
             </StyledsellerInner>
           </StyledSeller>
             
@@ -215,6 +234,9 @@ const Product = () => {
     :
     <LinearProgress color='secondary' style={{backgroundColor: "transparent"}}/>
     }
+
+    {modalOpen && <PurchaseModal open={modalOpen} setOpen={setModalOpen} currentUser={props.currentUser} product={product} fetchProduct={fetchProduct}/>}
+    <LoginRequiredModal open={loginOpen} onClose={setLoginOpen} header="ログインが必要です。" desc={"商品を購入しますか？今すぐユーザーのログインを完了させましょう！"}/>
     </>
   )
 }

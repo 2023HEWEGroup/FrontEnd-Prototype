@@ -149,6 +149,10 @@ const Profile = () => {
     fetchUser();
   }, [userId, isProfileChange]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    setTabValue(0);
+  }, [userId])
+
   return (
     <>
     {!isLoading ? 
@@ -250,7 +254,7 @@ const Profile = () => {
         <UserProfile direction={direction} user={user} isExpanded={isExpanded} setIsExpanded={setIsExpanded} setTabValue={setTabValue}/>
         }
         {tabValue === 1 &&
-        <UserProduct direction={direction}/>
+        <UserProduct direction={direction} user={user}/>
         }
         {tabValue === 2 &&
         <UserGroup direction={direction}/>
@@ -301,8 +305,8 @@ const Profile = () => {
 const StyledProfile = styled.div`
   width: ${(props) => (props.$isSmallScreen ? "100%" : "90%")};
   max-width: 3000px;
-  height: 2000px;
   margin: 0 auto;
+  overflow: hidden;
 `
 
 const StyledHeaderZone = styled.div`
@@ -524,7 +528,6 @@ const StyledTab = styled(Tab)`
 const StyledProfileMain = styled.div`
     width: 100%;
     height: fit-content;
-    max-height: 1000px;
 `
 
 

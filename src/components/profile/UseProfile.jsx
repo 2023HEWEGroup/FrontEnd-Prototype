@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
-import { Avatar, Slide, useMediaQuery, useTheme } from '@mui/material'
+import { Avatar, CircularProgress, Slide, useMediaQuery, useTheme } from '@mui/material'
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
@@ -73,7 +73,7 @@ const UseProfile = (props) => {
                     null
                     }
                 </StyledTitle>
-                {!productsLoading &&
+                {!productsLoading ?
                 <>
                 {props.user.products.length > 0 ?
                 <StyledUserProduct>
@@ -100,6 +100,10 @@ const UseProfile = (props) => {
                 null
                 }
                 </>
+                :
+                <div style={{width: "100%", height: "100px", display: "flex", justifyContent: "center", alignItems: "center"}}>
+                    <CircularProgress color='secondary' />
+                </div>
                 }
             </StyledUserProfile>
         </Slide>
@@ -132,6 +136,7 @@ const StyledTitle = styled.div`
 const StyledMoreView = styled.div`
     color: ${(props) => props.theme.palette.text.sub2};
     cursor: pointer;
+    font-size: 1rem;
 
     &:hover {
         text-decoration: underline;
@@ -179,11 +184,12 @@ const StyledProductTable = styled.div`
     align-items: center;
     gap: 10px;
     width: 100%;
+    padding: 0 0 0 10px;
     margin: 0 auto;
 `
 
 const StyledProduct = styled.div`
-    width: calc(${(props) => (props.$isXsScreen ? "50%" : (props.$isSmallScreen ? "33.333%" : (props.$isMiddleScreen ? "25%" : (props.isLargeScreen ? "20%" : "16.666%"))))} - 10px);
+    width: calc(${(props) => (props.$isXsScreen ? "50%" : (props.$isSmallScreen ? "33%" : (props.$isMiddleScreen ? "25%" : props.$isLargeScreen ? "20%" : "16.7%")))} - 10px);
     height: 100%;
     cursor: pointer;
 `
