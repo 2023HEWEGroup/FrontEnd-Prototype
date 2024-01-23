@@ -115,7 +115,7 @@ const Home = (props) => {
           <StyledHomeSection theme={theme}>ユーザーを見つける</StyledHomeSection>
 
           <StyledApproachZone>
-            <UserApproach />
+            <UserApproach currentUser={props.currentUser}/>
           </StyledApproachZone>
 
           <StyledHomeSection theme={theme}>グループを見つける</StyledHomeSection>

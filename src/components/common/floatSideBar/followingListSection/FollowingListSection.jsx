@@ -1,78 +1,100 @@
 import { Avatar, ListItem, useTheme } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components'
 import { booleanFloatSideBarFollowing } from '../../../../redux/features/floatSideBarFollowingSlice';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 
-const FollowingListSection = () => {
+const FollowingListSection = (props) => {
 
-    const accounts = [{
-        id: 1,
-        name: "account1aaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    },
-    {
-        id: 2,
-        name: "account2ああああああああああああああ",
-    },
-    {
-        id: 3,
-        name: "account3",
-    },
-    {
-        id: 4,
-        name: "account4",
-    },
-    {
-        id: 5,
-        name: "account5",
-    },
-    {
-        id: 6,
-        name: "account6",
-    },
-    {
-        id: 7,
-        name: "account7",
-    },];
-
+    const [isLoading, setIsLoading] = useState(true);
+    const [followers, setFollowers] = useState();
+    const PAGE_SIZE = props.currentUser ? props.currentUser.followings.length : 0;
     const dispatch = useDispatch();
     const isOpenFollowing = useSelector((state => state.floatSideBarFollowing.value));
-    const visibleAccounts = isOpenFollowing ? accounts : accounts.slice(0, 5);
+    const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
     const theme = useTheme();
 
     const toggleFollowingShowAll = () => {
         dispatch(booleanFloatSideBarFollowing());
     }
 
+    useEffect(() => {
+        const fetchFollowers = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5000/client/user/getFollowings/${props.currentUser._id}/?page=${1}&pageSize=${PAGE_SIZE}`);
+                setFollowers(response.data);
+                setIsLoading(false);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        fetchFollowers();
+    }, [props.page]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    useEffect(() => {
+        const fetchFollowers = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5000/client/user/getFollowings/${props.currentUser._id}/?page=${1}&pageSize=${PAGE_SIZE}`);
+                setFollowers(response.data);
+                setIsLoading(false);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        fetchFollowers();
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
     return (
         <>
             <StyledListBlockWithTitle>
-                {visibleAccounts.map((account) => 
-                <StyledListItem key={account.id}>
-                    <StyledListElements theme={theme}>
-                        <StyledAvatar />
-                        <StyledListItemText theme={theme.palette.text.main}>{account.name}</StyledListItemText>
-                    </StyledListElements>
-                </StyledListItem>)}
-                {accounts.length > 5 && !isOpenFollowing && (
-                    <StyledListItem>
-                        <StyledListElements theme={theme} onClick={toggleFollowingShowAll}>
-                        <StyledListItemText theme={theme.palette.text.sub2}>すべて表示</StyledListItemText>
-                            <StyledExpandMoreIcon color="icon"/>
-                        </StyledListElements>
-                    </StyledListItem>
-                )}
-                {accounts.length > 5 && isOpenFollowing && (
-                    <StyledListItem>
-                    <StyledListElements theme={theme} onClick={toggleFollowingShowAll}>
-                        <StyledListItemText theme={theme.palette.text.sub2}>折りたたむ</StyledListItemText>
-                        <StyledExpandLessIcon color="icon"/>
-                    </StyledListElements>
-                </StyledListItem>
-                )}
+            {!isLoading ? (
+                <>
+                    {isOpenFollowing ?
+                    followers.map((account, index) => (
+                        <Link to={`/user/${account._id}`} key={index} style={{textDecoration: "none"}}>
+                            <StyledListItem>
+                                <StyledListElements theme={theme}>
+                                    <StyledAvatar src={account.icon ? `http://localhost:5000/uploads/userIcons/${account.icon}` : `${siteAssetsPath}/default_icons/${account.defaultIcon}`}/>
+                                    <StyledListItemText theme={theme.palette.text.main}>{account.username}</StyledListItemText>
+                                </StyledListElements>
+                            </StyledListItem>
+                        </Link>
+                    ))
+                    :
+                    followers.slice(0, 5).map((account, index) => (
+                        <Link to={`/user/${account._id}`} key={index} style={{textDecoration: "none"}}>
+                            <StyledListItem>
+                                <StyledListElements theme={theme}>
+                                    <StyledAvatar src={account.icon ? `http://localhost:5000/uploads/userIcons/${account.icon}` : `${siteAssetsPath}/default_icons/${account.defaultIcon}`}/>
+                                    <StyledListItemText theme={theme.palette.text.main}>{account.username}</StyledListItemText>
+                                </StyledListElements>
+                            </StyledListItem>
+                        </Link>
+                    ))
+                    }
+                    {followers.length > 5 && !isOpenFollowing && (
+                        <StyledListItem>
+                            <StyledListElements theme={theme} onClick={toggleFollowingShowAll}>
+                                <StyledListItemText theme={theme.palette.text.sub2}>すべて表示</StyledListItemText>
+                                <StyledExpandMoreIcon color="icon"/>
+                            </StyledListElements>
+                        </StyledListItem>
+                    )}
+                    {followers.length > 5 && isOpenFollowing && (
+                        <StyledListItem>
+                            <StyledListElements theme={theme} onClick={toggleFollowingShowAll}>
+                                <StyledListItemText theme={theme.palette.text.sub2}>折りたたむ</StyledListItemText>
+                                <StyledExpandLessIcon color="icon"/>
+                            </StyledListElements>
+                        </StyledListItem>
+                    )}
+                </>
+            ) : null}
             </StyledListBlockWithTitle>
         </>
     )

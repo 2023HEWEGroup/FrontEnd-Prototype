@@ -1,11 +1,12 @@
 import { Alert, Button, Slide, Snackbar, useMediaQuery, useTheme } from '@mui/material';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from 'styled-components';
 import { ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
 import UserPanel from './userPanel/UserPanel';
+import axios from 'axios';
 
 
 const SlideTransition = (props) => {
@@ -13,27 +14,31 @@ const SlideTransition = (props) => {
 };
 
 
-const UserApproach = () => {
+const UserApproach = (props) => {
 
     const islargeScreen = useMediaQuery((theme) => theme.breakpoints.down('xl'));
     const isMiddleScreen = useMediaQuery((theme) => theme.breakpoints.down('lg'));
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
     const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
-    const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
     const theme = useTheme();
+    const [isLoading, setIsLoading] = useState(true);
+    const [outsiders, setOutsiders] = useState([]);
+    const [username, setUsername] = useState("");
     const [isFollowSnack, setIsFollowSnack] = useState(false);
+    const [isUnFollowSnack, setIsUnFollowSnack] = useState(false);
 
     const handleFollowSnackClose = () => {
         setIsFollowSnack(false);
     }
 
-    const handleFollowSnack = () => {
+    const handleFollowSnack = (username) => {
+        setUsername(username);
         setIsFollowSnack(true);
     }
 
     const CustomUserArrow = ({ onClick, theme, direction }) => {
         return (
-        <StyledCustomUserArrow theme={theme} onClick={onClick} style={direction === "prev" ? {left: "-30px"} : {right: "-30px"}}>
+        <StyledCustomUserArrow outsiders={outsiders} theme={theme} onClick={onClick} style={direction === "prev" ? {left: "-30px"} : {right: "-30px"}}>
             <StyledButton theme={theme}>
             {direction === "prev" ? <ArrowBackIosNew /> : <ArrowForwardIos />}
             </StyledButton>
@@ -41,43 +46,48 @@ const UserApproach = () => {
         );
     };
 
+    useEffect(() => {
+        const fetchFollowers = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5000/client/user/getOutsider/${props.currentUser._id}`);
+                setOutsiders(response.data);
+                setIsLoading(false);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        fetchFollowers();
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
     const userSlideSettings = {
         infinite: true,
         speed: 350,
-        slidesToShow: isXsScreen ? 2 : isSmallScreen ? 3 : isMiddleScreen ? 4 : islargeScreen ? 5 : 6,
-        slidesToScroll: 1,
+        slidesToShow: Math.min(outsiders.length >= 2 ? outsiders.length - 1 : outsiders.length, isXsScreen ? 2 : isSmallScreen ? 3 : isMiddleScreen ? 4 : islargeScreen ? 5 : 6),
+        slidesToScroll: outsiders.length === 1 ? 0 : 1,
         arrows: true,
         prevArrow: <CustomUserArrow theme={theme} direction="prev"/>,
         nextArrow: <CustomUserArrow theme={theme} direction="next"/>,
     }
 
-    const userSlides = [
-        {id: 1, userIconUrl: `${siteAssetsPath}/demae.png`, userName: "demaescape", userId: "demae"},
-        {id: 2, userIconUrl: `${siteAssetsPath}/elon.png`, userName: "HARDCORE TANO*C", userId: "tanoc_net2"},
-        {id: 3, userIconUrl: `${siteAssetsPath}/tanoc_icon.png`, userName: "CODING KURU*Cんじゃこらwwwwwwwwwwwwwwwww", userId: "tanoc_nettttttttttttttttttttttttttttttttttttttttttttttttttt"},
-        {id: 4, userIconUrl: `${siteAssetsPath}/tanoc_icon_black.png`, userName: "明太子ご飯こそ至高", userId: "mentaiko_2b2c"},
-        {id: 5, userIconUrl: `${siteAssetsPath}/iseebi.png`, userName: "出品者イセエビ", userId: "gg_noob"},
-        {id: 6, userIconUrl: `${siteAssetsPath}/iseebi.png`, userName: "2代目出品者イセエビ", userId: "gg_noob2"},
-        {id: 7, userIconUrl: `${siteAssetsPath}/demae.png`, userName: "demaescape", userId: "demae"},
-        {id: 8, userIconUrl: `${siteAssetsPath}/elon.png`, userName: "HARDCORE TANO*C", userId: "tanoc_net2"},
-        {id: 9, userIconUrl: `${siteAssetsPath}/tanoc_icon.png`, userName: "CODING KURU*Cんじゃこらwwwwwwwwwwwwwwwww", userId: "tanoc_nettttttttttttttttttttttttttttttttttttttttttttttttttt"},
-        {id: 10, userIconUrl: `${siteAssetsPath}/tanoc_icon_black.png`, userName: "明太子ご飯こそ至高", userId: "mentaiko_2b2c"},
-        {id: 11, userIconUrl: `${siteAssetsPath}/iseebi.png`, userName: "出品者イセエビ", userId: "gg_noob"},
-        {id: 12, userIconUrl: `${siteAssetsPath}/iseebi.png`, userName: "2代目出品者イセエビ", userId: "gg_noob2"},
-    ]
-
     return (
         <>
+        {!isLoading ?
         <StyledUserApproach>
             <StyledUserSlider {...userSlideSettings} theme={theme}>
-                {userSlides.map(userSlide =>
-                    <UserPanel key={userSlide.id} userSlide={userSlide} handleFollowSnack={handleFollowSnack}/>
+                {outsiders.map((user, index) =>
+                    <UserPanel key={index} userSlide={user} handleFollowSnack={handleFollowSnack} setIsUnFollowSnack={setIsUnFollowSnack} currentUser={props.currentUser}/>
                 )}
-                </StyledUserSlider>
+            </StyledUserSlider>
         </StyledUserApproach>
+        :
+        null
+        }
 
         <Snackbar open={isFollowSnack} onClose={handleFollowSnackClose} TransitionComponent={SlideTransition} autoHideDuration={10000}>
-            <Alert severity='info'>username さんをフォローしました</Alert>
+            <Alert severity='info'>{username} さんをフォローしました</Alert>
+        </Snackbar>
+        <Snackbar open={isUnFollowSnack} onClose={() => setIsUnFollowSnack(false)} TransitionComponent={SlideTransition} autoHideDuration={10000}>
+            <Alert severity='warning'>フォローを解除しました</Alert>
         </Snackbar>
     </>
     )
@@ -113,7 +123,7 @@ const StyledUserSlider = styled(Slider)`
 const StyledCustomUserArrow = styled.div`
     z-index: 50;
     top: 50%;
-    display: flex;
+    display: ${(props) => props.outsiders.length > 1 ? "flex" : "none"};
     justify-content: center;
     align-items: center;
     position: absolute;

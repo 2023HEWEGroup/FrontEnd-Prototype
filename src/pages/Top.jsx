@@ -129,9 +129,9 @@ const Top = () => {
         <StyledAccountHeader>
           <StyledCard theme={theme} elevation={0}>
             <Link to={user ? `/user/${user._id}` : "#"} style={{textDecoration: "none"}} onClick={handleIsLogin}>
-                <StyledCardHeader sx={{display: "flex", overflow: "hidden", "& .MuiCardHeader-content": {overflow: "hidden"}}} avatar={<Avatar sx={{ width: 40, height: 40 }} src={user ? user.icon ? `http://localhost:5000/uploads/userIcons/$user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}` : null}/>}
+                <StyledCardHeader sx={{display: "flex", overflow: "hidden", "& .MuiCardHeader-content": {overflow: "hidden"}}} avatar={<Avatar sx={{ width: 40, height: 40 }} src={user ? user.icon ? `http://localhost:5000/uploads/userIcons/${user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}` : null}/>}
                 title={UserBadge()} titleTypographyProps={{ noWrap: true, color: theme.palette.text.main2, fontSize: "1.1rem"}} action={<ArrowForwardIos style={{color: theme.palette.icon.main}}/>}
-                subheader={user ? "@"+user.userId : "@aaaa"} subheaderTypographyProps={{ noWrap: true, color: theme.palette.text.sub}}>
+                subheader={user ? "@"+user.userId : "@"} subheaderTypographyProps={{ noWrap: true, color: theme.palette.text.sub}}>
                 </StyledCardHeader>
             </Link>
           </StyledCard>
