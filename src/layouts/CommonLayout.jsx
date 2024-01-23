@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux'
 import { useMediaQuery } from '@mui/material'
 
 
-const CommonLayouts = () => {
+const CommonLayouts = (props) => {
 
   const location = useLocation();
   const isSideOpen = useSelector((state => state.floatSideBar.value));
@@ -28,7 +28,7 @@ const CommonLayouts = () => {
         <div style={{width: "100%"}}>
           <TopBar page={location.pathname}/>
         </div>
-        <FloatSideBar page={location.pathname}/>
+        <FloatSideBar page={location.pathname} currentUser={props.currentUser}/>
         <div style={{width: "100vw", height: "55px"}}/>
         <StyledMain>
           {!isSmallScreen && <SideBar page={location.pathname}/>}

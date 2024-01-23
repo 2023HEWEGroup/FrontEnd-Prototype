@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { setUser } from '../../redux/features/userSlice';
 import ErrorSnack from '../common/errorSnack/ErrorSnack';
 import VerifiedBadge from '../../layouts/badges/VerifiedBadge';
+import { debounce } from 'lodash';
 
 
 const SlideTransition = (props) => {
@@ -19,9 +20,9 @@ const FollowersModal = (props) => {
     const [isLoading, setIsLoading] = useState(true);
     const [users, setUsers] = useState();
     const [tabValue, setTabValue] = useState(props.isFollowDisplay ? 0 : 1);
-    const [isNextLoading, setIsNextLoading] = useState(false);
+    const [isNextLoading, setIsNextLoading] = useState(true);
     const [pageNumber, setPasgeNumber] = useState(1);
-    const PAGE_SIZE = 20;
+    const PAGE_SIZE = 10;
     const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
     const dispatch = useDispatch();
     const listRef = useRef();
@@ -37,6 +38,8 @@ const FollowersModal = (props) => {
     const handleTabChange = async (event, newValue) => {
         try {
             setTabValue(newValue);
+            setPasgeNumber(1);
+            setIsNextLoading(true);
             if (newValue === 0) {
                 props.setIsFollowDisplay(true);
             } else if (newValue === 1) {
@@ -44,6 +47,9 @@ const FollowersModal = (props) => {
             }
             const response = await axios.get(`http://localhost:5000/client/user/${newValue === 0 ? "getFollowings" : "getFollowers"}/${props.user._id}/?page=${1}&pageSize=${PAGE_SIZE}`);
             setUsers(response.data);
+            if (response.data.length < PAGE_SIZE) {
+                setIsNextLoading(false);
+            }
         } catch (err) {
             if (err.response) {
                 console.log(err);
@@ -85,16 +91,20 @@ const FollowersModal = (props) => {
         }
     }
 
-    const handleScroll = async () => {
+    const handleScroll = debounce(async () => {
         try {
             // スクロール位置が一番下に達したら新しいデータをフェッチ (スクロール最下層判定誤差1px許容)
             if (listRef.current.scrollHeight - (listRef.current.scrollTop + listRef.current.clientHeight) <= 1) {
-                setIsNextLoading(true);
                 const response = await axios.get(`http://localhost:5000/client/user/${props.isFollowDisplay ? "getFollowings" : "getFollowers"}/${props.user._id}/?page=${pageNumber + 1}&pageSize=${PAGE_SIZE}`);
-                if (response.data.length === 0) return; // これ以上ユーザーをフェッチできなければ追加しない
-                setUsers([...users, response.data]);
+                if (response.data.length === 0) {
+                    setIsNextLoading(false);
+                    return;
+                } // これ以上ユーザーをフェッチできなければ追加しない
+                setUsers((prev) => [...prev, ...response.data]);
                 setPasgeNumber((prev) => prev + 1);
-                setIsNextLoading(false);
+                if (response.data.length < PAGE_SIZE) {
+                    setIsNextLoading(false);
+                }
         }
         } catch (err) {
             if (err.response) {
@@ -108,7 +118,7 @@ const FollowersModal = (props) => {
             setIsFollowDisabled(false);
             setIsNextLoading(false);
         }
-    };
+    }, 500);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -116,6 +126,9 @@ const FollowersModal = (props) => {
                 setPasgeNumber(1);
                 const response = await axios.get(`http://localhost:5000/client/user/${props.isFollowDisplay ? "getFollowings" : "getFollowers"}/${props.user._id}/?page=${1}&pageSize=${PAGE_SIZE}`);
                 setUsers(response.data);
+                if (response.data.length < PAGE_SIZE) { // 初回以降フェッチできないならfalse
+                    setIsNextLoading(false);
+                }
                 setIsLoading(false);
             } catch (err) {
                 if (err.response) {
@@ -184,7 +197,7 @@ const FollowersModal = (props) => {
                     null
                     }
 
-                    {isNextLoading && (props.isFollowDisplay ? props.user.followings.length !== users.length : props.user.followers.length !== users.length) ? <CircularProgress color='secondary'/> : null}
+                    {isNextLoading ? <CircularProgress color='secondary'/> : null}
 
                 </StyledFollowerList>
                 </>
@@ -294,8 +307,8 @@ const StyledFollowerList = styled.div`
     overflow-y: scroll;
     width: 100%;
     max-width: 1500px;
-    height: calc(100% - 50px);
-    margin: 90px auto 0 auto;
+    height: calc(100% - 100px);
+    margin: 100px auto 0 auto;
     padding: 30px 0;
 `
 

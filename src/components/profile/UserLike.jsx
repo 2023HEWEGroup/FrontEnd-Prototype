@@ -81,7 +81,7 @@ const UseLike = (props) => {
         <Slide in direction={props.direction}>
             <StyledUserProduct>
                 <StyledTitle theme={theme}>
-                    出品中の商品 ({products ? products.length : ""}件)
+                    いいねした商品 ({products ? products.length : ""}件)
                 </StyledTitle>
                 <StyledProductTable>
                     {!isLoading ?
