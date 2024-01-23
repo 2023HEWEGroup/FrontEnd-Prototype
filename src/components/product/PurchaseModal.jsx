@@ -173,8 +173,8 @@ const PurchaseModal = (props) => {
 
         <IsProgress isProgress={isProgress} style={{zIndex: 9000}}/>
 
-        <DestructionModal isDestructOpen={isDestructOpen} setIsDestructOpen={setIsDestructOpen} handleInputDelete={locateToPoints}
-            header="ポイントが不足しています" desc="商品の購入を行うには、ポイントをチャージするか、お支払い方法を変更します。" />
+        <DestructionModal isDestructOpen={isDestructOpen} setIsDestructOpen={setIsDestructOpen} handleInputDelete={locateToPoints} secondary
+            header="ポイントが不足しています" desc="商品の購入を行うには、ポイントをチャージするか、お支払い方法を変更します。" act="チャージ" />
         
         <ErrorSnack open={isErrorSnack} onClose={() => setIsErrorSnack(false)} warning={snackWarning}/>
         </>

@@ -108,7 +108,7 @@ const Home = (props) => {
 
           <StyledProductZone>
             {upperProducts.map((product, index) =>
-              <ProductCard key={index} product={product}/>
+              <ProductCard key={index} product={product} currentUser={props.currentUser}/>
             )}
           </StyledProductZone>
 

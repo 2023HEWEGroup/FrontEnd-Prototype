@@ -1,5 +1,5 @@
 import { ArrowForwardIos, CurrencyYen, ExpandLess, ExpandMore, FavoriteBorder, Share, SmsOutlined } from '@mui/icons-material';
-import { Alert, Avatar, Button, Card, CardActions, CardHeader, Chip, Divider, LinearProgress, Rating, useMediaQuery, useTheme } from '@mui/material'
+import { Alert, Avatar, Button, Card, CardActions, CardHeader, Chip, CircularProgress, Divider, LinearProgress, Rating, useMediaQuery, useTheme } from '@mui/material'
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -9,11 +9,13 @@ import VerifiedBadge from '../layouts/badges/VerifiedBadge';
 import { formatRelativeTime } from '../utils/formatRelativeTime';
 import PurchaseModal from '../components/product/PurchaseModal';
 import LoginRequiredModal from '../components/common/loginRequiredModal/LoginRequiredModal';
+import { debounce } from 'lodash';
 
 
 const Product = (props) => {
 
   const [isLoading, setIsLoading] = useState(true);
+  const [isLikeLoading, setIsLikeLoading] = useState(false);
   const [product, setProduct] = useState(null);
   const [saller, setSaller] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -51,6 +53,18 @@ const Product = (props) => {
       setModalOpen(true);
     }
   }
+
+  const handleLike = debounce(async () => {
+    try {
+        setIsLikeLoading(true);
+        await axios.put(`http://localhost:5000/client/product/like/${product._id}`, {_id: props.currentUser._id});
+        const response = await axios.get(`http://localhost:5000/client/product/get/${product._id}`);
+        setProduct(response.data);
+        setIsLikeLoading(false);
+    } catch (err) {
+        console.log(err);
+    }
+}, 250);
 
   const fetchProduct = async () => {
     try {
@@ -203,9 +217,17 @@ const Product = (props) => {
               </StyledCard>
               {saller.isAuthorized ? <StyledSuccessAlert theme={theme} severity="success">認証済みユーザーによる出品です</StyledSuccessAlert> : <StyledWarningAlert theme={theme} severity="warning">未認証ユーザーによる出品です</StyledWarningAlert>}
               <StyledIcons theme={theme}>
-                <StyledIconAndName1 theme={theme}>
-                  <FavoriteBorder />
-                  <StyledIconDetail>いいね</StyledIconDetail>
+                <StyledIconAndName1 theme={theme} $isLiked={product.likes.includes(props.currentUser._id) ? true : false}>
+                  {isLikeLoading ?
+                  <>
+                  <CircularProgress color='secondary' size={30} />
+                  </>
+                  :
+                  <>
+                  <FavoriteBorder onClick={handleLike}/>
+                  <StyledIconDetail>{product.likes.includes(props.currentUser._id) ? "いいね済み" : "いいね"}</StyledIconDetail>
+                  </>
+                  }
                 </StyledIconAndName1>
                 <StyledIconAndName2 theme={theme}>
                   <SmsOutlined />
@@ -446,6 +468,7 @@ const StyledIconAndName1 = styled.div`
   flex-direction: column;
   gap: 3px;
   cursor: pointer;
+  color: ${(props) => props.$isLiked ? props.theme.palette.icon.like : props.theme.palette.text.main};
   &:hover {
     color: ${(props) => props.theme.palette.icon.like};
   }
