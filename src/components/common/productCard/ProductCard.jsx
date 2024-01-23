@@ -1,7 +1,10 @@
-import { CurrencyYen, FavoriteBorder, MoreVert } from '@mui/icons-material';
-import { Alert, Avatar, IconButton, Paper, Popper, Slide, Snackbar, useMediaQuery, useTheme } from '@mui/material';
+import { CurrencyYen, Favorite, FavoriteBorder, MoreVert } from '@mui/icons-material';
+import { Alert, Avatar, CircularProgress, IconButton, Paper, Popper, Skeleton, Slide, Snackbar, useMediaQuery, useTheme } from '@mui/material';
+import axios from 'axios';
+import { debounce } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 
@@ -12,6 +15,9 @@ const SlideTransition = (props) => {
 
 const ProductCard = (props) => {
 
+    const [product, setProduct] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isLikeLoading, setIsLikeLoading] = useState(false);
     const [isLinkSnack, setIsLinkSnack] = useState(false);
     const [isProductPopperOpen, setIsProductPopperOpen] = useState(false);
     const [productAnchorEl, setProductAnchorEl] = useState(null);
@@ -19,9 +25,9 @@ const ProductCard = (props) => {
     const isMiddleScreen = useMediaQuery((theme) => theme.breakpoints.down('lg'));
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
     const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+    const user = useSelector((state) => state.user.value);
     const productPopperRef = useRef(null);
     const theme = useTheme();
-    const navigate = useNavigate();
 
     const handleProductPopper = (e) => {
         e.preventDefault();
@@ -48,10 +54,17 @@ const ProductCard = (props) => {
         setIsLinkSnack(false)
     };
 
-    const handleGoToSeller = (e, _id) => {
-        e.preventDefault();
-        navigate(`/user/${_id}`);
-    }
+    const handleLike = debounce(async () => {
+        try {
+            setIsLikeLoading(true);
+            await axios.put(`http://localhost:5000/client/product/like/${product._id}`, {_id: user._id});
+            const response = await axios.get(`http://localhost:5000/client/product/get/${product._id}`);
+            setProduct(response.data);
+            setIsLikeLoading(false);
+        } catch (err) {
+            console.log(err);
+        }
+    }, 250);
 
     useEffect(() => {
         const handleProductPopperClose = (e) => {
@@ -74,37 +87,71 @@ const ProductCard = (props) => {
         }
     }, [isMiddleScreen, isSmallScreen, isXsScreen]);
 
+    const fetchProduct = async () => {
+        try {
+            const response = await axios.get(`http://localhost:5000/client/product/get/${props.product._id}`);
+            setProduct(response.data);
+            setIsLoading(false);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        useEffect((() => {
+        fetchProduct();
+      }), []) // eslint-disable-line react-hooks/exhaustive-deps
+
     return (
         <>
+        {!isLoading ?
         <StyledProduct $isLargeScreen={isLargeScreen} $isMiddleScreen={isMiddleScreen} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
-            <Link to={`/product/${props.product._id}`} style={{textDecoration: "none"}}>
+            <Link to={`/product/${product._id}`} style={{textDecoration: "none"}}>
                 <StyledProductImgZone theme={theme}>
-                    <StyledSoldLabel theme={theme} isSold={props.product.purchasingId}>SOLD</StyledSoldLabel>
-                    <StyledDarkness isSold={props.product.purchasingId} />
-                    <StyledAvatar variant='square' src={`http://localhost:5000/uploads/productImages/${props.product.productImg[0]}`} alt='商品画像' />
+                    <StyledSoldLabel theme={theme} isSold={product.purchasingId}>SOLD</StyledSoldLabel>
+                    <StyledDarkness isSold={product.purchasingId} />
+                    <StyledAvatar variant='square' src={`http://localhost:5000/uploads/productImages/${product.productImg[0]}`} alt='商品画像' />
                     <StyledProductOption theme={theme} productAnchorEl={productAnchorEl}>
                         <StyledIconButton onClick={handleProductPopper}>
                         <MoreVert />
                         </StyledIconButton>
                     </StyledProductOption>
                 </StyledProductImgZone>
-                <StyledProductDesc>
-                <StyledSellerId theme={theme} onClick={(e) => handleGoToSeller(e, props.product.sellerId._id)}>{`by @${props.product.sellerId.userId}`}</StyledSellerId>
-                <StyledPriceAndLike>
-                    <StyledPrice theme={theme}><StyledCurrencyYen />{`${props.product.price}`}</StyledPrice>
-                    <StyledFavoriteBorder theme={theme}/>
-                </StyledPriceAndLike>
-                </StyledProductDesc>
             </Link>
+
+            <StyledProductDesc>
+            <Link to={`/user/${props.product.sellerId._id}`} style={{textDecoration: "none", width: "fit-content"}}>
+                <StyledSellerId theme={theme}>{`by @${props.product.sellerId.userId}`}</StyledSellerId>
+            </Link>
+            <StyledPriceAndLike>
+                <StyledPrice theme={theme}><StyledCurrencyYen />{`${product.price}`}</StyledPrice>
+                {!isLikeLoading ? product.likes.includes(user._id) ? <StyledFavorite theme={theme} onClick={handleLike}/> : <StyledFavoriteBorder theme={theme} onClick={handleLike}/> : <div style={{width: "25px", height: "25px", display: "flex", justifyContent: "center", alignItems: "center"}}><StyledCircularProgress size={20} color='secondary'/></div>}
+            </StyledPriceAndLike>
+            </StyledProductDesc>
 
             <Popper sx={{zIndex: 60}} open={isProductPopperOpen} anchorEl={productAnchorEl} placement="bottom-end" theme={theme} ref={productPopperRef}>
             <StyledPopperPaper elevation={3} theme={theme}>
                 <StyledPopperItem theme={theme} onClick={handleLinkCopy}>リンクをコピー</StyledPopperItem>
                 <StyledPopperItem theme={theme}>共有</StyledPopperItem>
-                <StyledPopperItem theme={theme}>いいねする</StyledPopperItem>
+                <StyledPopperItem theme={theme} onClick={handleLike}>{product.likes.includes(user._id) ? "いいね解除" : "いいねする"}</StyledPopperItem>
             </StyledPopperPaper>
             </Popper>
         </StyledProduct>
+
+        :
+
+        <StyledProduct $isLargeScreen={isLargeScreen} $isMiddleScreen={isMiddleScreen} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
+            <StyledProductImgZone theme={theme}>
+                <StyledSkeleton variant="rectangular"/>
+            </StyledProductImgZone>
+
+            <StyledProductDesc>
+            <StyledSellerId theme={theme}></StyledSellerId>
+            <StyledPriceAndLike>
+                <StyledPrice theme={theme}><StyledCurrencyYen /></StyledPrice>
+                <StyledFavoriteBorder theme={theme}/>
+            </StyledPriceAndLike>
+            </StyledProductDesc>
+        </StyledProduct>
+        }
 
         <Snackbar open={isLinkSnack} onClose={handleLinkSnackClose} TransitionComponent={SlideTransition} autoHideDuration={3000}>
             <Alert severity='success'>リンクをコピーしました</Alert>
@@ -117,7 +164,6 @@ const ProductCard = (props) => {
 const StyledProduct = styled.div`
     width: calc(${(props) => (props.$isXsScreen ? "50%" : (props.$isSmallScreen ? "33%" : (props.$isMiddleScreen ? "25%" : props.$isLargeScreen ? "20%" : "16.7%")))} - 10px);
     height: fit-content;
-    cursor: pointer;
     margin-bottom: 10px;
 `
 
@@ -196,7 +242,7 @@ const StyledProductDesc = styled.div`
 `
 
 const StyledSellerId = styled.div`
-    width: 100%;
+    width: fit-content;
     color: ${(props) => props.theme.palette.text.sub};
     font-size: 0.9rem;
     overflow: hidden;
@@ -216,6 +262,8 @@ const StyledPriceAndLike = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    height: 25px;
 `
 
 const StyledPrice = styled.div`
@@ -234,13 +282,30 @@ const StyledCurrencyYen = styled(CurrencyYen)`
 
 const StyledFavoriteBorder = styled(FavoriteBorder)`
     && {
-        width: 30px;
-        height: 30px;
+        width: 25px;
+        height: 25px;
         color: ${(props) => props.theme.palette.icon.main};
+        cursor: pointer;
 
         &:hover {
         color: ${(props) => props.theme.palette.icon.like};
         }
+    }
+`
+
+const StyledFavorite = styled(Favorite)`
+    && {
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+        color: ${(props) => props.theme.palette.icon.like};
+    }
+`
+
+const StyledCircularProgress = styled(CircularProgress)`
+    && {
+        width: 100%;
+        height: 100%;
     }
 `
 
@@ -266,6 +331,15 @@ const StyledPopperItem = styled.div`
     }
     &:active {
         background-color: transparent;
+    }
+`
+
+const StyledSkeleton = styled(Skeleton)`
+    && {
+        width: 100%;
+        height: 100%;
+        color: #aff;
+        background-color: #444;
     }
 `
 

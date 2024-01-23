@@ -260,7 +260,7 @@ const Profile = () => {
         <UserGroup direction={direction}/>
         }
         {tabValue === 3 &&
-        <UserLike direction={direction}/>
+        <UserLike direction={direction} user={user}/>
         }
       </StyledProfileMain>
     </StyledProfile>
