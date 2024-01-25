@@ -177,7 +177,9 @@ const Product = (props) => {
             <StyledDivider theme={theme}/>
             <StyledInfoRow>
               <StyledInfoTitle>カテゴリー</StyledInfoTitle>
-              <StyledInfoContentLink theme={theme}>{product.category}</StyledInfoContentLink>
+              <Link to={`/home?category=${product.category}`}>
+                <StyledInfoContentLink theme={theme}>{product.category}</StyledInfoContentLink>
+              </Link>
             </StyledInfoRow>
             <StyledInfoRow>
               <StyledInfoTitle>商品の状態</StyledInfoTitle>
@@ -217,18 +219,25 @@ const Product = (props) => {
               </StyledCard>
               {saller.isAuthorized ? <StyledSuccessAlert theme={theme} severity="success">認証済みユーザーによる出品です</StyledSuccessAlert> : <StyledWarningAlert theme={theme} severity="warning">未認証ユーザーによる出品です</StyledWarningAlert>}
               <StyledIcons theme={theme}>
-                <StyledIconAndName1 theme={theme} $isLiked={product.likes.includes(props.currentUser._id) ? true : false}>
-                  {isLikeLoading ?
-                  <>
-                  <CircularProgress color='secondary' size={30} />
-                  </>
+                {props.currentUser ?
+                  <StyledIconAndName1 theme={theme} $isLogin={props.currentUser ? true : false} $isLiked={product.likes.includes(props.currentUser._id) ? true : false}>
+                    {isLikeLoading ?
+                    <>
+                    <CircularProgress color='secondary' size={30} />
+                    </>
+                    :
+                    <>
+                    <FavoriteBorder onClick={handleLike}/>
+                    <StyledIconDetail>{product.likes.includes(props.currentUser._id) ? "いいね済み" : "いいね"}</StyledIconDetail>
+                    </>
+                    }
+                  </StyledIconAndName1>
                   :
-                  <>
-                  <FavoriteBorder onClick={handleLike}/>
-                  <StyledIconDetail>{product.likes.includes(props.currentUser._id) ? "いいね済み" : "いいね"}</StyledIconDetail>
-                  </>
-                  }
-                </StyledIconAndName1>
+                  <StyledIconAndName1 theme={theme} $isLogin={props.currentUser ? true : false} $isLiked={false}>
+                    <FavoriteBorder />
+                    <StyledIconDetail>いいね</StyledIconDetail>
+                  </StyledIconAndName1>
+                }
                 <StyledIconAndName2 theme={theme}>
                   <SmsOutlined />
                   <StyledIconDetail>コメント</StyledIconDetail>
@@ -467,10 +476,10 @@ const StyledIconAndName1 = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 3px;
-  cursor: pointer;
-  color: ${(props) => props.$isLiked ? props.theme.palette.icon.like : props.theme.palette.text.main};
+  cursor: ${(props) => props.$isLogin ? "pointer" : "auto"};
+  color: ${(props) => props.$isLogin ? props.$isLiked ? props.theme.palette.icon.like : props.theme.palette.text.main : props.theme.palette.line.disable};
   &:hover {
-    color: ${(props) => props.theme.palette.icon.like};
+    color: ${(props) => props.$isLogin ? props.theme.palette.icon.like : props.theme.palette.line.disable};
   }
 `
 

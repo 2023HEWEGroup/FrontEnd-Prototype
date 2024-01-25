@@ -6,18 +6,24 @@ import ProductCard from '../components/common/productCard/ProductCard';
 import UserApproach from '../components/home/userApproach/UserApproach';
 import GroupApproach from '../components/home/groupApproach/GroupApproach';
 import VerifyBar from '../components/home/verifyBar/VerifyBar';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { debounce } from 'lodash';
 import axios from 'axios';
 import ErrorSnack from '../components/common/errorSnack/ErrorSnack';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 const Home = (props) => {
+
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const categoryJP = searchParams.get('category');
 
   const [isVerifyRecommend, setIsVerifyRecommend] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState();
   const [pageNumber, setPasgeNumber] = useState(1);
+  const [category, setCategory] = useState(categoryJP ? categoryJP : "すべての商品");
   const [isNextLoading, setIsNextLoading] = useState(true);
   const [isErrorSnack, setIsErrorSnack] = useState(false);
   const [snackWarning, setSnackWarning] = useState("");
@@ -29,49 +35,56 @@ const Home = (props) => {
   const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
   const PAGE_SIZE = 18;
   const theme = useTheme();
+  const navigate = useNavigate();
 
-  useEffect(() => {
+  const handleCategory = (category) => {
+    setCategory(category);
+    navigate(`/home?category=${category}`);
+  }
 
-    const handleScroll = debounce(async () => {
-      const scrollTop = window.scrollY;// 現在のスクロール位置
-      const pageHeight = document.documentElement.scrollHeight;// ページの高さ
-      const windowHeight = window.innerHeight;// ウィンドウの高さ
-      // 一番下までスクロールされたかどうかを判定(誤差絶対値5px許容)
-      if (Math.abs(scrollTop + windowHeight - pageHeight) <= 5) {
-        try {
-          const response = await axios.get(`http://localhost:5000/client/product/getNewest/?page=${pageNumber + 1}&pageSize=${PAGE_SIZE}`);
-          if (response.data.length === 0) {
-            setIsNextLoading(false);
-            return; // 商品がそれ以上フェッチできない場合、終了
-          }
-          setProducts((prev) => [...prev, ...response.data]);
-          setPasgeNumber((prev) => (prev + 1));
-          if (response.data.length < PAGE_SIZE) {
-            setIsNextLoading(false);
-          }
-        } catch (err) {
-          if (err.response) {
+  const debouncedHandleScroll = debounce(async () => {
+    const scrollTop = window.scrollY;// 現在のスクロール位置
+    const pageHeight = document.documentElement.scrollHeight;// ページの高さ
+    const windowHeight = window.innerHeight;// ウィンドウの高さ
+    // 一番下までスクロールされたかどうかを判定(誤差絶対値5px許容)
+    if (Math.abs(scrollTop + windowHeight - pageHeight) <= 5) {
+      try {
+        const response = await axios.get(`http://localhost:5000/client/product/getNewest/?page=${pageNumber + 1}&pageSize=${PAGE_SIZE}&category=${category}`);
+        if (response.data.length === 0) {
+          setIsNextLoading(false);
+          return; // 商品がそれ以上フェッチできない場合、終了
+        }
+        setProducts((prev) => [...prev, ...response.data]);
+        setPasgeNumber((prev) => (prev + 1));
+        if (response.data.length < PAGE_SIZE) {
+          setIsNextLoading(false);
+        }
+      } catch (err) {
+        if (err.response) {
+          console.log(err);
+        } else if (err.request) {
+          setNextSnackWarning("サーバーとの通信がタイムアウトしました");
+          setIsNextErrorSnack(true);
+        } else {
             console.log(err);
-          } else if (err.request) {
-            setNextSnackWarning("サーバーとの通信がタイムアウトしました");
-            setIsNextErrorSnack(true);
-          } else {
-              console.log(err);
-          }
         }
       }
-    }, 500);
+    }
+  }, 500);
 
+  const handleScroll = useCallback(debouncedHandleScroll, [pageNumber, category]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [pageNumber]);
+  }, [pageNumber, category]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/client/product/getNewest/?page=${1}&pageSize=${PAGE_SIZE}`);
+        const response = await axios.get(`http://localhost:5000/client/product/getNewest/?page=${1}&pageSize=${PAGE_SIZE}&category=${category}`);
         setProducts(response.data);
         setIsLoading(false);
       } catch (err) {
@@ -86,14 +99,46 @@ const Home = (props) => {
       }
     }
     fetchProducts();
-  }, [])
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    const handleCategory = async () => {
+      try {
+        if (!categoryJP) {
+          setCategory("すべての商品");
+          navigate("/home?category=すべての商品");
+          return;
+        }
+        setIsLoading(true);
+        setIsNextLoading(true);
+        setPasgeNumber(1);
+        const response = await axios.get(`http://localhost:5000/client/product/getNewest/?page=${1}&pageSize=${PAGE_SIZE}&category=${category}`);
+        setProducts(response.data);
+        setIsLoading(false);
+        if (response.data.length < PAGE_SIZE) {
+          setIsNextLoading(false);
+        }
+      } catch (err) {
+        if (err.response) {
+          console.log(err);
+        } else if (err.request) {
+          setSnackWarning("サーバーとの通信がタイムアウトしました");
+          setIsErrorSnack(true);
+        } else {
+            console.log(err);
+        }
+      }
+    }
+    handleCategory();
+  }, [categoryJP]); // eslint-disable-line react-hooks/exhaustive-deps
+
 
   const upperProducts = products ? isXsScreen ? products.slice(0, 6) : isSmallScreen ? products.slice(0, 9) : isMiddleScreen ? products.slice(0, 12) : isLargeScreen ? products.slice(0, 15) : products.slice(0, 18) : null;
   const lowerProducts = products ? isXsScreen ? products.slice(6) : isSmallScreen ? products.slice(9) : isMiddleScreen ? products.slice(12) : isLargeScreen ? products.slice(15) : products.slice(18) : null;
 
   return (
     <>
-    <CategoryNavigation/>
+    <CategoryNavigation handleCategory={handleCategory} category={category}/>
 
       {!isLoading ?
       <>

@@ -33,7 +33,7 @@ const FollowingListSection = (props) => {
                 console.log(err);
             }
         }
-        fetchFollowers();
+        if (props.currentUser) fetchFollowers();
     }, [props.page]); // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
@@ -46,7 +46,7 @@ const FollowingListSection = (props) => {
                 console.log(err);
             }
         }
-        fetchFollowers();
+        if (props.currentUser) fetchFollowers();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (

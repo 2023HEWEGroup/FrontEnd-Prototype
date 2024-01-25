@@ -52,13 +52,18 @@ const UserPanel = (props) => {
                         <StyledUserSlideAvatar src={props.userSlide.icon ? `http://localhost:5000/uploads/userIcons/${props.userSlide.icon}` : `${siteAssetsPath}/default_icons/${props.userSlide.defaultIcon}`} alt='出品者アイコン' $isMiddleScreen={isMiddleScreen} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}/>
                     </Link>
                     <div style={{display: "flex", flexDirection: "column", gap: "5px"}}>
-                        <StyledUserSlideName theme={theme}>{props.userSlide.userName}</StyledUserSlideName>
+                        <StyledUserSlideName theme={theme}>{props.userSlide.username}</StyledUserSlideName>
                         <StyledUserSlideId theme={theme}>{`@${props.userSlide.userId}`}</StyledUserSlideId>
                     </div>
-                    {props.currentUser.followings.includes(props.userSlide._id) ?
-                    <StyledUnFollowTab label="フォロー中" variant={theme.palette.type.followButton} theme={theme} clickable onClick={(e) => handleFollow(e, props.userSlide, 0)}/>
+                    {props.currentUser ?
+                        props.currentUser.followings.includes(props.userSlide._id) ?
+                            <StyledUnFollowTab label="フォロー中" variant={theme.palette.type.followButton} theme={theme} clickable onClick={(e) => handleFollow(e, props.userSlide, 0)}/>
+                            :
+                            <StyledFollowTab label="フォロー" variant={theme.palette.type.followButton} color="secondary" clickable onClick={(e) => handleFollow(e, props.userSlide, 1)}/>
                     :
-                    <StyledFollowTab label="フォロー" variant={theme.palette.type.followButton} color="secondary" clickable onClick={(e) => handleFollow(e, props.userSlide, 1)}/>
+                    <Link to={`/user/${props.userSlide._id}`} style={{display: "flex", justifyContent: "center", alignItems: "center", width: "100%", height: "fit-content", textDecoration: "none"}}>
+                        <StyledUnFollowTab label="プロフィール" variant={theme.palette.type.followButton} clickable theme={theme} />
+                    </Link>
                     }
                 </div>
             </StyledUserPanel>

@@ -109,11 +109,15 @@ const ProductCard = (props) => {
                     <StyledSoldLabel theme={theme} isSold={product.purchasingId}>SOLD</StyledSoldLabel>
                     <StyledDarkness isSold={product.purchasingId} />
                     <StyledAvatar variant='square' src={`http://localhost:5000/uploads/productImages/${product.productImg[0]}`} alt='商品画像' />
+                    {user ?
                     <StyledProductOption theme={theme} productAnchorEl={productAnchorEl}>
                         <StyledIconButton onClick={handleProductPopper}>
                         <MoreVert />
                         </StyledIconButton>
                     </StyledProductOption>
+                    :
+                    null
+                    }
                 </StyledProductImgZone>
             </Link>
 
@@ -123,10 +127,11 @@ const ProductCard = (props) => {
             </Link>
             <StyledPriceAndLike>
                 <StyledPrice theme={theme}><StyledCurrencyYen />{`${product.price}`}</StyledPrice>
-                {!isLikeLoading ? product.likes.includes(user._id) ? <StyledFavorite theme={theme} onClick={handleLike}/> : <StyledFavoriteBorder theme={theme} onClick={handleLike}/> : <div style={{width: "25px", height: "25px", display: "flex", justifyContent: "center", alignItems: "center"}}><StyledCircularProgress size={20} color='secondary'/></div>}
+                {user ? !isLikeLoading ? product.likes.includes(user._id) ? <StyledFavorite theme={theme} onClick={handleLike}/> : <StyledFavoriteBorder theme={theme} onClick={handleLike}/> : <div style={{width: "25px", height: "25px", display: "flex", justifyContent: "center", alignItems: "center"}}><StyledCircularProgress size={20} color='secondary'/></div> : <StyledFavoriteBorderDisable theme={theme}/>}
             </StyledPriceAndLike>
             </StyledProductDesc>
 
+            {user ?
             <Popper sx={{zIndex: 60}} open={isProductPopperOpen} anchorEl={productAnchorEl} placement="bottom-end" theme={theme} ref={productPopperRef}>
             <StyledPopperPaper elevation={3} theme={theme}>
                 <StyledPopperItem theme={theme} onClick={handleLinkCopy}>リンクをコピー</StyledPopperItem>
@@ -134,6 +139,9 @@ const ProductCard = (props) => {
                 <StyledPopperItem theme={theme} onClick={handleLike}>{product.likes.includes(user._id) ? "いいね解除" : "いいねする"}</StyledPopperItem>
             </StyledPopperPaper>
             </Popper>
+            :
+            null
+            }
         </StyledProduct>
 
         :
@@ -290,6 +298,14 @@ const StyledFavoriteBorder = styled(FavoriteBorder)`
         &:hover {
         color: ${(props) => props.theme.palette.icon.like};
         }
+    }
+`
+
+const StyledFavoriteBorderDisable = styled(FavoriteBorder)`
+    && {
+        width: 25px;
+        height: 25px;
+        color: ${(props) => props.theme.palette.line.disable};
     }
 `
 
