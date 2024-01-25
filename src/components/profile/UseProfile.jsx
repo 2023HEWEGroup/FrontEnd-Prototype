@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import { CurrencyYen, ExpandLess, ExpandMore } from '@mui/icons-material';
 import { Avatar, CircularProgress, Slide, useMediaQuery, useTheme } from '@mui/material'
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
@@ -83,12 +83,14 @@ const UseProfile = (props) => {
                                 <StyledLink to={`/product/${product._id}`}>
                                     <StyledProductInner>
                                         <StyledProductImgZone theme={theme}>
+                                            <StyledSoldLabel theme={theme} isSold={product.purchasingId}>SOLD</StyledSoldLabel>
+                                            <StyledDarkness isSold={product.purchasingId} />
                                             <StyledProductAvatar variant="square" src={`http://localhost:5000/uploads/productImages/${product.productImg[0]}`}>
                                             </StyledProductAvatar>
                                         </StyledProductImgZone>
                                         <StyledProductDetail>
                                             <StyledProductName theme={theme}>{product.productName}</StyledProductName>
-                                            <StyledProductPrice theme={theme}>{product.price} ポイント</StyledProductPrice>
+                                            <StyledPrice theme={theme}><StyledCurrencyYen />{`${product.price}`}</StyledPrice>
                                         </StyledProductDetail>
                                     </StyledProductInner>
                                 </StyledLink>
@@ -209,6 +211,7 @@ const StyledProductInner = styled.div`
 `
 
 const StyledProductImgZone = styled.div`
+    position: relative;
     aspect-ratio: 1/1;
     width: 100%;
     border-radius: 5px;
@@ -239,12 +242,18 @@ const StyledProductName = styled.div`
     color: ${(props => props.theme.palette.text.main)};
 `
 
-const StyledProductPrice = styled.div`
-    width: 100%;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    color: ${(props => props.theme.palette.secondary.main)};
+const StyledPrice = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: ${(props) => props.theme.palette.secondary.main};
+`
+
+const StyledCurrencyYen = styled(CurrencyYen)`
+    && {
+        font-size: 1rem;
+    }
 `
 
 const StyledNothing = styled.div`
@@ -252,6 +261,36 @@ const StyledNothing = styled.div`
     margin: 0 auto;
     text-align: center;
     color: ${(props => props.theme.palette.text.sub)};
+`
+
+const StyledSoldLabel = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    display: ${(props) => props.isSold ? "flex" : "none"};
+    justify-content: center;
+    align-items: end;
+    width: 70%;
+    height: 70%;
+    padding-bottom: 6%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    font-size: 1.3rm;
+    font-weight: bold;
+    letter-spacing: .1rem;
+    color: ${(props) => props.theme.palette.text.main2};
+    background-color: ${(props) => props.theme.palette.secondary.main};
+`
+
+const StyledDarkness = styled.div`
+    display: ${(props) => props.isSold ? "block" : "none"};
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 40;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
 `
 
 

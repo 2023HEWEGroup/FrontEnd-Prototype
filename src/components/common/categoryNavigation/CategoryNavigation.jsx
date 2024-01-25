@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 
-const CategoryNavigation = () => {
+const CategoryNavigation = (props) => {
 
     const categories = [
         "すべての商品", "レディース", "メンズ", "ベビー・キッズ", "インテリア・住まい・小物", "本・音楽・ゲーム", "おもちゃ・ホビー・グッズ", "コスメ・香水。美容",
@@ -14,7 +14,6 @@ const CategoryNavigation = () => {
 
     const [isLeftButtonVisible, setIsLeftButtonVisible] = useState(false);
     const [isRightButtonVisible, setIsRightButtonVisible] = useState(true);
-    const [selectedCategoryId, setSelectedCategoryId] = useState(1);
     const theme = useTheme();
     const navRef = useRef(null);
     const isSideOpen = useSelector((state => state.floatSideBar.value));
@@ -38,10 +37,6 @@ const CategoryNavigation = () => {
         setIsRightButtonVisible(navBar.scrollLeft < navBar.scrollWidth - navBar.clientWidth - 10);
     }
 
-    const handleSelectedCategory = (id) => {
-        setSelectedCategoryId(id);
-    }
-
     return (
         <>
         <StyledAppBar $isSideOpen={isSideOpen} $isSmallScreen={isSmallScreen} $isScrollable={isScrollable} style={ isSideOpen ? isSmallScreen ? {top: "55px", left: "0px", width: "calc(100vw - 10px)"} : {top: "55px", left: "240px", width: "calc(100vw - 250px)"} : isSmallScreen ? {top: "55px", left: "0px", width: "calc(100vw - 10px)"} : {top: "55px", left: "75px", width: "calc(100vw - 85px)"}}>
@@ -53,10 +48,10 @@ const CategoryNavigation = () => {
                     {categories.map((category, index) => (
                         <div key={index}>
                             <StyledChip label={category} clickable theme={theme}
-                            style={selectedCategoryId === index + 1 ? {
+                            style={categories.indexOf(props.category) === index ? {
                                 backgroundColor: theme.palette.background.categoryActive,
                                 color: theme.palette.text.categoryActive} : null}
-                            onClick={() => handleSelectedCategory(index + 1)}/>
+                            onClick={() => props.handleCategory(category)}/>
                         </div>
                     ))}
                 </StyledCategoryBar>

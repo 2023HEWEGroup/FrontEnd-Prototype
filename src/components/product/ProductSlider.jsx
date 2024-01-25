@@ -44,6 +44,8 @@ const ProductSlider = (props) => {
             <StyledSlider theme={theme} afterChange={handleIndexChange} ref={sliderRef} {...slideSettings}>
                 {props.product.productImg.map((img, index) =>
                     <StyledAvatarZone key={index}>
+                        <StyledSoldLabel theme={theme} isSold={props.product.purchasingId}>SOLD</StyledSoldLabel>
+                        <StyledDarkness isSold={props.product.purchasingId} />
                         <StyledAvatar variant="square" src={`http://localhost:5000/uploads/productImages/${img}`}/>
                     </StyledAvatarZone>
                 )}
@@ -104,6 +106,7 @@ const StyledButton = styled(Button)`
 `
 
 const StyledAvatarZone = styled.div`
+    position: relative;
     height: 100%;
     aspect-ratio: 1/1;
     overflow: hidden;
@@ -127,6 +130,36 @@ const StyledNum = styled.div`
     font-size: 1.2rem;
     color: ${(props) => props.theme.palette.text.main2};
     background-color: ${(props) => props.theme.palette.background.slideComment};
+`
+
+const StyledSoldLabel = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    display: ${(props) => props.isSold ? "flex" : "none"};
+    justify-content: center;
+    align-items: end;
+    width: 70%;
+    height: 70%;
+    padding-bottom: 6%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    font-size: 2.5rem;
+    font-weight: bold;
+    letter-spacing: .1rem;
+    color: ${(props) => props.theme.palette.text.main2};
+    background-color: ${(props) => props.theme.palette.secondary.main};
+`
+
+const StyledDarkness = styled.div`
+    display: ${(props) => props.isSold ? "block" : "none"};
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 40;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
 `
 
 

@@ -49,7 +49,12 @@ const UserApproach = (props) => {
     useEffect(() => {
         const fetchFollowers = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/client/user/getOutsider/${props.currentUser._id}`);
+                let response;
+                if (props.currentUser) {
+                    response = await axios.get(`http://localhost:5000/client/user/getOutsider/${props.currentUser._id}`);
+                } else {
+                    response = await axios.get(`http://localhost:5000/client/user/getRandom`);
+                }
                 setOutsiders(response.data);
                 setIsLoading(false);
             } catch (err) {
