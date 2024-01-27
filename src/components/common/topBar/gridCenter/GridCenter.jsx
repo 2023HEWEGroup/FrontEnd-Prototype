@@ -2,10 +2,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import {Divider, IconButton, InputBase, List, ListItem, ListItemText, Paper, Popper, Tooltip, useMediaQuery, useTheme } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import Modal from "./searchImg/Modal";
 import { useNavigate } from "react-router-dom";
+import { ImageSearch } from "@mui/icons-material";
 
-const GridCenter = () => {
+const GridCenter = (props) => {
   const [isPopperOpen, setIsPopperOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [inputhWord, setInputWord] = useState("");
@@ -106,7 +106,11 @@ const GridCenter = () => {
             </StyledIconButton>
           </Tooltip>
           <Divider orientation="vertical" style={{height: "30px", width: "5px", borderRightWidth: "2px", borderColor: "#aaa", margin: "0 10px", }}/>
-          <Modal theme={theme} />
+          <Tooltip title="画像で検索" placement="bottom" arrow>
+            <StyledIconButton size="small" onClick={() => props.setIsImagePopper(true)} theme={theme}>
+              <ImageSearch color="icon" />
+            </StyledIconButton>
+          </Tooltip>
         </StyledPaper>
       </div>
       <StyledPopper open={isPopperOpen} anchorEl={anchorEl} placement="bottom-start" modifiers={[{name: "offset", options: {offset: [0, 12] }}]}>

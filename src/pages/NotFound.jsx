@@ -3,7 +3,7 @@ import React from 'react'
 
 const NotFound = () => {
     return (
-        <div>NotFound</div>
+        <div style={{height: "10000px"}}>NotFound</div>
     )
 }
 

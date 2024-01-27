@@ -83,6 +83,8 @@ export const darkOrangeTheme= createTheme({
             following: "transparent",
             successBack: "rgba(0, 100, 50, 0.2)",
             warningBack: "rgba(100, 100, 0, 0.2)",
+            imageUpload: "#111111",
+            imageUploadHover: "#222222",
         },
         top: {
             main: "#fc8",
