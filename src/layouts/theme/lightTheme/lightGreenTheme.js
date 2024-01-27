@@ -83,6 +83,8 @@ export const LightGreenTheme = createTheme({
             following: "#000",
             successBack: "rgba(0, 200, 70, 0.6)",
             warningBack: "rgba(200, 200, 0, 0.6)",
+            imageUpload: "#dddddd",
+            imageUploadHover: "#cccccc",
         },
         top: {
             main: "#8f8",

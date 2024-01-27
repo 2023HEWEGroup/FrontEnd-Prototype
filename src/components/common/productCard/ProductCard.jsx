@@ -27,6 +27,7 @@ const ProductCard = (props) => {
     const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
     const user = useSelector((state) => state.user.value);
     const productPopperRef = useRef(null);
+    const avatarRef = useRef(null);
     const theme = useTheme();
 
     const handleProductPopper = (e) => {
@@ -66,6 +67,14 @@ const ProductCard = (props) => {
         }
     }, 250);
 
+    const handleDragStart = (event) => {
+        // Avatar内の画像をドラッグした際の関数
+        const imageUrl = `http://localhost:5000/uploads/productImages/${product.productImg[0]}`;
+        // その商品のサムネイルをeventのdataTransferオブジェクトにavatarImageと言う名前で保存。
+        // これはimagePopper.jsx内のPopper内で取得され、画像検索に用いられる。
+        event.dataTransfer.setData('avatarImage', imageUrl);
+    }
+
     useEffect(() => {
         const handleProductPopperClose = (e) => {
             if (productAnchorEl && !productAnchorEl.contains(e.target) && !productPopperRef.current.contains(e.target)) {
@@ -104,11 +113,11 @@ const ProductCard = (props) => {
         <>
         {!isLoading ?
         <StyledProduct $isLargeScreen={isLargeScreen} $isMiddleScreen={isMiddleScreen} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
-            <Link to={`/product/${product._id}`} style={{textDecoration: "none"}}>
+            <Link to={`/product/${product._id}`} style={{textDecoration: "none", userSelect: "none"}}>
                 <StyledProductImgZone theme={theme}>
                     <StyledSoldLabel theme={theme} isSold={product.purchasingId}>SOLD</StyledSoldLabel>
                     <StyledDarkness isSold={product.purchasingId} />
-                    <StyledAvatar variant='square' src={`http://localhost:5000/uploads/productImages/${product.productImg[0]}`} alt='商品画像' />
+                    <StyledAvatar variant='square' src={`http://localhost:5000/uploads/productImages/${product.productImg[0]}`} alt='商品画像' onDragStart={handleDragStart} ref={avatarRef}/>
                     {user ?
                     <StyledProductOption theme={theme} productAnchorEl={productAnchorEl}>
                         <StyledIconButton onClick={handleProductPopper}>
@@ -196,6 +205,8 @@ const StyledSoldLabel = styled.div`
     top: 0;
     left: 0;
     z-index: 50;
+    pointer-events: none;
+    user-select: none;
     display: ${(props) => props.isSold ? "flex" : "none"};
     justify-content: center;
     align-items: end;
@@ -216,6 +227,8 @@ const StyledDarkness = styled.div`
     top: 0;
     left: 0;
     z-index: 40;
+    pointer-events: none;
+    user-select: none;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
@@ -227,6 +240,7 @@ const StyledProductOption = styled.div`
     top: 5px;
     right: 5px;
     z-index: 60;
+    user-select: none;
     background-color: ${(props) => props.theme.palette.background.slideHover};
     border-radius: 50%;
     pointer-events: ${(props) => (props.productAnchorEl !== null ? "none" : "auto")};

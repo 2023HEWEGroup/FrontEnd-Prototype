@@ -24,7 +24,7 @@ const TopBar = (props) => {
 
           <Hidden only={["xs", "sm"]}>
             <Grid item xs={6} sm={6} md={6} style={{display: "flex", justifyContent: "center"}}>
-              <GridCenter />
+              <GridCenter setIsImagePopper={props.setIsImagePopper}/>
             </Grid>
           </Hidden>
 
