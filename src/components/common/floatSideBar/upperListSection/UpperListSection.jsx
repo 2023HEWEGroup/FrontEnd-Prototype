@@ -46,9 +46,9 @@ const UpperListSection = (props) => {
                     </StyledLink>
                 </StyledListItem>
                 <StyledListItem>
-                    <StyledLink to={"/home"}>
-                        <StyledListElements theme={theme} style={props.page === "/product" ? { backgroundColor: theme.palette.background.hover } : null}>
-                            {props.page === "/product" ? <StyledShoppingCartIcon color='secondary' /> : <StyledShoppingCartOutlinedIcon color="icon"/>}
+                    <StyledLink to={"/products"}>
+                        <StyledListElements theme={theme} style={props.page === "/products" ? { backgroundColor: theme.palette.background.hover } : null}>
+                            {props.page === "/products" ? <StyledShoppingCartIcon color='secondary' /> : <StyledShoppingCartOutlinedIcon color="icon"/>}
                             <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="商品" />
                         </StyledListElements>
                     </StyledLink>

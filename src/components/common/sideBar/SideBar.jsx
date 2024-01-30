@@ -29,9 +29,9 @@ const SideBar = (props) => {
       </StyledSideBarCell>
 
       <StyledSideBarCell>
-        <StyledLink to={"/home"}>
-          <StyledSideBarElements theme={theme}  style={props.page === "/product" ? {backgroundColor: theme.palette.background.hover} : null}>
-            {props.page === "/product" ? <StyledShoppingCartIcon color='secondary' /> : <StyledShoppingCartOutlinedIcon color="icon"/>}
+        <StyledLink to={"/products"}>
+          <StyledSideBarElements theme={theme}  style={props.page === "/products" ? {backgroundColor: theme.palette.background.hover} : null}>
+            {props.page === "/products" ? <StyledShoppingCartIcon color='secondary' /> : <StyledShoppingCartOutlinedIcon color="icon"/>}
             <StyledIconName style={{color: theme.palette.text.main}}>商品</StyledIconName>
           </StyledSideBarElements>
         </StyledLink>

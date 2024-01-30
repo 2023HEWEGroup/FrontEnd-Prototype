@@ -53,7 +53,7 @@ const Routing = () => {
         <Route path="user/:userId" element={<Profile />} />
         <Route path="info" element={<Info />} />
         <Route path="help" element={<Help />} />
-        <Route path="products" element={<Products />} />
+        <Route path="products" element={<Products currentUser={user}/>} />
         <Route path="users" element={<Users />} />
         <Route path="groups" element={<Groups />} />
         <Route path="settlementFin" element={<SettlementFin />} />
