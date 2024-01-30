@@ -1,6 +1,6 @@
 import CategoryNavigation from '../components/common/categoryNavigation/CategoryNavigation';
 import styled from 'styled-components';
-import { CircularProgress, LinearProgress, useMediaQuery, useTheme } from '@mui/material';
+import { Checkbox, CircularProgress, FormControlLabel, LinearProgress, useMediaQuery, useTheme } from '@mui/material';
 import Carousel from '../components/home/carousel/Carousel';
 import ProductCard from '../components/common/productCard/ProductCard';
 import UserApproach from '../components/home/userApproach/UserApproach';
@@ -10,20 +10,29 @@ import { useCallback, useEffect, useState } from 'react';
 import { debounce } from 'lodash';
 import axios from 'axios';
 import ErrorSnack from '../components/common/errorSnack/ErrorSnack';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+
+
+const categories = [
+  "すべての商品", "レディース", "メンズ", "ベビー・キッズ", "インテリア・住まい・小物", "本・音楽・ゲーム", "おもちゃ・ホビー・グッズ", "コスメ・香水。美容",
+  "家電・スマホ・カメラ", "スポーツ・レジャー", "ハンドメイド", "チケット", "自動車・オートバイ", "食品", "ダイエット・健康", "花・園芸用品", "アート", "その他"
+];
 
 
 const Home = (props) => {
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const categoryJP = searchParams.get('category');
+  const categoryId = searchParams.get('category');
+  // const status = searchParams.get('status');
 
   const [isVerifyRecommend, setIsVerifyRecommend] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState();
   const [pageNumber, setPasgeNumber] = useState(1);
-  const [category, setCategory] = useState(categoryJP ? categoryJP : "すべての商品");
+
+  const [productCondition, setProductCondition] = useState({all: false, onSale: false, soldOut: false});
+
   const [isNextLoading, setIsNextLoading] = useState(true);
   const [isErrorSnack, setIsErrorSnack] = useState(false);
   const [snackWarning, setSnackWarning] = useState("");
@@ -35,11 +44,18 @@ const Home = (props) => {
   const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
   const PAGE_SIZE = 18;
   const theme = useTheme();
-  const navigate = useNavigate();
 
-  const handleCategory = (category) => {
-    setCategory(category);
-    navigate(`/home?category=${category}`);
+  const handleProductCondition = (condition) => {
+    if (condition === "all") {
+      if (productCondition.all) setProductCondition((prev) => ({...prev, all: false, onSale: false, soldOut: false}));
+      else setProductCondition((prev) => ({...prev, all: true, onSale: true, soldOut: true}));
+    } else if (condition === "onSale") {
+      if (productCondition.onSale) setProductCondition((prev) => ({...prev, all: false, onSale: false}));
+      else setProductCondition((prev) => ({...prev, all: prev.soldOut ? true : false, onSale: true, soldOut: prev.soldOut ? true : false}));
+    } else if (condition === "soldOut") {
+      if (productCondition.soldOut) setProductCondition((prev) => ({...prev, all: false, soldOut: false}));
+      else setProductCondition((prev) => ({...prev, all: prev.onSale ? true : false, onSale: prev.onSale ? true : false, soldOut: true}));
+    }
   }
 
   const debouncedHandleScroll = debounce(async () => {
@@ -49,7 +65,7 @@ const Home = (props) => {
     // 一番下までスクロールされたかどうかを判定(誤差絶対値5px許容)
     if (Math.abs(scrollTop + windowHeight - pageHeight) <= 5) {
       try {
-        const response = await axios.get(`http://localhost:5000/client/product/getNewest/?page=${pageNumber + 1}&pageSize=${PAGE_SIZE}&category=${category}`);
+        const response = await axios.get(`http://localhost:5000/client/product/getNewest/?page=${pageNumber + 1}&pageSize=${PAGE_SIZE}&category=${categoryId ? categories[categoryId] : "すべての商品"}`);
         if (response.data.length === 0) {
           setIsNextLoading(false);
           return; // 商品がそれ以上フェッチできない場合、終了
@@ -72,19 +88,19 @@ const Home = (props) => {
     }
   }, 500);
 
-  const handleScroll = useCallback(debouncedHandleScroll, [pageNumber, category]); // eslint-disable-line react-hooks/exhaustive-deps
+  const handleScroll = useCallback(debouncedHandleScroll, [pageNumber, categoryId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [pageNumber, category]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [pageNumber, categoryId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/client/product/getNewest/?page=${1}&pageSize=${PAGE_SIZE}&category=${category}`);
+        const response = await axios.get(`http://localhost:5000/client/product/getNewest/?page=${1}&pageSize=${PAGE_SIZE}&category=${categoryId ? categories[categoryId] : "すべての商品"}`);
         setProducts(response.data);
         setIsLoading(false);
       } catch (err) {
@@ -104,15 +120,10 @@ const Home = (props) => {
   useEffect(() => {
     const handleCategory = async () => {
       try {
-        if (!categoryJP) {
-          setCategory("すべての商品");
-          navigate("/home?category=すべての商品");
-          return;
-        }
         setIsLoading(true);
         setIsNextLoading(true);
         setPasgeNumber(1);
-        const response = await axios.get(`http://localhost:5000/client/product/getNewest/?page=${1}&pageSize=${PAGE_SIZE}&category=${category}`);
+        const response = await axios.get(`http://localhost:5000/client/product/getNewest/?page=${1}&pageSize=${PAGE_SIZE}&category=${categoryId ? categories[categoryId] : "すべての商品"}`);
         setProducts(response.data);
         setIsLoading(false);
         if (response.data.length < PAGE_SIZE) {
@@ -130,7 +141,7 @@ const Home = (props) => {
       }
     }
     handleCategory();
-  }, [categoryJP]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [categoryId]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
   const upperProducts = products ? isXsScreen ? products.slice(0, 6) : isSmallScreen ? products.slice(0, 9) : isMiddleScreen ? products.slice(0, 12) : isLargeScreen ? products.slice(0, 15) : products.slice(0, 18) : null;
@@ -138,7 +149,7 @@ const Home = (props) => {
 
   return (
     <>
-    <CategoryNavigation handleCategory={handleCategory} category={category}/>
+    <CategoryNavigation categoryId={categoryId}/>
 
       {!isLoading ?
       <>
@@ -150,6 +161,15 @@ const Home = (props) => {
         <Carousel />
         
         <StyledHomeInnner>
+
+          <StyledConditionSelect>
+            <StyledFormControlLabel theme={theme} control={<Checkbox color='secondary' checked={productCondition.all} onChange={() => handleProductCondition("all")} sx={{ color: "#777", '& .MuiSvgIcon-root': { fontSize: 28 } }}/>}
+              label="すべて"/>
+              <StyledFormControlLabel theme={theme} control={<Checkbox color='secondary' checked={productCondition.onSale} onChange={() => handleProductCondition("onSale")} sx={{ color: "#777", '& .MuiSvgIcon-root': { fontSize: 28 } }}/>}
+              label="販売中"/>
+              <StyledFormControlLabel theme={theme} control={<Checkbox color='secondary' checked={productCondition.soldOut} onChange={() => handleProductCondition("soldOut")} sx={{ color: "#777", '& .MuiSvgIcon-root': { fontSize: 28 } }}/>}
+              label="売り切れ"/>
+          </StyledConditionSelect>
 
           <StyledProductZone>
             {upperProducts.map((product, index) =>
@@ -214,7 +234,21 @@ const StyledHomeSection = styled.div`
 const StyledHomeInnner = styled.div`
   width: 90%;
   height: fit-content;
-  margin: 50px auto 0 auto;
+  margin: 0 auto;
+`
+
+const StyledConditionSelect = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  margin: 25px 0;
+`
+
+const StyledFormControlLabel = styled(FormControlLabel)`
+    && {
+        color: ${(props) => props.theme.palette.icon.main};
+    }
 `
 
 const StyledProductZone = styled.div`

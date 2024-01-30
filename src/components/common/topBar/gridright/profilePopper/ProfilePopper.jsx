@@ -88,7 +88,9 @@ const ProfilePopper = () => {
                     </StyledLink>
 
                     <StyledProfilePointHeader>
-                        <StyledPointAmountLabel icon={<CurrencyYen style={{color: theme.palette.secondary.main}} fontSize="small"/>} label={`${user.points} ポイント`} variant='outlined' color='secondary' clickable/>
+                        <Link to={`/setting/account/point`} onClick={handlePopperClose}>
+                            <StyledPointAmountLabel icon={<CurrencyYen style={{color: theme.palette.secondary.main}} fontSize="small"/>} label={`${user.points} ポイント`} variant='outlined' color='secondary' clickable/>
+                        </Link>
                     </StyledProfilePointHeader>
 
                     <Divider style={{borderBottom: `solid 0.25px ${theme.palette.line.main}`, width: "95%", margin: "0 auto"}}/>

@@ -14,7 +14,6 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import { ListItem, ListItemText, useTheme } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import { Dashboard } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import LoginRequiredModal from '../../loginRequiredModal/LoginRequiredModal';
 
@@ -83,14 +82,6 @@ const UpperListSection = (props) => {
                         <StyledListElements theme={theme} style={props.page === "/group" ? { backgroundColor: theme.palette.background.hover } : null}>
                             {props.page === "/group" ? <StyledFolderSharedIcon color='secondary' /> : <StyledFolderSharedOutlinedIcon color="icon"/>}
                             <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="グループ" />
-                        </StyledListElements>
-                    </StyledLink>
-                </StyledListItem>
-                <StyledListItem>
-                    <StyledLink to={"/admin"}>
-                        <StyledListElements theme={theme}>
-                            <StyledDashboard theme={theme}/>
-                            <StyledListItemText primaryTypographyProps={{color: theme.palette.text.admin}} primary="アドミン" />
                         </StyledListElements>
                     </StyledLink>
                 </StyledListItem>
@@ -228,14 +219,6 @@ const StyledAccountCircleOutlinedIcon = styled(AccountCircleOutlinedIcon)`
     && {
         width: 25px;
         height: 25px;
-    }
-`
-
-const StyledDashboard = styled(Dashboard)`
-    && {
-        width: 25px;
-        height: 25px;
-        color: ${(props) => props.theme.palette.icon.admin};
     }
 `
 

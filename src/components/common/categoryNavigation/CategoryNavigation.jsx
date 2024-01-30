@@ -2,6 +2,7 @@ import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import { AppBar, Chip, IconButton, useMediaQuery, useTheme } from '@mui/material';
 import React, { useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 
@@ -46,13 +47,12 @@ const CategoryNavigation = (props) => {
                 </StyledIconButtonLeft>
                 <StyledCategoryBar onScroll={handleIconVisible} ref={navRef}>
                     {categories.map((category, index) => (
-                        <div key={index}>
+                        <Link to={index === 0 ? "/home" : `/home?category=${categories.indexOf(category)}`} key={index}>
                             <StyledChip label={category} clickable theme={theme}
-                            style={categories.indexOf(props.category) === index ? {
+                            style={Number(props.categoryId) === index ? {
                                 backgroundColor: theme.palette.background.categoryActive,
-                                color: theme.palette.text.categoryActive} : null}
-                            onClick={() => props.handleCategory(category)}/>
-                        </div>
+                                color: theme.palette.text.categoryActive} : null}/>
+                        </Link>
                     ))}
                 </StyledCategoryBar>
                 <StyledIconButtonRight onClick={() => handleScroll("right")} theme={theme} style={isRightButtonVisible ? null : {display: "none"}}>
