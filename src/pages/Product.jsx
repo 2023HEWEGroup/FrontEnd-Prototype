@@ -12,6 +12,12 @@ import LoginRequiredModal from '../components/common/loginRequiredModal/LoginReq
 import { debounce } from 'lodash';
 
 
+const categories = [
+  "すべての商品", "レディース", "メンズ", "ベビー・キッズ", "インテリア・住まい・小物", "本・音楽・ゲーム", "おもちゃ・ホビー・グッズ", "コスメ・香水。美容",
+  "家電・スマホ・カメラ", "スポーツ・レジャー", "ハンドメイド", "チケット", "自動車・オートバイ", "食品", "ダイエット・健康", "花・園芸用品", "アート", "その他"
+];
+
+
 const Product = (props) => {
 
   const [isLoading, setIsLoading] = useState(true);
@@ -177,7 +183,7 @@ const Product = (props) => {
             <StyledDivider theme={theme}/>
             <StyledInfoRow>
               <StyledInfoTitle>カテゴリー</StyledInfoTitle>
-              <Link to={`/home?category=${product.category}`}>
+              <Link to={`/home?category=${categories.indexOf(product.category)}`}>
                 <StyledInfoContentLink theme={theme}>{product.category}</StyledInfoContentLink>
               </Link>
             </StyledInfoRow>

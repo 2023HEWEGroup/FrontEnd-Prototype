@@ -36,7 +36,6 @@ const FloatSideBar = (props) => {
             <StyledDivider>
                 <StyledListTitle>{`フォロー中 ${props.currentUser ? `(${props.currentUser.followings.length})` : "(0)"}`}</StyledListTitle>
             </StyledDivider>
-
             {props.currentUser ?
                 <FollowingListSection currentUser={props.currentUser} page={props.page}/>
                 :
@@ -46,7 +45,6 @@ const FloatSideBar = (props) => {
             <StyledDivider>
                 <StyledListTitle>グループ</StyledListTitle>
             </StyledDivider>
-
             <GroupListSection />
 
             <Divider />
