@@ -90,7 +90,7 @@ const Home = (props) => {
     // 一番下までスクロールされたかどうかを判定(誤差絶対値5px許容)
     if (Math.abs(scrollTop + windowHeight - pageHeight) <= 5) {
       try {
-        const response = await axios.get(`http://localhost:5000/client/product/getNewest/?page=${pageNumber + 1}&pageSize=${PAGE_SIZE}&category=${categoryId ? categories[categoryId] : "すべての商品"}&status=${productCondition.all ? "all" : productCondition.onSale ? "onSale" : productCondition.soldOut ? "soldOut" : ""}`);
+        const response = await axios.get(`http://localhost:5000/client/product/getNewest/?page=${pageNumber + 1}&pageSize=${PAGE_SIZE}&category=${categoryId ? categories[categoryId] : "すべての商品"}&status=${status ? status : ""}`);
         if (response.data.length === 0) {
           setIsNextLoading(false);
           return; // 商品がそれ以上フェッチできない場合、終了
@@ -113,19 +113,20 @@ const Home = (props) => {
     }
   }, 500);
 
-  const handleScroll = useCallback(debouncedHandleScroll, [pageNumber, categoryId, productCondition]); // eslint-disable-line react-hooks/exhaustive-deps
+  const handleScroll = useCallback(debouncedHandleScroll, [pageNumber, categoryId, status]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [pageNumber, categoryId, productCondition]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [pageNumber, categoryId, status]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/client/product/getNewest/?page=${1}&pageSize=${PAGE_SIZE}&category=${categoryId ? categories[categoryId] : "すべての商品"}&status=${productCondition.all ? "all" : productCondition.onSale ? "onSale" : productCondition.soldOut ? "soldOut" : ""}`);
+        setProducts(null);
+        const response = await axios.get(`http://localhost:5000/client/product/getNewest/?page=${1}&pageSize=${PAGE_SIZE}&category=${categoryId ? categories[categoryId] : "すべての商品"}&status=${status ? status : ""}`);
         setProducts(response.data);
         setIsLoading(false);
       } catch (err) {
@@ -145,10 +146,11 @@ const Home = (props) => {
   useEffect(() => {
     const handleCategory = async () => {
       try {
+        setProducts(null);
         setIsLoading(true);
         setIsNextLoading(true);
         setPasgeNumber(1);
-        const response = await axios.get(`http://localhost:5000/client/product/getNewest/?page=${1}&pageSize=${PAGE_SIZE}&category=${categoryId ? categories[categoryId] : "すべての商品"}&status=${productCondition.all ? "all" : productCondition.onSale ? "onSale" : productCondition.soldOut ? "soldOut" : ""}`);
+        const response = await axios.get(`http://localhost:5000/client/product/getNewest/?page=${1}&pageSize=${PAGE_SIZE}&category=${categoryId ? categories[categoryId] : "すべての商品"}&status=${status ? status : ""}`);
         setProducts(response.data);
         setIsLoading(false);
         if (response.data.length < PAGE_SIZE) {
@@ -166,7 +168,7 @@ const Home = (props) => {
       }
     }
     handleCategory();
-  }, [categoryId, productCondition]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [categoryId, status]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     handleQueryNavigate({statusArg: productCondition.all ? "all" : productCondition.onSale ? "onSale" : productCondition.soldOut ? "soldOut" : "unset"});
