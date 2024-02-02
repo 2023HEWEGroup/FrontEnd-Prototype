@@ -2,48 +2,19 @@ import { Search } from '@mui/icons-material';
 import { Alert, Avatar, Button, Card, CardContent, CardHeader, CardMedia, Checkbox, FormControlLabel, IconButton, InputBase, Pagination, Paper, Slide, Snackbar, Tooltip, useMediaQuery, useTheme } from '@mui/material'
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
-import { setUser } from '../redux/features/userSlice';
 import ErrorSnack from '../components/common/errorSnack/ErrorSnack';
 import VerifiedBadge from '../layouts/badges/VerifiedBadge';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '../redux/features/userSlice';
 
 
 const SlideTransition = (props) => {
     return <Slide {...props} direction="right" />;
 };
 
-
-const Users = () => {
-
-    const location = useLocation();
-    const searchParams = new URLSearchParams(location.search);
-    const [mode, setMode] = useState({all: true, following: false, follower: false, authorized: false});
-    const [currentPage, setCurrentPage] = useState(1);
-    const [searchWord, setSearchWord] = useState("");
-    const [displaySearchWord, setDisplaySearchWord] = useState("");
-    const [users, setUsers] = useState(null);
-    const [num, setNum] = useState(0);
-    const [isSearch, setIsSearch] = useState(false); // 一度でも検索を実行したらtrueになるフラグ。レイアウト調節用。
-    const PAGE_SIZE = 12;
-    const isMiddleScreen = useMediaQuery((theme) => theme.breakpoints.down('lg'));
-    const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
-    const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
-    const currentUser = useSelector((state) => state.user.value);
-    const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const theme = useTheme();
-
-    const [isFollowDisabled, setIsFollowDisabled] = useState(false);
-    const [isErrorSnack, setIsErrorSnack] = useState(false);
-    const [snackWarning, setSnackWarning] = useState("");
-    const [isFollowSnack, setIsFollowSnack] = useState(false);
-    const [isUnFollowSnack, setIsUnFollowSnack] = useState(false);
-    const [snackUsername, setSnackUsername] = useState("");
-
-    const UserBadge = (user) => {
+const UserBadge = (user) => {
     return (
         <div style={{display: "flex", alignItems: "center", gap: "2px"}}>
         {user.isAuthorized ? (
@@ -58,24 +29,52 @@ const Users = () => {
     );
     };
 
-    const handleSetModeAll = () => {
-        if (mode.all) {
-            setMode({...mode, all: false});
-        } else {
-            setMode({...mode, all: true, following: false, follower: false, authorized: false});
+
+const Users = (props) => {
+
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const word = searchParams.get('word');
+    const modeQuery = searchParams.get('mode');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [searchWord, setSearchWord] = useState(word ? word : "");
+    const [users, setUsers] = useState(null);
+    const [num, setNum] = useState(0);
+    const PAGE_SIZE = 12;
+    const navigate = useNavigate();
+    const theme = useTheme();
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user.value);
+    const isMiddleScreen = useMediaQuery((theme) => theme.breakpoints.down('lg'));
+    const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
+    const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+    const currentUser = useSelector((state) => state.user.value);
+    const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
+
+    
+    const [mode, setMode] = useState({all: true, following: false, follower: false, authorized: false});
+
+    const [isFollowDisabled, setIsFollowDisabled] = useState(false);
+    const [isErrorSnack, setIsErrorSnack] = useState(false);
+    const [snackWarning, setSnackWarning] = useState("");
+    const [isFollowSnack, setIsFollowSnack] = useState(false);
+    const [isUnFollowSnack, setIsUnFollowSnack] = useState(false);
+    const [snackUsername, setSnackUsername] = useState("");
+
+    const handleModeChange = (newMode) => {
+        if (newMode === "all") {
+            if (mode.all) setMode((prev) => ({...prev, all: false, following: false, follower: false, authorized: false}));
+            else setMode((prev) => ({...prev, all: true, following: true, follower: true, authorized: true}));
+        } else if (newMode === "following") {
+            if (mode.following) setMode((prev) => ({...prev, all: false, following: false}));
+            else setMode((prev) => ({...prev, all: mode.follower && mode.authorized ? true : false, following: true}));
+        } else if (newMode === "follower") {
+            if (mode.follower) setMode((prev) => ({...prev, all: false, follower: false}));
+            else setMode((prev) => ({...prev, all: mode.following && mode.authorized ? true : false, follower: true}));
+        } else if (newMode === "authorized") {
+            if (mode.authorized) setMode((prev) => ({...prev, all: false, authorized: false}));
+            else setMode((prev) => ({...prev, all: mode.following && mode.follower ? true : false, authorized: true}));
         }
-    }
-
-    const handleSetModeFollowing = () => {
-        setMode({...mode, all: false, following: !mode.following});
-    }
-
-    const handleSetModeFollower = () => {
-        setMode({...mode, all: false, follower: !mode.follower});
-    }
-
-    const handleSetModeAuthorized = () => {
-        setMode({...mode, all: false, authorized: !mode.authorized});
     }
 
     const handleInputSearchWord = (e) => {
@@ -110,39 +109,37 @@ const Users = () => {
         }
     }
 
-    const handlePageChange = async (e, pageNumber) => {
-        try {
-            // ページを切り替える度にフェッチ
-            if (currentPage === pageNumber) return;
-            setCurrentPage(pageNumber);
-            const users = await axios.get(`http://localhost:5000/client/user/searchAll?searchWord=${displaySearchWord}&page=${pageNumber}&pageSize=${PAGE_SIZE}`);
-            setUsers(users.data.users);
-            setNum(users.data.num);
-            setIsSearch(true);
-        } catch (err) {
-            if (err.response) {
-                console.log(err);
-            } else if (err.request) {
-                setSnackWarning("サーバーとの通信がタイムアウトしました。");
-                setIsErrorSnack(true);
-            } else {
-                console.log(err);
-            }
+    const handleQueryNavigate = ({wordArg, modeArg}) => {
+        // statusArg (map関数indexの文字列)
+        let queryArray = [];
+
+        if (wordArg === "unset") {
+            // 検索ワードクエリを未設定にする場合
+        } else if (wordArg) {
+            queryArray.push(`word=${wordArg}`); //新たなクエリがあればそちらを優先的にURLに組み込む
+        } else if (word) {
+            queryArray.push(`word=${encodeURIComponent(word)}`); //新たなクエリを指定せず、すでにクエリがあるならそちらをURLに組み込む
         }
+    
+        if (modeArg === "unset") {
+          // ユーザー検索モードを未設定にする場合
+        } else if (modeArg) {
+          queryArray.push(`mode=${modeArg}`); //新たなクエリがあればそちらを優先的にURLに組み込む
+        } else if (modeQuery) {
+          queryArray.push(`mode=${encodeURIComponent(modeQuery)}`); //新たなクエリを指定せず、すでにクエリがあるならそちらをURLに組み込む
+        }
+        const queryString = queryArray.length > 0 ? '?' + queryArray.join('&') : '';
+        navigate(`/users${queryString}`);
     }
 
-    const handleSearch = async (e) => { // 検索バーからの検索
+    const handlePageChange = async () => {
         try {
-            e.preventDefault();
-            // クエリ書き換えてnavigateさせれば下のeffectが発火するので、ここいらなかった。一応残す。
-            if (!searchWord) return;
-            // setCurrentPage(1); // 新しい検索ページ1から表示
-            // const users = await axios.get(`http://localhost:5000/client/user/searchAll?searchWord=${searchWord}&page=${1}&pageSize=${PAGE_SIZE}`);
-            // setUsers(users.data.users);
-            // setDisplaySearchWord(searchWord);
-            // setNum(users.data.num);
-            // setIsSearch(true);
-            navigate(`/users/?word=${searchWord}`);
+            setUsers(null);
+            const response = await axios.get(`http://localhost:5000/client/user/searchAll/${user ? user._id : ""}?searchWord=${word ? word : ""}&page=${currentPage}&pageSize=${PAGE_SIZE}&mode=${modeQuery ? encodeURIComponent(modeQuery): ""}`);
+            if (response.data) {
+                setUsers(response.data.users);
+                setNum(response.data.num);
+            }
         } catch (err) {
             if (err.response) {
                 console.log(err);
@@ -154,18 +151,35 @@ const Users = () => {
             }
         }
     }
+    useEffect(() => {
+        handlePageChange();
+    }, [currentPage]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    const handleSearch = (e) => { // 検索バーからの検索
+        e.preventDefault();
+        handleQueryNavigate({wordArg: searchWord ? encodeURIComponent(searchWord) : "unset"});
+    }
+
+    useEffect(() => { // ステートの変更を確実に検知するため、わける。
+        let modeArray = [];
+        if (mode.all) modeArray.push("all");
+        else {
+            if (mode.following) modeArray.push("following");
+            if (mode.follower) modeArray.push("follower");
+            if (mode.authorized) modeArray.push("authorized");
+        }
+        const modeArg = modeArray.length > 0 ? modeArray.join('&') : 'unset';
+        handleQueryNavigate({modeArg: encodeURIComponent(modeArg)});
+    }, [mode]); // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => { // クエリに変化があれば検索を発火
         const accessSearch = async () => {
             try {
-                const word = searchParams.get('word');
-                if (!word) return;
+                setUsers(null);
                 setCurrentPage(1); // 新しい検索ページ1から表示
-                const users = await axios.get(`http://localhost:5000/client/user/searchAll?searchWord=${word}&page=${1}&pageSize=${PAGE_SIZE}`);
-                setUsers(users.data.users);
-                setDisplaySearchWord(word);
-                setNum(users.data.num);
-                setIsSearch(true);
+                const response = await axios.get(`http://localhost:5000/client/user/searchAll//${user ? user._id : ""}?searchWord=${word ? word : ""}&page=${currentPage}&pageSize=${PAGE_SIZE}&mode=${modeQuery ? encodeURIComponent(modeQuery): ""}`);
+                setUsers(response.data.users);
+                setNum(response.data.num);
             } catch (err) {
                 if (err.response) {
                     console.log(err);
@@ -178,15 +192,15 @@ const Users = () => {
             }
         }
         accessSearch();
-    }, [location.search]) // eslint-disable-line react-hooks/exhaustive-deps
+    }, [word, modeQuery]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <>
-        <StyledUsers>
+        <StyledProducts>
 
             <StyledHeader>
                 <StyledDesc theme={theme}>
-                    {!isSearch ? "ユーザーを検索" : "ユーザー検索結果 "}{!isSearch ? null : <StyledSpan theme={theme}>{`"${displaySearchWord}"`}</StyledSpan>}
+                    {!word ? "全ユーザー" : "ユーザー検索結果 "}{!word ? null : <StyledSpan theme={theme}>{`"${word}"`}</StyledSpan>}
                 </StyledDesc>
                 <StyledSearch>
                     <StyledPaper elevation={0} component="form" theme={theme} onChange={handleInputSearchWord} onSubmit={handleSearch} style={{backgroundColor: theme.palette.background.search}}>
@@ -199,14 +213,16 @@ const Users = () => {
                     </StyledPaper>
                 </StyledSearch>
                 <StyledModes>
-                    <StyledFormControlLabel theme={theme} control={<Checkbox color='secondary' checked={mode.all} onChange={handleSetModeAll} sx={{ color: "#777", '& .MuiSvgIcon-root': { fontSize: 20 } }}/>}
+                <StyledCheckBoxes>
+                <StyledFormControlLabel theme={theme} control={<Checkbox color='secondary' checked={mode.all} onChange={() => handleModeChange("all")} sx={{ color: "#777", '& .MuiSvgIcon-root': { fontSize: 20 } }}/>}
                     label="すべて"/>
-                    <StyledFormControlLabel theme={theme} control={<Checkbox color='secondary' checked={mode.following} onChange={handleSetModeFollowing} sx={{ color: "#777", '& .MuiSvgIcon-root': { fontSize: 20 } }}/>}
+                    <StyledFormControlLabel theme={theme} control={<Checkbox color='secondary' checked={mode.following} onChange={() => handleModeChange("following")} sx={{ color: "#777", '& .MuiSvgIcon-root': { fontSize: 20 } }}/>}
                     label="フォロー中"/>
-                    <StyledFormControlLabel theme={theme} control={<Checkbox color='secondary' checked={mode.follower} onChange={handleSetModeFollower} sx={{ color: "#777", '& .MuiSvgIcon-root': { fontSize: 20 } }}/>}
+                    <StyledFormControlLabel theme={theme} control={<Checkbox color='secondary' checked={mode.follower} onChange={() => handleModeChange("follower")} sx={{ color: "#777", '& .MuiSvgIcon-root': { fontSize: 20 } }}/>}
                     label="フォロワー"/>
-                    <StyledFormControlLabel theme={theme} control={<Checkbox color='secondary' checked={mode.authorized} onChange={handleSetModeAuthorized} sx={{ color: "#777", '& .MuiSvgIcon-root': { fontSize: 20 } }}/>}
+                    <StyledFormControlLabel theme={theme} control={<Checkbox color='secondary' checked={mode.authorized} onChange={() => handleModeChange("authorized")} sx={{ color: "#777", '& .MuiSvgIcon-root': { fontSize: 20 } }}/>}
                     label="認証済み"/>
+                </StyledCheckBoxes>
                 </StyledModes>
             </StyledHeader>
 
@@ -215,10 +231,10 @@ const Users = () => {
                     <>
                     <StyledHitNum theme={theme}>{num === 0 ? "ユーザーが見つかりませんでした" : `${num}件中 ${1 + PAGE_SIZE * (currentPage - 1)}-${Math.min(PAGE_SIZE * currentPage, num)}件`}</StyledHitNum>
                     <StyledResults>
-                    {users.map(user =>
+                    {users.map((user, index) =>
                         <StyledCard key={user._id} theme={theme} $isMiddleScreen={isMiddleScreen} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
                             <Link to={`/user/${user._id}`} style={{textDecoration: "none"}}>
-                                <StyledCardMedia image={user.header ? `http://localhost:5000/uploads/userHeaders/${user.header}` : null} theme={theme}></StyledCardMedia>
+                                <StyledCardMedia image={user.header ? `http://localhost:5000/uploads/userHeaders/${user.header}` : "aa"} theme={theme}></StyledCardMedia>
                                 <StyledCardHeader sx={{display: "flex", overflow: "hidden", "& .MuiCardHeader-content": {overflow: "hidden"}}} avatar={<Avatar src={user.icon ? `http://localhost:5000/uploads/userIcons/${user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}`}/>}
                                 title={UserBadge(user)} titleTypographyProps={{ noWrap: true, color: theme.palette.text.main, fontSize: "1.3rem"}}
                                 subheader={"@"+user.userId} subheaderTypographyProps={{ noWrap: true, color: theme.palette.text.sub}}>
@@ -245,7 +261,7 @@ const Users = () => {
                     null
                     }
                     <StyledIndex>
-                        <StyledPagination page={currentPage} count={Math.ceil(num / PAGE_SIZE)} variant="outlined" shape="rounded" color='secondary' size='large' onChange={handlePageChange} sx={{button:{color: `${theme.palette.text.main}`, border: `1px solid ${theme.palette.text.sub}`, '&:hover':{backgroundColor: theme.palette.background.hover}}}}/>
+                        <StyledPagination page={currentPage} count={Math.ceil(num / PAGE_SIZE)} variant="outlined" shape="rounded" color='secondary' size='large' onChange={(e, value) => setCurrentPage(value)} sx={{button:{color: `${theme.palette.text.main}`, border: `1px solid ${theme.palette.text.sub}`, '&:hover':{backgroundColor: theme.palette.background.hover}}}}/>
                     </StyledIndex>
             </StyledMain>
 
@@ -258,13 +274,13 @@ const Users = () => {
                 <Alert severity='warning'>{`フォローを解除しました`}</Alert>
             </Snackbar>
 
-        </StyledUsers>
+        </StyledProducts>
         </>
     )
 }
 
 
-const StyledUsers = styled.div`
+const StyledProducts = styled.div`
     width: 90%;
     max-width: 3000px;
     height: 2000px;
@@ -336,8 +352,15 @@ const StyledModes = styled.div`
     display: flex;
     justify-content: start;
     align-items: center;
-    gap: 20px;
     width: 100%;
+`
+
+const StyledCheckBoxes = styled.div`
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    gap: 20px;
+    width: 100%
 `
 
 const StyledFormControlLabel = styled(FormControlLabel)`
@@ -363,12 +386,26 @@ const StyledHitNum = styled.div`
 `
 
 const StyledResults = styled.div`
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
     width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+`
+
+const StyledIndex = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 50px;
+`
+
+const StyledPagination = styled(Pagination)`
+    && {
+        
+    }
 `
 
 const StyledMyButton = styled(Button)`
@@ -441,20 +478,6 @@ const StyledCardHeader = styled(CardHeader)`
 const StyledCardContent = styled(CardContent)`
     && {
 
-    }
-`
-
-const StyledIndex = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-top: 50px;
-`
-
-const StyledPagination = styled(Pagination)`
-    && {
-        
     }
 `
 
