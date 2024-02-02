@@ -8,8 +8,6 @@ import GroupIcon from '@mui/icons-material/Group';
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import FolderSharedIcon from '@mui/icons-material/FolderShared';
 import FolderSharedOutlinedIcon from '@mui/icons-material/FolderSharedOutlined';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import { ListItem, ListItemText, useTheme } from '@mui/material';
@@ -50,14 +48,6 @@ const UpperListSection = (props) => {
                         <StyledListElements theme={theme} style={props.page === "/products" ? { backgroundColor: theme.palette.background.hover } : null}>
                             {props.page === "/products" ? <StyledShoppingCartIcon color='secondary' /> : <StyledShoppingCartOutlinedIcon color="icon"/>}
                             <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="商品" />
-                        </StyledListElements>
-                    </StyledLink>
-                </StyledListItem>
-                <StyledListItem>
-                    <StyledLink to={"/notify"}>
-                        <StyledListElements theme={theme} style={props.page === "/notify" ? { backgroundColor: theme.palette.background.hover } : null}>
-                            {props.page === "/notify" ? <StyledNotificationsIcon color='secondary' /> : <StyledNotificationsOutlinedIcon color="icon"/>}
-                            <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="通知" />
                         </StyledListElements>
                     </StyledLink>
                 </StyledListItem>
@@ -189,25 +179,13 @@ const StyledFolderSharedIcon = styled(FolderSharedIcon)`
         height: 25px;
     }
 `
+
 const StyledFolderSharedOutlinedIcon = styled(FolderSharedOutlinedIcon)`
     && {
         width: 25px;
         height: 25px;
     }
 `
-
-const StyledNotificationsIcon = styled(NotificationsIcon)`
-    && {
-        width: 25px;
-        height: 25px;
-    }
-`
-const StyledNotificationsOutlinedIcon = styled(NotificationsOutlinedIcon)`
-    && {
-        width: 25px;
-        height: 25px;
-    }
-`;
 
 const StyledAccountCircleIcon = styled(AccountCircleIcon)`
     && {
