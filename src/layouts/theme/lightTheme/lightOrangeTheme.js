@@ -5,7 +5,7 @@ import { orange, grey } from "@mui/material/colors";
 export const LightOrangeTheme = createTheme({
     palette: {
         themeName: "ライトオレンジ",
-        siteLogo: "LMAP_logo.svg",
+        siteLogo: "UNGRA_logo.svg",
         primary: {
             main: "#f8fcff",
             listBack: `linear-gradient(to bottom right, ${orange[500]}, 70%, ${orange[500]})`,

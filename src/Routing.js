@@ -47,7 +47,7 @@ const Routing = () => {
       <Route path="/" element={<CommonLayouts currentUser={user}/>}>
         <Route path="home" element={<Home currentUser={user}/>} />
         <Route path="product/:productId" element={<Product currentUser={user}/>} />
-        <Route path="following" element={<Following />} />
+        <Route path="following" element={user ? <Following currentUser={user}/> : <Navigate to="/?recommend=true&back=/" />} />
         <Route path="group" element={<Group />} />
         <Route path="notify" element={<Notify />} />
         <Route path="user/:userId" element={<Profile />} />

@@ -27,7 +27,6 @@ const ProductCard = (props) => {
     const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
     const user = useSelector((state) => state.user.value);
     const productPopperRef = useRef(null);
-    const avatarRef = useRef(null);
     const theme = useTheme();
 
     const handleProductPopper = (e) => {
@@ -117,7 +116,7 @@ const ProductCard = (props) => {
                 <StyledProductImgZone theme={theme}>
                     <StyledSoldLabel theme={theme} isSold={product.purchasingId}>SOLD</StyledSoldLabel>
                     <StyledDarkness isSold={product.purchasingId} />
-                    <StyledAvatar variant='square' src={`http://localhost:5000/uploads/productImages/${product.productImg[0]}`} alt='商品画像' onDragStart={handleDragStart} ref={avatarRef}/>
+                    <StyledAvatar variant='square' src={`http://localhost:5000/uploads/productImages/${product.productImg[0]}`} alt='商品画像' onDragStart={handleDragStart}/>
                     {user ?
                     <StyledProductOption theme={theme} productAnchorEl={productAnchorEl}>
                         <StyledIconButton onClick={handleProductPopper}>

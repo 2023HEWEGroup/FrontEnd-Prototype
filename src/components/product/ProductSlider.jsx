@@ -38,6 +38,14 @@ const ProductSlider = (props) => {
         nextArrow: <CustomArrow theme={theme} direction="next"/>,
     };
 
+    const handleDragStart = (event) => {
+        // Avatar内の画像をドラッグした際の関数
+        const imageUrl = `http://localhost:5000/uploads/productImages/${props.product.productImg[0]}`;
+        // その商品のサムネイルをeventのdataTransferオブジェクトにavatarImageと言う名前で保存。
+        // これはimagePopper.jsx内のPopper内で取得され、画像検索に用いられる。
+        event.dataTransfer.setData('avatarImage', imageUrl);
+    }
+
     return (
         <>
         <SliderParent>
@@ -46,7 +54,7 @@ const ProductSlider = (props) => {
                     <StyledAvatarZone key={index}>
                         <StyledSoldLabel theme={theme} isSold={props.product.purchasingId}>SOLD</StyledSoldLabel>
                         <StyledDarkness isSold={props.product.purchasingId} />
-                        <StyledAvatar variant="square" src={`http://localhost:5000/uploads/productImages/${img}`}/>
+                        <StyledAvatar variant="square" src={`http://localhost:5000/uploads/productImages/${img}`} onDragStart={handleDragStart}/>
                     </StyledAvatarZone>
                 )}
             </StyledSlider>
@@ -111,6 +119,7 @@ const StyledAvatarZone = styled.div`
     aspect-ratio: 1/1;
     overflow: hidden;
     border-radius: 5px;
+    cursor: pointer;
 `
 
 const StyledAvatar = styled(Avatar)`
@@ -147,6 +156,8 @@ const StyledSoldLabel = styled.div`
     font-size: 2.5rem;
     font-weight: bold;
     letter-spacing: .1rem;
+    pointer-events: none;
+    user-select: none;
     color: ${(props) => props.theme.palette.text.main2};
     background-color: ${(props) => props.theme.palette.secondary.main};
 `
@@ -159,6 +170,8 @@ const StyledDarkness = styled.div`
     z-index: 40;
     width: 100%;
     height: 100%;
+    pointer-events: none;
+    user-select: none;
     background-color: rgba(0, 0, 0, 0.6);
 `
 

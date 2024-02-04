@@ -34,7 +34,7 @@ const GridLeft = () => {
         </StyledIconButtonLeft>
     </Tooltip>
     <Link to={"/home"} style={{ display: 'inline-flex'}} ref={glitch.ref}>
-        <StyledLmapLogo src={`${siteAssetsPath}/${theme.palette.siteLogo}`} alt='LMAPロゴ' />
+        <StyledLmapLogo src={`${siteAssetsPath}/${theme.palette.siteLogo}`} alt='UNGRAロゴ' />
     </Link>
     </>
     )
@@ -66,7 +66,7 @@ const StyledCloseIcon = styled(CloseIcon)`
 `
 
 const StyledLmapLogo = styled.img`
-    width: 150px;
+    width: 180px;
     margin-left: 15px;
     cursor: pointer;
 `;

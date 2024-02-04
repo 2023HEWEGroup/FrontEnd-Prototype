@@ -18,7 +18,7 @@ const TopBar = (props) => {
       <Toolbar>
         <Grid container style={{justifyContent: "space-between"}}>
 
-          <StyledGridLeft item xs={3} sm={3} style={{display: "flex", justifyContent: "flex-start"}} $isXsScreen={isXsScreen}>
+          <StyledGridLeft item xs={3} sm={3} style={{display: "flex", justifyContent: "flex-start", alignItems: "center"}} $isXsScreen={isXsScreen}>
             <GridLeft />
           </StyledGridLeft>
 

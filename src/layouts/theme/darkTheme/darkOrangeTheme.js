@@ -5,7 +5,7 @@ import { deepOrange, grey } from "@mui/material/colors";
 export const darkOrangeTheme= createTheme({
     palette: {
         themeName: "ダークオレンジ",
-        siteLogo: "LMAP_logo_reversal.svg",
+        siteLogo: "UNGRA_logo_reverse.svg",
         primary: {
             main: "#111",
             listBack: `linear-gradient(to bottom right, ${deepOrange[500]}, #000)`,
