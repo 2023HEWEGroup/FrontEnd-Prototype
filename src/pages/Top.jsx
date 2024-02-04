@@ -7,8 +7,6 @@ import styled from 'styled-components'
 import { setWindowScrollable } from '../redux/features/windowScrollaleSlice'
 import TopModal from '../components/top/topModal/TopModal'
 import IsProgress from '../components/common/isProgress/IsProgress'
-// import particle from "../layouts/particles/topParticles.json"
-// import Particles from 'react-tsparticles'
 import VerifiedBadge from '../layouts/badges/VerifiedBadge'
 import TopBack from '../components/top/topBack/TopBack'
 import { useGlitch } from 'react-powerglitch'
@@ -124,7 +122,7 @@ const Top = () => {
     <StyledFullScrean>
       <StyledTopHeader>
         <Link to={"/home"} style={{ display: 'inline-flex'}} ref={glitch.ref}>
-          <StyledLmapLogo src={`${siteAssetsPath}/LMAP_logo_reversal.svg`} alt='LMAPロゴ' />
+          <StyledLmapLogo src={`${siteAssetsPath}/UNGRA_logo_reverse.svg`} alt='UNGRAロゴ' />
         </Link>
         <StyledAccountHeader>
           <StyledCard theme={theme} elevation={0}>
@@ -139,7 +137,7 @@ const Top = () => {
       </StyledTopHeader>
 
       <StyledWelcomeZone $isSmallScreen={isSmallScreen}>
-        <StyledWelcomeMessage $isSmallScreen={isSmallScreen} theme={theme}>Welcome<br/>To The<br/>LMAP</StyledWelcomeMessage>
+        <StyledWelcomeMessage $isSmallScreen={isSmallScreen} theme={theme}>Welcome<br/>To The<br/>UNGRA</StyledWelcomeMessage>
         <StyledButtons $isSmallScreen={isSmallScreen}>
           <StyledLink to={"/home"}>
             <StyledGoToShopLabel ref={glitch.ref} theme={theme} icon={<Shop style={{color: theme.palette.top.secondary}}/>} label="ショップを見てみる" clickable/>
@@ -186,7 +184,7 @@ const StyledTopHeader = styled.div`
 `
 
 const StyledLmapLogo = styled.img`
-    width: 150px;
+    width: 180px;
     margin-left: 15px;
     cursor: pointer;
 `;

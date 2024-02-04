@@ -14,6 +14,7 @@ import { ListItem, ListItemText, useTheme } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import LoginRequiredModal from '../../loginRequiredModal/LoginRequiredModal';
+import { Person, PersonOutline } from '@mui/icons-material';
 
 
 const UpperListSection = (props) => {
@@ -48,6 +49,14 @@ const UpperListSection = (props) => {
                         <StyledListElements theme={theme} style={props.page === "/products" ? { backgroundColor: theme.palette.background.hover } : null}>
                             {props.page === "/products" ? <StyledShoppingCartIcon color='secondary' /> : <StyledShoppingCartOutlinedIcon color="icon"/>}
                             <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="商品" />
+                        </StyledListElements>
+                    </StyledLink>
+                </StyledListItem>
+                <StyledListItem>
+                    <StyledLink to={`/users`}>
+                        <StyledListElements theme={theme} style={props.page === `/users` ? { backgroundColor: theme.palette.background.hover } : null}>
+                            {props.page === `/users` ? <Person color='secondary' /> : <PersonOutline color="icon"/>}
+                            <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="ユーザー" />
                         </StyledListElements>
                     </StyledLink>
                 </StyledListItem>

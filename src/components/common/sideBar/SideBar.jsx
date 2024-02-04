@@ -10,6 +10,7 @@ import React from 'react'
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/material';
+import { Settings, SettingsOutlined } from '@mui/icons-material';
 
 
 const SideBar = (props) => {
@@ -51,6 +52,15 @@ const SideBar = (props) => {
           <StyledSideBarElements theme={theme}  style={props.page === "/group" ? {backgroundColor: theme.palette.background.hover} : null}>
             {props.page === "/group" ? <StyledFolderSharedIcon color='secondary' /> : <StyledFolderSharedOutlinedIcon color="icon"/>}
             <StyledIconName style={{color: theme.palette.text.main}}>グループ</StyledIconName>
+          </StyledSideBarElements>
+        </StyledLink>
+      </StyledSideBarCell>
+
+      <StyledSideBarCell>
+        <StyledLink to={"/setting"}>
+          <StyledSideBarElements theme={theme}  style={props.page.startsWith('/setting') ? {backgroundColor: theme.palette.background.hover} : null}>
+            {props.page.startsWith('/setting') ? <StyledSettings color='secondary' /> : <StyledSettingsOutlined color="icon"/>}
+            <StyledIconName style={{color: theme.palette.text.main}}>設定</StyledIconName>
           </StyledSideBarElements>
         </StyledLink>
       </StyledSideBarCell>
@@ -163,6 +173,24 @@ const StyledFolderSharedIcon = styled(FolderSharedIcon)`
 `
 
 const StyledFolderSharedOutlinedIcon = styled(FolderSharedOutlinedIcon)`
+    && {
+      width: 35px;
+      height: 35px;
+      margin-top: 10px;
+      margin-bottom: -10px;
+    }
+`
+
+const StyledSettings = styled(Settings)`
+    && {
+      width: 35px;
+      height: 35px;
+      margin-top: 10px;
+      margin-bottom: -10px;
+    }
+`
+
+const StyledSettingsOutlined = styled(SettingsOutlined)`
     && {
       width: 35px;
       height: 35px;

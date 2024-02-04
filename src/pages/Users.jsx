@@ -52,7 +52,7 @@ const Users = (props) => {
     const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
 
     
-    const [mode, setMode] = useState({all: true, following: false, follower: false, authorized: false});
+    const [mode, setMode] = useState({all: modeQuery === "all" ? true : false, following: (modeQuery && modeQuery.includes("following")) || modeQuery === "all" ? true : false, follower: (modeQuery && modeQuery.includes("follower")) || modeQuery === "all" ? true : false, authorized: (modeQuery && modeQuery.includes("authorized")) || modeQuery === "all" ? true : false});
 
     const [isFollowDisabled, setIsFollowDisabled] = useState(false);
     const [isErrorSnack, setIsErrorSnack] = useState(false);

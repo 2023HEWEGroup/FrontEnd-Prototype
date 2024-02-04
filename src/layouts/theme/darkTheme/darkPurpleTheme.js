@@ -5,7 +5,7 @@ import { purple, grey } from "@mui/material/colors";
 export const darklightPurpleTheme = createTheme({
     palette: {
         themeName: "ダークパープル",
-        siteLogo: "LMAP_logo_reversal.svg",
+        siteLogo: "UNGRA_logo_reverse.svg",
         primary: {
             main: "#111",
             listBack: `linear-gradient(to bottom right, ${purple[500]}, #000)`,

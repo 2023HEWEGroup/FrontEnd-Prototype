@@ -292,7 +292,7 @@ const Exhibit = () => {
     <StyledExhibit>
 
       <StyledTitle theme={theme}>
-        <StyledLmapLogo src={`${siteAssetsPath}/${theme.palette.siteLogo}`} alt='LMAPロゴ' />
+        <StyledLmapLogo src={`${siteAssetsPath}/${theme.palette.siteLogo}`} alt='UNGRAロゴ' />
         <div>商品を出品する</div>
       </StyledTitle>
 
@@ -480,7 +480,7 @@ const StyledInputLength = styled.div`
 `
 
 const StyledLmapLogo = styled.img`
-  height: 50%;
+  width: 180px;
 `;
 
 const StyledExhibit = styled.div`

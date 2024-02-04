@@ -5,7 +5,7 @@ import { blue, grey } from "@mui/material/colors";
 export const LightBlueTheme = createTheme({
     palette: {
         themeName: "ライトブルー",
-        siteLogo: "LMAP_logo.svg",
+        siteLogo: "UNGRA_logo.svg",
         primary: {
             main: "#f8fcff",
             listBack: `linear-gradient(to bottom right, ${blue[500]}, 70%, ${blue[500]})`,

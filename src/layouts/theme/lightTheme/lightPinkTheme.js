@@ -5,7 +5,7 @@ import { grey, pink } from "@mui/material/colors";
 export const LighPinkTheme = createTheme({
     palette: {
         themeName: "ライトピンク",
-        siteLogo: "LMAP_logo.svg",
+        siteLogo: "UNGRA_logo.svg",
         primary: {
             main: "#f8fcff",
             listBack: `linear-gradient(to bottom right, ${pink[500]}, 70%, ${pink[500]})`,

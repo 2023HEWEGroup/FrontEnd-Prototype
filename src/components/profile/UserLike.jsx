@@ -23,6 +23,14 @@ const UseLike = (props) => {
     const pageSize = 18;
     const theme = useTheme();
 
+    const handleDragStart = (event, product) => {
+        // Avatar内の画像をドラッグした際の関数
+        const imageUrl = `http://localhost:5000/uploads/productImages/${product.productImg[0]}`;
+        // その商品のサムネイルをeventのdataTransferオブジェクトにavatarImageと言う名前で保存。
+        // これはimagePopper.jsx内のPopper内で取得され、画像検索に用いられる。
+        event.dataTransfer.setData('avatarImage', imageUrl);
+    }
+
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -92,7 +100,7 @@ const UseLike = (props) => {
                                     <StyledProductImgZone theme={theme}>
                                         <StyledSoldLabel theme={theme} isSold={product.purchasingId}>SOLD</StyledSoldLabel>
                                         <StyledDarkness isSold={product.purchasingId} />
-                                        <StyledProductAvatar variant="square" src={`http://localhost:5000/uploads/productImages/${product.productImg[0]}`}>
+                                        <StyledProductAvatar variant="square" src={`http://localhost:5000/uploads/productImages/${product.productImg[0]}`} onDragStart={(event) => handleDragStart(event, product)}>
                                         </StyledProductAvatar>
                                     </StyledProductImgZone>
                                     <StyledProductDetail>
@@ -230,6 +238,8 @@ const StyledSoldLabel = styled.div`
     font-size: 1.3rm;
     font-weight: bold;
     letter-spacing: .1rem;
+    pointer-events: none;
+    user-select: none;
     color: ${(props) => props.theme.palette.text.main2};
     background-color: ${(props) => props.theme.palette.secondary.main};
 `
@@ -242,6 +252,8 @@ const StyledDarkness = styled.div`
     z-index: 40;
     width: 100%;
     height: 100%;
+    pointer-events: none;
+    user-select: none;
     background-color: rgba(0, 0, 0, 0.6);
 `
 

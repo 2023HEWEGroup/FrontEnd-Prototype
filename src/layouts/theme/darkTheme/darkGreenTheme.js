@@ -5,7 +5,7 @@ import { green, grey } from "@mui/material/colors";
 export const darkGreenTheme = createTheme({
     palette: {
         themeName: "ダークグリーン",
-        siteLogo: "LMAP_logo_reversal.svg",
+        siteLogo: "UNGRA_logo_reverse.svg",
         primary: {
             main: "#111",
             listBack: `linear-gradient(to bottom right, ${green[500]}, #000)`,
