@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import Particles from 'react-tsparticles'
-import particle from '../../../layouts/particles/nyanCat.json';
+import particle from '../../layouts/particles/nyanCat.json';
 import styled from 'styled-components';
 import { Avatar, Button, Grow, useTheme } from '@mui/material';
 import { motion } from 'framer-motion';
@@ -8,7 +8,7 @@ import { Home, Replay } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
 
-const NyanCatExhibit = (props) => {
+const NyanCatProduct = (props) => {
 
     const theme = useTheme();
 
@@ -33,8 +33,8 @@ const NyanCatExhibit = (props) => {
             <div style={{width: "100vw", height: "100vh", overflow: "hidden"}}>
 
                 <StyledHeader theme={theme}>
-                    <StyledTitle>出品が完了しました</StyledTitle>
-                    <StyledSubTitle>{`UNGRAに新しい商品が来たぞー！ありがとう${props.currentUser.username}！`}</StyledSubTitle>
+                    <StyledTitle>購入取引が開始しました</StyledTitle>
+                    <StyledSubTitle>{`商品を購入してくれてありがとう！${props.currentUser.username}！`}</StyledSubTitle>
                 </StyledHeader>
 
                 <motion.div initial={{ x: '-60%', position: "fixed", top: 0, left: 0 }} animate={{ x: '0px', position: "fixed", top: 0, left: 0 }} transition={{ duration: 3, ease: "easeOut" }} >
@@ -46,9 +46,9 @@ const NyanCatExhibit = (props) => {
                 <motion.div initial={{ x: '-60%', position: "fixed", top: 0, left: 0 }} animate={{ x: '0px', position: "fixed", top: 0, left: 0 }} transition={{ duration: 3, ease: "easeOut" }} >
                     
                     <div style={{width: "100vw", height: "100vh", zIndex: 10 }}>
-                        <Link to={`/product/${props.newProduct._id}`}>
+                        <Link to={`#`} onClick={() => props.setNyan(false)}>
                             <StyledProductAvatarZone theme={theme}>
-                                <StyledAvatar variant='square' src={`http://localhost:5000/uploads/productImages/${props.newProduct.productImg[0]}`}/>
+                                <StyledAvatar variant='square' src={`http://localhost:5000/uploads/productImages/${props.product.productImg[0]}`}/>
                             </StyledProductAvatarZone>
                         </Link>
                     </div>
@@ -60,7 +60,7 @@ const NyanCatExhibit = (props) => {
                 transition={{ duration: 0.3, delay: 3, ease: 'easeOut' }}>
                     <StyledButtons>
                         <StyledLink to="/home"><StyledButton variant='contained' size='large'><Home />ホームへ戻る</StyledButton></StyledLink>
-                        <StyledLink to={`/product/${props.newProduct._id}`}><StyledButton variant='contained' size='large'><Replay />商品を見る</StyledButton></StyledLink>
+                        <StyledLink to={`#`} onClick={() => props.setNyan(false)}><StyledButton variant='contained' size='large'><Replay />取引を確認</StyledButton></StyledLink>
                     </StyledButtons>
                 </motion.div>
                 
@@ -166,4 +166,4 @@ const StyledButton = styled(Button)`
 `
 
 
-export default NyanCatExhibit
+export default NyanCatProduct

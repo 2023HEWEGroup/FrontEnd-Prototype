@@ -52,6 +52,8 @@ const PurchaseModal = (props) => {
 
     const handlePurchase = async () => {
         try {
+            props.setOpen(false);
+            props.setNyan(true);
             if (props.product.price > props.currentUser.points && selectedValue === "point") {
                 setIsDestructOpen(true);
                 return;
@@ -61,7 +63,6 @@ const PurchaseModal = (props) => {
             const newUser = await axios.get(`http://localhost:5000/client/user/getById/${props.currentUser._id}`);
             dispatch(setUser(newUser.data));
             props.fetchProduct();
-            props.setOpen(false);
             setIsProgress(false);
         } catch (err) {
             setIsProgress(false);
