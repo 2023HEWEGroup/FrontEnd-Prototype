@@ -10,6 +10,7 @@ import { formatRelativeTime } from '../utils/formatRelativeTime';
 import PurchaseModal from '../components/product/PurchaseModal';
 import LoginRequiredModal from '../components/common/loginRequiredModal/LoginRequiredModal';
 import { debounce } from 'lodash';
+import NyanCatProduct from '../components/product/NyanCatProduct';
 
 
 const categories = [
@@ -30,6 +31,7 @@ const Product = (props) => {
   const [sliderIndex, setSliderIndex] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
+  const [nyan, setNyan] = useState(false);
   const theme = useTheme();
   const navigate = useNavigate();
   const { productId } = useParams("productId");
@@ -118,161 +120,164 @@ const Product = (props) => {
   return (
     <>
     {!isLoading ?
-    <StyledProduct $isSmallScreen={isSmallScreen}>
-      <StyledSliderArea $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
-        <StyledSliderInner>
-          <ProductSlider product={product} sliderIndex={sliderIndex} setSliderIndex={setSliderIndex}/>
-        </StyledSliderInner>
-        {product.productImg.length > 1 ?
-        <StyledImgCommands>
-        {product.productImg.map((img, index) =>
-          <StyledCommandAvatarZone key={index} onClick={() => setSliderIndex(index)} $current={index === sliderIndex ? true : false} theme={theme}>
-            <StyledCommandAvatar variant="square" src={`http://localhost:5000/uploads/productImages/${img}`}/>
-          </StyledCommandAvatarZone>
-        )}
-        </StyledImgCommands>
-        :
-        null
-        }
-      </StyledSliderArea>
-
-      <StyledDesc $isSmallScreen={isSmallScreen}>
-        <StyledDescInner theme={theme}>
-
-          <StyledProductName>
-            {product.productName}
-            <StyledPrice theme={theme}><StyledCurrencyYen />{product.price}<span style={{color: theme.palette.text.sub, fontSize: "0.9rem", fontWeight: "normal", marginLeft: "5px"}}>{product.deliveryCost === "着払い（購入者負担）" ? "送料込み" : "送料込み(出品者負担)"}</span></StyledPrice>
-          </StyledProductName>
-
-          <StyledProductDesc>
-            <StyledDescTitle>商品説明</StyledDescTitle>
-            <StyledDivider theme={theme}/>
-            <StyledProductDescInner>
-              {truncatedText}
-            </StyledProductDescInner>
-            {lineCount > 3 ?
-              (<StyledMoreRead theme={theme} onClick={() => setIsExpanded(!isExpanded)}>
-              {isExpanded ?
-              <div style={{display: "flex", justifyContent: "center", alignItems: "center", padding: "15px 0", margin: "0 auto"}}><div>商品説明を折りたたむ</div><ExpandLess color="secondary"/></div>
-              :
-              <div style={{display: "flex", justifyContent: "center", alignItems: "center", padding: "15px 0", margin: "0 auto"}}><div>商品説明をすべて表示</div><ExpandMore color="secondary"/></div>}
-              </StyledMoreRead>)
-              :
-              (
-                  null
-              )
-            }
-          </StyledProductDesc>
-          
-          {product.tags.length > 0 ?
-          <StyledTags>
-            <StyledDescTitle>タグ</StyledDescTitle>
-            <StyledDivider theme={theme}/>
-            <StyledTagInner>
-              {product.tags.map((tag, index) =>
-                <StyledTagChip key={index} theme={theme} clickable label={`# ${tag}`}/>
-              )}
-            </StyledTagInner>
-          </StyledTags>
+      !nyan ?
+      <StyledProduct $isSmallScreen={isSmallScreen}>
+        <StyledSliderArea $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
+          <StyledSliderInner>
+            <ProductSlider product={product} sliderIndex={sliderIndex} setSliderIndex={setSliderIndex}/>
+          </StyledSliderInner>
+          {product.productImg.length > 1 ?
+          <StyledImgCommands>
+          {product.productImg.map((img, index) =>
+            <StyledCommandAvatarZone key={index} onClick={() => setSliderIndex(index)} $current={index === sliderIndex ? true : false} theme={theme}>
+              <StyledCommandAvatar variant="square" src={`http://localhost:5000/uploads/productImages/${img}`}/>
+            </StyledCommandAvatarZone>
+          )}
+          </StyledImgCommands>
           :
           null
           }
+        </StyledSliderArea>
 
-          <StyledInfo>
-            <StyledDescTitle>商品情報</StyledDescTitle>
-            <StyledDivider theme={theme}/>
-            <StyledInfoRow>
-              <StyledInfoTitle>カテゴリー</StyledInfoTitle>
-              <Link to={`/home?category=${categories.indexOf(product.category)}`}>
-                <StyledInfoContentLink theme={theme}>{product.category}</StyledInfoContentLink>
-              </Link>
-            </StyledInfoRow>
-            <StyledInfoRow>
-              <StyledInfoTitle>商品の状態</StyledInfoTitle>
-              <StyledInfoContent>{product.condition}</StyledInfoContent>
-            </StyledInfoRow>
-            <StyledInfoRow>
-              <StyledInfoTitle>配送料の負担</StyledInfoTitle>
-              <StyledInfoContent>{product.deliveryCost}</StyledInfoContent>
-            </StyledInfoRow>
-            <StyledInfoRow>
-              <StyledInfoTitle>発送元の地域</StyledInfoTitle>
-              <StyledInfoContent>{product.shippingArea}</StyledInfoContent>
-            </StyledInfoRow>
-            <StyledInfoRow>
-              <StyledInfoTitle>出品日</StyledInfoTitle>
-              <StyledInfoContent>{formatRelativeTime(product.createdAt)}</StyledInfoContent>
-            </StyledInfoRow>
-          </StyledInfo>
+        <StyledDesc $isSmallScreen={isSmallScreen}>
+          <StyledDescInner theme={theme}>
 
-          <StyledSeller>
-            <StyledDescTitle>出品者情報</StyledDescTitle>
-            <StyledDivider theme={theme}/>
-            <StyledsellerInner>
-              <StyledCard theme={theme} elevation={0}>
-                  <Link to={`/user/${saller._id}`} style={{textDecoration: "none"}}>
-                      <CardHeader sx={{display: "flex", overflow: "hidden", "& .MuiCardHeader-content": {overflow: "hidden"}}} avatar={<Avatar sx={{ width: 50, height: 50 }} src={saller.icon ? `http://localhost:5000/uploads/userIcons/${saller.icon}` : `${siteAssetsPath}/default_icons/${saller.defaultIcon}`}/>}
-                      title={UserBadge()} titleTypographyProps={{ noWrap: true, color: theme.palette.text.main, fontSize: "1.3rem"}} action={<ArrowForwardIos style={{color: theme.palette.icon.main}}/>}
-                      subheader={"@"+saller.userId} subheaderTypographyProps={{ noWrap: true, color: theme.palette.text.sub}}>
-                      </CardHeader>
-                      <CardActions>
-              <div style={{display: "flex", gap: "2px", width: "100%"}}>
-                <Rating value={5} readOnly />
-                <StyledRateNum theme={theme}>10000</StyledRateNum>
-              </div>
-              </CardActions>
-                  </Link>
-              </StyledCard>
-              {saller.isAuthorized ? <StyledSuccessAlert theme={theme} severity="success">認証済みユーザーによる出品です</StyledSuccessAlert> : <StyledWarningAlert theme={theme} severity="warning">未認証ユーザーによる出品です</StyledWarningAlert>}
-              <StyledIcons theme={theme}>
-                {props.currentUser ?
-                  <StyledIconAndName1 theme={theme} $isLogin={props.currentUser ? true : false} $isLiked={product.likes.includes(props.currentUser._id) ? true : false}>
-                    {isLikeLoading ?
-                    <>
-                    <CircularProgress color='secondary' size={30} />
-                    </>
-                    :
-                    <>
-                    <FavoriteBorder onClick={handleLike}/>
-                    <StyledIconDetail>{product.likes.includes(props.currentUser._id) ? "いいね済み" : "いいね"}</StyledIconDetail>
-                    </>
-                    }
-                  </StyledIconAndName1>
-                  :
-                  <StyledIconAndName1 theme={theme} $isLogin={props.currentUser ? true : false} $isLiked={false}>
-                    <FavoriteBorder />
-                    <StyledIconDetail>いいね</StyledIconDetail>
-                  </StyledIconAndName1>
-                }
-                <StyledIconAndName2 theme={theme}>
-                  <SmsOutlined />
-                  <StyledIconDetail>コメント</StyledIconDetail>
-                </StyledIconAndName2>
-                <StyledIconAndName3 theme={theme}>
-                  <Share />
-                  <StyledIconDetail>共有</StyledIconDetail>
-                </StyledIconAndName3>
-              </StyledIcons>
-              {props.currentUser ?
-                props.currentUser._id !== saller._id && !product.purchasingId ?
-                  <Button color="secondary" variant="contained" fullWidth onClick={handlePurchase}>購入取引へ</Button>
-                  :
-                  null
+            <StyledProductName>
+              {product.productName}
+              <StyledPrice theme={theme}><StyledCurrencyYen />{product.price}<span style={{color: theme.palette.text.sub, fontSize: "0.9rem", fontWeight: "normal", marginLeft: "5px"}}>{product.deliveryCost === "着払い（購入者負担）" ? "送料込み" : "送料込み(出品者負担)"}</span></StyledPrice>
+            </StyledProductName>
+
+            <StyledProductDesc>
+              <StyledDescTitle>商品説明</StyledDescTitle>
+              <StyledDivider theme={theme}/>
+              <StyledProductDescInner>
+                {truncatedText}
+              </StyledProductDescInner>
+              {lineCount > 3 ?
+                (<StyledMoreRead theme={theme} onClick={() => setIsExpanded(!isExpanded)}>
+                {isExpanded ?
+                <div style={{display: "flex", justifyContent: "center", alignItems: "center", padding: "15px 0", margin: "0 auto"}}><div>商品説明を折りたたむ</div><ExpandLess color="secondary"/></div>
                 :
-                <Button color="secondary" variant="contained" fullWidth onClick={handlePurchase}>購入取引へ</Button>
+                <div style={{display: "flex", justifyContent: "center", alignItems: "center", padding: "15px 0", margin: "0 auto"}}><div>商品説明をすべて表示</div><ExpandMore color="secondary"/></div>}
+                </StyledMoreRead>)
+                :
+                (
+                    null
+                )
               }
-            </StyledsellerInner>
-          </StyledSeller>
+            </StyledProductDesc>
             
-        </StyledDescInner>
-      </StyledDesc>
+            {product.tags.length > 0 ?
+            <StyledTags>
+              <StyledDescTitle>タグ</StyledDescTitle>
+              <StyledDivider theme={theme}/>
+              <StyledTagInner>
+                {product.tags.map((tag, index) =>
+                  <StyledTagChip key={index} theme={theme} clickable label={`# ${tag}`}/>
+                )}
+              </StyledTagInner>
+            </StyledTags>
+            :
+            null
+            }
 
-    </StyledProduct>
+            <StyledInfo>
+              <StyledDescTitle>商品情報</StyledDescTitle>
+              <StyledDivider theme={theme}/>
+              <StyledInfoRow>
+                <StyledInfoTitle>カテゴリー</StyledInfoTitle>
+                <Link to={`/home?category=${categories.indexOf(product.category)}`}>
+                  <StyledInfoContentLink theme={theme}>{product.category}</StyledInfoContentLink>
+                </Link>
+              </StyledInfoRow>
+              <StyledInfoRow>
+                <StyledInfoTitle>商品の状態</StyledInfoTitle>
+                <StyledInfoContent>{product.condition}</StyledInfoContent>
+              </StyledInfoRow>
+              <StyledInfoRow>
+                <StyledInfoTitle>配送料の負担</StyledInfoTitle>
+                <StyledInfoContent>{product.deliveryCost}</StyledInfoContent>
+              </StyledInfoRow>
+              <StyledInfoRow>
+                <StyledInfoTitle>発送元の地域</StyledInfoTitle>
+                <StyledInfoContent>{product.shippingArea}</StyledInfoContent>
+              </StyledInfoRow>
+              <StyledInfoRow>
+                <StyledInfoTitle>出品日</StyledInfoTitle>
+                <StyledInfoContent>{formatRelativeTime(product.createdAt)}</StyledInfoContent>
+              </StyledInfoRow>
+            </StyledInfo>
+
+            <StyledSeller>
+              <StyledDescTitle>出品者情報</StyledDescTitle>
+              <StyledDivider theme={theme}/>
+              <StyledsellerInner>
+                <StyledCard theme={theme} elevation={0}>
+                    <Link to={`/user/${saller._id}`} style={{textDecoration: "none"}}>
+                        <CardHeader sx={{display: "flex", overflow: "hidden", "& .MuiCardHeader-content": {overflow: "hidden"}}} avatar={<Avatar sx={{ width: 50, height: 50 }} src={saller.icon ? `http://localhost:5000/uploads/userIcons/${saller.icon}` : `${siteAssetsPath}/default_icons/${saller.defaultIcon}`}/>}
+                        title={UserBadge()} titleTypographyProps={{ noWrap: true, color: theme.palette.text.main, fontSize: "1.3rem"}} action={<ArrowForwardIos style={{color: theme.palette.icon.main}}/>}
+                        subheader={"@"+saller.userId} subheaderTypographyProps={{ noWrap: true, color: theme.palette.text.sub}}>
+                        </CardHeader>
+                        <CardActions>
+                <div style={{display: "flex", gap: "2px", width: "100%"}}>
+                  <Rating value={5} readOnly />
+                  <StyledRateNum theme={theme}>10000</StyledRateNum>
+                </div>
+                </CardActions>
+                    </Link>
+                </StyledCard>
+                {saller.isAuthorized ? <StyledSuccessAlert theme={theme} severity="success">認証済みユーザーによる出品です</StyledSuccessAlert> : <StyledWarningAlert theme={theme} severity="warning">未認証ユーザーによる出品です</StyledWarningAlert>}
+                <StyledIcons theme={theme}>
+                  {props.currentUser ?
+                    <StyledIconAndName1 theme={theme} $isLogin={props.currentUser ? true : false} $isLiked={product.likes.includes(props.currentUser._id) ? true : false}>
+                      {isLikeLoading ?
+                      <>
+                      <CircularProgress color='secondary' size={30} />
+                      </>
+                      :
+                      <>
+                      <FavoriteBorder onClick={handleLike}/>
+                      <StyledIconDetail>{product.likes.includes(props.currentUser._id) ? "いいね済み" : "いいね"}</StyledIconDetail>
+                      </>
+                      }
+                    </StyledIconAndName1>
+                    :
+                    <StyledIconAndName1 theme={theme} $isLogin={props.currentUser ? true : false} $isLiked={false}>
+                      <FavoriteBorder />
+                      <StyledIconDetail>いいね</StyledIconDetail>
+                    </StyledIconAndName1>
+                  }
+                  <StyledIconAndName2 theme={theme}>
+                    <SmsOutlined />
+                    <StyledIconDetail>コメント</StyledIconDetail>
+                  </StyledIconAndName2>
+                  <StyledIconAndName3 theme={theme}>
+                    <Share />
+                    <StyledIconDetail>共有</StyledIconDetail>
+                  </StyledIconAndName3>
+                </StyledIcons>
+                {props.currentUser ?
+                  props.currentUser._id !== saller._id && !product.purchasingId ?
+                    <Button color="secondary" variant="contained" fullWidth onClick={handlePurchase}>購入取引へ</Button>
+                    :
+                    null
+                  :
+                  <Button color="secondary" variant="contained" fullWidth onClick={handlePurchase}>購入取引へ</Button>
+                }
+              </StyledsellerInner>
+            </StyledSeller>
+              
+          </StyledDescInner>
+        </StyledDesc>
+
+      </StyledProduct>
+      :
+      <NyanCatProduct product={product} currentUser={props.currentUser} nyan={nyan} setNyan={setNyan}/>
     :
     <LinearProgress color='secondary' style={{backgroundColor: "transparent"}}/>
     }
 
-    {modalOpen && <PurchaseModal open={modalOpen} setOpen={setModalOpen} currentUser={props.currentUser} product={product} fetchProduct={fetchProduct}/>}
+    {modalOpen && <PurchaseModal setNyan={setNyan} open={modalOpen} setOpen={setModalOpen} currentUser={props.currentUser} product={product} fetchProduct={fetchProduct}/>}
     <LoginRequiredModal open={loginOpen} onClose={setLoginOpen} header="ログインが必要です。" desc={"商品を購入しますか？今すぐユーザーのログインを完了させましょう！"}/>
     </>
   )
