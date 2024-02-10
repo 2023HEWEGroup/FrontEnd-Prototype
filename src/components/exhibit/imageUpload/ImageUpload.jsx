@@ -29,7 +29,7 @@ const ImageUpload = (props) => {
         event.preventDefault();
         if (props.uploadImages.length >= 8) return;
         const file = event.dataTransfer.files[0];
-        const allowedFormats = ['image/png', 'image/jpeg', 'image/jpg'];
+        const allowedFormats = ['image/png', 'image/jpeg', 'image/jpg' , 'image/webp'];
         if (allowedFormats.includes(file.type)) {
             const fileUrl = URL.createObjectURL(file)
             props.setUploadImages([...props.uploadImages, fileUrl]);
@@ -85,7 +85,7 @@ const ImageUpload = (props) => {
             )}
             </>
         )}
-            <HiddenInput type="file" accept="image/png, image/jpg, image/jpeg" ref={fileInputRef} onChange={handleFileSelected}/>
+            <HiddenInput type="file" accept="image/png, image/jpg, image/jpeg, image/webp" ref={fileInputRef} onChange={handleFileSelected}/>
         </StyledImgs>
         <div style={{display: "flex", justifyContent: "space-between", color: theme.palette.text.sub, marginTop: "5px"}}>
             <div>※ png, jpg, jpeg形式のみ対応 (8枚)</div>

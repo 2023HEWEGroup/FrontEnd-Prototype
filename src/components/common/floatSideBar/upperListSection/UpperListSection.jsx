@@ -77,9 +77,9 @@ const UpperListSection = (props) => {
                     </StyledLink>
                 </StyledListItem>
                 <StyledListItem>
-                    <StyledLink to={"/group"}>
-                        <StyledListElements theme={theme} style={props.page === "/group" ? { backgroundColor: theme.palette.background.hover } : null}>
-                            {props.page === "/group" ? <StyledFolderSharedIcon color='secondary' /> : <StyledFolderSharedOutlinedIcon color="icon"/>}
+                    <StyledLink to={"/groups"}>
+                        <StyledListElements theme={theme} style={props.page === "/groups" ? { backgroundColor: theme.palette.background.hover } : null}>
+                            {props.page === "/groups" ? <StyledFolderSharedIcon color='secondary' /> : <StyledFolderSharedOutlinedIcon color="icon"/>}
                             <StyledListItemText primaryTypographyProps={{color: theme.palette.text.main}} primary="グループ" />
                         </StyledListElements>
                     </StyledLink>
