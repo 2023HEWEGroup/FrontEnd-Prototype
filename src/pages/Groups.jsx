@@ -3,6 +3,7 @@ import { Box, Button, IconButton, InputBase, Paper, Tooltip, useMediaQuery, useT
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import GroupCard from '../components/groups/GroupCard'
+import { Link } from 'react-router-dom'
 
 
 const Groups = () => {
@@ -54,9 +55,10 @@ const Groups = () => {
                 }
                 <Box display="flex" gap="10px">
                     <Button variant='contained' color='secondary' sx={{display: "flex", gap: "10px"}}><FolderSharedOutlined /><span>マイグループ</span></Button>
-                    <Button variant='contained' color='secondary' sx={{display: "flex", gap: "10px"}}><Add /><span>グループを作成</span></Button>
+                    <Link to="/establish" style={{textDecoration: "none"}}><Button variant='contained' color='secondary' sx={{display: "flex", gap: "10px"}}><Add /><span>グループを作成</span></Button></Link>
                 </Box>
             </StyledBar>
+            {barPosition === "fixed" && <div style={{height: "55px", width: "100%"}}></div>}
 
             <StyledGroupsMain>
 

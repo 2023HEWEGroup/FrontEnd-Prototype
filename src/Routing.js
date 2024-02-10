@@ -32,6 +32,7 @@ import SelectSetting from "./components/setting/SelectSetting";
 import SelectPaymentInfoSetting from "./components/setting/accountSetting/accountInfoSetting/SelectPaymentInfoSetting";
 import PointSetting from "./components/setting/accountSetting/accountInfoSetting/PointSetting";
 import CreditCardDetailSetting from "./components/setting/accountSetting/accountInfoSetting/CreditCardDetailSetting";
+import Establish from "./pages/Establish";
 
 
 const Routing = () => {
@@ -43,12 +44,13 @@ const Routing = () => {
     <Routes>
       <Route path="/" element={<Top />} />
       <Route path="/exhibit" element={user ? <Exhibit /> : <Navigate to="/?recommend=true&back=/" />} />
+      <Route path="/establish" element={user ? <Establish currentUser={user}/> : <Navigate to="/?recommend=true&back=/" />} />
 
       <Route path="/" element={<CommonLayouts currentUser={user}/>}>
         <Route path="home" element={<Home currentUser={user}/>} />
         <Route path="product/:productId" element={<Product currentUser={user}/>} />
         <Route path="following" element={user ? <Following currentUser={user}/> : <Navigate to="/?recommend=true&back=/" />} />
-        <Route path="group" element={<Group />} />
+        <Route path="group/:groupId" element={<Group />} />
         <Route path="notify" element={<Notify />} />
         <Route path="user/:userId" element={<Profile />} />
         <Route path="info" element={<Info />} />
