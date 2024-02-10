@@ -49,6 +49,8 @@ export const darklightPurpleTheme = createTheme({
             admin: "#f0f",
             comment: "#00b7ff",
             share: "#00e73d",
+            star: "#f2b01e",
+            inventory: "#BA68C8",
         },
         background: {
             default: "#111",

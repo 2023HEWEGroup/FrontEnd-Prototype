@@ -244,8 +244,8 @@ const Exhibit = () => {
       };
       const response = await axios.post("http://localhost:5000/client/product/exhibit", newProduct);
       setNewProduct(response.data);
-      setNyan(true);
       setIsProgress(false);
+      setNyan(true);
     } catch (err) {
       setIsProgress(false);
       if (err.response) {

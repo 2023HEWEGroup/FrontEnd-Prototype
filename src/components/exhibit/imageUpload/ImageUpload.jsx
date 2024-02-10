@@ -88,7 +88,7 @@ const ImageUpload = (props) => {
             <HiddenInput type="file" accept="image/png, image/jpg, image/jpeg, image/webp" ref={fileInputRef} onChange={handleFileSelected}/>
         </StyledImgs>
         <div style={{display: "flex", justifyContent: "space-between", color: theme.palette.text.sub, marginTop: "5px"}}>
-            <div>※ png, jpg, jpeg形式のみ対応 (8枚)</div>
+            <div>※ png, jpg, jpeg, webp形式のみ対応 (8枚)</div>
             <div>{`${props.uploadImages.length}/8`}</div>
         </div>
         </>
