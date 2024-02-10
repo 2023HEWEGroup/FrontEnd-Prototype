@@ -104,7 +104,9 @@ const Following = (props) => {
           <ImageList sx={{ width: "100%" }} cols={isXsScreen ? 2 : isSmallScreen ? 3 : isMiddleScreen ? 4 : isLargeScreen ? 5 : 6}>
             {products.map((product, index) => (
               <Link key={index} to={`/product/${product._id}`}>
-                <ImageListItem key={index}>
+                <ImageListItem key={index} sx={{overflow: "hidden"}}>
+                <StyledSoldLabel theme={theme} isSold={product.purchasingId}>SOLD</StyledSoldLabel>
+                <StyledDarkness isSold={product.purchasingId} />
                 <img
                   src={`http://localhost:5000/uploads/productImages/${product.productImg[0]}`}
                   alt='商品画像'
@@ -169,6 +171,40 @@ const StyledSectionDes = styled.div`
 
 const StyledSectionFollowers = styled.div`
   width: 50%;
+`
+
+const StyledSoldLabel = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    pointer-events: none;
+    user-select: none;
+    display: ${(props) => props.isSold ? "flex" : "none"};
+    justify-content: center;
+    align-items: end;
+    width: 70%;
+    height: 70%;
+    padding-bottom: 6%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    font-size: 1.3rm;
+    font-weight: bold;
+    letter-spacing: .1rem;
+    color: ${(props) => props.theme.palette.text.main2};
+    background-color: ${(props) => props.theme.palette.secondary.main};
+`
+
+const StyledDarkness = styled.div`
+    display: ${(props) => props.isSold ? "block" : "none"};
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 40;
+    pointer-events: none;
+    user-select: none;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
 `
 
 

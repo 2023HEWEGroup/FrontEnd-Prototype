@@ -48,9 +48,9 @@ const SideBar = (props) => {
       </StyledSideBarCell>
 
       <StyledSideBarCell>
-        <StyledLink to={"/group"}>
-          <StyledSideBarElements theme={theme}  style={props.page === "/group" ? {backgroundColor: theme.palette.background.hover} : null}>
-            {props.page === "/group" ? <StyledFolderSharedIcon color='secondary' /> : <StyledFolderSharedOutlinedIcon color="icon"/>}
+        <StyledLink to={"/groups"}>
+          <StyledSideBarElements theme={theme}  style={props.page === "/groups" ? {backgroundColor: theme.palette.background.hover} : null}>
+            {props.page === "/groups" ? <StyledFolderSharedIcon color='secondary' /> : <StyledFolderSharedOutlinedIcon color="icon"/>}
             <StyledIconName style={{color: theme.palette.text.main}}>グループ</StyledIconName>
           </StyledSideBarElements>
         </StyledLink>

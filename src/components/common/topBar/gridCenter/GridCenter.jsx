@@ -56,7 +56,7 @@ const GridCenter = (props) => {
     if (activeSearchMode === 2) page = "users";
     if (activeSearchMode === 3) page = "groups";
     if (activeSearchMode === 4) page = "products";
-    const url = `${page}/?word=${encodeURIComponent(inputhWord)}`;
+    const url = `${page}?word=${encodeURIComponent(inputhWord)}`;
     handlePopperClose();
     searchInput.current.blur();
     navigate(url);
@@ -70,7 +70,7 @@ const GridCenter = (props) => {
     if (mode === 2) page = "users";
     if (mode === 3) page = "groups";
     if (mode === 4) page = "products";
-    const url = `${page}/?word=${encodeURIComponent(inputhWord)}`;
+    const url = `${page}?word=${encodeURIComponent(inputhWord)}`;
     handlePopperClose();
     navigate(url);
   }

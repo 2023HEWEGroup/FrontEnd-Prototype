@@ -210,6 +210,9 @@ const Home = (props) => {
             {upperProducts.map((product, index) =>
               <ProductCard key={index} product={product} currentUser={props.currentUser}/>
             )}
+            {upperProducts.length === 0 &&
+            <StyledNoneProduct theme={theme}>商品がありません</StyledNoneProduct>
+            }
           </StyledProductZone>
 
           <StyledHomeSection theme={theme}>ユーザーを見つける</StyledHomeSection>
@@ -292,6 +295,15 @@ const StyledProductZone = styled.div`
   flex-wrap: wrap;
   gap: 10px;
   width: 100%;
+`
+
+const StyledNoneProduct = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 200px;
+    color: ${(props) => props.theme.palette.text.sub};
 `
 
 const StyledApproachZone = styled.div`
