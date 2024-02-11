@@ -34,6 +34,7 @@
     "recharts": "^2.7.3",
     "redux-toolkit": "^1.1.2",
     "slick-carousel": "^1.8.1",
+    "socket.io-client": "^4.7.4",
     "styled-components": "^5.3.11",
     "web-vitals": "^2.1.4"
   },

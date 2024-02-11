@@ -4,9 +4,10 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components'
+import Broadcasts from '../components/group/Broadcasts';
 
 
-const Group = () => {
+const Group = (props) => {
 
   const { groupId } = useParams("groupId");
   const [isLoading, setIsLoading] = useState(true);
@@ -28,7 +29,6 @@ const Group = () => {
   }
 
   const formatDate = (arg) => {
-    console.log(arg)
     const date = new Date(arg);
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -124,6 +124,7 @@ const Group = () => {
             <StyledTab theme={theme} label="商品"></StyledTab>
             <StyledTab theme={theme} label="配信"></StyledTab>
           </StyledTabs>
+          {tabValue === 3 && <Broadcasts group={group} currentUser={props.currentUser}/>}
         </Box>
         </Grid>
 
@@ -144,7 +145,6 @@ const StyledGroup = styled.div`
   width: 100%;
   max-width: 3000px;
   margin: 0 auto;
-  height: 3000px;
 `
 
 const StyledGroupHeader = styled.div`

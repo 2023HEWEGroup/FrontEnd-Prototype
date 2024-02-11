@@ -33,6 +33,7 @@ import SelectPaymentInfoSetting from "./components/setting/accountSetting/accoun
 import PointSetting from "./components/setting/accountSetting/accountInfoSetting/PointSetting";
 import CreditCardDetailSetting from "./components/setting/accountSetting/accountInfoSetting/CreditCardDetailSetting";
 import Establish from "./pages/Establish";
+import BroadcastRoom from "./pages/BroadcastRoom";
 
 
 const Routing = () => {
@@ -45,12 +46,13 @@ const Routing = () => {
       <Route path="/" element={<Top />} />
       <Route path="/exhibit" element={user ? <Exhibit /> : <Navigate to="/?recommend=true&back=/" />} />
       <Route path="/establish" element={user ? <Establish currentUser={user}/> : <Navigate to="/?recommend=true&back=/" />} />
+      <Route path="/broadcast/:roomId" element={user ? <BroadcastRoom currentUser={user}/> : <Navigate to="/?recommend=true&back=/" />} />
 
       <Route path="/" element={<CommonLayouts currentUser={user}/>}>
         <Route path="home" element={<Home currentUser={user}/>} />
         <Route path="product/:productId" element={<Product currentUser={user}/>} />
         <Route path="following" element={user ? <Following currentUser={user}/> : <Navigate to="/?recommend=true&back=/" />} />
-        <Route path="group/:groupId" element={<Group />} />
+        <Route path="group/:groupId" element={<Group currentUser={user}/>} />
         <Route path="notify" element={<Notify />} />
         <Route path="user/:userId" element={<Profile />} />
         <Route path="info" element={<Info />} />
