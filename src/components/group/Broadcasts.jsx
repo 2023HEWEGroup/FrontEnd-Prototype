@@ -74,7 +74,7 @@ const Broadcasts = (props) => {
             // broadcast/:roomIdにアクセスすると、配信に参加可能。ただし直接アクセスするだけではSocket.IOのルームに参加できない(joinされていないため)
             socket.on('roomId', (roomId) => {
                 // 配信ウィンドウを開く
-                window.open(`/broadcast/${roomId}`, '_blank', 'width=600, height=400');
+                window.open(`/broadcastLiver/${roomId}`, '_blank', 'width=600, height=400');
             });
 
             // クリーンアップ関数でイベントリスナーを削除する
