@@ -14,7 +14,7 @@ const BroadCastBox = (props) => {
     const handleEnterRoom = (roomId, userId, groupId, index) => {
         props.handleEnterRequest(roomId, userId, groupId, index);
         // 配信ウィンドウを開く
-        window.open(`/broadcast/${props.room.roomId}`, '_blank', 'width=600, height=400');
+        window.open(`/broadcastAudience/${props.room.roomId}`, '_blank', 'width=600, height=400');
     };
 
     useEffect(() => {

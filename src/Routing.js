@@ -33,7 +33,8 @@ import SelectPaymentInfoSetting from "./components/setting/accountSetting/accoun
 import PointSetting from "./components/setting/accountSetting/accountInfoSetting/PointSetting";
 import CreditCardDetailSetting from "./components/setting/accountSetting/accountInfoSetting/CreditCardDetailSetting";
 import Establish from "./pages/Establish";
-import BroadcastRoom from "./pages/BroadcastRoom";
+import BroadcastRoomLiver from "./pages/BroadcastRoomLiver";
+import BroadcastRoomAudience from "./pages/BroadcastRoomAudience";
 
 
 const Routing = () => {
@@ -46,7 +47,8 @@ const Routing = () => {
       <Route path="/" element={<Top />} />
       <Route path="/exhibit" element={user ? <Exhibit /> : <Navigate to="/?recommend=true&back=/" />} />
       <Route path="/establish" element={user ? <Establish currentUser={user}/> : <Navigate to="/?recommend=true&back=/" />} />
-      <Route path="/broadcast/:roomId" element={user ? <BroadcastRoom currentUser={user}/> : <Navigate to="/?recommend=true&back=/" />} />
+      <Route path="/broadcastLiver/:roomId" element={user ? <BroadcastRoomLiver currentUser={user}/> : <Navigate to="/?recommend=true&back=/" />} />
+      <Route path="/broadcastAudience/:roomId" element={user ? <BroadcastRoomAudience currentUser={user}/> : <Navigate to="/?recommend=true&back=/" />} />
 
       <Route path="/" element={<CommonLayouts currentUser={user}/>}>
         <Route path="home" element={<Home currentUser={user}/>} />
