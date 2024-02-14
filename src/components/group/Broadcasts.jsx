@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Box, Button, useTheme } from '@mui/material'
-import { Podcasts } from '@mui/icons-material'
+import { Box, useTheme } from '@mui/material'
+import { Pause, Podcasts, Replay } from '@mui/icons-material'
 import BroadCastBox from './BroadCastBox'
 import { StyledTextField } from '../../utils/StyledTextField'
 import io from 'socket.io-client';
+import { LoadingButton } from '@mui/lab'
 
 
 const Broadcasts = (props) => {
@@ -13,6 +14,8 @@ const Broadcasts = (props) => {
     const [socket, setSocket] = useState(null);
     const [room, setRoom] = useState({name: "", error: false, helper: ""});
     const [roomList, setRoomList] = useState();
+    const [isLiving, setIsLiving] = useState(false); // ある配信を配信中かどうか(配信者の場合)
+    const [isParticipating, setIsParticipating] = useState(false); // ある配信を視聴中かどうか
     const theme = useTheme();
 
     const handleRoomChange = (e) => {
@@ -27,6 +30,7 @@ const Broadcasts = (props) => {
     };
 
     const handleRoomCheck = () => {
+        if (isLiving || isParticipating) return; // 配信中ならチェックバリデート処理は行わない
         let flag = false;
         if (room.name.length === 0) {
             setRoom((prev) => ({...prev, error: true, helper: "ルーム名を入力して下さい"}));
@@ -64,7 +68,7 @@ const Broadcasts = (props) => {
             // socketが設定されていることを確認し"broadcasts" ルームに参加する (配信一覧を見る共通ルーム)
             socket.emit("groupBroadcasts", props.group._id);
 
-            // グループの配信一覧を取得
+            // グループの配信一覧を取得。部屋が出来たりこのコンポーネントがマウントとされると発火
             socket.on('groupBroadcasts', (groupBroadcasts) => {
                 setRoomList(groupBroadcasts);
                 setIsLoading(false);
@@ -74,7 +78,7 @@ const Broadcasts = (props) => {
             // broadcast/:roomIdにアクセスすると、配信に参加可能。ただし直接アクセスするだけではSocket.IOのルームに参加できない(joinされていないため)
             socket.on('roomId', (roomId) => {
                 // 配信ウィンドウを開く
-                window.open(`/broadcastLiver/${roomId}`, '_blank', 'width=600, height=400');
+                window.open(`/broadcastLiver/${roomId}?groupId=${props.group._id}`, '_blank', 'width=600, height=400');
             });
 
             // クリーンアップ関数でイベントリスナーを削除する
@@ -85,18 +89,44 @@ const Broadcasts = (props) => {
         }
     }, [socket]); // eslint-disable-line react-hooks/exhaustive-deps
 
+    useEffect(() => {
+        // 新しく配信ルーム群を取得する度に発火
+        const handleLiveStatus = () => {
+            for (const room of roomList) {
+                if (room.liverId === props.currentUser._id) {
+                    setIsLiving(true); // そのアカウントがグループ内の配信に参加していた場合、trueが設定される。
+                    setIsParticipating(false);
+                    return;
+                }
+            }
+            for (const room of roomList) {
+                for (let i = 0; i < room.users.length; i++) {
+                    const userData = room.users[i];
+                    if (userData === props.currentUser._id) {
+                        setIsParticipating(true); // そのアカウントが配信を視聴中だった場合、trueが設定される。
+                        setIsLiving(false);
+                        return;
+                    }
+                }
+            }
+        }
+        if (roomList) {
+            handleLiveStatus();
+        }
+    }, [roomList]); // eslint-disable-line react-hooks/exhaustive-deps
+
     return (
         <>
         <Box display="flex" alignItems="end" flexDirection="column" margin="0 auto" width="95%" justifyContent="center" gap="20px" padding="50px 0 20px 0">
             <StyledTextField theme={theme} value={room.name} autoComplete='new-off' fullWidth inputProps={{maxLength: 50, placeholder: "ルーム名 (1~50字)", fontSize: "0.9rem"}}
                 onChange={handleRoomChange} error={room.error} helperText={room.helper} size="small" sx={{"& input::placeholder": {fontSize: '0.8rem'}}}/>
-            <Button variant="contained" sx={{display: "flex", alignItems: "center", gap: "5px", p: "10px 50px", fontSize: "1rem", fontWeight: "bold", background: theme.palette.broadcast.gradient, color: "#fff"}} onClick={handleRoomCheck}><Podcasts /> <span>配信開始</span></Button>
+            <LoadingButton loading={isLoading} variant="contained" sx={{p: "10px 50px", fontSize: "1rem", fontWeight: "bold", background: isLiving || isParticipating ? theme.palette.broadcast.gradientStop : theme.palette.broadcast.gradient, color: "#fff"}} startIcon={isLiving ? <Pause /> : isParticipating ? <Replay /> : <Podcasts />} onClick={handleRoomCheck}>{isLiving ? "配信停止" : isParticipating ? "ルーム退出" : "配信開始"}</LoadingButton>
         </Box>
         <StyledSection theme={theme}>配信一覧</StyledSection>
         {!isLoading ?
             <StyledBloadcasts>
                 {roomList.map((room, index) =>
-                    <BroadCastBox key={index} index={index} room={room} handleEnterRequest={handleEnterRequest} currentUser={props.currentUser} group={props.group}/>
+                    <BroadCastBox key={index} index={index} room={room} handleEnterRequest={handleEnterRequest} currentUser={props.currentUser} group={props.group} isLiving={isLiving} isParticipating={isParticipating}/>
                 )
                 }
             </StyledBloadcasts>
