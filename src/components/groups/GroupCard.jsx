@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 
-const GroupCard = () => {
+const GroupCard = (props) => {
 
     const formatNumber = (num) => {
         if (num >= 1000000) {
@@ -26,24 +26,23 @@ const GroupCard = () => {
 
     return (
         <StyledCard elevation={2} theme={theme} $isLargeScreen={isLargeScreen} $isMiddleScreen={isMiddleScreen} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
-            <Link to="/group" style={{textDecoration: "none"}}>
-                <StyledCardHeader avatar={<Avatar variant='square'/>} title="グループ名" subheader="グループサブタイトル" titleTypographyProps={{ noWrap: true, color: theme.palette.text.main, fontSize: "1.2rem"}} subheaderTypographyProps={{ noWrap: true, color: theme.palette.text.sub}}></StyledCardHeader>
+            <Link to={`/group/${props.group._id}`} style={{textDecoration: "none"}}>
+                <StyledCardHeader avatar={<Avatar variant='square' src={props.group.icon ? `http://localhost:5000/uploads/groupIcons/${props.group.icon}` : null}/>} title={props.group.name} subheader={props.group.subTitle} titleTypographyProps={{ noWrap: true, color: theme.palette.text.main, fontSize: "1.2rem"}} subheaderTypographyProps={{ noWrap: true, color: theme.palette.text.sub}}></StyledCardHeader>
                 <StyledCardContent>
-                    <StyledTypography variant="body2" color={theme.palette.text.main}>
-                        aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                    <StyledTypography style={{ whiteSpace: 'pre-line'}} variant="body2" color={theme.palette.text.main}>
+                        {props.group.desc}
                     </StyledTypography>
                 </StyledCardContent>
                 <StyledCardContent2>
-                    <StyledTagChip theme={theme} clickable label={`# aaaaaaa`}/>
-                    <StyledTagChip theme={theme} clickable label={`# aaaaaaa`}/>
-                    <StyledTagChip theme={theme} clickable label={`# aaaaaaa`}/>
-                    <StyledTagChip theme={theme} clickable label={`#sss`}/>
+                    {props.group.tags.map((tag, index) =>
+                        <StyledTagChip key={index} theme={theme} clickable label={`# ${tag}`}/>
+                    )}
                 </StyledCardContent2>
                 <StyledCardContent3  theme={theme}>
                     <Box display="flex" gap="10px">
-                        <Box display="flex" gap="2px"><People style={{color: theme.palette.icon.comment}} fontSize='small'/><div>{formatNumber(100)}</div></Box>
-                        <Box display="flex" gap="2px"><Inventory style={{color: theme.palette.icon.inventory}} fontSize='small'/><div>{formatNumber(5611)}</div></Box>
-                        <Box display="flex" gap="2px"><Star style={{color: theme.palette.icon.star}} fontSize='small'/><div>{formatNumber(893412545)}</div></Box>
+                        <Box display="flex" gap="2px"><People style={{color: theme.palette.icon.comment}} fontSize='small'/><div>{formatNumber(props.group.member.length)}</div></Box>
+                        <Box display="flex" gap="2px"><Inventory style={{color: theme.palette.icon.inventory}} fontSize='small'/><div>{formatNumber(props.group.products.length)}</div></Box>
+                        <Box display="flex" gap="2px"><Star style={{color: theme.palette.icon.star}} fontSize='small'/><div>{formatNumber(props.group.star)}</div></Box>
                     </Box>
                     <AvatarGroup max={6} sx={{'& .MuiAvatar-root': { width: "30px", height: "30px", fontSize: 15 }}}>
                         <Avatar sx={{width: "30px", height: "30px"}}/>

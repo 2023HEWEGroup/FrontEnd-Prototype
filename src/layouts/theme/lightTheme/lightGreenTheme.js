@@ -26,6 +26,11 @@ export const LightGreenTheme = createTheme({
             successLine: "#084",
             warningLine: "#880",
         },
+        broadcast: {
+            main: "#f700ff",
+            gradient: "linear-gradient(45deg, #FE6B8B 30%, #f700ff 90%)",
+            boxLine: "#f8fcff",
+        },
         text: {
             main: "#000",
             sub: "#777",

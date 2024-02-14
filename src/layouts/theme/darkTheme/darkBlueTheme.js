@@ -28,7 +28,8 @@ export const darkBlueTheme = createTheme({
         },
         broadcast: {
             main: "#f700ff",
-            gradient: "linear-gradient(45deg, #FE6B8B 30%, #f700ff 90%)"
+            gradient: "linear-gradient(45deg, #FE6B8B 30%, #f700ff 90%)",
+            boxLine: "#666",
         },
         text: {
             main: "#fff",

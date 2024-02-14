@@ -1,15 +1,20 @@
-import { Fullscreen } from '@mui/icons-material'
+import { Circle, PeopleAltOutlined } from '@mui/icons-material'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Avatar, Typography } from '@mui/material';
+import { Avatar, Box, Chip, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 
 const BroadCastBox = (props) => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [liver, setLiver] = useState(null);
+    const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+    const isMiddleScreen = useMediaQuery((theme) => theme.breakpoints.down('lg'));
+    const isSideOpen = useSelector((state => state.floatSideBar.value));
     const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
+    const theme = useTheme();
 
     const handleEnterRoom = (roomId, userId, groupId, index) => {
         props.handleEnterRequest(roomId, userId, groupId, index);
@@ -33,13 +38,27 @@ const BroadCastBox = (props) => {
     return (
         <>
         {!isLoading ?
-        <StyledRoom onClick={() => handleEnterRoom(props.room.roomId, props.currentUser._id, props.group._id, props.index)}>
-            <StyledDarkness />
-            <Avatar sx={{ width: 56, height: 56 }} src={liver.icon ? `http://localhost:5000/uploads/userIcons/${liver.icon}` : `${siteAssetsPath}/default_icons/${liver.defaultIcon}`} />
+        <StyledRoom $isXsScreen={isXsScreen} $isMiddleScreen={isMiddleScreen} $isSideOpen={isSideOpen} theme={theme} onClick={() => handleEnterRoom(props.room.roomId, props.currentUser._id, props.group._id, props.index)}>
+
             <StyledIconOpacity>
-                <Typography sx={{color: "#fff", position: "absolute", top: 0, left: 0, width: "100%", padding: "5px 10px", overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis"}} variant='body1'>{props.room.name}</Typography>
-                <Fullscreen style={{color: "#fff"}} fontSize='large'/>
+                <Chip theme={theme} label="配信を見る" style={{backgroundColor: "#555", color: "#fff", fontSize: "0.8rem", cursor: "pointer"}}/>
             </StyledIconOpacity>
+
+            <Box display="flex" flexDirection="column" justifyContent="space-between" width="100%" height="100%" padding="5px 10px">
+                <Typography sx={{color: "#fff", width: "100%", overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis"}} variant='body1'>{props.room.name}</Typography>
+                <Box display="flex" justifyContent="space-between" alignItems="center">
+                    <Box display="flex" alignItems="center" gap="5px" style={{color: "#fff"}}>
+                        <Box display="flex" gap="2px" alignItems="center">
+                            <Circle style={{color: "#f00"}} fontSize='20px' />
+                            <PeopleAltOutlined fontSize='small'/>
+                        </Box>
+                        <span>{props.room.users.length}</span>
+                    </Box>
+                    <Tooltip title={props.room.liverName} arrow placement='bottom'>
+                        <Avatar sx={{width: "30px", height: "30px", zIndex: 20}} src={liver.icon ? `http://localhost:5000/uploads/userIcons/${liver.icon}` : `${siteAssetsPath}/default_icons/${liver.defaultIcon}`} />
+                    </Tooltip>
+                </Box>
+            </Box>
         </StyledRoom>
         :
         null
@@ -54,23 +73,13 @@ const StyledRoom = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: calc(50% - 30px);
+    width: calc(${(props) => props.$isXsScreen || (props.$isMiddleScreen && props.$isSideOpen) ? "100%" : "50%"} - 30px);
     aspect-ratio: 16/9;
     cursor: pointer;
-    background-color: #a677df;
+    background-color: #000;
+    border: solid 1px ${(props) => props.theme.palette.broadcast.boxLine};
     border-radius: 5px;
-    overflow: hiddden;
-`
-
-const StyledDarkness = styled.div`
-    z-index: 10;
-    pointer-events: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    overflow: hidden;
 `
 
 const StyledIconOpacity = styled.div`

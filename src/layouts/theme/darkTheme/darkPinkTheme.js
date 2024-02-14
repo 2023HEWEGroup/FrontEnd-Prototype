@@ -26,6 +26,11 @@ export const darkPinkTheme = createTheme({
             successLine: "#042",
             warningLine: "#440",
         },
+        broadcast: {
+            main: "#f700ff",
+            gradient: "linear-gradient(45deg, #FE6B8B 30%, #f700ff 90%)",
+            boxLine: "#666",
+        },
         text: {
             main: "#fff",
             sub: "#777",
