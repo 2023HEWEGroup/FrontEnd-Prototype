@@ -46,7 +46,7 @@ const EstablishNyan = (props) => {
                 <motion.div initial={{ x: '-60%', position: "fixed", top: 0, left: 0 }} animate={{ x: '0px', position: "fixed", top: 0, left: 0 }} transition={{ duration: 3, ease: "easeOut" }} >
                     
                     <div style={{width: "100vw", height: "100vh", zIndex: 10 }}>
-                        <Link to={`group/${props.group._id}`}>
+                        <Link to={`/group/${props.group._id}`}>
                             <StyledProductAvatarZone theme={theme}>
                                 <StyledAvatar variant='square' src={props.group.icon ? `http://localhost:5000/uploads/groupIcons/${props.group.icon}` : null}/>
                             </StyledProductAvatarZone>
@@ -60,7 +60,7 @@ const EstablishNyan = (props) => {
                 transition={{ duration: 0.3, delay: 3, ease: 'easeOut' }}>
                     <StyledButtons>
                         <StyledLink to="/home"><StyledButton variant='contained' size='large'><Home />ホームへ戻る</StyledButton></StyledLink>
-                        <StyledLink to={`group/${props.group._id}`}><StyledButton variant='contained' size='large'><Replay />グループを見る</StyledButton></StyledLink>
+                        <StyledLink to={`/group/${props.group._id}`}><StyledButton variant='contained' size='large'><Replay />グループを見る</StyledButton></StyledLink>
                     </StyledButtons>
                 </motion.div>
                 

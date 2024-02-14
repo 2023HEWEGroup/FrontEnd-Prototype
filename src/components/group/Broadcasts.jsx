@@ -41,7 +41,7 @@ const Broadcasts = (props) => {
 
     const handleCreateRoom = () => {
         const roomName = room.name; // ステートから再取得
-        socket.emit('createRoom', props.group._id, roomName, props.currentUser._id); // 新しいチャットルームの作成をサーバーに送信
+        socket.emit('createRoom', props.group._id, roomName, props.currentUser._id, props.currentUser.username); // 新しいチャットルームの作成をサーバーに送信
     }
 
     useEffect(() => {
@@ -70,7 +70,7 @@ const Broadcasts = (props) => {
                 setIsLoading(false);
             });
 
-            // 部屋を作成したら一意名ルームIDを取得。これを配信ページのURLに用いる。
+            // 部屋を作成したら一意なルームIDを取得。これを配信ページのURLに用いる。
             // broadcast/:roomIdにアクセスすると、配信に参加可能。ただし直接アクセスするだけではSocket.IOのルームに参加できない(joinされていないため)
             socket.on('roomId', (roomId) => {
                 // 配信ウィンドウを開く
@@ -90,7 +90,7 @@ const Broadcasts = (props) => {
         <Box display="flex" alignItems="end" flexDirection="column" margin="0 auto" width="95%" justifyContent="center" gap="20px" padding="50px 0 20px 0">
             <StyledTextField theme={theme} value={room.name} autoComplete='new-off' fullWidth inputProps={{maxLength: 50, placeholder: "ルーム名 (1~50字)", fontSize: "0.9rem"}}
                 onChange={handleRoomChange} error={room.error} helperText={room.helper} size="small" sx={{"& input::placeholder": {fontSize: '0.8rem'}}}/>
-            <Button variant="contained" sx={{display: "flex", alignItems: "center", gap: "5px", p: "10px 50px", fontSize: "1rem", fontWeight: "bold", background: theme.palette.broadcast.gradient}} onClick={handleRoomCheck}><Podcasts /> <span>配信開始</span></Button>
+            <Button variant="contained" sx={{display: "flex", alignItems: "center", gap: "5px", p: "10px 50px", fontSize: "1rem", fontWeight: "bold", background: theme.palette.broadcast.gradient, color: "#fff"}} onClick={handleRoomCheck}><Podcasts /> <span>配信開始</span></Button>
         </Box>
         <StyledSection theme={theme}>配信一覧</StyledSection>
         {!isLoading ?

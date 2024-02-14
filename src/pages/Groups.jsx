@@ -1,9 +1,10 @@
 import { Add, FolderSharedOutlined, Search } from '@mui/icons-material'
-import { Box, Button, IconButton, InputBase, Paper, Tooltip, useMediaQuery, useTheme } from '@mui/material'
+import { Box, Button, CircularProgress, IconButton, InputBase, Paper, Tooltip, useMediaQuery, useTheme } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import GroupCard from '../components/groups/GroupCard'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 
 const Groups = () => {
@@ -12,7 +13,10 @@ const Groups = () => {
     const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
     const ref = useRef(null);
+    const PAGE_SIZE = 12;
     const [barPosition, setBarPosition] = useState("static");
+    const [isLoading, setIsLoading] =  useState(true);
+    const [favoriteGroups, setFavoriteGroups] = useState(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -24,6 +28,19 @@ const Groups = () => {
         window.removeEventListener('scroll', handleScroll);
         };
     }, [barPosition]);
+
+    useEffect(() => {
+        const fetchFavoriteGroups = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5000/client/group/favorite?page=${1}&pageSize=${PAGE_SIZE}`);
+                setFavoriteGroups(response.data);
+                setIsLoading(false);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        fetchFavoriteGroups();
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <>
@@ -60,23 +77,21 @@ const Groups = () => {
             </StyledBar>
             {barPosition === "fixed" && <div style={{height: "55px", width: "100%"}}></div>}
 
-            <StyledGroupsMain>
+            {!isLoading ?
+                <StyledGroupsMain>
 
-                <StyledSection theme={theme}>人気のグループ</StyledSection>
-                <GroupCard />
-                <GroupCard />
-                <GroupCard />
-                <GroupCard />
-                <GroupCard />
-                <GroupCard />
-                <GroupCard />
-                <GroupCard />
-                <GroupCard />
-                <GroupCard />
-                <GroupCard />
+                    <StyledSection theme={theme}>人気のグループ</StyledSection>
+                    {favoriteGroups.map((group, index) => 
+                        <GroupCard key={index} group={group}/>
+                    )}
 
-                <StyledSection theme={theme}>フォローに関連したグループ</StyledSection>
-            </StyledGroupsMain>
+                    <StyledSection theme={theme}>フォローに関連したグループ</StyledSection>
+                </StyledGroupsMain>
+                :
+                <Box display="flex" justifyContent="center" alignItems="center" width="100%" height="100px">
+                    <CircularProgress color='secondary'/>
+                </Box>
+            }
 
         </StyledGroups>
         </>
