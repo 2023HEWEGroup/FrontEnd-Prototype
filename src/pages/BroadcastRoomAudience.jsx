@@ -1,10 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import io from 'socket.io-client';
 
 
-const BroadcastRoomAudience = () => {
+const BroadcastRoomAudience = (props) => {
 
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const groupId = searchParams.get('groupId');
     const [socket, setSocket] = useState(null);
     const [liverSocketId, setLiverSocketId] = useState(null);
     const [peerConnection, setPeerConnection] = useState(null);
@@ -16,7 +19,7 @@ const BroadcastRoomAudience = () => {
         if (socket && peerConnection) {
             // windowが別だとsocketIdも別(別クライアントとして認識されるため)なので、Audience展開時に配信情報の参加者socketIDを更新する。(一度だけ実行)
             if (!isSockedIdUpdated) {
-                socket.emit(`updateAudienceSocketId`, roomId);
+                socket.emit(`updateAudienceSocketId`, roomId, props.currentUser._id);
                 setIsSockedIdUpdated(true);
             }
 
@@ -91,6 +94,7 @@ const BroadcastRoomAudience = () => {
     return (
         <>
         <video playsInline autoPlay ref={videoRef} style={{width: "600px", height: "600px"}}/>
+        <a href='/home'>aaaaaaaaaaaaaa</a>
         </>
     )
 }

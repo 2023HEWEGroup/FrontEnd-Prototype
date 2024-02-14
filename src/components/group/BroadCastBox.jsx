@@ -18,8 +18,8 @@ const BroadCastBox = (props) => {
 
     const handleEnterRoom = (roomId, userId, groupId, index) => {
         props.handleEnterRequest(roomId, userId, groupId, index);
-        // 配信ウィンドウを開く
-        window.open(`/broadcastAudience/${props.room.roomId}`, '_blank', 'width=600, height=400');
+        // 配信ウィンドウを開く (配信に参加していないなら)
+        if (!props.isLiving && !props.isParticipating) window.open(`/broadcastAudience/${props.room.roomId}?groupId=${props.group._id}`, '_blank', 'width=600, height=400');
     };
 
     useEffect(() => {
@@ -38,10 +38,10 @@ const BroadCastBox = (props) => {
     return (
         <>
         {!isLoading ?
-        <StyledRoom $isXsScreen={isXsScreen} $isMiddleScreen={isMiddleScreen} $isSideOpen={isSideOpen} theme={theme} onClick={() => handleEnterRoom(props.room.roomId, props.currentUser._id, props.group._id, props.index)}>
+        <StyledRoom $isXsScreen={isXsScreen} $isMiddleScreen={isMiddleScreen} $isSideOpen={isSideOpen} room={props.room} currentUser={props.currentUser._id} theme={theme} onClick={() => handleEnterRoom(props.room.roomId, props.currentUser._id, props.group._id, props.index)}>
 
             <StyledIconOpacity>
-                <Chip theme={theme} label="配信を見る" style={{backgroundColor: "#555", color: "#fff", fontSize: "0.8rem", cursor: "pointer"}}/>
+                <Chip theme={theme} label={props.room.liverId === props.currentUser._id ? "あなたの配信" : props.room.users.includes(props.currentUser._id) ? "視聴中" : "配信を見る"} style={{backgroundColor: "#555", color: "#fff", fontSize: "0.8rem", cursor: "pointer"}}/>
             </StyledIconOpacity>
 
             <Box display="flex" flexDirection="column" justifyContent="space-between" width="100%" height="100%" padding="5px 10px">
@@ -77,10 +77,49 @@ const StyledRoom = styled.div`
     aspect-ratio: 16/9;
     cursor: pointer;
     background-color: #000;
-    border: solid 1px ${(props) => props.theme.palette.broadcast.boxLine};
+    outline: ${(props) => props.room.users.includes(props.currentUser) ? `solid 3px ${props.theme.palette.broadcast.main}` : `solid 1px ${props.theme.palette.broadcast.boxLine}`};
     border-radius: 5px;
-    overflow: hidden;
-`
+    z-index: 1;
+
+    ${(props) => props.room.users.includes(props.currentUser) ?
+    `
+    &::before, &::after {
+        z-index: -1; 
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+        pointer-events: none;
+        animation: waveAnimation 3s linear infinite;
+    }
+
+    &::after {
+        animation-delay: 2s;
+    }
+
+    @keyframes waveAnimation {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+            background-color: transparent;
+            outline: solid 1px ${props.theme.palette.broadcast.main};
+        }
+        50% {
+            opacity: 0.5;
+        }
+        100% {
+            transform: scale(1.4);
+            opacity: 0;
+        }
+    }
+    `
+    :
+    null
+    }
+`;
 
 const StyledIconOpacity = styled.div`
     z-index: 15;
