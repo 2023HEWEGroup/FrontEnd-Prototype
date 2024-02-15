@@ -145,6 +145,7 @@ const StyledGroup = styled.div`
   width: 100%;
   max-width: 3000px;
   margin: 0 auto;
+  overflow: hidden;
 `
 
 const StyledGroupHeader = styled.div`
