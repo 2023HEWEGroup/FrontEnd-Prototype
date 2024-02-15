@@ -16,8 +16,8 @@ const BroadCastBox = (props) => {
     const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
     const theme = useTheme();
 
-    const handleEnterRoom = (roomId, userId, groupId, index) => {
-        props.handleEnterRequest(roomId, userId, groupId, index);
+    const handleEnterRoom = (roomId, userId, groupId) => {
+        props.handleEnterRequest(roomId, userId, groupId); // 一応SocketIOの方でも入室可否を問う (参加中なら拒否)
         // 配信ウィンドウを開く (配信に参加していないなら)
         if (!props.isLiving && !props.isParticipating) window.open(`/broadcastAudience/${props.room.roomId}?groupId=${props.group._id}`, '_blank', 'width=600, height=400');
     };
@@ -41,7 +41,7 @@ const BroadCastBox = (props) => {
         <StyledRoom $isXsScreen={isXsScreen} $isMiddleScreen={isMiddleScreen} $isSideOpen={isSideOpen} room={props.room} currentUser={props.currentUser._id} theme={theme} onClick={() => handleEnterRoom(props.room.roomId, props.currentUser._id, props.group._id, props.index)}>
 
             <StyledIconOpacity>
-                <Chip theme={theme} label={props.room.liverId === props.currentUser._id ? "あなたの配信" : props.room.users.includes(props.currentUser._id) ? "視聴中" : "配信を見る"} style={{backgroundColor: "#555", color: "#fff", fontSize: "0.8rem", cursor: "pointer"}}/>
+                <Chip theme={theme} label={props.room.liverId === props.currentUser._id ? "あなたの配信" : props.room.users.some(user => user.userId === props.currentUser._id) ? "視聴中" : "配信を見る"} style={{backgroundColor: "#555", color: "#fff", fontSize: "0.8rem", cursor: "pointer"}}/>
             </StyledIconOpacity>
 
             <Box display="flex" flexDirection="column" justifyContent="space-between" width="100%" height="100%" padding="5px 10px">
@@ -77,11 +77,11 @@ const StyledRoom = styled.div`
     aspect-ratio: 16/9;
     cursor: pointer;
     background-color: #000;
-    outline: ${(props) => props.room.users.includes(props.currentUser) ? `solid 3px ${props.theme.palette.broadcast.main}` : `solid 1px ${props.theme.palette.broadcast.boxLine}`};
+    outline: ${(props) => props.room.users.some(user => user.userId === props.currentUser) ? `solid 3px ${props.theme.palette.broadcast.main}` : `solid 1px ${props.theme.palette.broadcast.boxLine}`};
     border-radius: 5px;
     z-index: 1;
 
-    ${(props) => props.room.users.includes(props.currentUser) ?
+    ${(props) => props.room.users.some(user => user.userId === props.currentUser) ?
     `
     &::before, &::after {
         z-index: -1; 

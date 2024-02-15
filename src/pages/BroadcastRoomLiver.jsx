@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import io from 'socket.io-client';
 
 
-const BroadcastRoomLiver = (props) => {
+const BroadcastRoomLiver = () => {
 
     const [socket, setSocket] = useState(null);
     const [audienceSocketId, setAudienceSocketId] = useState(null);
@@ -16,7 +16,7 @@ const BroadcastRoomLiver = (props) => {
         if (socket && peerConnection) {
             // windowが別だとsocketIdも別(別クライアントとして認識されるため)なので、Liver展開時に配信情報の配信者socketIDを更新する。(一度だけ実行)
             if (!isSockedIdUpdated) {
-                socket.emit(`updateLiverSocketId`, roomId, props.currentUser._id);
+                socket.emit(`updateLiverSocketId`, roomId);
                 setIsSockedIdUpdated(true);
             };
 
@@ -45,6 +45,11 @@ const BroadcastRoomLiver = (props) => {
             socket.on('iceFromAudience', (ICE, audienceSocketId) => {
                 console.log("ICE received!");
                 peerConnection.addIceCandidate(ICE);
+            });
+
+            // 配信windowを閉じる要求を受け取った場合、閉じる。
+            socket.on('closeWindow', ()=> {
+                window.close();
             });
         }
         return () => {

@@ -19,7 +19,7 @@ const BroadcastRoomAudience = (props) => {
         if (socket && peerConnection) {
             // windowが別だとsocketIdも別(別クライアントとして認識されるため)なので、Audience展開時に配信情報の参加者socketIDを更新する。(一度だけ実行)
             if (!isSockedIdUpdated) {
-                socket.emit(`updateAudienceSocketId`, roomId, props.currentUser._id);
+                socket.emit(`updateAudienceSocketId`, roomId, props.currentUser._id, groupId);
                 setIsSockedIdUpdated(true);
             }
 
@@ -45,6 +45,11 @@ const BroadcastRoomAudience = (props) => {
             socket.on('iceFromLiver', (ICE, liverSocketId) => {
                 console.log("ICE received!");
                 peerConnection.addIceCandidate(ICE);
+            });
+
+            // 配信windowを閉じる要求を受け取った場合、閉じる。
+            socket.on('closeWindow', ()=> {
+                window.close();
             });
         }
         return () => {

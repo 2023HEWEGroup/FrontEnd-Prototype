@@ -30,20 +30,26 @@ const Broadcasts = (props) => {
     };
 
     const handleRoomCheck = () => {
-        if (isLiving || isParticipating) return; // 配信中ならチェックバリデート処理は行わない
-        let flag = false;
-        if (room.name.length === 0) {
-            setRoom((prev) => ({...prev, error: true, helper: "ルーム名を入力して下さい"}));
-            flag = true;
-        } else if (room.name.trim() === "") {
-            setRoom((prev) => ({...prev, error: true, helper: "空白のみの入力はできません"}));
-            flag = true;
+        if (!isLiving && !isParticipating) { // 配信中ならチェックバリデート処理は行わない
+            let flag = false;
+            if (room.name.length === 0) {
+                setRoom((prev) => ({...prev, error: true, helper: "ルーム名を入力して下さい"}));
+                flag = true;
+            } else if (room.name.trim() === "") {
+                setRoom((prev) => ({...prev, error: true, helper: "空白のみの入力はできません"}));
+                flag = true;
+            }
+            if (flag) return;
         }
-        if (flag) return;
-        else handleCreateRoom();
+        handleCreateRoom();
     };
 
     const handleCreateRoom = () => {
+        if (isParticipating || isLiving) {
+            // 配信に参加していた場合、オブジェクトIDをキーにsocketIdを特定し、ルームを退出させる
+            socket.emit(`leaveRoom`, props.currentUser._id);
+            return;
+        }
         const roomName = room.name; // ステートから再取得
         socket.emit('createRoom', props.group._id, roomName, props.currentUser._id, props.currentUser.username); // 新しいチャットルームの作成をサーバーに送信
     }
@@ -59,8 +65,8 @@ const Broadcasts = (props) => {
         };
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const handleEnterRequest = (roomId, userId, groupId, index) => {
-        socket.emit('enterRoom', roomId, userId, groupId, index); // 配信ルームに参加するリクエスト (index: そのグループの何番目の配信に入室するか)
+    const handleEnterRequest = (roomId, userId, groupId) => {
+        socket.emit('enterRoom', roomId, userId, groupId); // 配信ルームに参加するリクエスト
     }
 
     useEffect(() => {
@@ -70,6 +76,7 @@ const Broadcasts = (props) => {
 
             // グループの配信一覧を取得。部屋が出来たりこのコンポーネントがマウントとされると発火
             socket.on('groupBroadcasts', (groupBroadcasts) => {
+                console.log(1)
                 setRoomList(groupBroadcasts);
                 setIsLoading(false);
             });
@@ -102,13 +109,16 @@ const Broadcasts = (props) => {
             for (const room of roomList) {
                 for (let i = 0; i < room.users.length; i++) {
                     const userData = room.users[i];
-                    if (userData === props.currentUser._id) {
+                    if (userData.userId === props.currentUser._id) {
                         setIsParticipating(true); // そのアカウントが配信を視聴中だった場合、trueが設定される。
                         setIsLiving(false);
                         return;
                     }
                 }
             }
+            // 参加者でも配信者でもなかった場合
+            setIsLiving(false);
+            setIsParticipating(false);
         }
         if (roomList) {
             handleLiveStatus();
