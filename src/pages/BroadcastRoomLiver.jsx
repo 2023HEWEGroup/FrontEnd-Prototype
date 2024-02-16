@@ -1,14 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import io from 'socket.io-client';
+import BroadcastRoomInner from '../components/broadcastRoom/BroadcastRoomInner';
 
 
-const BroadcastRoomLiver = () => {
+const BroadcastRoomLiver = (props) => {
 
     const [socket, setSocket] = useState(null);
     const [audienceSocketId, setAudienceSocketId] = useState(null);
     const [peerConnection, setPeerConnection] = useState(null);
     const [isSockedIdUpdated, setIsSockedIdUpdated] = useState(false); // LiverWindow展開時に配信者socketIdが更新されたらtureとなる。(1度しか呼ばないため)
+    const [roomInfo, setRoomInfo] = useState(null);
     const { roomId } = useParams();
     const videoRef = useRef(null);
 
@@ -51,6 +53,11 @@ const BroadcastRoomLiver = () => {
             socket.on('closeWindow', ()=> {
                 window.close();
             });
+
+            // ルームの情報が更新されたり作成されたら受け取り、stateで管理
+            socket.on('roomInfo', (roomInfo) => {
+                setRoomInfo(roomInfo);
+            })
         }
         return () => {
             // リスナーを解除
@@ -103,7 +110,8 @@ const BroadcastRoomLiver = () => {
 
     return (
         <>
-        <video playsInline autoPlay muted ref={videoRef} style={{ width: "600px", height: "400px" }} />
+        {/* ルーム情報が読み込まれてからルームを表示 */}
+        {roomInfo && <BroadcastRoomInner videoRef={videoRef} roomInfo={roomInfo} currentUser={props.currentUser} socket={socket}/>}
         </>
     )
 }

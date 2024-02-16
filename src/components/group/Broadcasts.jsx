@@ -76,7 +76,6 @@ const Broadcasts = (props) => {
 
             // グループの配信一覧を取得。部屋が出来たりこのコンポーネントがマウントとされると発火
             socket.on('groupBroadcasts', (groupBroadcasts) => {
-                console.log(1)
                 setRoomList(groupBroadcasts);
                 setIsLoading(false);
             });
