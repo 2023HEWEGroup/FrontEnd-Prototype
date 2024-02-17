@@ -31,6 +31,8 @@ export const LightOrangeTheme = createTheme({
             gradient: "linear-gradient(45deg, #FE6B8B 30%, #f700ff 90%)",
             gradientStop: "linear-gradient(45deg, #6BB7FE 30%, #9B30FF 90%)",
             boxLine: "#f8fcff",
+            commandButtonFullScreen: "#55555f",
+            commandButtonNormalScreen: "#55555f",
         },
         text: {
             main: "#000",
