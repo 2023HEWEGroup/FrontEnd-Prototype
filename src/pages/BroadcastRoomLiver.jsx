@@ -11,6 +11,9 @@ const BroadcastRoomLiver = (props) => {
     const [peerConnection, setPeerConnection] = useState(null);
     const [isSockedIdUpdated, setIsSockedIdUpdated] = useState(false); // LiverWindow展開時に配信者socketIdが更新されたらtureとなる。(1度しか呼ばないため)
     const [roomInfo, setRoomInfo] = useState(null);
+    const [newComerFlag, setNewComerFlag] = useState(false); // 参加者が増える度にtrueとfalseが入れ替わる参加検知state。これを元に配信者の設定しているミュート情報などがuseEffectにより発火する
+    const [isMic, setIsMic] = useState(true);
+    const [isVideo, setIsVideo] = useState(true);
     const { roomId } = useParams();
     const videoRef = useRef(null);
 
@@ -40,6 +43,7 @@ const BroadcastRoomLiver = (props) => {
                 // アンサーを自身のピア接続に設定
                 await peerConnection.setRemoteDescription(answer);
                 console.log("Remote description set successfully.");
+                setNewComerFlag((prev) => !prev);
                 // これ以降、ピア接続を介してデータの送受信が可能
             });
 
@@ -65,6 +69,7 @@ const BroadcastRoomLiver = (props) => {
                 socket.off('newAudience');
                 socket.off('answer');
                 socket.off('iceFromAudience');
+                socket.off('roomInfo');
             }
         };
     }, [socket, peerConnection]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -83,6 +88,38 @@ const BroadcastRoomLiver = (props) => {
             console.log(peerConnection.connectionState);
         };
     }
+
+    useEffect(() => { // 配信者がマイクやカメラの設定を切り替えた場合、全視聴者に対してミュートもしくは解除、動画共有の開始や停止の切り替えを行う
+        const handleDevice = async () => {
+            if (peerConnection && videoRef.current && socket) {
+                // すべての送信者に新しいオーディオトラックを設定
+                peerConnection.getSenders().forEach(sender => {
+                    if (sender && sender.track && sender.track.kind === 'audio') {
+                        sender.track.enabled = isMic;
+                        socket.emit('isMute', roomId, isMic);// 配信者がマイクの設定を変更したことを通知する(これは参加者側のレイアウト調節のため)
+                    } else if (sender && sender.track && sender.track.kind === 'video') {
+                        sender.track.enabled = isVideo;
+                        socket.emit('isShare', roomId, isVideo); // 配信者が動画の共有設定を変更したことを通知する(これは参加者側のレイアウト調節のため)
+                    }
+                });
+            }
+        };
+        handleDevice();
+    }, [isMic, isVideo, peerConnection, videoRef, newComerFlag, socket, roomId]);
+
+    useEffect(() => { // 上のeffectと分けたのは、配信者が何らかの参加者とconnectして無くても画面のon offは反映させたいため
+        const handleVideo = async () => {
+            if (videoRef.current) {
+                if (isVideo) {
+                    const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                    videoRef.current.srcObject = stream;
+                } else {
+                    videoRef.current.srcObject = null;
+                }
+            }
+        }
+        handleVideo();
+    }, [isVideo]);
 
     useEffect(() => {
         // サーバーとの接続を確立
@@ -111,7 +148,8 @@ const BroadcastRoomLiver = (props) => {
     return (
         <>
         {/* ルーム情報が読み込まれてからルームを表示 */}
-        {roomInfo && <BroadcastRoomInner videoRef={videoRef} roomInfo={roomInfo} currentUser={props.currentUser} socket={socket}/>}
+        {roomInfo && <BroadcastRoomInner videoRef={videoRef} roomInfo={roomInfo} currentUser={props.currentUser} socket={socket}
+                        isMic={isMic} setIsMic={setIsMic} isVideo={isVideo} setIsVideo={setIsVideo} liversMic={isMic} liversShare={isVideo}/>}
         </>
     )
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import io from 'socket.io-client';
+import BroadcastRoomInner from '../components/broadcastRoom/BroadcastRoomInner';
 
 
 const BroadcastRoomAudience = (props) => {
@@ -12,6 +13,9 @@ const BroadcastRoomAudience = (props) => {
     const [liverSocketId, setLiverSocketId] = useState(null);
     const [peerConnection, setPeerConnection] = useState(null);
     const [isSockedIdUpdated, setIsSockedIdUpdated] = useState(false); // AudienceWindow展開時に参加者socketIdが更新されたらtureとなる。(1度しか呼ばないため)
+    const [roomInfo, setRoomInfo] = useState(null);
+    const [isMic, setIsMic] = useState(true);
+    const [isVideo, setIsVideo] = useState(true);
     const { roomId } = useParams();
     const videoRef = useRef(null);
 
@@ -51,12 +55,28 @@ const BroadcastRoomAudience = (props) => {
             socket.on('closeWindow', ()=> {
                 window.close();
             });
+
+            // ルームの情報が更新されたり作成されたら受け取り、stateで管理
+            socket.on('roomInfo', (roomInfo) => {
+                setRoomInfo(roomInfo);
+            })
+
+            // 参加者がマイク設定を変更したことを検知する(レイアウト調節に使用するstate)
+            socket.on('isMute', (isMic) => {
+                setIsMic(isMic);
+            })
+
+            // 参加者が動画の共有設定を変更したことを検知する(レイアウト調節に使用するstate)
+            socket.on('isShare', (isVideo) => {
+                setIsVideo(isVideo);
+            })
         }
         return () => {
             // リスナーを解除
             if (socket) {
                 socket.off('offer');
                 socket.off('iceFromLiver');
+                socket.off('roomInfo');
             }
         };
     }, [socket, peerConnection]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -98,8 +118,9 @@ const BroadcastRoomAudience = (props) => {
 
     return (
         <>
-        <video playsInline autoPlay ref={videoRef} style={{width: "600px", height: "600px"}}/>
-        <a href='/home'>aaaaaaaaaaaaaa</a>
+        {/* ルーム情報が読み込まれてからルームを表示 */}
+        {roomInfo && <BroadcastRoomInner videoRef={videoRef} roomInfo={roomInfo} currentUser={props.currentUser} socket={socket}
+                        liversMic={isMic} liversShare={isVideo}/>}
         </>
     )
 }

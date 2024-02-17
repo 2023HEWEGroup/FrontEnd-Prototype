@@ -1,5 +1,6 @@
-import { AspectRatio, CallEnd, Circle, MicNone, MicOff, Podcasts, Videocam, VideocamOff } from '@mui/icons-material';
+import { AspectRatio, CallEnd, Circle, Headset, HeadsetOff, Mic, MicOff, ScreenShare, StopScreenShare, Videocam, VideocamOff } from '@mui/icons-material';
 import { Avatar, Box, Chip, Grid, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material'
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
@@ -8,8 +9,9 @@ const BroadcastRoomInner = (props) => {
 
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [isAudio, setIsAudio] = useState(true);
-    const [isShare, setIsShare] = useState(true);
+    const [liver, setLiver] = useState(null); // 配信者のすべて
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
+    const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
     const theme = useTheme();
 
     const handleWindowClose = () => {
@@ -28,6 +30,18 @@ const BroadcastRoomInner = (props) => {
         };
     })
 
+    useEffect(() => {
+        const fetchLiver = async () => {
+        try {
+            const response = await axios.get(`http://localhost:5000/client/user/getById/${props.roomInfo.liverId}`);
+            setLiver(response.data);
+        } catch (err) {
+            console.log(err);
+        }
+        }
+        fetchLiver();
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
     return (
         <>
         <StyledInner>
@@ -37,11 +51,22 @@ const BroadcastRoomInner = (props) => {
 
                     <StyledVideoArea $isSmallScreen={isSmallScreen} $isFullScreen={isFullScreen}>
                         <Box width="100%" height="100%" style={{position: "relative", borderRadius: isSmallScreen || isFullScreen ? "0px" : "10px", overflow: "hidden"}}>
-                            <StyledVideo playsInline autoPlay muted ref={props.videoRef} />
-                            <StyledLiverLabel icon={<Podcasts style={{color: "#f00"}} fontSize='small'/>} label={props.roomInfo.liverName}/>
+                            <StyledVideo
+                                playsInline
+                                autoPlay
+                                muted={props.currentUser._id === props.roomInfo.liverId || !isAudio}
+                                ref={props.videoRef} />
+                            <StyledLiverLabel icon={props.liversMic ? <Mic style={{color: "#fff"}} fontSize='small'/> : <MicOff style={{color: "#f00"}} fontSize='small'/>} label={props.roomInfo.liverName}/>
                             <StyledIconOpacity onClick={() => !isFullScreen ? setIsFullScreen(true) : ""} style={{display: isSmallScreen || isFullScreen ? "none" : "flex"}}>
                                 <Tooltip title="全画面(Esc)" placement='top'><AspectRatio fontSize='large' style={{color: "#fff"}}/></Tooltip>
                             </StyledIconOpacity>
+                            {!props.liversShare && liver &&
+                                <Box width="100%" height="100%" display="flex" justifyContent="center" alignItems="center" position="absolute" top="0" left="0" style={{backgroundColor: "#000"}}>
+                                    <Box width="100px" aspectRatio="1/1" maxWidth="20vw">
+                                        <Avatar sx={{width: "100%", height: "100%"}} src={liver.icon ? `http://localhost:5000/uploads/userIcons/${liver.icon}` : `${siteAssetsPath}/default_icons/${liver.defaultIcon}`}/>
+                                    </Box>
+                                </Box>
+                            }
                         </Box>
                     </StyledVideoArea>
 
@@ -53,9 +78,19 @@ const BroadcastRoomInner = (props) => {
                         </Box>
                         <Box display="flex" justifyContent="end" alignItems="end" height="70px">
                             <Box display="flex" alignItems="center" gap="15px">
-                                <Tooltip title={isShare ? "共有を停止" : "画面を共有"} placement="top"><Avatar onClick={() => setIsShare((prev) => !prev)} sx={{width: "55px", height: "55px", cursor: "pointer"}}>{isShare ? <VideocamOff /> : <Videocam />}</Avatar></Tooltip>
-                                <Tooltip title={isAudio ? "マイクをオフ" : "マイクをオン"} placement="top"><Avatar onClick={() => setIsAudio((prev) => !prev)} sx={{width: "55px", height: "55px", cursor: "pointer"}}>{isAudio ? <MicOff /> : <MicNone />}</Avatar></Tooltip>
-                                <Tooltip title={"配信を終了 ルームを出る"} placement="top"><Avatar sx={{width: "55px", height: "55px", cursor: "pointer", backgroundColor: "#f22"}} onClick={handleWindowClose}><CallEnd style={{color: "#fff"}}/></Avatar></Tooltip>
+                                {props.currentUser._id === props.roomInfo.liverId ?
+                                <>
+                                <Tooltip title={isSmallScreen || isFullScreen ? "縮小(Esc)" : "全画面(Esc)"} placement="top"><Avatar onClick={() => setIsFullScreen((prev) => !prev)} sx={{width: "55px", height: "55px", cursor: "pointer", backgroundColor: theme.palette.broadcast.commandButtonNormalScreen}}>{isSmallScreen || isFullScreen ? <StopScreenShare /> : <ScreenShare />}</Avatar></Tooltip>
+                                <Tooltip title={props.isVideo ? "共有を停止" : "画面を共有"} placement="top"><Avatar onClick={() => props.setIsVideo((prev) => !prev)} sx={{width: "55px", height: "55px", cursor: "pointer", backgroundColor: theme.palette.broadcast.commandButtonNormalScreen}}>{props.isVideo ? <Videocam /> : <VideocamOff />}</Avatar></Tooltip>
+                                <Tooltip title={props.isMic ? "マイクをオフ" : "マイクをオン"} placement="top"><Avatar onClick={() => props.setIsMic((prev) => !prev)} sx={{width: "55px", height: "55px", cursor: "pointer", backgroundColor: theme.palette.broadcast.commandButtonNormalScreen}}>{props.isMic ? <Mic /> : <MicOff />}</Avatar></Tooltip>
+                                </>
+                                :
+                                <>
+                                <Tooltip title={isSmallScreen || isFullScreen ? "縮小(Esc)" : "全画面(Esc)"} placement="top"><Avatar onClick={() => setIsFullScreen((prev) => !prev)} sx={{width: "55px", height: "55px", cursor: "pointer", backgroundColor: theme.palette.broadcast.commandButtonNormalScreen}}>{isSmallScreen || isFullScreen ? <StopScreenShare /> : <ScreenShare />}</Avatar></Tooltip>
+                                <Tooltip title={isAudio ? "音声をオフ" : "音声をオン"} placement="top"><Avatar onClick={() => setIsAudio((prev) => !prev)} sx={{width: "55px", height: "55px", cursor: "pointer", backgroundColor: theme.palette.broadcast.commandButtonNormalScreen}}>{isAudio ? <Headset/> : <HeadsetOff />}</Avatar></Tooltip>
+                                </>
+                                }
+                                <Tooltip title={props.currentUser._id === props.roomInfo.liverId ? "配信を終了" : "ルームを出る"} placement="top"><Avatar sx={{width: "55px", height: "55px", cursor: "pointer", backgroundColor: "#f22"}} onClick={handleWindowClose}><CallEnd style={{color: "#fff"}}/></Avatar></Tooltip>
                             </Box>
                         </Box>
                     </StyledBroadcastDesc>
@@ -67,6 +102,27 @@ const BroadcastRoomInner = (props) => {
                 </Grid>
 
             </Grid>
+
+            {(isSmallScreen || isFullScreen) &&
+                <Box position="absolute" top="0" left="0" display="flex" justifyContent="center" alignItems="end" width="100%" height="100%">
+                    <Box display="flex" justifyContent="center" alignItems="center" gap="15px" width="100%" maxHeight="20vh" padding="20px 0">
+                    {props.currentUser._id === props.roomInfo.liverId ?
+                        <>
+                        <Tooltip title={isSmallScreen || isFullScreen ? "縮小(Esc)" : "全画面(Esc)"} placement="top"><Avatar onClick={() => setIsFullScreen((prev) => !prev)} sx={{width: "55px", height: "55px", cursor: "pointer", backgroundColor: theme.palette.broadcast.commandButtonFullScreen}}>{isSmallScreen || isFullScreen ? <StopScreenShare /> : <ScreenShare />}</Avatar></Tooltip>
+                        <Tooltip title={props.isVideo ? "共有を停止" : "画面を共有"} placement="top"><Avatar onClick={() => props.setIsVideo((prev) => !prev)} sx={{width: "55px", height: "55px", cursor: "pointer", backgroundColor: theme.palette.broadcast.commandButtonFullScreen}}>{props.isVideo ? <Videocam /> : <VideocamOff />}</Avatar></Tooltip>
+                        <Tooltip title={props.isMic ? "マイクをオフ" : "マイクをオン"} placement="top"><Avatar onClick={() => props.setIsMic((prev) => !prev)} sx={{width: "55px", height: "55px", cursor: "pointer", backgroundColor: theme.palette.broadcast.commandButtonFullScreen}}>{props.isMic ? <Mic /> : <MicOff />}</Avatar></Tooltip>
+                        </>
+                        :
+                        <>
+                        <Tooltip title={isSmallScreen || isFullScreen ? "縮小(Esc)" : "全画面(Esc)"} placement="top"><Avatar onClick={() => setIsFullScreen((prev) => !prev)} sx={{width: "55px", height: "55px", cursor: "pointer", backgroundColor: theme.palette.broadcast.commandButtonFullScreen}}>{isSmallScreen || isFullScreen ? <StopScreenShare /> : <ScreenShare />}</Avatar></Tooltip>
+                        <Tooltip title={isAudio ? "音声をオフ" : "音声をオン"} placement="top"><Avatar onClick={() => setIsAudio((prev) => !prev)} sx={{width: "55px", height: "55px", cursor: "pointer", backgroundColor: theme.palette.broadcast.commandButtonFullScreen}}>{isAudio ? <Headset/> : <HeadsetOff />}</Avatar></Tooltip>
+                        </>
+                    }
+                    <Tooltip title={props.currentUser._id === props.roomInfo.liverId ? "配信を終了" : "ルームを出る"} placement="top"><Avatar sx={{width: "55px", height: "55px", cursor: "pointer", backgroundColor: "#f22"}} onClick={handleWindowClose}><CallEnd style={{color: "#fff"}}/></Avatar></Tooltip>
+                    </Box>
+                </Box>
+            }
+
         </StyledInner>
         </>
     )
@@ -74,16 +130,18 @@ const BroadcastRoomInner = (props) => {
 
 
 const StyledInner = styled.div`
+    position: relative;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
 `
 
 const StyledVideoArea = styled.div`
+    position: relative;
     width: 100%;
     height: ${(props) => props.$isSmallScreen || props.$isFullScreen ? "100vh" : "75vh"};
-    // background-color: #afa;
     padding: ${(props) => props.$isSmallScreen || props.$isFullScreen ? "0%" : "1%"};
+    overflow: hidden;
 `
 
 const StyledVideo = styled.video`
@@ -95,6 +153,7 @@ const StyledVideo = styled.video`
 
 const StyledLiverLabel = styled(Chip)`
     && {
+        z-index: 100;
         position: absolute;
         bottom: 10px;
         left: 10px;
@@ -106,6 +165,7 @@ const StyledLiverLabel = styled(Chip)`
 `
 
 const StyledIconOpacity = styled.div`
+    z-index: 100;
     position: absolute;
     top: 0;
     left: 0;
@@ -149,7 +209,7 @@ const StyledCommentArea = styled.div`
     min-width: 150px;
     max-width: 100vw;
     height: 100vh;
-    background-color: #aaa;
+    background-color: ${(props) => props.$isSmallScreen || props.$isFullScreen ? "transparent" : "#aaa"};
 `
 
 
