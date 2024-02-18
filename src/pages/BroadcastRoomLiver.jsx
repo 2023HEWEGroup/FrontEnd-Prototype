@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import io from 'socket.io-client';
 import BroadcastRoomInner from '../components/broadcastRoom/BroadcastRoomInner';
 
 
 const BroadcastRoomLiver = (props) => {
 
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const groupId = searchParams.get('groupId');
     const [socket, setSocket] = useState(null);
     const [audienceSocketId, setAudienceSocketId] = useState(null);
     const [peerConnection, setPeerConnection] = useState(null);
@@ -148,7 +151,7 @@ const BroadcastRoomLiver = (props) => {
     return (
         <>
         {/* ルーム情報が読み込まれてからルームを表示 */}
-        {roomInfo && <BroadcastRoomInner videoRef={videoRef} roomInfo={roomInfo} currentUser={props.currentUser} socket={socket}
+        {roomInfo && <BroadcastRoomInner videoRef={videoRef} roomInfo={roomInfo} currentUser={props.currentUser} socket={socket} groupId={groupId}
                         isMic={isMic} setIsMic={setIsMic} isVideo={isVideo} setIsVideo={setIsVideo} liversMic={isMic} liversShare={isVideo}/>}
         </>
     )

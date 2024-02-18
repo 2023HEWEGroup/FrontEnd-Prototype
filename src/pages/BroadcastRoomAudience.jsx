@@ -119,7 +119,7 @@ const BroadcastRoomAudience = (props) => {
     return (
         <>
         {/* ルーム情報が読み込まれてからルームを表示 */}
-        {roomInfo && <BroadcastRoomInner videoRef={videoRef} roomInfo={roomInfo} currentUser={props.currentUser} socket={socket}
+        {roomInfo && <BroadcastRoomInner videoRef={videoRef} roomInfo={roomInfo} currentUser={props.currentUser} socket={socket} groupId={groupId}
                         liversMic={isMic} liversShare={isVideo}/>}
         </>
     )
