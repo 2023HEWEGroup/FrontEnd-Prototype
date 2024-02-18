@@ -33,6 +33,11 @@ export const LightPurpleTheme = createTheme({
             boxLine: "#f8fcff",
             commandButtonFullScreen: "#55555f",
             commandButtonNormalScreen: "#55555f",
+            subSection: "#eee",
+            liverComment: "#eee",
+            emojiTheme: "light",
+            fullScreenComment: "rgba(255, 255, 255, 0)",
+            fullScreenCommentHover: "rgba(255, 255, 255, 0.6)",
         },
         text: {
             main: "#000",
