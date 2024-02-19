@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { setUser } from '../../../../redux/features/userSlice';
 import ErrorSnack from '../../../common/errorSnack/ErrorSnack';
 import { debounce } from 'lodash';
+import { useEnv } from '../../../../provider/EnvProvider';
 
 
 
@@ -17,7 +18,7 @@ const UserPanel = (props) => {
     const isMiddleScreen = useMediaQuery((theme) => theme.breakpoints.down('lg'));
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
     const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
-    const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
+    const { siteAssetsPath } = useEnv();
     const theme = useTheme();
     const dispatch = useDispatch();
 

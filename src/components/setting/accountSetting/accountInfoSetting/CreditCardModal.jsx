@@ -11,6 +11,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../../../redux/features/userSlice';
 import { useNavigate } from 'react-router-dom';
+import { useEnv } from '../../../../provider/EnvProvider';
 
 
 const CreditCardModal = (props) => {
@@ -26,6 +27,7 @@ const CreditCardModal = (props) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const theme = useTheme();
+    const { backendAccessPath } = useEnv();
 
     const {
         meta,
@@ -96,8 +98,8 @@ const CreditCardModal = (props) => {
                 expiry: creditCard.expiry,
                 number: creditCard.number,
             };
-            await axios.post(`http://localhost:5000/client/setting/creditCardUpdate/${props.currentUser._id}`, newCreditCard);
-            const response = await axios.get(`http://localhost:5000/client/user/getById/${props.currentUser._id}`);
+            await axios.post(`${backendAccessPath}/client/setting/creditCardUpdate/${props.currentUser._id}`, newCreditCard);
+            const response = await axios.get(`${backendAccessPath}/client/user/getById/${props.currentUser._id}`);
             setTimeout(() => {
                 dispatch(setUser(response.data));
                 setIsProgress(false);

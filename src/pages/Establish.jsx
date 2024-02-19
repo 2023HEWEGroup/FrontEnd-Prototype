@@ -10,6 +10,7 @@ import EstablishModal from '../components/establish/EstablishModal'
 import axios from 'axios'
 import IsProgress from '../components/common/isProgress/IsProgress'
 import EstablishNyan from '../components/establish/EstablishNyan'
+import { useEnv } from '../provider/EnvProvider'
 
 
 const Establish = (props) => {
@@ -47,7 +48,7 @@ const Establish = (props) => {
     const [groupHelper, setGroupHelper] = useState({name: false, desc: false});
     const [isExpanded, setIsExpanded] = useState(false);
     const theme = useTheme();
-    const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
+    const { siteAssetsPath, backendAccessPath } = useEnv();
 
     const handleNameChange = (e) => {
         setGroup((prev) => ({...prev, name: e.target.value}));
@@ -139,13 +140,13 @@ const Establish = (props) => {
             if (binaryHeader) {
                 const headerFormData = new FormData();
                 headerFormData.append("groupHeader", binaryHeader);
-                const headerResponse = await axios.post("http://localhost:5000/client/group/headerUpload", headerFormData);
+                const headerResponse = await axios.post(`${backendAccessPath}/client/group/headerUpload`, headerFormData);
                 headerName = headerResponse.data;
             }
             if (binaryIcon) {
                 const iconFormData = new FormData();
                 iconFormData.append("groupIcon", binaryIcon);
-                const iconResponse = await axios.post("http://localhost:5000/client/group/iconUpload", iconFormData);
+                const iconResponse = await axios.post(`${backendAccessPath}/client/group/iconUpload`, iconFormData);
                 iconName = iconResponse.data;
             }
             const establishData = {
@@ -158,7 +159,7 @@ const Establish = (props) => {
                 header: headerName,
                 icon: iconName,
             }
-            const response = await axios.post("http://localhost:5000/client/group/establish", establishData);
+            const response = await axios.post(`${backendAccessPath}/client/group/establish`, establishData);
             setNewGroup(response.data);
             setIsProgress(false);
             setNyan(true);

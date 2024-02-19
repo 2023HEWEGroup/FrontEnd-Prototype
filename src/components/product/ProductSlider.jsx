@@ -3,12 +3,14 @@ import { ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material'
 import { Avatar, Button, useTheme } from '@mui/material'
 import React, { useRef, useEffect } from 'react'
 import Slider from 'react-slick'
+import { useEnv } from '../../provider/EnvProvider'
 
 
 const ProductSlider = (props) => {
 
     const theme = useTheme();
     const sliderRef = useRef();
+    const { backendAccessPath } = useEnv();
 
     const CustomArrow = ({ onClick, theme, direction }) => {
         return (
@@ -40,7 +42,7 @@ const ProductSlider = (props) => {
 
     const handleDragStart = (event) => {
         // Avatar内の画像をドラッグした際の関数
-        const imageUrl = `http://localhost:5000/uploads/productImages/${props.product.productImg[0]}`;
+        const imageUrl = `${backendAccessPath}/uploads/productImages/${props.product.productImg[0]}`;
         // その商品のサムネイルをeventのdataTransferオブジェクトにavatarImageと言う名前で保存。
         // これはimagePopper.jsx内のPopper内で取得され、画像検索に用いられる。
         event.dataTransfer.setData('avatarImage', imageUrl);
@@ -54,7 +56,7 @@ const ProductSlider = (props) => {
                     <StyledAvatarZone key={index}>
                         <StyledSoldLabel theme={theme} isSold={props.product.purchasingId}>SOLD</StyledSoldLabel>
                         <StyledDarkness isSold={props.product.purchasingId} />
-                        <StyledAvatar variant="square" src={`http://localhost:5000/uploads/productImages/${img}`} onDragStart={handleDragStart}/>
+                        <StyledAvatar variant="square" src={`${backendAccessPath}/uploads/productImages/${img}`} onDragStart={handleDragStart}/>
                     </StyledAvatarZone>
                 )}
             </StyledSlider>

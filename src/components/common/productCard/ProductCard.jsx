@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useEnv } from '../../../provider/EnvProvider';
 
 
 const SlideTransition = (props) => {
@@ -28,6 +29,7 @@ const ProductCard = (props) => {
     const user = useSelector((state) => state.user.value);
     const productPopperRef = useRef(null);
     const theme = useTheme();
+    const { backendAccessPath } = useEnv();
 
     const handleProductPopper = (e) => {
         e.preventDefault();
@@ -57,8 +59,8 @@ const ProductCard = (props) => {
     const handleLike = debounce(async () => {
         try {
             setIsLikeLoading(true);
-            await axios.put(`http://localhost:5000/client/product/like/${product._id}`, {_id: user._id});
-            const response = await axios.get(`http://localhost:5000/client/product/get/${product._id}`);
+            await axios.put(`${backendAccessPath}/client/product/like/${product._id}`, {_id: user._id});
+            const response = await axios.get(`${backendAccessPath}/client/product/get/${product._id}`);
             setProduct(response.data);
             setIsLikeLoading(false);
         } catch (err) {
@@ -68,7 +70,7 @@ const ProductCard = (props) => {
 
     const handleDragStart = (event) => {
         // Avatar内の画像をドラッグした際の関数
-        const imageUrl = `http://localhost:5000/uploads/productImages/${product.productImg[0]}`;
+        const imageUrl = `${backendAccessPath}/uploads/productImages/${product.productImg[0]}`;
         // その商品のサムネイルをeventのdataTransferオブジェクトにavatarImageと言う名前で保存。
         // これはimagePopper.jsx内のPopper内で取得され、画像検索に用いられる。
         event.dataTransfer.setData('avatarImage', imageUrl);
@@ -97,7 +99,7 @@ const ProductCard = (props) => {
 
     const fetchProduct = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/client/product/get/${props.product._id}`);
+            const response = await axios.get(`${backendAccessPath}/client/product/get/${props.product._id}`);
             setProduct(response.data);
             setIsLoading(false);
             } catch (err) {
@@ -116,7 +118,7 @@ const ProductCard = (props) => {
                 <StyledProductImgZone theme={theme}>
                     <StyledSoldLabel theme={theme} isSold={product.purchasingId}>SOLD</StyledSoldLabel>
                     <StyledDarkness isSold={product.purchasingId} />
-                    <StyledAvatar variant='square' src={`http://localhost:5000/uploads/productImages/${product.productImg[0]}`} alt='商品画像' onDragStart={handleDragStart}/>
+                    <StyledAvatar variant='square' src={`${backendAccessPath}/uploads/productImages/${product.productImg[0]}`} alt='商品画像' onDragStart={handleDragStart}/>
                     {user ?
                     <StyledProductOption theme={theme} productAnchorEl={productAnchorEl}>
                         <StyledIconButton onClick={handleProductPopper}>

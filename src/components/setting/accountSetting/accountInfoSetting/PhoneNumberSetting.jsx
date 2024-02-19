@@ -10,6 +10,7 @@ import IsProgress from '../../../common/isProgress/IsProgress';
 import { StyledTextField } from '../../../../utils/StyledTextField';
 import { Link } from 'react-router-dom';
 import { StyledDisabledButton } from '../../../../utils/StyledDisabledButton';
+import { useEnv } from '../../../../provider/EnvProvider';
 
 
 const PhoneNumberSetting = (props) => {
@@ -22,6 +23,7 @@ const PhoneNumberSetting = (props) => {
     const [snackInfo, setSnackInfo] = useState("");
     const theme = useTheme();
     const dispatch = useDispatch();
+    const { backendAccessPath } = useEnv();
 
     function formatPhoneNumber(phoneNumber) {
         const formattedNumber = phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
@@ -44,7 +46,7 @@ const PhoneNumberSetting = (props) => {
             setphoneNumber((prev) => ({...prev, error: false}));
             setphoneNumber((prev) => ({...prev, helper: ""}));
             try {
-                const user = await axios.get(`http://localhost:5000/client/user/getByPhone/${value.toString()}`);
+                const user = await axios.get(`${backendAccessPath}/client/user/getByPhone/${value.toString()}`);
                 if (user.data) {
                     setphoneNumber((prev) => ({...prev, error: true}));
                     setphoneNumber((prev) => ({...prev, helper: "この携帯電話番号はすでに使用されています"}));
@@ -58,8 +60,8 @@ const PhoneNumberSetting = (props) => {
     const handleUpdate = async () => {
         try {
             setIsProgress(true);
-            await axios.put(`http://localhost:5000/client/setting/phoneNumber/${props.currentUser._id}`, {phoneNumber: phoneNumber.value.toString()});
-            const response = await axios.get(`http://localhost:5000/client/user/getById/${props.currentUser._id}`);
+            await axios.put(`${backendAccessPath}/client/setting/phoneNumber/${props.currentUser._id}`, {phoneNumber: phoneNumber.value.toString()});
+            const response = await axios.get(`${backendAccessPath}/client/user/getById/${props.currentUser._id}`);
             dispatch(setUser(response.data));
             setIsProgress(false);
             setSnackInfo(`新しい携帯電話番号: ${formatPhoneNumber(response.data.phoneNumber)}`);

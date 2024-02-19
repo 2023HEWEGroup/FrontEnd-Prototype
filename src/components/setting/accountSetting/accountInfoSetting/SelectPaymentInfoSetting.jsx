@@ -4,18 +4,20 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
+import { useEnv } from '../../../../provider/EnvProvider';
 
 
 const SelectPaymentInfoSetting = (props) => {
 
     const [number, setNumber] = useState("");
     const theme = useTheme();
+    const { backendAccessPath } = useEnv();
 
     useEffect(() => {
         const fetchCardNumber = async () => {
             if (!props.currentUser.creditCard.number) return;
             try {
-                const response = await axios.get(`http://localhost:5000/client/auth/number/${props.currentUser._id}`);
+                const response = await axios.get(`${backendAccessPath}/client/auth/number/${props.currentUser._id}`);
                 setNumber(response.data);
             } catch (err) {
                 console.log(err);

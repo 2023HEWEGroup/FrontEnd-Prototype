@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import ErrorSnack from '../common/errorSnack/ErrorSnack';
 import { CurrencyYen } from '@mui/icons-material';
+import { useEnv } from '../../provider/EnvProvider';
 
 
 const UseLike = (props) => {
@@ -22,10 +23,11 @@ const UseLike = (props) => {
     const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
     const pageSize = 18;
     const theme = useTheme();
+    const { backendAccessPath } = useEnv();
 
     const handleDragStart = (event, product) => {
         // Avatar内の画像をドラッグした際の関数
-        const imageUrl = `http://localhost:5000/uploads/productImages/${product.productImg[0]}`;
+        const imageUrl = `${backendAccessPath}/uploads/productImages/${product.productImg[0]}`;
         // その商品のサムネイルをeventのdataTransferオブジェクトにavatarImageと言う名前で保存。
         // これはimagePopper.jsx内のPopper内で取得され、画像検索に用いられる。
         event.dataTransfer.setData('avatarImage', imageUrl);
@@ -34,7 +36,7 @@ const UseLike = (props) => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/client/product/userLike/${props.user._id}?page=${1}&pageSize=${pageSize}`);
+                const response = await axios.get(`${backendAccessPath}/client/product/userLike/${props.user._id}?page=${1}&pageSize=${pageSize}`);
                 setProducts(response.data);
                 setIsLoading(false);
                 if (response.data.length === pageSize) {
@@ -55,7 +57,7 @@ const UseLike = (props) => {
         // 一番下までスクロールされたかどうかを判定(誤差絶対値5px許容)
         if (Math.abs(scrollTop + windowHeight - pageHeight) <= 5) {
         try {
-            const response = await axios.get(`http://localhost:5000/client/product/userLike/${props.user._id}?page=${pageNumber + 1}&pageSize=${pageSize}`);
+            const response = await axios.get(`${backendAccessPath}/client/product/userLike/${props.user._id}?page=${pageNumber + 1}&pageSize=${pageSize}`);
             if (response.data.length < 0) {
             setIsNextLoading(false);
             return; // 商品がそれ以上フェッチできない場合、終了
@@ -100,7 +102,7 @@ const UseLike = (props) => {
                                     <StyledProductImgZone theme={theme}>
                                         <StyledSoldLabel theme={theme} isSold={product.purchasingId}>SOLD</StyledSoldLabel>
                                         <StyledDarkness isSold={product.purchasingId} />
-                                        <StyledProductAvatar variant="square" src={`http://localhost:5000/uploads/productImages/${product.productImg[0]}`} onDragStart={(event) => handleDragStart(event, product)}>
+                                        <StyledProductAvatar variant="square" src={`${backendAccessPath}/uploads/productImages/${product.productImg[0]}`} onDragStart={(event) => handleDragStart(event, product)}>
                                         </StyledProductAvatar>
                                     </StyledProductImgZone>
                                     <StyledProductDetail>

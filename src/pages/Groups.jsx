@@ -5,18 +5,19 @@ import styled from 'styled-components'
 import GroupCard from '../components/groups/GroupCard'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { useEnv } from '../provider/EnvProvider'
 
 
 const Groups = () => {
 
     const theme = useTheme();
-    const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
     const ref = useRef(null);
     const PAGE_SIZE = 12;
     const [barPosition, setBarPosition] = useState("static");
     const [isLoading, setIsLoading] =  useState(true);
     const [favoriteGroups, setFavoriteGroups] = useState(null);
+    const { siteAssetsPath, backendAccessPath } = useEnv();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -32,7 +33,7 @@ const Groups = () => {
     useEffect(() => {
         const fetchFavoriteGroups = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/client/group/favorite?page=${1}&pageSize=${PAGE_SIZE}`);
+                const response = await axios.get(`${backendAccessPath}/client/group/favorite?page=${1}&pageSize=${PAGE_SIZE}`);
                 setFavoriteGroups(response.data);
                 setIsLoading(false);
             } catch (err) {

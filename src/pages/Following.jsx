@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import ErrorSnack from '../components/common/errorSnack/ErrorSnack';
 import { Link, useNavigate } from 'react-router-dom';
+import { useEnv } from '../provider/EnvProvider';
 
 const Following = (props) => {
 
@@ -16,7 +17,7 @@ const Following = (props) => {
   const [isErrorSnack, setIsErrorSnack] = useState(false);
   const [snackWarning, setSnackWarning] = useState("");
 
-  const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
+  const { siteAssetsPath, backendAccessPath } = useEnv();
   const isLargeScreen = useMediaQuery((theme) => theme.breakpoints.down('xl'));
   const isMiddleScreen = useMediaQuery((theme) => theme.breakpoints.down('lg'));
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
@@ -33,7 +34,7 @@ const Following = (props) => {
 
   const handleDragStart = (event, product) => {
     // Avatar内の画像をドラッグした際の関数
-    const imageUrl = `http://localhost:5000/uploads/productImages/${product.productImg[0]}`;
+    const imageUrl = `${backendAccessPath}/uploads/productImages/${product.productImg[0]}`;
     // その商品のサムネイルをeventのdataTransferオブジェクトにavatarImageと言う名前で保存。
     // これはimagePopper.jsx内のPopper内で取得され、画像検索に用いられる。
     event.dataTransfer.setData('avatarImage', imageUrl);
@@ -42,8 +43,8 @@ const Following = (props) => {
   useEffect(() => {
     const fetchFollowings = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/client/user/getFollowings/${props.currentUser._id}/?pageSize=${props.currentUser.followings.length}`);
-            const productResponse = await axios.get(`http://localhost:5000/client/product/following/${props.currentUser._id}?page=${1}&pageSize=${PAGE_SIZE}`);
+            const response = await axios.get(`${backendAccessPath}/client/user/getFollowings/${props.currentUser._id}/?pageSize=${props.currentUser.followings.length}`);
+            const productResponse = await axios.get(`${backendAccessPath}/client/product/following/${props.currentUser._id}?page=${1}&pageSize=${PAGE_SIZE}`);
             setFollowings(response.data);
             setProducts(productResponse.data);
             if (productResponse.data.length < PAGE_SIZE) setIsNextLoading(false);
@@ -65,7 +66,7 @@ const Following = (props) => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/client/product/following/${props.currentUser._id}?page=${currentPage}&pageSize=${PAGE_SIZE}`);
+        const response = await axios.get(`${backendAccessPath}/client/product/following/${props.currentUser._id}?page=${currentPage}&pageSize=${PAGE_SIZE}`);
         setProducts((prev) => [...prev, ...response.data]);
         if (response.data.length < PAGE_SIZE) setIsNextLoading(false);
       } catch (err) {
@@ -94,7 +95,7 @@ const Following = (props) => {
               <AvatarGroup max={DISP_SIZE}>
                 {followings.map((user, index) =>
                   <Tooltip key={index} title={user.username} arrow placement='top'>
-                    <Avatar src={user.icon ? `http://localhost:5000/uploads/userIcons/${user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}`} onClick={() => navigate(`/user/${user._id}`)} style={{cursor: "pointer"}}/>
+                    <Avatar src={user.icon ? `${backendAccessPath}/uploads/userIcons/${user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}`} onClick={() => navigate(`/user/${user._id}`)} style={{cursor: "pointer"}}/>
                   </Tooltip>
                 )}
               </AvatarGroup>
@@ -108,7 +109,7 @@ const Following = (props) => {
                 <StyledSoldLabel theme={theme} isSold={product.purchasingId}>SOLD</StyledSoldLabel>
                 <StyledDarkness isSold={product.purchasingId} />
                 <img
-                  src={`http://localhost:5000/uploads/productImages/${product.productImg[0]}`}
+                  src={`${backendAccessPath}/uploads/productImages/${product.productImg[0]}`}
                   alt='商品画像'
                   loading="lazy"
                   onDragStart={(event) => handleDragStart(event, product)}
@@ -116,7 +117,7 @@ const Following = (props) => {
                 <ImageListItemBar
                   title={product.productName}
                   subtitle={`@${product.sellerId.userId}`}
-                  actionIcon={<Avatar src={product.sellerId.icon ? `http://localhost:5000/uploads/userIcons/${product.sellerId.icon}` : `${siteAssetsPath}/default_icons/${product.sellerId.defaultIcon}`} onClick={(event) => handleProfileNavigate(event, product)}/>}
+                  actionIcon={<Avatar src={product.sellerId.icon ? `${backendAccessPath}/uploads/userIcons/${product.sellerId.icon}` : `${siteAssetsPath}/default_icons/${product.sellerId.defaultIcon}`} onClick={(event) => handleProfileNavigate(event, product)}/>}
                 />
               </ImageListItem>
               </Link>

@@ -8,6 +8,7 @@ import { setUser } from '../../../redux/features/userSlice';
 import { ArrowBack, Check } from '@mui/icons-material';
 import { debounce } from 'lodash';
 import { Link } from 'react-router-dom';
+import { useEnv } from '../../../provider/EnvProvider';
 
 
 const SelectThemeSetting = (props) => {
@@ -18,12 +19,13 @@ const SelectThemeSetting = (props) => {
     const isMiddleScreen = useMediaQuery((theme) => theme.breakpoints.down('lg'));
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
     const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+    const { backendAccessPath } = useEnv();
 
     const handleUpdate = debounce(async (themeName) => {
         try {
             if (props.currentUser.theme === themeName) return;
-            await axios.put(`http://localhost:5000/client/setting/theme/${props.currentUser._id}`, {theme: themeName});
-            const newUser = await axios.get(`http://localhost:5000/client/user/getById/${props.currentUser._id}`);
+            await axios.put(`${backendAccessPath}/client/setting/theme/${props.currentUser._id}`, {theme: themeName});
+            const newUser = await axios.get(`${backendAccessPath}/client/user/getById/${props.currentUser._id}`);
             dispatch(setUser(newUser.data));
         } catch (err) {
             console.log(err);

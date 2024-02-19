@@ -5,10 +5,11 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from 'styled-components';
 import { ArrowBackIosNew, ArrowForwardIos, Inventory, People } from '@mui/icons-material';
+import { useEnv } from '../../../provider/EnvProvider';
 
 
 const GroupApproach = () => {
-    const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
+    const { siteAssetsPath } = useEnv();
     const theme = useTheme();
 
     const CustomGroupArrow = ({ onClick, theme, direction }) => {

@@ -7,6 +7,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useEnv } from '../../../../provider/EnvProvider';
 
 
 const FollowingListSection = (props) => {
@@ -16,7 +17,7 @@ const FollowingListSection = (props) => {
     const PAGE_SIZE = props.currentUser ? props.currentUser.followings.length : 0;
     const dispatch = useDispatch();
     const isOpenFollowing = useSelector((state => state.floatSideBarFollowing.value));
-    const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
+    const { siteAssetsPath, backendAccessPath } = useEnv();
     const theme = useTheme();
 
     const toggleFollowingShowAll = () => {
@@ -26,7 +27,7 @@ const FollowingListSection = (props) => {
     useEffect(() => {
         const fetchFollowers = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/client/user/getFollowings/${props.currentUser._id}/?page=${1}&pageSize=${PAGE_SIZE}`);
+                const response = await axios.get(`${backendAccessPath}/client/user/getFollowings/${props.currentUser._id}/?page=${1}&pageSize=${PAGE_SIZE}`);
                 setFollowers(response.data);
                 setIsLoading(false);
             } catch (err) {
@@ -39,7 +40,7 @@ const FollowingListSection = (props) => {
     useEffect(() => {
         const fetchFollowers = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/client/user/getFollowings/${props.currentUser._id}/?page=${1}&pageSize=${PAGE_SIZE}`);
+                const response = await axios.get(`${backendAccessPath}/client/user/getFollowings/${props.currentUser._id}/?page=${1}&pageSize=${PAGE_SIZE}`);
                 setFollowers(response.data);
                 setIsLoading(false);
             } catch (err) {
@@ -59,7 +60,7 @@ const FollowingListSection = (props) => {
                         <Link to={`/user/${account._id}`} key={index} style={{textDecoration: "none"}}>
                             <StyledListItem>
                                 <StyledListElements theme={theme}>
-                                    <StyledAvatar src={account.icon ? `http://localhost:5000/uploads/userIcons/${account.icon}` : `${siteAssetsPath}/default_icons/${account.defaultIcon}`}/>
+                                    <StyledAvatar src={account.icon ? `${backendAccessPath}/uploads/userIcons/${account.icon}` : `${siteAssetsPath}/default_icons/${account.defaultIcon}`}/>
                                     <StyledListItemText theme={theme.palette.text.main}>{account.username}</StyledListItemText>
                                 </StyledListElements>
                             </StyledListItem>
@@ -70,7 +71,7 @@ const FollowingListSection = (props) => {
                         <Link to={`/user/${account._id}`} key={index} style={{textDecoration: "none"}}>
                             <StyledListItem>
                                 <StyledListElements theme={theme}>
-                                    <StyledAvatar src={account.icon ? `http://localhost:5000/uploads/userIcons/${account.icon}` : `${siteAssetsPath}/default_icons/${account.defaultIcon}`}/>
+                                    <StyledAvatar src={account.icon ? `${backendAccessPath}/uploads/userIcons/${account.icon}` : `${siteAssetsPath}/default_icons/${account.defaultIcon}`}/>
                                     <StyledListItemText theme={theme.palette.text.main}>{account.username}</StyledListItemText>
                                 </StyledListElements>
                             </StyledListItem>

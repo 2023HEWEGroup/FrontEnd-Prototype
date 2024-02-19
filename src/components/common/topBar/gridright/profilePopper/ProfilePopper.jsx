@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { dropUser } from '../../../../../redux/features/userSlice';
 import DestructionModal from '../../../admin/destructionModal/DestructionModal';
 import VerifiedBadge from '../../../../../layouts/badges/VerifiedBadge';
+import { useEnv } from '../../../../../provider/EnvProvider';
 
 
 const ProfilePopper = () => {
@@ -20,7 +21,7 @@ const ProfilePopper = () => {
     const dispatch = useDispatch();
     const theme = useTheme();
     const user = useSelector((state) => state.user.value);
-    const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
+    const { siteAssetsPath, backendAccessPath } = useEnv();
 
     const handleProfilePopper = (e) => {
         if (!isProfilePopperOpen) {
@@ -70,7 +71,7 @@ const ProfilePopper = () => {
         <>
         <Tooltip title="アカウント管理" placement='bottom' arrow={true}>
             <StyledIconButtonRight size='small' onClick={handleProfilePopper} theme={theme}>
-                <Avatar src={user.icon ? `http://localhost:5000/uploads/userIcons/${user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}`}/>
+                <Avatar src={user.icon ? `${backendAccessPath}/uploads/userIcons/${user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}`}/>
             </StyledIconButtonRight>
         </Tooltip>
 
@@ -79,7 +80,7 @@ const ProfilePopper = () => {
                 <StyledPopperInner>
                     <StyledLink to={`/user/${user._id}`} onClick={handlePopperClose}>
                         <StyledProfileListHeader>
-                            <StyledProfileAvatar src={user.icon ? `http://localhost:5000/uploads/userIcons/${user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}`}/>
+                            <StyledProfileAvatar src={user.icon ? `${backendAccessPath}/uploads/userIcons/${user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}`}/>
                             <StyledAccountIntro>
                                 <StyledProfileAccountName style={{color: theme.palette.text.main}}>{user.isAuthorized ? <VerifiedBadge fontSize="small"/> : null}{user.username}</StyledProfileAccountName>
                                 <StyledProfileAccountId style={{color: theme.palette.text.sub}}>@{user.userId}</StyledProfileAccountId>

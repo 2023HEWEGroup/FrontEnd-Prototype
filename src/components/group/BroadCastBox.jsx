@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Avatar, Box, Chip, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { useEnv } from '../../provider/EnvProvider';
 
 
 const BroadCastBox = (props) => {
@@ -13,7 +14,7 @@ const BroadCastBox = (props) => {
     const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
     const isMiddleScreen = useMediaQuery((theme) => theme.breakpoints.down('lg'));
     const isSideOpen = useSelector((state => state.floatSideBar.value));
-    const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
+    const { siteAssetsPath, backendAccessPath } = useEnv();
     const theme = useTheme();
 
     const handleEnterRoom = (roomId, userId, groupId) => {
@@ -25,7 +26,7 @@ const BroadCastBox = (props) => {
     useEffect(() => {
         const fetchLiver = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/client/user/getById/${props.room.liverId}`);
+                const response = await axios.get(`${backendAccessPath}/client/user/getById/${props.room.liverId}`);
                 setLiver(response.data);
                 setIsLoading(false);
             } catch (err) {
@@ -55,7 +56,7 @@ const BroadCastBox = (props) => {
                         <span>{props.room.users.length}</span>
                     </Box>
                     <Tooltip title={props.room.liverName} arrow placement='bottom'>
-                        <Avatar sx={{width: "30px", height: "30px", zIndex: 20}} src={liver.icon ? `http://localhost:5000/uploads/userIcons/${liver.icon}` : `${siteAssetsPath}/default_icons/${liver.defaultIcon}`} />
+                        <Avatar sx={{width: "30px", height: "30px", zIndex: 20}} src={liver.icon ? `${backendAccessPath}/uploads/userIcons/${liver.icon}` : `${siteAssetsPath}/default_icons/${liver.defaultIcon}`} />
                     </Tooltip>
                 </Box>
             </Box>

@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../../../redux/features/userSlice';
 import { useNavigate } from 'react-router-dom';
 import DestructionModalTop from '../../common/admin/destructionModal/DestructionModalTop';
+import { useEnv } from '../../../provider/EnvProvider';
 
 
 const TopModal = (props) => {
@@ -97,6 +98,7 @@ const TopModal = (props) => {
     const user = useSelector((state) => state.user.value);
     const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
+    const { backendAccessPath } = useEnv();
 
     const handleModalClose = () => {
         if (userId || mailAddress || password || registUserName || registUserId || registPassword || registConfirmPassword || registMailAddress ||
@@ -296,7 +298,7 @@ const TopModal = (props) => {
             setUserIdHelper("3~30字の 0-9, a-z, A-Z, _ が使用できます");
         } else {
             try {
-                const user = await axios.get(`http://localhost:5000/client/user/getByUserId/${e.target.value}`);
+                const user = await axios.get(`${backendAccessPath}/client/user/getByUserId/${e.target.value}`);
                 if (user) {
                     setUserIdError(false);
                     setUserIdHelper(" ");
@@ -320,7 +322,7 @@ const TopModal = (props) => {
             setMailAddressError(false);
             setMailAddressHelper(" ");
             try {
-                const user = await axios.get(`http://localhost:5000/client/user/getByEmail/${e.target.value}`);
+                const user = await axios.get(`${backendAccessPath}/client/user/getByEmail/${e.target.value}`);
                 if (user) {
                     setMailAddressError(false);
                     setMailAddressHelper(" ");
@@ -376,7 +378,7 @@ const TopModal = (props) => {
             setIsRegistUserIdError(false);
             setRegistUserIdHelper(" ");
             try {
-                const user = await axios.get(`http://localhost:5000/client/user/getByUserId/${e.target.value}`);
+                const user = await axios.get(`${backendAccessPath}/client/user/getByUserId/${e.target.value}`);
                 if (user) {
                     setIsRegistUserIdError(true);
                     setRegistUserIdHelper("このユーザーIDはすでに使用されています");
@@ -449,7 +451,7 @@ const TopModal = (props) => {
             setIsRegistMailAddressError(false);
             setRegistMailAddressHelper(" ");
             try {
-                const user = await axios.get(`http://localhost:5000/client/user/getByEmail/${e.target.value}`);
+                const user = await axios.get(`${backendAccessPath}/client/user/getByEmail/${e.target.value}`);
                 if (user) {
                     setIsRegistMailAddressError(true);
                     setRegistMailAddressHelper("このメールアドレスはすでに使用されています");
@@ -484,7 +486,7 @@ const TopModal = (props) => {
             setIsRegistMailAddressError(false);
             setRegistMailAddressHelper(" ");
             try {
-                const user = await axios.get(`http://localhost:5000/client/user/getByEmail/${e.target.value}`);
+                const user = await axios.get(`${backendAccessPath}/client/user/getByEmail/${e.target.value}`);
                 if (user) {
                     setIsRegistMailAddressError(true);
                     setRegistMailAddressHelper("このメールアドレスはすでに使用されています");
@@ -607,7 +609,7 @@ const TopModal = (props) => {
             setPhoneNumberError(false);
             setPhoneNumberHelper(" ");
             try {
-                const user = await axios.get(`http://localhost:5000/client/user/getByPhone/${e.target.value.toString()}`);
+                const user = await axios.get(`${backendAccessPath}/client/user/getByPhone/${e.target.value.toString()}`);
                 if (user) {
                     setPhoneNumberError(true);
                     setPhoneNumberHelper("この電話番号はすでに使用されています");
@@ -691,7 +693,7 @@ const TopModal = (props) => {
                 email: isUserIdLogin ? "" : mailAddress,
                 password: password,
             }
-            const user = isUserIdLogin ? await axios.post("http://localhost:5000/client/auth/login", loginUser) : await axios.post("http://localhost:5000/client/auth/loginByEmail", loginUser);
+            const user = isUserIdLogin ? await axios.post(`${backendAccessPath}/client/auth/login`, loginUser) : await axios.post(`${backendAccessPath}/client/auth/loginByEmail`, loginUser);
             dispatch(setUser(user.data));
             navigate("/home");
         } catch (err) {
@@ -734,8 +736,8 @@ const TopModal = (props) => {
                 cvc: cardChecked ? creditCard.cvc : "",
                 expiry: cardChecked ? creditCard.expiry : "",
             }
-            const response = await axios.post("http://localhost:5000/client/auth/register", newUser);
-            await axios.put(`http://localhost:5000/client/notify/welcome/${response.data._id}`);
+            const response = await axios.post(`${backendAccessPath}/client/auth/register`, newUser);
+            await axios.put(`${backendAccessPath}/client/notify/welcome/${response.data._id}`);
             dispatch(setUser(response.data));
             props.setIsRequesting(false);
             navigate("/home");

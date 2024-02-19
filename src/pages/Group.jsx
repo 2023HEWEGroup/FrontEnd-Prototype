@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components'
 import Broadcasts from '../components/group/Broadcasts';
+import { useEnv } from '../provider/EnvProvider';
 
 
 const Group = (props) => {
@@ -16,6 +17,7 @@ const Group = (props) => {
   const [lineCount, setLineCount] = useState(NaN);
   const [isExpanded, setIsExpanded] = useState(false);
   const [tabValue, setTabValue] = useState(0);
+  const { backendAccessPath } = useEnv();
   const theme = useTheme();
 
   const formatNumber = (num) => {
@@ -39,7 +41,7 @@ const Group = (props) => {
   useEffect(() => {
     const fetchGroup = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/client/group/getGroup/${groupId}`);
+        const response = await axios.get(`${backendAccessPath}/client/group/getGroup/${groupId}`);
         setGroup(response.data);
         setIsLoading(false);
       } catch (err) {
@@ -75,12 +77,12 @@ const Group = (props) => {
 
         <Grid item xs={12} sm={12} md={6} lg={6} xl={6} style={{position: "stickey", top: "55px"}}>
 
-          <StyledGroupHeader theme={theme} backHeader={`http://localhost:5000/uploads/groupHeaders/${group.header ? group.header : null}`}></StyledGroupHeader>
+          <StyledGroupHeader theme={theme} backHeader={`${backendAccessPath}/uploads/groupHeaders/${group.header ? group.header : null}`}></StyledGroupHeader>
 
             <Box width="90%" margin="0 auto" display="flex" flexDirection="column" borderBottom={`solid 1px ${theme.palette.line.disable}`}>
               <Box display="flex" alignItems="center" width="100%" padding="30px 0" gap="25px">
                 <StyledAvatarZone>
-                  <Avatar variant='square' src={`http://localhost:5000/uploads/groupIcons/${group.icon ? group.icon : null}`} sx={{width: "100%", height: "100%"}}/>
+                  <Avatar variant='square' src={`${backendAccessPath}/uploads/groupIcons/${group.icon ? group.icon : null}`} sx={{width: "100%", height: "100%"}}/>
                 </StyledAvatarZone>
                 <Box display="flex" flexDirection="column" gap="10px" width="80%">
                   <Typography sx={{wordBreak: "break-all"}} variant='h5' color={theme.palette.text.main}>{group.name}</Typography>

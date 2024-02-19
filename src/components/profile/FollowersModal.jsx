@@ -8,6 +8,7 @@ import { setUser } from '../../redux/features/userSlice';
 import ErrorSnack from '../common/errorSnack/ErrorSnack';
 import VerifiedBadge from '../../layouts/badges/VerifiedBadge';
 import { debounce } from 'lodash';
+import { useEnv } from '../../provider/EnvProvider';
 
 
 const SlideTransition = (props) => {
@@ -23,10 +24,10 @@ const FollowersModal = (props) => {
     const [isNextLoading, setIsNextLoading] = useState(true);
     const [pageNumber, setPasgeNumber] = useState(1);
     const PAGE_SIZE = 10;
-    const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
     const dispatch = useDispatch();
     const listRef = useRef();
     const theme = useTheme();
+    const { backendAccessPath, siteAssetsPath } = useEnv();
 
     const [isFollowDisabled, setIsFollowDisabled] = useState(false);
     const [isErrorSnack, setIsErrorSnack] = useState(false);
@@ -45,7 +46,7 @@ const FollowersModal = (props) => {
             } else if (newValue === 1) {
                 props.setIsFollowDisplay(false);
             }
-            const response = await axios.get(`http://localhost:5000/client/user/${newValue === 0 ? "getFollowings" : "getFollowers"}/${props.user._id}/?page=${1}&pageSize=${PAGE_SIZE}`);
+            const response = await axios.get(`${backendAccessPath}/client/user/${newValue === 0 ? "getFollowings" : "getFollowers"}/${props.user._id}/?page=${1}&pageSize=${PAGE_SIZE}`);
             setUsers(response.data);
             if (response.data.length < PAGE_SIZE) {
                 setIsNextLoading(false);
@@ -67,8 +68,8 @@ const FollowersModal = (props) => {
         try {
             e.preventDefault();
             setIsFollowDisabled(true);
-            await axios.put(`http://localhost:5000/client/user/follow/${user._id}`, {_id: props.currentUser._id});
-            const newUser = await axios.get(`http://localhost:5000/client/user/getById/${props.currentUser._id}`);
+            await axios.put(`${backendAccessPath}/client/user/follow/${user._id}`, {_id: props.currentUser._id});
+            const newUser = await axios.get(`${backendAccessPath}/client/user/getById/${props.currentUser._id}`);
             dispatch(setUser(newUser.data));
             if (flag) {
                 setSnackUsername(user.username);
@@ -95,7 +96,7 @@ const FollowersModal = (props) => {
         try {
             // スクロール位置が一番下に達したら新しいデータをフェッチ (スクロール最下層判定誤差1px許容)
             if (listRef.current.scrollHeight - (listRef.current.scrollTop + listRef.current.clientHeight) <= 1) {
-                const response = await axios.get(`http://localhost:5000/client/user/${props.isFollowDisplay ? "getFollowings" : "getFollowers"}/${props.user._id}/?page=${pageNumber + 1}&pageSize=${PAGE_SIZE}`);
+                const response = await axios.get(`${backendAccessPath}/client/user/${props.isFollowDisplay ? "getFollowings" : "getFollowers"}/${props.user._id}/?page=${pageNumber + 1}&pageSize=${PAGE_SIZE}`);
                 if (response.data.length === 0) {
                     setIsNextLoading(false);
                     return;
@@ -124,7 +125,7 @@ const FollowersModal = (props) => {
         const fetchUsers = async () => {
             try {
                 setPasgeNumber(1);
-                const response = await axios.get(`http://localhost:5000/client/user/${props.isFollowDisplay ? "getFollowings" : "getFollowers"}/${props.user._id}/?page=${1}&pageSize=${PAGE_SIZE}`);
+                const response = await axios.get(`${backendAccessPath}/client/user/${props.isFollowDisplay ? "getFollowings" : "getFollowers"}/${props.user._id}/?page=${1}&pageSize=${PAGE_SIZE}`);
                 setUsers(response.data);
                 if (response.data.length < PAGE_SIZE) { // 初回以降フェッチできないならfalse
                     setIsNextLoading(false);
@@ -168,7 +169,7 @@ const FollowersModal = (props) => {
                                 <StyledUpperSection>
                                     <StyledIconAndName>
                                         <StyledIconZone>
-                                            <StyledAvatar src={user.icon ? `http://localhost:5000/uploads/userIcons/${user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}`}/>
+                                            <StyledAvatar src={user.icon ? `${backendAccessPath}/uploads/userIcons/${user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}`}/>
                                         </StyledIconZone>
                                         <StyledNameAndId>
                                             <StyledName theme={theme}>{user.isAuthorized ? <VerifiedBadge fontSize="small"/> : null}{user.username}</StyledName>

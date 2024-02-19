@@ -13,6 +13,7 @@ import VerifiedBadge from '../layouts/badges/VerifiedBadge';
 import ProfileUpdateModal from '../components/profile/ProfileUpdateModal';
 import { setUser } from '../redux/features/userSlice';
 import FollowersModal from '../components/profile/FollowersModal';
+import { useEnv } from '../provider/EnvProvider';
 
 
 const SlideTransition = (props) => {
@@ -55,7 +56,6 @@ const Profile = () => {
 
   const [isFollowDisplay, setIsFollowDisplay] = useState(true);
 
-  const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
   const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
   const currentUser = useSelector((state) => state.user.value);
@@ -63,6 +63,7 @@ const Profile = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const navigate = useNavigate();
+  const { siteAssetsPath, backendAccessPath } = useEnv();
 
   const handleLinkCopy = () => {
     const currentUrl = window.location.href;
@@ -77,8 +78,8 @@ const Profile = () => {
   const handleFollow = async (flag) => {
     try {
       setIsFollowDisabled(true);
-      await axios.put(`http://localhost:5000/client/user/follow/${user._id}`, {_id: currentUser._id});
-      const newUser = await axios.get(`http://localhost:5000/client/user/getById/${currentUser._id}`);
+      await axios.put(`${backendAccessPath}/client/user/follow/${user._id}`, {_id: currentUser._id});
+      const newUser = await axios.get(`${backendAccessPath}/client/user/getById/${currentUser._id}`);
       dispatch(setUser(newUser.data));
       if (flag) {
         setIsFollowSnack(true);
@@ -114,14 +115,14 @@ const Profile = () => {
   };  
 
   const followingsOpen = async () => {
-    const user = await axios.get(`http://localhost:5000/client/user/getById/${userId}`);
+    const user = await axios.get(`${backendAccessPath}/client/user/getById/${userId}`);
     setuser(user.data);
     setIsFollowDisplay(true);
     setFollowersModal(true);
   }
 
   const followersOpen = async () => {
-    const user = await axios.get(`http://localhost:5000/client/user/getById/${userId}`);
+    const user = await axios.get(`${backendAccessPath}/client/user/getById/${userId}`);
     setuser(user.data);
     setIsFollowDisplay(false);
     setFollowersModal(true);
@@ -132,7 +133,7 @@ const Profile = () => {
     const fetchUser = async () => {
       try {
         setFollowersModal(false);
-        const user = await axios.get(`http://localhost:5000/client/user/getById/${userId}`);
+        const user = await axios.get(`${backendAccessPath}/client/user/getById/${userId}`);
         setuser(user.data);
         setIsLoading(false);
         setIsProfileChange(false) // プロフィールを読み込んだらプロフィール変更フラグをfalse
@@ -159,7 +160,7 @@ const Profile = () => {
     <>
     <StyledProfile $isSmallScreen={isSmallScreen}>
       <StyledHeaderZone theme={theme}>
-        <StyledInnerBack backHeader={user.header ? `http://localhost:5000/uploads/userHeaders/${user.header}` : null} theme={theme}></StyledInnerBack>
+        <StyledInnerBack backHeader={user.header ? `${backendAccessPath}/uploads/userHeaders/${user.header}` : null} theme={theme}></StyledInnerBack>
         <StyledButtons $isSmallScreen={isSmallScreen}>
           <Tooltip title="リンクコピー" placement='top' arrow={true}>
             <StyledIconButton theme={theme} onClick={handleLinkCopy}>
@@ -178,7 +179,7 @@ const Profile = () => {
         <Grid container>
           <Hidden only={["xs"]}>
             <StyledUserGridItemLeft item xs={0} sm={2} md={2} $isXsScreen={isXsScreen}>
-              <StyledAvatar src={user.icon ? `http://localhost:5000/uploads/userIcons/${user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}`} $isSmallScreen={isSmallScreen}/>
+              <StyledAvatar src={user.icon ? `${backendAccessPath}/uploads/userIcons/${user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}`} $isSmallScreen={isSmallScreen}/>
             </StyledUserGridItemLeft>
           </Hidden>
           <StyledUserGridItemCenter item xs={6} sm={5} md={6} $isXsScreen={isXsScreen}>

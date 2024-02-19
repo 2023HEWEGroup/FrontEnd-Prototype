@@ -11,6 +11,7 @@ import PurchaseModal from '../components/product/PurchaseModal';
 import LoginRequiredModal from '../components/common/loginRequiredModal/LoginRequiredModal';
 import { debounce } from 'lodash';
 import NyanCatProduct from '../components/product/NyanCatProduct';
+import { useEnv } from '../provider/EnvProvider';
 
 
 const categories = [
@@ -35,7 +36,7 @@ const Product = (props) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const { productId } = useParams("productId");
-  const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
+  const { siteAssetsPath, backendAccessPath } = useEnv();
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
   const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
@@ -65,8 +66,8 @@ const Product = (props) => {
   const handleLike = debounce(async () => {
     try {
         setIsLikeLoading(true);
-        await axios.put(`http://localhost:5000/client/product/like/${product._id}`, {_id: props.currentUser._id});
-        const response = await axios.get(`http://localhost:5000/client/product/get/${product._id}`);
+        await axios.put(`${backendAccessPath}/client/product/like/${product._id}`, {_id: props.currentUser._id});
+        const response = await axios.get(`${backendAccessPath}/client/product/get/${product._id}`);
         setProduct(response.data);
         setIsLikeLoading(false);
     } catch (err) {
@@ -76,8 +77,8 @@ const Product = (props) => {
 
   const fetchProduct = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/client/product/get/${productId}`);
-      const sallerResponse = await axios.get(`http://localhost:5000/client/user/getById/${response.data.sellerId}`);
+      const response = await axios.get(`${backendAccessPath}/client/product/get/${productId}`);
+      const sallerResponse = await axios.get(`${backendAccessPath}/client/user/getById/${response.data.sellerId}`);
       setProduct(response.data);
       setSaller(sallerResponse.data);
       setIsLoading(false);
@@ -130,7 +131,7 @@ const Product = (props) => {
           <StyledImgCommands>
           {product.productImg.map((img, index) =>
             <StyledCommandAvatarZone key={index} onClick={() => setSliderIndex(index)} $current={index === sliderIndex ? true : false} theme={theme}>
-              <StyledCommandAvatar variant="square" src={`http://localhost:5000/uploads/productImages/${img}`}/>
+              <StyledCommandAvatar variant="square" src={`${backendAccessPath}/uploads/productImages/${img}`}/>
             </StyledCommandAvatarZone>
           )}
           </StyledImgCommands>
@@ -214,7 +215,7 @@ const Product = (props) => {
               <StyledsellerInner>
                 <StyledCard theme={theme} elevation={0}>
                     <Link to={`/user/${saller._id}`} style={{textDecoration: "none"}}>
-                        <CardHeader sx={{display: "flex", overflow: "hidden", "& .MuiCardHeader-content": {overflow: "hidden"}}} avatar={<Avatar sx={{ width: 50, height: 50 }} src={saller.icon ? `http://localhost:5000/uploads/userIcons/${saller.icon}` : `${siteAssetsPath}/default_icons/${saller.defaultIcon}`}/>}
+                        <CardHeader sx={{display: "flex", overflow: "hidden", "& .MuiCardHeader-content": {overflow: "hidden"}}} avatar={<Avatar sx={{ width: 50, height: 50 }} src={saller.icon ? `${backendAccessPath}/uploads/userIcons/${saller.icon}` : `${siteAssetsPath}/default_icons/${saller.defaultIcon}`}/>}
                         title={UserBadge()} titleTypographyProps={{ noWrap: true, color: theme.palette.text.main, fontSize: "1.3rem"}} action={<ArrowForwardIos style={{color: theme.palette.icon.main}}/>}
                         subheader={"@"+saller.userId} subheaderTypographyProps={{ noWrap: true, color: theme.palette.text.sub}}>
                         </CardHeader>

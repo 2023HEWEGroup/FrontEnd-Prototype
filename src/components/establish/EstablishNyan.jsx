@@ -6,11 +6,13 @@ import { Avatar, Button, Grow, useTheme } from '@mui/material';
 import { motion } from 'framer-motion';
 import { Home, Replay } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+import { useEnv } from '../../provider/EnvProvider';
 
 
 const EstablishNyan = (props) => {
 
     const theme = useTheme();
+    const { backendAccessPath } = useEnv();
 
     useEffect(() => {
         // Topページがマウントされたときに限定して背景部分の色を変更する
@@ -48,7 +50,7 @@ const EstablishNyan = (props) => {
                     <div style={{width: "100vw", height: "100vh", zIndex: 10 }}>
                         <Link to={`/group/${props.group._id}`}>
                             <StyledProductAvatarZone theme={theme}>
-                                <StyledAvatar variant='square' src={props.group.icon ? `http://localhost:5000/uploads/groupIcons/${props.group.icon}` : null}/>
+                                <StyledAvatar variant='square' src={props.group.icon ? `${backendAccessPath}/uploads/groupIcons/${props.group.icon}` : null}/>
                             </StyledProductAvatarZone>
                         </Link>
                     </div>

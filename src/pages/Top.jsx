@@ -11,6 +11,7 @@ import VerifiedBadge from '../layouts/badges/VerifiedBadge'
 import TopBack from '../components/top/topBack/TopBack'
 import { useGlitch } from 'react-powerglitch'
 import ErrorSnack from '../components/common/errorSnack/ErrorSnack'
+import { useEnv } from '../provider/EnvProvider'
 
 
 const Top = () => {
@@ -30,7 +31,8 @@ const Top = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const theme = useTheme();
-  const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
+  const { siteAssetsPath, backendAccessPath, socketPath } = useEnv();
+  console.log(siteAssetsPath, backendAccessPath, socketPath)
 
   const UserBadge = () => {
     return (
@@ -127,7 +129,7 @@ const Top = () => {
         <StyledAccountHeader>
           <StyledCard theme={theme} elevation={0}>
             <Link to={user ? `/user/${user._id}` : "#"} style={{textDecoration: "none"}} onClick={handleIsLogin}>
-                <StyledCardHeader sx={{display: "flex", overflow: "hidden", "& .MuiCardHeader-content": {overflow: "hidden"}}} avatar={<Avatar sx={{ width: 40, height: 40 }} src={user ? user.icon ? `http://localhost:5000/uploads/userIcons/${user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}` : null}/>}
+                <StyledCardHeader sx={{display: "flex", overflow: "hidden", "& .MuiCardHeader-content": {overflow: "hidden"}}} avatar={<Avatar sx={{ width: 40, height: 40 }} src={user ? user.icon ? `${backendAccessPath}/uploads/userIcons/${user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}` : null}/>}
                 title={UserBadge()} titleTypographyProps={{ noWrap: true, color: theme.palette.text.main2, fontSize: "1.1rem"}} action={<ArrowForwardIos style={{color: theme.palette.icon.main}}/>}
                 subheader={user ? "@"+user.userId : "@"} subheaderTypographyProps={{ noWrap: true, color: theme.palette.text.sub}}>
                 </StyledCardHeader>

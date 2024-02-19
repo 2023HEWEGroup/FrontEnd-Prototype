@@ -4,6 +4,7 @@ import { Box, useTheme } from '@mui/system'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { useEnv } from '../../provider/EnvProvider'
 
 
 const GroupCard = (props) => {
@@ -23,11 +24,12 @@ const GroupCard = (props) => {
     const isMiddleScreen = useMediaQuery((theme) => theme.breakpoints.down('lg'));
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
     const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+    const { backendAccessPath } = useEnv();
 
     return (
         <StyledCard elevation={2} theme={theme} $isLargeScreen={isLargeScreen} $isMiddleScreen={isMiddleScreen} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
             <Link to={`/group/${props.group._id}`} style={{textDecoration: "none"}}>
-                <StyledCardHeader avatar={<Avatar variant='square' src={props.group.icon ? `http://localhost:5000/uploads/groupIcons/${props.group.icon}` : null}/>} title={props.group.name} subheader={props.group.subTitle} titleTypographyProps={{ noWrap: true, color: theme.palette.text.main, fontSize: "1.2rem"}} subheaderTypographyProps={{ noWrap: true, color: theme.palette.text.sub}}></StyledCardHeader>
+                <StyledCardHeader avatar={<Avatar variant='square' src={props.group.icon ? `${backendAccessPath}/uploads/groupIcons/${props.group.icon}` : null}/>} title={props.group.name} subheader={props.group.subTitle} titleTypographyProps={{ noWrap: true, color: theme.palette.text.main, fontSize: "1.2rem"}} subheaderTypographyProps={{ noWrap: true, color: theme.palette.text.sub}}></StyledCardHeader>
                 <StyledCardContent>
                     <StyledTypography style={{ whiteSpace: 'pre-line'}} variant="body2" color={theme.palette.text.main}>
                         {props.group.desc}

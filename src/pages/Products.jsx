@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import ErrorSnack from '../components/common/errorSnack/ErrorSnack';
 import ProductCard from '../components/common/productCard/ProductCard';
 import StyledSelect from '../utils/StyledSelect';
+import { useEnv } from '../provider/EnvProvider';
 
 
 const categories = [
@@ -30,6 +31,7 @@ const Products = (props) => {
     const PAGE_SIZE = 12;
     const navigate = useNavigate();
     const theme = useTheme();
+    const { backendAccessPath } = useEnv();
 
     
     const [productCondition, setProductCondition] = useState({all: status === "all" ? true : false, onSale: status === "all" || status === "onSale" ? true : false, soldOut: status === "all" || status === "soldOut" ? true : false});
@@ -99,7 +101,7 @@ const Products = (props) => {
     const handlePageChange = async () => {
         try {
             setProducts(null);
-            const response = await axios.get(`http://localhost:5000/client/product/searchAll?searchWord=${word ? word : ""}&page=${currentPage}&pageSize=${PAGE_SIZE}&category=${categoryId ? categories[categoryId] : "すべての商品"}&status=${status ? status : ""}&sort=${sort ? sort : ""}`);
+            const response = await axios.get(`${backendAccessPath}/client/product/searchAll?searchWord=${word ? word : ""}&page=${currentPage}&pageSize=${PAGE_SIZE}&category=${categoryId ? categories[categoryId] : "すべての商品"}&status=${status ? status : ""}&sort=${sort ? sort : ""}`);
             if (response.data) {
                 setProducts(response.data.products);
                 setNum(response.data.num);
@@ -139,7 +141,7 @@ const Products = (props) => {
             try {
                 setProducts(null);
                 setCurrentPage(1); // 新しい検索ページ1から表示
-                const response = await axios.get(`http://localhost:5000/client/product/searchAll?searchWord=${word ? word : ""}&page=${currentPage}&pageSize=${PAGE_SIZE}&category=${categoryId ? categories[categoryId] : "すべての商品"}&status=${status ? status : ""}&sort=${sort ? sort : ""}`);
+                const response = await axios.get(`${backendAccessPath}/client/product/searchAll?searchWord=${word ? word : ""}&page=${currentPage}&pageSize=${PAGE_SIZE}&category=${categoryId ? categories[categoryId] : "すべての商品"}&status=${status ? status : ""}&sort=${sort ? sort : ""}`);
                 setProducts(response.data.products);
                 setNum(response.data.num);
             } catch (err) {

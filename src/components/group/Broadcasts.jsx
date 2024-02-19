@@ -6,6 +6,7 @@ import BroadCastBox from './BroadCastBox'
 import { StyledTextField } from '../../utils/StyledTextField'
 import io from 'socket.io-client';
 import { LoadingButton } from '@mui/lab'
+import { useEnv } from '../../provider/EnvProvider'
 
 
 const Broadcasts = (props) => {
@@ -17,6 +18,7 @@ const Broadcasts = (props) => {
     const [isLiving, setIsLiving] = useState(false); // ある配信を配信中かどうか(配信者の場合)
     const [isParticipating, setIsParticipating] = useState(false); // ある配信を視聴中かどうか
     const theme = useTheme();
+    const { socketPath } = useEnv();
 
     const handleRoomChange = (e) => {
         setRoom((prev) => ({...prev, name: e.target.value}));
@@ -56,7 +58,7 @@ const Broadcasts = (props) => {
 
     useEffect(() => {
         // サーバーとの接続を確立する
-        const newSocket = io('http://localhost:5001');
+        const newSocket = io(socketPath);
         setSocket(newSocket);
 
         // クリーンアップ関数で接続を解除する

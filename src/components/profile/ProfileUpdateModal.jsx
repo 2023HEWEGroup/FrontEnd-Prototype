@@ -10,6 +10,7 @@ import HeaderTrimming from './headerTrimming';
 import ErrorSnack from '../common/errorSnack/ErrorSnack';
 import IsProgress from '../common/isProgress/IsProgress';
 import { StyledTextField } from '../../utils/StyledTextField';
+import { useEnv } from '../../provider/EnvProvider';
 
 
 const ProfileUpdateModal = (props) => {
@@ -21,6 +22,7 @@ const ProfileUpdateModal = (props) => {
     const buttonRef2 = useRef();
     const buttonRef3 = useRef();
     const dispatch = useDispatch();
+    const { backendAccessPath } = useEnv();
     const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
     const [profile, setProfile] = useState({username: props.currentUser.username, desc: props.currentUser.desc});
     const [usernameError, setUsernameError] = useState(false);
@@ -104,13 +106,13 @@ const ProfileUpdateModal = (props) => {
             setIsProgress(true);
             if (profile.username !== props.currentUser.username || profile.desc !== props.currentUser.desc) {
                 // 内容に変更があれば名前やプロフィールを更新
-                await axios.put(`http://localhost:5000/client/user/update/${props.currentUser._id}`, {username: profile.username.trim(), desc: profile.desc.trim()});
+                await axios.put(`${backendAccessPath}/client/user/update/${props.currentUser._id}`, {username: profile.username.trim(), desc: profile.desc.trim()});
             }
             if (props.binaryIcon) {
                 // アイコンに変更があれば(props.binaryIcon: 送る実データがあれば)API実行
                 const formData = new FormData();
                 formData.append("userIcon", props.binaryIcon);
-                await axios.put(`http://localhost:5000/client/user/uploadIcon/${props.currentUser._id}`, formData);
+                await axios.put(`${backendAccessPath}/client/user/uploadIcon/${props.currentUser._id}`, formData);
                 // アイコン更新情報を初期化
                 props.setOriginalIcon();
                 props.setBinaryIcon();
@@ -119,20 +121,20 @@ const ProfileUpdateModal = (props) => {
                 // ヘッダーに変更があれば(props.binaryHeader: 送る実データがあれば)API実行
                 const formData = new FormData();
                 formData.append("userHeader", props.binaryHeader);
-                await axios.put(`http://localhost:5000/client/user/uploadHeader/${props.currentUser._id}`, formData);
+                await axios.put(`${backendAccessPath}/client/user/uploadHeader/${props.currentUser._id}`, formData);
                 // アイコン更新情報を初期化
                 props.setOriginalHeader();
                 props.setBinaryHeader();
             }
             if (isIconDelete) {
                 // アイコンが削除されていたら実行
-                await axios.delete(`http://localhost:5000/client/user/deleteIcon/${props.currentUser._id}`);
+                await axios.delete(`${backendAccessPath}/client/user/deleteIcon/${props.currentUser._id}`);
             }
             if (isHeaderDelete) {
                 // ヘッダーが削除されていたら実行
-                await axios.delete(`http://localhost:5000/client/user/deleteHeader/${props.currentUser._id}`);
+                await axios.delete(`${backendAccessPath}/client/user/deleteHeader/${props.currentUser._id}`);
             }
-            const newUser = await axios.get(`http://localhost:5000/client/user/getById/${props.currentUser._id}`);
+            const newUser = await axios.get(`${backendAccessPath}/client/user/getById/${props.currentUser._id}`);
             dispatch(setUser(newUser.data));
             props.setIsProfileChange(true); // プロフィール変更フラグ
             props.setOpen(false);
@@ -162,7 +164,7 @@ const ProfileUpdateModal = (props) => {
                     <StyledSaveButton theme={theme} $usernameError={usernameError} profile={profile} color="text" variant="contained" onClick={handleProfleUpdate}>保存</StyledSaveButton>
                 </StyledModalHeader>
 
-                <StyledHeader backHeader={isHeaderDelete ? `${siteAssetsPath}/default_header/${props.currentUser.defaultHeader}` : props.uploadHeader ? props.uploadHeader : props.currentUser.header ? `http://localhost:5000/uploads/userHeaders/${props.currentUser.header}` : `${siteAssetsPath}/default_header/${props.currentUser.defaultHeader}`} theme={theme}>
+                <StyledHeader backHeader={isHeaderDelete ? `${siteAssetsPath}/default_header/${props.currentUser.defaultHeader}` : props.uploadHeader ? props.uploadHeader : props.currentUser.header ? `${backendAccessPath}/uploads/userHeaders/${props.currentUser.header}` : `${siteAssetsPath}/default_header/${props.currentUser.defaultHeader}`} theme={theme}>
                     <StyledHeaderDarkness>
                         <StyledHeaderIcons>
                             <Tooltip title='ヘッダーを変更' placement='bottom'>
@@ -177,7 +179,7 @@ const ProfileUpdateModal = (props) => {
                     <StyledIconAndName>
                         <StyledIconInner>
                             <StyledIcon theme={theme}>
-                                <StyledAvatar src={isIconDelete ? `${siteAssetsPath}/default_icons/${props.currentUser.defaultIcon}` : props.uploadIcon ? props.uploadIcon : props.currentUser.icon ? `http://localhost:5000/uploads/userIcons/${props.currentUser.icon}` : `${siteAssetsPath}/default_icons/${props.currentUser.defaultIcon}`} />
+                                <StyledAvatar src={isIconDelete ? `${siteAssetsPath}/default_icons/${props.currentUser.defaultIcon}` : props.uploadIcon ? props.uploadIcon : props.currentUser.icon ? `${backendAccessPath}/uploads/userIcons/${props.currentUser.icon}` : `${siteAssetsPath}/default_icons/${props.currentUser.defaultIcon}`} />
                                 <StyledIconDarkness>
                                     <StyledIconDelete>
                                     <Tooltip title='アイコンを変更' placement='bottom'>

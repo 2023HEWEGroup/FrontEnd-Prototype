@@ -10,6 +10,7 @@ import ErrorSnack from '../../../common/errorSnack/ErrorSnack';
 import IsProgress from '../../../common/isProgress/IsProgress';
 import { StyledTextField } from '../../../../utils/StyledTextField';
 import { StyledDisabledButton } from '../../../../utils/StyledDisabledButton';
+import { useEnv } from '../../../../provider/EnvProvider';
 
 
 const UserIdSetting = (props) => {
@@ -22,6 +23,7 @@ const UserIdSetting = (props) => {
     const [snackInfo, setSnackInfo] = useState("");
     const theme = useTheme();
     const dispatch = useDispatch();
+    const { backendAccessPath } = useEnv();
 
     const handleInput = async (e) => {
         setUserId((prev) => ({...prev, value: e.target.value}));
@@ -36,7 +38,7 @@ const UserIdSetting = (props) => {
             setUserId((prev) => ({...prev, error: false}));
             setUserId((prev) => ({...prev, helper: ""}));
             try {
-                const user = await axios.get(`http://localhost:5000/client/user/getByUserId/${e.target.value}`);
+                const user = await axios.get(`${backendAccessPath}/client/user/getByUserId/${e.target.value}`);
                 if (user.data) {
                     setUserId((prev) => ({...prev, error: true}));
                     setUserId((prev) => ({...prev, helper: "このユーザーIDはすでに使用されています"}));
@@ -50,8 +52,8 @@ const UserIdSetting = (props) => {
     const handleUpdate = async () => {
         try {
             setIsProgress(true);
-            await axios.put(`http://localhost:5000/client/setting/userId/${props.currentUser._id}`, {userId: userId.value});
-            const response = await axios.get(`http://localhost:5000/client/user/getById/${props.currentUser._id}`);
+            await axios.put(`${backendAccessPath}/client/setting/userId/${props.currentUser._id}`, {userId: userId.value});
+            const response = await axios.get(`${backendAccessPath}/client/user/getById/${props.currentUser._id}`);
             dispatch(setUser(response.data));
             setIsProgress(false);
             setSnackInfo(`新しいユーザーID: ${response.data.userId}`);

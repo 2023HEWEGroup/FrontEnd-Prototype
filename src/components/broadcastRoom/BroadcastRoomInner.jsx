@@ -4,6 +4,7 @@ import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import EmojiPicker from 'emoji-picker-react';
+import { useEnv } from '../../provider/EnvProvider';
 
 
 const BroadcastRoomInner = (props) => {
@@ -15,9 +16,8 @@ const BroadcastRoomInner = (props) => {
     const [chat, setChat] = useState("");
     const [isSpeech, setIsSpeech] = useState(true);
     const [chatBottom, setChatBottom] = useState(true); // チャット欄が要り番したまでスクロールされたかどうか(スクロールで変動:初回は下まで下げるのでtrue)
-    const isMiddleScreen = useMediaQuery((theme) => theme.breakpoints.down('lg'));
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
-    const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
+    const { siteAssetsPath, backendAccessPath } = useEnv();
     const emojiRef = useRef();
     const chatRef = useRef();
     const emojiButtonRef = useRef();
@@ -44,7 +44,7 @@ const BroadcastRoomInner = (props) => {
     }
 
     const handleKeyDown = (event) => {
-        if (event.key === 'Enter' && event.shiftKey) {
+        if (event.key === 'Enter' && event.ctrlKey) {
             event.preventDefault(); // Enter キーのデフォルトの動作をキャンセル
             handleChatSend();
         }
@@ -64,12 +64,6 @@ const BroadcastRoomInner = (props) => {
         // チャット欄が一番下までスクロールされており、チャット欄が更新された場合、スクロールを最下部に更新
         if (chatBottom && chatRef.current) {
             chatRef.current.scrollTop = chatRef.current.scrollHeight;
-        }
-        // 追加されたメッセージを読み上げ
-        if (isSpeech && props.roomInfo.chat.length > 0) { // チャットが1件以上ないとchatフィールドが読めずにエラーになるので
-            const uttr = new SpeechSynthesisUtterance(props.roomInfo.chat[props.roomInfo.chat.length - 1].chat);
-            uttr.pitch = 1.5;
-            window.speechSynthesis.speak(uttr);
         }
     } , [props.roomInfo.chat]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -99,9 +93,29 @@ const BroadcastRoomInner = (props) => {
     }, []);
 
     useEffect(() => {
+        // 追加されたメッセージを読み上げ
+        if (props.socket) {
+            props.socket.on('chatSpeech', (room) => { // チャットが1件以上ないとchatフィールドが読めずにエラーになるので
+                console.log(room)
+                if (isSpeech && room.chat.length > 0) {
+                    const uttr = new SpeechSynthesisUtterance(room.chat[room.chat.length - 1].chat);
+                    uttr.pitch = 1.5;
+                    window.speechSynthesis.speak(uttr);
+                }
+            })
+        }
+        return () => {
+            // リスナーを解除
+            if (props.socket) {
+                props.socket.off('chatSpeech');
+            }
+        };
+    }, [isSpeech]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    useEffect(() => {
         const fetchLiver = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/client/user/getById/${props.roomInfo.liverId}`);
+            const response = await axios.get(`${backendAccessPath}/client/user/getById/${props.roomInfo.liverId}`);
             setLiver(response.data);
         } catch (err) {
             console.log(err);
@@ -139,7 +153,7 @@ const BroadcastRoomInner = (props) => {
                             {!props.liversShare && liver &&
                                 <Box width="100%" height="100%" display="flex" justifyContent="center" alignItems="center" position="absolute" top="0" left="0" style={{backgroundColor: "#000"}}>
                                     <Box width="100px" maxWidth="20vw" style={{aspectRatio: "1/1"}}>
-                                        <Avatar sx={{width: "100%", height: "100%"}} src={liver.icon ? `http://localhost:5000/uploads/userIcons/${liver.icon}` : `${siteAssetsPath}/default_icons/${liver.defaultIcon}`}/>
+                                        <Avatar sx={{width: "100%", height: "100%"}} src={liver.icon ? `${backendAccessPath}/uploads/userIcons/${liver.icon}` : `${siteAssetsPath}/default_icons/${liver.defaultIcon}`}/>
                                     </Box>
                                 </Box>
                             }
@@ -189,7 +203,7 @@ const BroadcastRoomInner = (props) => {
                             <StyledChatArea ref={chatRef} onScroll={handleChatScroll} $isSmallScreen={isSmallScreen} $isFullScreen={isFullScreen}>
                                 {props.roomInfo.chat.map((chat, index) =>
                                     <StyledChatBox key={index} display="flex" alignItems={chat.chat.split('\n').length === 1 ? "center" : "start"} gap="10px" padding="10px 15px" width="100%" borderRadius={(!isSmallScreen && !isFullScreen) ? "0px" : "10px"} theme={theme} chat={chat} liverid={props.roomInfo.liverId} $isSmallScreen={isSmallScreen} $isFullScreen={isFullScreen}>
-                                        <Avatar sx={{width: "30px", height: "30px"}} src={chat.userInfo.icon ? `http://localhost:5000/uploads/userIcons/${chat.userInfo.icon}` : `${siteAssetsPath}/default_icons/${chat.userInfo.defaultIcon}`} />
+                                        <Avatar sx={{width: "30px", height: "30px"}} src={chat.userInfo.icon ? `${backendAccessPath}/uploads/userIcons/${chat.userInfo.icon}` : `${siteAssetsPath}/default_icons/${chat.userInfo.defaultIcon}`} />
                                         <Typography style={{wordBreak: "break-all"}} variant="body2" color={props.roomInfo.liverId === chat.userInfo._id ? theme.palette.broadcast.main : theme.palette.text.sub}>
                                             {chat.userInfo.username}
                                             <span style={{color: theme.palette.text.main, marginLeft: "10px", wordBreak: "break-all", whiteSpace: "pre-line"}}>{chat.chat}</span>
@@ -202,7 +216,7 @@ const BroadcastRoomInner = (props) => {
                         <Box position="relative" zIndex={200} display="flex" justifyContent="center" alignItems="center" flexDirection="column" width="100%" height="calc(25vh - 10px)" padding="1vh 1vw" borderRadius="10px" backgroundColor={(!isSmallScreen && !isFullScreen) ? theme.palette.broadcast.subSection : "transparent"}>
                             <Box display="flex" width="100%" alignItems="center" gap="10px" height="20%">
                                 <div style={{height: "100%", aspectRatio: "1/1"}}>
-                                    <Avatar sx={{width: "100%", height: "100%"}} src={props.currentUser.icon ? `http://localhost:5000/uploads/userIcons/${props.currentUser.icon}` : `${siteAssetsPath}/default_icons/${props.currentUser.defaultIcon}`}/>
+                                    <Avatar sx={{width: "100%", height: "100%"}} src={props.currentUser.icon ? `${backendAccessPath}/uploads/userIcons/${props.currentUser.icon}` : `${siteAssetsPath}/default_icons/${props.currentUser.defaultIcon}`}/>
                                 </div>
                                 <StyledTypography theme={theme} variant="body1" color={(isSmallScreen || isFullScreen) ? theme.palette.text.main2 : theme.palette.text.sub}>{props.currentUser.username}</StyledTypography>
                             </Box>
@@ -218,7 +232,7 @@ const BroadcastRoomInner = (props) => {
                                 <Box display="flex" alignItems="center" height="100%" gap="10px">
                                     <span style={{color: (isSmallScreen || isFullScreen) ? theme.palette.text.main2 : theme.palette.text.sub, height: "100%"}}>{`${chat.length}/500`}</span>
                                     <div style={{height: "100%", aspectRatio: "1/1"}}>
-                                        <Tooltip title='送信(Enter+Shift)' placement='top'><Send onClick={handleChatSend} style={{marginRight: "10px", color: (isSmallScreen || isFullScreen) ? theme.palette.text.main2 : theme.palette.text.sub, cursor: "pointer"}}/></Tooltip>
+                                        <Tooltip title='送信(Ctrl+Enter)' placement='top'><Send onClick={handleChatSend} style={{marginRight: "10px", color: (isSmallScreen || isFullScreen) ? theme.palette.text.main2 : theme.palette.text.sub, cursor: "pointer"}}/></Tooltip>
                                     </div>
                                 </Box>
                             </Box>
