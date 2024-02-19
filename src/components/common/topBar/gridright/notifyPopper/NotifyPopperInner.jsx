@@ -6,6 +6,7 @@ import { formatRelativeTime } from '../../../../../utils/formatRelativeTime';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useEnv } from '../../../../../provider/EnvProvider';
 
 
 const NotifyPopperInner = (props) => {
@@ -19,12 +20,13 @@ const NotifyPopperInner = (props) => {
     const notifyPopperRef = useRef(null);
     const notifyRef = useRef();
     const theme = useTheme();
+    const { backendAccessPath } = useEnv();
 
     const handleScroll = async () => {
         try {
             // スクロール位置が一番下に達したら新しいデータをフェッチ (スクロール最下層判定誤差1px許容)
             if (notifyRef.current.scrollHeight - (notifyRef.current.scrollTop + notifyRef.current.clientHeight) <= 1) {
-                const response = await axios.get(`http://localhost:5000/client/notify/get/${user._id}?page=${pageNumber + 1}&pageSize=${PAGE_SIZE}`);
+                const response = await axios.get(`${backendAccessPath}/client/notify/get/${user._id}?page=${pageNumber + 1}&pageSize=${PAGE_SIZE}`);
             if (response.data.length === 0) {
                 setIsNextLoading(false);
                 return; // 通知がそれ以上フェッチできない場合、終了
@@ -60,7 +62,7 @@ const NotifyPopperInner = (props) => {
         const fetchNotifies = async () => {
             try {
                 if (user) {
-                    const response = await axios.get(`http://localhost:5000/client/notify/get/${user._id}/?page=${1}&pageSize=${PAGE_SIZE}`);
+                    const response = await axios.get(`${backendAccessPath}/client/notify/get/${user._id}/?page=${1}&pageSize=${PAGE_SIZE}`);
                     setNotifies(response.data);
                     if (response.data.length < 10) {
                         setIsNextLoading(false);
@@ -72,7 +74,7 @@ const NotifyPopperInner = (props) => {
             }
         }
         fetchNotifies();
-    }, [user]);
+    }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <StyledPopper open={props.isNotifyPopperOpen} anchorEl={props.notifyAnchorEl} placement='bottom-end' ref={notifyPopperRef}>
@@ -91,7 +93,7 @@ const NotifyPopperInner = (props) => {
                     <Link key={index} onClick={handleClose} style={{textDecoration: "none"}} to={notify.class === "アドミン" ? `user/${notify.from._id}` : "#"}>
                         <StyledNotifyListItemButton theme={theme}>
                             <Badge color='secondary' variant='dot'>
-                                <StyledNotifyAvatar src={`http://localhost:5000/uploads/userIcons/${notify.from.icon}`}/>
+                                <StyledNotifyAvatar src={`${backendAccessPath}/uploads/userIcons/${notify.from.icon}`}/>
                             </Badge>
                             <div>
                                 <ListItemText primary={notify.main}

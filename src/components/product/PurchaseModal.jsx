@@ -11,6 +11,7 @@ import IsProgress from '../common/isProgress/IsProgress';
 import DestructionModal from '../common/admin/destructionModal/DestructionModal';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../redux/features/userSlice';
+import { useEnv } from '../../provider/EnvProvider';
 
 
 const PurchaseModal = (props) => {
@@ -21,7 +22,7 @@ const PurchaseModal = (props) => {
     const [isErrorSnack, setIsErrorSnack] = useState(false);
     const [snackWarning, setSnackWarning] = useState("");
     const [isDestructOpen, setIsDestructOpen] = useState(false);
-    const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
+    const { siteAssetsPath, backendAccessPath } = useEnv();
     const theme = useTheme();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -59,8 +60,8 @@ const PurchaseModal = (props) => {
                 return;
             }
             setIsProgress(true);
-            await axios.put(`http://localhost:5000/client/product/purchase/${props.product._id}?mode=${selectedValue}`, {_id: props.currentUser._id});
-            const newUser = await axios.get(`http://localhost:5000/client/user/getById/${props.currentUser._id}`);
+            await axios.put(`${backendAccessPath}/client/product/purchase/${props.product._id}?mode=${selectedValue}`, {_id: props.currentUser._id});
+            const newUser = await axios.get(`${backendAccessPath}/client/user/getById/${props.currentUser._id}`);
             dispatch(setUser(newUser.data));
             props.fetchProduct();
             setIsProgress(false);
@@ -81,7 +82,7 @@ const PurchaseModal = (props) => {
         const fetchCardNumber = async () => {
             if (!props.currentUser.creditCard.number) return;
             try {
-                const response = await axios.get(`http://localhost:5000/client/auth/number/${props.currentUser._id}`);
+                const response = await axios.get(`${backendAccessPath}/client/auth/number/${props.currentUser._id}`);
                 setNumber(response.data);
             } catch (err) {
                 console.log(err);

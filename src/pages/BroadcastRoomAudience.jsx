@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import io from 'socket.io-client';
 import BroadcastRoomInner from '../components/broadcastRoom/BroadcastRoomInner';
+import { useEnv } from '../provider/EnvProvider';
 
 
 const BroadcastRoomAudience = (props) => {
@@ -18,6 +19,7 @@ const BroadcastRoomAudience = (props) => {
     const [isVideo, setIsVideo] = useState(true);
     const { roomId } = useParams();
     const videoRef = useRef(null);
+    const { socketPath } = useEnv();
 
     useEffect(() => {
         if (socket && peerConnection) {
@@ -106,7 +108,7 @@ const BroadcastRoomAudience = (props) => {
 
     useEffect(() => {
         // サーバーとの接続を確立
-        const newSocket = io('http://localhost:5001');
+        const newSocket = io(socketPath);
         const pc = new RTCPeerConnection();
         setSocket(newSocket);
         setPeerConnection(pc);

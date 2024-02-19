@@ -10,6 +10,7 @@ import ErrorSnack from '../../../common/errorSnack/ErrorSnack';
 import IsProgress from '../../../common/isProgress/IsProgress';
 import { StyledTextField } from '../../../../utils/StyledTextField';
 import { StyledDisabledButton } from '../../../../utils/StyledDisabledButton';
+import { useEnv } from '../../../../provider/EnvProvider';
 
 const MailAddressSetting = (props) => {
 
@@ -28,6 +29,7 @@ const MailAddressSetting = (props) => {
     const [snackInfo, setSnackInfo] = useState("");
     const theme = useTheme();
     const dispatch = useDispatch();
+    const { backendAccessPath } = useEnv();
 
     const handleInput = async (e) => {
         setMailAddress((prev) => ({...prev, value: e.target.value}));
@@ -44,7 +46,7 @@ const MailAddressSetting = (props) => {
             setMailAddress((prev) => ({...prev, error: false}));
             setMailAddress((prev) => ({...prev, helper: " "}));
             try {
-                const response = await axios.get(`http://localhost:5000/client/user/getByEmail/${e.target.value}`);
+                const response = await axios.get(`${backendAccessPath}/client/user/getByEmail/${e.target.value}`);
                 if (response.data) {
                     setMailAddress((prev) => ({...prev, error: true}));
                     setMailAddress((prev) => ({...prev, helper: "このメールアドレスはすでに使用されています"}));
@@ -79,7 +81,7 @@ const MailAddressSetting = (props) => {
             setMailAddress((prev) => ({...prev, error: false}));
             setMailAddress((prev) => ({...prev, helper: " "}));
             try {
-                const response = await axios.get(`http://localhost:5000/client/user/getByEmail/${mailAddress.value}`);
+                const response = await axios.get(`${backendAccessPath}/client/user/getByEmail/${mailAddress.value}`);
                 if (response.data) {
                     setMailAddress((prev) => ({...prev, error: true}));
                     setMailAddress((prev) => ({...prev, helper: "このメールアドレスはすでに使用されています"}));
@@ -95,8 +97,8 @@ const MailAddressSetting = (props) => {
         try {
             if (value.length === 6) {
                 setIsProgress(true);
-                await axios.post(`http://localhost:5000/client/auth/verify/${props.currentUser._id}`, {token: e.target.value});
-                const response = await axios.get(`http://localhost:5000/client/user/getById/${props.currentUser._id}`);
+                await axios.post(`${backendAccessPath}/client/auth/verify/${props.currentUser._id}`, {token: e.target.value});
+                const response = await axios.get(`${backendAccessPath}/client/user/getById/${props.currentUser._id}`);
                 dispatch(setUser(response.data));
                 setTimeout(() => { // ブルートフォース攻撃防ぎたいという意味でも結果表示まであえて待たせる
                     setIsProgress(false);
@@ -125,8 +127,8 @@ const MailAddressSetting = (props) => {
     const handleUpdate = async () => {
         try {
             setIsProgress(true);
-            await axios.post(`http://localhost:5000/client/auth/exchangeEmail/${props.currentUser._id}`, {unverifiedEmail: mailAddress.value, confirmEmail: recognitionMailAddress.value});
-            const response = await axios.get(`http://localhost:5000/client/user/getById/${props.currentUser._id}`);
+            await axios.post(`${backendAccessPath}/client/auth/exchangeEmail/${props.currentUser._id}`, {unverifiedEmail: mailAddress.value, confirmEmail: recognitionMailAddress.value});
+            const response = await axios.get(`${backendAccessPath}/client/user/getById/${props.currentUser._id}`);
             dispatch(setUser(response.data));
             setIsProgress(false);
             setSnackInfo(`認証メールが送信されました`);
@@ -155,8 +157,8 @@ const MailAddressSetting = (props) => {
     const handleResendMail = async () => {
         try {
             setIsProgress(true);
-            await axios.put(`http://localhost:5000/client/auth/resendMail/${props.currentUser._id}`);
-            const response = await axios.get(`http://localhost:5000/client/user/getById/${props.currentUser._id}`);
+            await axios.put(`${backendAccessPath}/client/auth/resendMail/${props.currentUser._id}`);
+            const response = await axios.get(`${backendAccessPath}/client/user/getById/${props.currentUser._id}`);
             dispatch(setUser(response.data));
             setIsProgress(false);
             setSnackInfo(`認証メールが送信されました`);

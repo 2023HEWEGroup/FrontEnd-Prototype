@@ -20,6 +20,7 @@ import axios from 'axios';
 import ErrorSnack from '../components/common/errorSnack/ErrorSnack';
 import IsProgress from '../components/common/isProgress/IsProgress';
 import NyanCatExhibit from '../components/exhibit/nyanCatExhibit/NyanCatExhibit';
+import { useEnv } from '../provider/EnvProvider';
 
 
 const Exhibit = () => {
@@ -47,7 +48,7 @@ const Exhibit = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const theme = useTheme();
-  const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
+  const { siteAssetsPath, backendAccessPath } = useEnv();
 
   const handleProductNameInput = (e) => {
     setProduct({...product, name: e.target.value});
@@ -228,7 +229,7 @@ const Exhibit = () => {
       productImages.forEach((image) => {
         formData.append("productImage", image);
       });
-      const productImageNames = await axios.post('http://localhost:5000/client/product/imageUpload', formData);
+      const productImageNames = await axios.post(`${backendAccessPath}/client/product/imageUpload`, formData);
       const newProduct = {
         _id: user._id,
         productName: product.name.trim(),
@@ -242,7 +243,7 @@ const Exhibit = () => {
         category: product.category,
         tags: product.tags,
       };
-      const response = await axios.post("http://localhost:5000/client/product/exhibit", newProduct);
+      const response = await axios.post(`${backendAccessPath}/client/product/exhibit`, newProduct);
       setNewProduct(response.data);
       setIsProgress(false);
       setNyan(true);

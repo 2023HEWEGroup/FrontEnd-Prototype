@@ -13,6 +13,7 @@ import images from 'react-payment-inputs/images';
 import { StyledTextFieldTop } from '../../../../utils/StyledTextFieldTop';
 import DestructionModal from '../../../common/admin/destructionModal/DestructionModal';
 import CreditCardModal from './CreditCardModal';
+import { useEnv } from '../../../../provider/EnvProvider';
 
 const CreditCardDetailSetting = (props) => {
 
@@ -26,6 +27,7 @@ const CreditCardDetailSetting = (props) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+    const { backendAccessPath } = useEnv();
 
     const {
         getCardImageProps,
@@ -46,8 +48,8 @@ const CreditCardDetailSetting = (props) => {
     const handleCreditCardDelete = async () => {
         try {
             setIsProgress(true);
-            await axios.delete(`http://localhost:5000/client/setting/creditCardDelete/${props.currentUser._id}`);
-            const response = await axios.get(`http://localhost:5000/client/user/getById/${props.currentUser._id}`);
+            await axios.delete(`${backendAccessPath}/client/setting/creditCardDelete/${props.currentUser._id}`);
+            const response = await axios.get(`${backendAccessPath}/client/user/getById/${props.currentUser._id}`);
             setTimeout(() => {
                 dispatch(setUser(response.data));
                 setIsProgress(false);
@@ -72,7 +74,7 @@ const CreditCardDetailSetting = (props) => {
         const fetchCardNumber = async () => {
             if (!props.currentUser.creditCard.number) return;
             try {
-                const response = await axios.get(`http://localhost:5000/client/auth/number/${props.currentUser._id}`);
+                const response = await axios.get(`${backendAccessPath}/client/auth/number/${props.currentUser._id}`);
                 setNumber(response.data);
             } catch (err) {
                 console.log(err);

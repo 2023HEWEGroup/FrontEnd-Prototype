@@ -11,6 +11,7 @@ import { debounce } from 'lodash';
 import axios from 'axios';
 import ErrorSnack from '../components/common/errorSnack/ErrorSnack';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useEnv } from '../provider/EnvProvider';
 
 
 const categories = [
@@ -45,6 +46,7 @@ const Home = (props) => {
   const PAGE_SIZE = 18;
   const navigate = useNavigate();
   const theme = useTheme();
+  const { backendAccessPath } = useEnv();
 
   const handleQueryNavigate = ({statusArg, categoryArg}) => {
     // statusArg (map関数indexの文字列)
@@ -90,7 +92,7 @@ const Home = (props) => {
     // 一番下までスクロールされたかどうかを判定(誤差絶対値5px許容)
     if (Math.abs(scrollTop + windowHeight - pageHeight) <= 5) {
       try {
-        const response = await axios.get(`http://localhost:5000/client/product/getNewest/?page=${pageNumber + 1}&pageSize=${PAGE_SIZE}&category=${categoryId ? categories[categoryId] : "すべての商品"}&status=${status ? status : ""}`);
+        const response = await axios.get(`${backendAccessPath}/client/product/getNewest/?page=${pageNumber + 1}&pageSize=${PAGE_SIZE}&category=${categoryId ? categories[categoryId] : "すべての商品"}&status=${status ? status : ""}`);
         if (response.data.length === 0) {
           setIsNextLoading(false);
           return; // 商品がそれ以上フェッチできない場合、終了
@@ -126,7 +128,7 @@ const Home = (props) => {
     const fetchProducts = async () => {
       try {
         setProducts(null);
-        const response = await axios.get(`http://localhost:5000/client/product/getNewest/?page=${1}&pageSize=${PAGE_SIZE}&category=${categoryId ? categories[categoryId] : "すべての商品"}&status=${status ? status : ""}`);
+        const response = await axios.get(`${backendAccessPath}/client/product/getNewest/?page=${1}&pageSize=${PAGE_SIZE}&category=${categoryId ? categories[categoryId] : "すべての商品"}&status=${status ? status : ""}`);
         setProducts(response.data);
         setIsLoading(false);
       } catch (err) {
@@ -150,7 +152,7 @@ const Home = (props) => {
         setIsLoading(true);
         setIsNextLoading(true);
         setPasgeNumber(1);
-        const response = await axios.get(`http://localhost:5000/client/product/getNewest/?page=${1}&pageSize=${PAGE_SIZE}&category=${categoryId ? categories[categoryId] : "すべての商品"}&status=${status ? status : ""}`);
+        const response = await axios.get(`${backendAccessPath}/client/product/getNewest/?page=${1}&pageSize=${PAGE_SIZE}&category=${categoryId ? categories[categoryId] : "すべての商品"}&status=${status ? status : ""}`);
         setProducts(response.data);
         setIsLoading(false);
         if (response.data.length < PAGE_SIZE) {

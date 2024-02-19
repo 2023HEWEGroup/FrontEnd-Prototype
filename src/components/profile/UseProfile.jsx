@@ -4,6 +4,7 @@ import { Avatar, CircularProgress, Slide, useMediaQuery, useTheme } from '@mui/m
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
+import { useEnv } from '../../provider/EnvProvider';
 
 
 const UseProfile = (props) => {
@@ -17,10 +18,11 @@ const UseProfile = (props) => {
     const lineCount = props.user.desc.split('\n').length;
     const [products, setProducts] = useState([]);
     const [productsLoading, setProductsLoading] = useState(true);
+    const { backendAccessPath } = useEnv();
 
     const handleDragStart = (event, product) => {
         // Avatar内の画像をドラッグした際の関数
-        const imageUrl = `http://localhost:5000/uploads/productImages/${product.productImg[0]}`;
+        const imageUrl = `${backendAccessPath}/uploads/productImages/${product.productImg[0]}`;
         // その商品のサムネイルをeventのdataTransferオブジェクトにavatarImageと言う名前で保存。
         // これはimagePopper.jsx内のPopper内で取得され、画像検索に用いられる。
         event.dataTransfer.setData('avatarImage', imageUrl);
@@ -35,7 +37,7 @@ const UseProfile = (props) => {
                 else if (isMiddleScreen) pageSize = 4;
                 else if (isLargeScreen) pageSize = 5;
                 else pageSize = 6;
-                const userProducts = await axios.get(`http://localhost:5000/client/product/getOrderUser/${props.user._id}?page=1&pageSize=${pageSize}`);
+                const userProducts = await axios.get(`${backendAccessPath}/client/product/getOrderUser/${props.user._id}?page=1&pageSize=${pageSize}`);
                 setProducts(userProducts.data);
                 setProductsLoading(false);
             } catch (err) {
@@ -93,7 +95,7 @@ const UseProfile = (props) => {
                                         <StyledProductImgZone theme={theme}>
                                             <StyledSoldLabel theme={theme} isSold={product.purchasingId}>SOLD</StyledSoldLabel>
                                             <StyledDarkness isSold={product.purchasingId} />
-                                            <StyledProductAvatar variant="square" src={`http://localhost:5000/uploads/productImages/${product.productImg[0]}`} onDragStart={(event) => handleDragStart(event, product)}>
+                                            <StyledProductAvatar variant="square" src={`${backendAccessPath}/uploads/productImages/${product.productImg[0]}`} onDragStart={(event) => handleDragStart(event, product)}>
                                             </StyledProductAvatar>
                                         </StyledProductImgZone>
                                         <StyledProductDetail>

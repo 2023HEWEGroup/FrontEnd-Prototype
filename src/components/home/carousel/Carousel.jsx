@@ -3,11 +3,12 @@ import { Button, useMediaQuery, useTheme } from '@mui/material';
 import React from 'react'
 import Slider from 'react-slick';
 import styled from 'styled-components';
+import { useEnv } from '../../../provider/EnvProvider';
 
 
 const Carousel = () => {
     const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
-    const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
+    const { siteAssetsPath } = useEnv();
     const theme = useTheme();
 
     const slides = [

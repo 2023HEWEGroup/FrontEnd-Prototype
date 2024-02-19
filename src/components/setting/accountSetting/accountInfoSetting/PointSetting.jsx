@@ -11,6 +11,7 @@ import IsProgress from '../../../common/isProgress/IsProgress';
 import { StyledTextField } from '../../../../utils/StyledTextField';
 import DestructionModal from '../../../common/admin/destructionModal/DestructionModal';
 import { StyledDisabledButton } from '../../../../utils/StyledDisabledButton';
+import { useEnv } from '../../../../provider/EnvProvider';
 
 
 const PointSetting = (props) => {
@@ -25,6 +26,7 @@ const PointSetting = (props) => {
     const [isDestructOpen, setIsDestructOpen] = useState(false);
     const theme = useTheme();
     const dispatch = useDispatch();
+    const { backendAccessPath } = useEnv();
 
     const handleInput = async (e) => {
         setCode((prev) => ({...prev, value: e.target.value, error: false, helper: ""}));
@@ -33,7 +35,7 @@ const PointSetting = (props) => {
     const handleUpdate = async () => {
         try {
             setIsProgress(true);
-            const isExist = await axios.post(`http://localhost:5000/client/setting/codeExist/`, {code: code.value});
+            const isExist = await axios.post(`${backendAccessPath}/client/setting/codeExist/`, {code: code.value});
             setPoint(isExist.data);
             setTimeout(() => {
                 setIsProgress(false);
@@ -59,8 +61,8 @@ const PointSetting = (props) => {
     const handleCharge = async () => {
         try {
             setIsProgress(true);
-            await axios.put(`http://localhost:5000/client/setting/charge/${props.currentUser._id}/`, {point: point});
-            const response = await axios.get(`http://localhost:5000/client/user/getById/${props.currentUser._id}`);
+            await axios.put(`${backendAccessPath}/client/setting/charge/${props.currentUser._id}/`, {point: point});
+            const response = await axios.get(`${backendAccessPath}/client/user/getById/${props.currentUser._id}`);
             dispatch(setUser(response.data));
             setCode((prev) => ({...prev, value: "", error: false, helper: ""}));
             setSnackInfo(`ポイントがチャージされました。現在の残高: ${response.data.points}`);

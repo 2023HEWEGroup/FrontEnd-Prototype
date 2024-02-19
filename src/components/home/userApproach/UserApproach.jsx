@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
 import UserPanel from './userPanel/UserPanel';
 import axios from 'axios';
+import { useEnv } from '../../../provider/EnvProvider';
 
 
 const SlideTransition = (props) => {
@@ -26,6 +27,7 @@ const UserApproach = (props) => {
     const [username, setUsername] = useState("");
     const [isFollowSnack, setIsFollowSnack] = useState(false);
     const [isUnFollowSnack, setIsUnFollowSnack] = useState(false);
+    const { backendAccessPath } = useEnv();
 
     const handleFollowSnackClose = () => {
         setIsFollowSnack(false);
@@ -51,9 +53,9 @@ const UserApproach = (props) => {
             try {
                 let response;
                 if (props.currentUser) {
-                    response = await axios.get(`http://localhost:5000/client/user/getOutsider/${props.currentUser._id}`);
+                    response = await axios.get(`${backendAccessPath}/client/user/getOutsider/${props.currentUser._id}`);
                 } else {
-                    response = await axios.get(`http://localhost:5000/client/user/getRandom`);
+                    response = await axios.get(`${backendAccessPath}/client/user/getRandom`);
                 }
                 setOutsiders(response.data);
                 setIsLoading(false);

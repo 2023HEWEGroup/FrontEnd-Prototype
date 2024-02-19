@@ -6,11 +6,13 @@ import { Avatar, Button, Grow, useTheme } from '@mui/material';
 import { motion } from 'framer-motion';
 import { Home, Replay } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+import { useEnv } from '../../provider/EnvProvider';
 
 
 const NyanCatProduct = (props) => {
 
     const theme = useTheme();
+    const { backendAccessPath } = useEnv();
 
     useEffect(() => {
         // Topページがマウントされたときに限定して背景部分の色を変更する
@@ -48,7 +50,7 @@ const NyanCatProduct = (props) => {
                     <div style={{width: "100vw", height: "100vh", zIndex: 10 }}>
                         <Link to={`#`} onClick={() => props.setNyan(false)}>
                             <StyledProductAvatarZone theme={theme}>
-                                <StyledAvatar variant='square' src={`http://localhost:5000/uploads/productImages/${props.product.productImg[0]}`}/>
+                                <StyledAvatar variant='square' src={`${backendAccessPath}/uploads/productImages/${props.product.productImg[0]}`}/>
                             </StyledProductAvatarZone>
                         </Link>
                     </div>

@@ -5,6 +5,7 @@ import { Avatar, Skeleton, useTheme } from '@mui/material';
 import axios from 'axios';
 import './glitch.css';
 import { useGlitch } from 'react-powerglitch';
+import { useEnv } from '../../../provider/EnvProvider';
 
 
 const TopBack = () => {
@@ -27,6 +28,7 @@ const TopBack = () => {
     const isOrderingRef5 = useRef(false);
     const theme = useTheme();
     const glitch = useGlitch();
+    const { backendAccessPath } = useEnv();
 
     const repeatedComponents = Array.from({ length: size }, (value, index) => (
         <StyledAvatarZone key={index} itemWidth={itemWidth}><StyledSkeleton variant="rectangular"/></StyledAvatarZone>
@@ -55,11 +57,11 @@ const TopBack = () => {
             );
             // glitch.stopGlitch();
             try {
-                const response = await axios.get(`http://localhost:5000/client/product/getRandom/?size=${size}`);
-                const response2 = await axios.get(`http://localhost:5000/client/product/getRandom/?size=${size}`);
-                const response3 = await axios.get(`http://localhost:5000/client/product/getRandom/?size=${size}`);
-                const response4 = await axios.get(`http://localhost:5000/client/product/getRandom/?size=${size}`);
-                const response5 = await axios.get(`http://localhost:5000/client/product/getRandom/?size=${size}`);
+                const response = await axios.get(`${backendAccessPath}/client/product/getRandom/?size=${size}`);
+                const response2 = await axios.get(`${backendAccessPath}/client/product/getRandom/?size=${size}`);
+                const response3 = await axios.get(`${backendAccessPath}/client/product/getRandom/?size=${size}`);
+                const response4 = await axios.get(`${backendAccessPath}/client/product/getRandom/?size=${size}`);
+                const response5 = await axios.get(`${backendAccessPath}/client/product/getRandom/?size=${size}`);
                 setImageBlocks(response.data);
                 setImageBlocks2(response2.data);
                 setImageBlocks3(response3.data);
@@ -99,7 +101,7 @@ const TopBack = () => {
                         <StyledFlex gap={gap}>
                             {imageBlocks.map((image, index) => [
                                 <StyledAvatarZone theme={theme} key={index} itemWidth={itemWidth}>
-                                    <StyledAvatar variant='square' src={`http://localhost:5000/uploads/productImages/${image.productImg[0]}`}/>
+                                    <StyledAvatar variant='square' src={`${backendAccessPath}/uploads/productImages/${image.productImg[0]}`}/>
                                 </StyledAvatarZone>
                             ])}
                         </StyledFlex>
@@ -127,7 +129,7 @@ const TopBack = () => {
                         <StyledFlex gap={gap}>
                             {imageBlocks2.map((image, index) => [
                                 <StyledAvatarZone theme={theme} key={index} itemWidth={itemWidth}>
-                                    <StyledAvatar variant='square' src={`http://localhost:5000/uploads/productImages/${image.productImg[0]}`}/>
+                                    <StyledAvatar variant='square' src={`${backendAccessPath}/uploads/productImages/${image.productImg[0]}`}/>
                                 </StyledAvatarZone>
                             ])}
                         </StyledFlex>
@@ -155,7 +157,7 @@ const TopBack = () => {
                         <StyledFlex gap={gap}>
                             {imageBlocks3.map((image, index) => [
                                 <StyledAvatarZone theme={theme} key={index} itemWidth={itemWidth}>
-                                    <StyledAvatar variant='square' src={`http://localhost:5000/uploads/productImages/${image.productImg[0]}`}/>
+                                    <StyledAvatar variant='square' src={`${backendAccessPath}/uploads/productImages/${image.productImg[0]}`}/>
                                 </StyledAvatarZone>
                             ])}
                         </StyledFlex>
@@ -183,7 +185,7 @@ const TopBack = () => {
                         <StyledFlex gap={gap}>
                             {imageBlocks4.map((image, index) => [
                                 <StyledAvatarZone theme={theme} key={index} itemWidth={itemWidth}>
-                                    <StyledAvatar variant='square' src={`http://localhost:5000/uploads/productImages/${image.productImg[0]}`}/>
+                                    <StyledAvatar variant='square' src={`${backendAccessPath}/uploads/productImages/${image.productImg[0]}`}/>
                                 </StyledAvatarZone>
                             ])}
                         </StyledFlex>
@@ -211,7 +213,7 @@ const TopBack = () => {
                         <StyledFlex gap={gap}>
                             {imageBlocks5.map((image, index) => [
                                 <StyledAvatarZone theme={theme} key={index} itemWidth={itemWidth}>
-                                    <StyledAvatar variant='square' src={`http://localhost:5000/uploads/productImages/${image.productImg[0]}`}/>
+                                    <StyledAvatar variant='square' src={`${backendAccessPath}/uploads/productImages/${image.productImg[0]}`}/>
                                 </StyledAvatarZone>
                             ])}
                         </StyledFlex>

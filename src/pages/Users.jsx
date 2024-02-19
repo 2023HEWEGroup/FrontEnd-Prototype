@@ -8,6 +8,7 @@ import ErrorSnack from '../components/common/errorSnack/ErrorSnack';
 import VerifiedBadge from '../layouts/badges/VerifiedBadge';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../redux/features/userSlice';
+import { useEnv } from '../provider/EnvProvider';
 
 
 const SlideTransition = (props) => {
@@ -49,7 +50,7 @@ const Users = (props) => {
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
     const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
     const currentUser = useSelector((state) => state.user.value);
-    const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
+    const { siteAssetsPath, backendAccessPath } = useEnv();
 
     
     const [mode, setMode] = useState({all: modeQuery === "all" ? true : false, following: (modeQuery && modeQuery.includes("following")) || modeQuery === "all" ? true : false, follower: (modeQuery && modeQuery.includes("follower")) || modeQuery === "all" ? true : false, authorized: (modeQuery && modeQuery.includes("authorized")) || modeQuery === "all" ? true : false});
@@ -85,8 +86,8 @@ const Users = (props) => {
         try {
             e.preventDefault();
             setIsFollowDisabled(true);
-            await axios.put(`http://localhost:5000/client/user/follow/${user._id}`, {_id: currentUser._id});
-            const newUser = await axios.get(`http://localhost:5000/client/user/getById/${currentUser._id}`);
+            await axios.put(`${backendAccessPath}/client/user/follow/${user._id}`, {_id: currentUser._id});
+            const newUser = await axios.get(`${backendAccessPath}/client/user/getById/${currentUser._id}`);
             dispatch(setUser(newUser.data));
             if (flag) {
                 setSnackUsername(user.username);
@@ -135,7 +136,7 @@ const Users = (props) => {
     const handlePageChange = async () => {
         try {
             setUsers(null);
-            const response = await axios.get(`http://localhost:5000/client/user/searchAll/${user ? user._id : ""}?searchWord=${word ? word : ""}&page=${currentPage}&pageSize=${PAGE_SIZE}&mode=${modeQuery ? encodeURIComponent(modeQuery): ""}`);
+            const response = await axios.get(`${backendAccessPath}/client/user/searchAll/${user ? user._id : ""}?searchWord=${word ? word : ""}&page=${currentPage}&pageSize=${PAGE_SIZE}&mode=${modeQuery ? encodeURIComponent(modeQuery): ""}`);
             if (response.data) {
                 setUsers(response.data.users);
                 setNum(response.data.num);
@@ -177,7 +178,7 @@ const Users = (props) => {
             try {
                 setUsers(null);
                 setCurrentPage(1); // 新しい検索ページ1から表示
-                const response = await axios.get(`http://localhost:5000/client/user/searchAll//${user ? user._id : ""}?searchWord=${word ? word : ""}&page=${currentPage}&pageSize=${PAGE_SIZE}&mode=${modeQuery ? encodeURIComponent(modeQuery): ""}`);
+                const response = await axios.get(`${backendAccessPath}/client/user/searchAll//${user ? user._id : ""}?searchWord=${word ? word : ""}&page=${currentPage}&pageSize=${PAGE_SIZE}&mode=${modeQuery ? encodeURIComponent(modeQuery): ""}`);
                 setUsers(response.data.users);
                 setNum(response.data.num);
             } catch (err) {
@@ -234,8 +235,8 @@ const Users = (props) => {
                     {users.map((user, index) =>
                         <StyledCard key={user._id} theme={theme} $isMiddleScreen={isMiddleScreen} $isSmallScreen={isSmallScreen} $isXsScreen={isXsScreen}>
                             <Link to={`/user/${user._id}`} style={{textDecoration: "none"}}>
-                                <StyledCardMedia image={user.header ? `http://localhost:5000/uploads/userHeaders/${user.header}` : "aa"} theme={theme}></StyledCardMedia>
-                                <StyledCardHeader sx={{display: "flex", overflow: "hidden", "& .MuiCardHeader-content": {overflow: "hidden"}}} avatar={<Avatar src={user.icon ? `http://localhost:5000/uploads/userIcons/${user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}`}/>}
+                                <StyledCardMedia image={user.header ? `${backendAccessPath}/uploads/userHeaders/${user.header}` : "aa"} theme={theme}></StyledCardMedia>
+                                <StyledCardHeader sx={{display: "flex", overflow: "hidden", "& .MuiCardHeader-content": {overflow: "hidden"}}} avatar={<Avatar src={user.icon ? `${backendAccessPath}/uploads/userIcons/${user.icon}` : `${siteAssetsPath}/default_icons/${user.defaultIcon}`}/>}
                                 title={UserBadge(user)} titleTypographyProps={{ noWrap: true, color: theme.palette.text.main, fontSize: "1.3rem"}}
                                 subheader={"@"+user.userId} subheaderTypographyProps={{ noWrap: true, color: theme.palette.text.sub}}>
                                 </StyledCardHeader>

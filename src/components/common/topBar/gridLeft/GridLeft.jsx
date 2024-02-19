@@ -7,13 +7,14 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux';
 import { booleanFloatSideBar } from '../../../../redux/features/floatSideBarSlice';
 import { useGlitch } from 'react-powerglitch';
+import { useEnv } from '../../../../provider/EnvProvider';
 
 const GridLeft = () => {
 
     const dispatch = useDispatch();
     const theme = useTheme();
     const glitch = useGlitch();
-    const siteAssetsPath = process.env.REACT_APP_SITE_ASSETS;
+    const { siteAssetsPath } = useEnv();
     const isSideOpen = useSelector((state => state.floatSideBar.value));
 
     const handleMenuIconClick = () =>{

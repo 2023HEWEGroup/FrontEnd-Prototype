@@ -6,6 +6,7 @@ import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined
 import { isWindowScrollable } from "../../../../../redux/features/windowScrollaleSlice";
 import NotifyPopperInner from './NotifyPopperInner';
 import axios from 'axios';
+import { useEnv } from '../../../../../provider/EnvProvider';
 
 
 const NotifyPopper = () => {
@@ -16,6 +17,7 @@ const NotifyPopper = () => {
     const user = useSelector((state) => state.user.value);
     const dispatch = useDispatch();
     const theme = useTheme();
+    const { backendAccessPath } = useEnv();
 
     const handleNotifyPopper = (e) => {
         if (!isNotifyPopperOpen) {
@@ -40,7 +42,7 @@ const NotifyPopper = () => {
         const fetchUnreadCount = async () => {
             try {
                 if (user) {
-                    const response = await axios.get(`http://localhost:5000/client/notify/getUnread/${user._id}`);
+                    const response = await axios.get(`${backendAccessPath}/client/notify/getUnread/${user._id}`);
                     setUnreadNum(response.data);
                 }
             } catch (err) {
@@ -48,7 +50,7 @@ const NotifyPopper = () => {
             }
         }
         fetchUnreadCount();
-    }, [user]);
+    }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <>
