@@ -132,6 +132,7 @@ const Profile = () => {
     // 対象ユーザーの内容が更新される度にプロフィール表示を新しいユーザー情報にする。
     const fetchUser = async () => {
       try {
+        setIsLoading(true);
         setFollowersModal(false);
         const user = await axios.get(`${backendAccessPath}/client/user/getById/${userId}`);
         setuser(user.data);
@@ -149,10 +150,6 @@ const Profile = () => {
     }
     fetchUser();
   }, [userId, isProfileChange]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    setTabValue(0);
-  }, [userId])
 
   return (
     <>
@@ -258,7 +255,7 @@ const Profile = () => {
         <UserProduct direction={direction} user={user}/>
         }
         {tabValue === 2 &&
-        <UserGroup direction={direction}/>
+        <UserGroup direction={direction} user={user}/>
         }
         {tabValue === 3 &&
         <UserLike direction={direction} user={user}/>
