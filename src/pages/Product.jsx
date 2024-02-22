@@ -1,4 +1,4 @@
-import { ArrowForwardIos, CurrencyYen, ExpandLess, ExpandMore, FavoriteBorder, Share, SmsOutlined } from '@mui/icons-material';
+import { ArrowForwardIos, CurrencyYen, ExpandLess, ExpandMore, Favorite, FavoriteBorder, Share, SmsOutlined } from '@mui/icons-material';
 import { Alert, Avatar, Button, Card, CardActions, CardHeader, Chip, CircularProgress, Divider, LinearProgress, Rating, useMediaQuery, useTheme } from '@mui/material'
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
@@ -237,8 +237,8 @@ const Product = (props) => {
                       </>
                       :
                       <>
-                      <FavoriteBorder onClick={handleLike}/>
-                      <StyledIconDetail>{product.likes.includes(props.currentUser._id) ? "いいね済み" : "いいね"}</StyledIconDetail>
+                      {product.likes.includes(props.currentUser._id) ? <Favorite onClick={handleLike}/> : <FavoriteBorder onClick={handleLike}/>}
+                      <StyledIconDetail onClick={handleLike}>{product.likes.includes(props.currentUser._id) ? "いいね済み" : "いいね"}</StyledIconDetail>
                       </>
                       }
                     </StyledIconAndName1>

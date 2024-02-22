@@ -31,8 +31,7 @@ const Top = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const theme = useTheme();
-  const { siteAssetsPath, backendAccessPath, socketPath } = useEnv();
-  console.log(siteAssetsPath, backendAccessPath, socketPath)
+  const { siteAssetsPath, backendAccessPath } = useEnv();
 
   const UserBadge = () => {
     return (

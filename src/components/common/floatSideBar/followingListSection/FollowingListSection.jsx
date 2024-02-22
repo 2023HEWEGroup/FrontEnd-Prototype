@@ -36,6 +36,7 @@ const FollowingListSection = (props) => {
         }
         if (props.currentUser) fetchFollowers();
     }, [props.page]); // eslint-disable-line react-hooks/exhaustive-deps
+    // ユーザーがページを切り替える度に最新表示
 
     useEffect(() => {
         const fetchFollowers = async () => {

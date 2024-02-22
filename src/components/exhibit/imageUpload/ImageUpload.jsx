@@ -30,7 +30,7 @@ const ImageUpload = (props) => {
         if (props.uploadImages.length >= 8) return;
         const file = event.dataTransfer.files[0];
         const allowedFormats = ['image/png', 'image/jpeg', 'image/jpg' , 'image/webp'];
-        if (allowedFormats.includes(file.type)) {
+        if (file && allowedFormats.includes(file.type)) {
             const fileUrl = URL.createObjectURL(file)
             props.setUploadImages([...props.uploadImages, fileUrl]);
             props.setOriginalImages([...props.uploadImages, fileUrl]);

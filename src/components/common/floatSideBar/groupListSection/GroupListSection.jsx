@@ -1,79 +1,76 @@
 import { Avatar, ListItem, useTheme } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { booleanFloatSideBarGroup } from '../../../../redux/features/floatSideBarGroupSlice';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import { useEnv } from '../../../../provider/EnvProvider';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 
-const GroupListSection = () => {
+const GroupListSection = (props) => {
 
-    const groups = [{
-        id: 1,
-        name: "group1aaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    },
-    {
-        id: 2,
-        name: "group2ああああああああああああああ",
-    },
-    {
-        id: 3,
-        name: "group3",
-    },
-    {
-        id: 4,
-        name: "group4",
-    },
-    {
-        id: 5,
-        name: "group5",
-    },
-    {
-        id: 6,
-        name: "group6",
-    },
-    {
-        id: 7,
-        name: "group7",
-    },]; 
-
+    const [isLoading, setIsLoading] = useState(true);
+    const [groups, setGroups] = useState(null);
+    const { backendAccessPath } = useEnv();
     const dispatch = useDispatch();
+    const user = useSelector((state) => state.user.value);
+    const PAGE_SIZE = user ? user.groups.length : 0;
     const isOpenGroup = useSelector((state => state.floatSideBarGroup.value));
-    const visibleGroups = isOpenGroup ? groups : groups.slice(0, 5);
+    const visibleGroups = groups ? isOpenGroup ? groups : groups.slice(0, 5) : null;
     const theme = useTheme();
 
     const toggleGroupShowAll = () => {
         dispatch(booleanFloatSideBarGroup());
     }
 
+    useEffect(() => {
+        const fetchGroups = async () => {
+            try {
+                const response = await axios.get(`${backendAccessPath}/client/group/userGroup/${user._id}?page=${1}&pageSize=${PAGE_SIZE}`);
+                setGroups(response.data);
+                setIsLoading(false);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        fetchGroups();
+    }, [props.page]); // eslint-disable-line react-hooks/exhaustive-deps
+
     return (
         <>
-            <StyledListBlockWithTitle>
-                {visibleGroups.map((group) => 
-                <StyledListItem key={group.id}>
-                    <StyledListElements theme={theme}>
-                        <StyledAvatar variant='square' />
-                        <StyledListItemText theme={theme.palette.text.main}>{group.name}</StyledListItemText>
-                    </StyledListElements>
-                </StyledListItem>)}
-                {groups.length > 5 && !isOpenGroup && (
-                    <StyledListItem>
-                        <StyledListElements theme={theme} onClick={toggleGroupShowAll}>
-                            <StyledListItemText theme={theme.palette.text.sub2}>すべて表示</StyledListItemText>
-                            <StyledExpandMoreIcon color="icon"/>
-                        </StyledListElements>
+            {!isLoading &&
+                <StyledListBlockWithTitle>
+                    {visibleGroups.map((group, index) => 
+                    <Link to={`/group/${group._id}`} key={index} style={{textDecoration: "none"}}>
+                        <StyledListItem key={index}>
+                            <StyledListElements theme={theme}>
+                                <StyledAvatar variant='square' src={group.icon ? `${backendAccessPath}/uploads/groupIcons/${group.icon}` : null}/>
+                                <StyledListItemText theme={theme.palette.text.main}>{group.name}</StyledListItemText>
+                            </StyledListElements>
+                        </StyledListItem>
+                    </Link>
+                    )}
+                    {groups.length > 5 && !isOpenGroup && (
+                        <StyledListItem>
+                            <StyledListElements theme={theme} onClick={toggleGroupShowAll}>
+                                <StyledListItemText theme={theme.palette.text.sub2}>すべて表示</StyledListItemText>
+                                <StyledExpandMoreIcon color="icon"/>
+                            </StyledListElements>
+                        </StyledListItem>
+                    )}
+                    {groups.length > 5 && isOpenGroup && (
+                        <StyledListItem>
+                            <StyledListElements theme={theme} onClick={toggleGroupShowAll}>
+                            <StyledListItemText theme={theme.palette.text.sub2}>折りたたむ</StyledListItemText>
+                                <StyledExpandLessIcon color="icon"/>
+                            </StyledListElements>
                     </StyledListItem>
-                )}
-                {groups.length > 5 && isOpenGroup && (
-                    <StyledListItem>
-                        <StyledListElements theme={theme} onClick={toggleGroupShowAll}>
-                        <StyledListItemText theme={theme.palette.text.sub2}>折りたたむ</StyledListItemText>
-                            <StyledExpandLessIcon color="icon"/>
-                        </StyledListElements>
-                </StyledListItem>
-                )}
-            </StyledListBlockWithTitle>
+                    )}
+                </StyledListBlockWithTitle>
+            }
         </>
     )
 }

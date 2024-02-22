@@ -1,15 +1,21 @@
 import { Avatar, Button, useTheme } from '@mui/material';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from 'styled-components';
-import { ArrowBackIosNew, ArrowForwardIos, Inventory, People } from '@mui/icons-material';
+import { ArrowBackIosNew, ArrowForwardIos, Inventory, People, StarBorder } from '@mui/icons-material';
 import { useEnv } from '../../../provider/EnvProvider';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 
 const GroupApproach = () => {
-    const { siteAssetsPath } = useEnv();
+
+    const [groups, setGroups] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const { backendAccessPath } = useEnv();
+    const PAGE_SIZE = 10;
     const theme = useTheme();
 
     const CustomGroupArrow = ({ onClick, theme, direction }) => {
@@ -32,42 +38,51 @@ const GroupApproach = () => {
         nextArrow: <CustomGroupArrow theme={theme} direction="next"/>,
     }
 
-    const groupSlides = [
-        {id: 1, groupIconUrl: `${siteAssetsPath}/tanoc_icon.png`, groupHeaderUrl: `${siteAssetsPath}/image_copy.png`, groupName: "HARDCORE TANO*C", desc: "Everybody Say 'HARDCORE TANO*C !!!!!'", userNum: 100, productNum: 30},
-        {id: 2, groupIconUrl: `${siteAssetsPath}/tanoc_icon_black.png`, groupHeaderUrl: `${siteAssetsPath}/image_copy.png`, groupName: "CODING KURU*C", desc: "Reactの作業量おかしいんじゃないかww", userNum: 66, productNum: 24},
-        {id: 3, groupIconUrl: `${siteAssetsPath}/demae.png`, groupHeaderUrl: `${siteAssetsPath}/image_copy.png`, groupName: "CODING KURU*Cんじゃこらwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww", desc: "推しと組体操したいです(率直)", userNum: 500, productNum: 64},
-        {id: 4, groupIconUrl: `${siteAssetsPath}/elon.png`, groupHeaderUrl: `${siteAssetsPath}/maxresdefault.jpg`,groupName: "グループE", desc: "グループEはすばらしい(当社比)", userNum: 7558, productNum: 500},
-        {id: 5, groupIconUrl: `${siteAssetsPath}/ikaruga.png`, groupHeaderUrl: `${siteAssetsPath}/maxresdefault.jpg`, groupName: "釣り", desc: "フィッシング(ハンティング)にいきたい", userNum: 123, productNum: 50},
-        {id: 6, groupIconUrl: `${siteAssetsPath}/tanoc_icon_black.png`, groupHeaderUrl: `${siteAssetsPath}/senzyou.png`, groupName: "The Vibe Cafe", desc: "カフェいきたすぎるああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああカフェいきたすぎるああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああカフェいきたすぎるああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああカフェいきたすぎるああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ", userNum: 98, productNum: 33}
-    ]
+    useEffect(() => {
+        const fetchGroups = async () => {
+            try {
+                const response = await axios.get(`${backendAccessPath}/client/group/randomGroup?pageSize=${PAGE_SIZE}`);
+                setGroups(response.data);
+                setIsLoading(false);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        fetchGroups();
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <>
+        {!isLoading &&
         <StyledGroupApproach>
             <StyledGroupSlider {...groupSlideSettings} theme={theme}>
-                {groupSlides.map(groupSlide => 
-                    <StyledGroupSlide key={groupSlide.id} slideUrl={groupSlide.groupHeaderUrl}>
-                        <StyledSlideInner theme={theme}>
-                            <StyledSlideHeader>
-                                <StyledGroupIconParent>
-                                    <StyledAvatar src={groupSlide.groupIconUrl} variant="square"/>
-                                </StyledGroupIconParent>
-                                <StyledGroupName theme={theme}>{groupSlide.groupName}</StyledGroupName>
-                            </StyledSlideHeader>
-                            <StyledSlideDesc>
-                                <StyledGroupDesc theme={theme}>
-                                    {groupSlide.desc}
-                                </StyledGroupDesc>
-                                <StyledGroupInfo theme={theme}>
-                                    <div style={{display: "flex", gap: "5px"}}><People />{groupSlide.userNum}</div>
-                                    <div style={{display: "flex", gap: "5px"}}><Inventory />{groupSlide.productNum}</div>
-                                </StyledGroupInfo>
-                            </StyledSlideDesc>
-                        </StyledSlideInner>
-                    </StyledGroupSlide>
+                {groups.map((group, index) => 
+                        <StyledGroupSlide  key={index} backHeader={`${backendAccessPath}/uploads/groupHeaders/${group.header ? group.header : null}`}>
+                            <Link to={`/group/${group._id}`} style={{width: "100%", height: "100%", textDecorationLine: "none"}}>
+                                <StyledSlideInner theme={theme}>
+                                    <StyledSlideHeader>
+                                        <StyledGroupIconParent>
+                                            <StyledAvatar src={`${backendAccessPath}/uploads/groupIcons/${group.icon ? group.icon : null}`} variant="square"/>
+                                        </StyledGroupIconParent>
+                                        <StyledGroupName theme={theme}>{group.name}</StyledGroupName>
+                                    </StyledSlideHeader>
+                                    <StyledSlideDesc>
+                                        <StyledGroupDesc theme={theme}>
+                                            {group.desc}
+                                        </StyledGroupDesc>
+                                        <StyledGroupInfo theme={theme}>
+                                            <div style={{display: "flex", gap: "5px"}}><People />{group.member.length}</div>
+                                            <div style={{display: "flex", gap: "5px"}}><Inventory />{group.products.length}</div>
+                                            <div style={{display: "flex", gap: "5px"}}><StarBorder />{group.star}</div>
+                                        </StyledGroupInfo>
+                                    </StyledSlideDesc>
+                                </StyledSlideInner>
+                            </Link>
+                        </StyledGroupSlide>
                 )}
             </StyledGroupSlider>
         </StyledGroupApproach>
+        }
     </>
     )
 }
@@ -107,7 +122,7 @@ const StyledGroupSlide = styled.div`
         align-items: center;
         width: 100%;
         height: 100%;
-        background-image: url(${(props => props.slideUrl)});
+        background-image: url(${(props => props.backHeader)});
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
@@ -119,6 +134,8 @@ const StyledSlideInner = styled.div`
     justify-content: center;
     align-items: center;
     padding: 20px 0;
+    width: 100%;
+    height: 100%;
     background: ${(props) => props.theme.palette.background.groupApproachBackground};
 `
 
@@ -182,7 +199,7 @@ const StyledGroupDesc = styled.div`
 const StyledGroupInfo = styled.div`
     display: flex;
     gap: 50px;
-    color: ${(props) => props.theme.palette.text.main};
+    color: ${(props) => props.theme.palette.text.main2};
 `
 
 const StyledCustomGroupArrow = styled.div`

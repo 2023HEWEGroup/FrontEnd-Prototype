@@ -41,6 +41,7 @@ const Group = (props) => {
   useEffect(() => {
     const fetchGroup = async () => {
       try {
+        setIsLoading(true);
         const response = await axios.get(`${backendAccessPath}/client/group/getGroup/${groupId}`);
         setGroup(response.data);
         setIsLoading(false);
@@ -49,7 +50,7 @@ const Group = (props) => {
       }
     }
     fetchGroup();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [groupId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (group && group.desc) {
