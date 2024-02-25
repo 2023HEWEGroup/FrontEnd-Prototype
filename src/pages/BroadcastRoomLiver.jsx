@@ -20,7 +20,6 @@ const BroadcastRoomLiver = (props) => {
     const { roomId } = useParams();
     const videoRef = useRef(null);
     const { socketPath } = useEnv();
-    console.log(peerConnections)
 
     useEffect(() => {
         if (socket) {

@@ -155,13 +155,15 @@ const StyledBloadcasts = styled.div`
     align-items: start;
     flex-wrap: wrap;
     gap: 30px;
-    width: 100%;
+    width: 95%;
+    margin: 0 auto;
     padding: 30px 0;
 `
 
 const StyledSection = styled.div`
-    width: 100%;
+    width: 95%;
     padding: 5px;
+    margin: 0 auto;
     font-size: 1rem;
     color: ${(props) => props.theme.palette.text.sub};
     border-bottom: solid 0.5px ${(props) => props.theme.palette.line.tab};

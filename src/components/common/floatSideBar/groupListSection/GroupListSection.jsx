@@ -14,7 +14,7 @@ const GroupListSection = (props) => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [groups, setGroups] = useState(null);
-    const { backendAccessPath } = useEnv();
+    const { siteAssetsPath, backendAccessPath } = useEnv();
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.value);
     const PAGE_SIZE = user ? user.groups.length : 0;
@@ -47,7 +47,7 @@ const GroupListSection = (props) => {
                     <Link to={`/group/${group._id}`} key={index} style={{textDecoration: "none"}}>
                         <StyledListItem key={index}>
                             <StyledListElements theme={theme}>
-                                <StyledAvatar variant='square' src={group.icon ? `${backendAccessPath}/uploads/groupIcons/${group.icon}` : null}/>
+                                <StyledAvatar variant='square' src={group.icon ? `${backendAccessPath}/uploads/groupIcons/${group.icon}` : `${siteAssetsPath}/default_group_icons/${group.defaultIcon}`}/>
                                 <StyledListItemText theme={theme.palette.text.main}>{group.name}</StyledListItemText>
                             </StyledListElements>
                         </StyledListItem>

@@ -1,24 +1,38 @@
-import { ArrowBackIosNew, ExpandLess, ExpandMore, Inventory, MoreVert, People, Star } from '@mui/icons-material';
-import { Avatar, Box, Chip, Grid, IconButton, LinearProgress, Tab, Tabs, Typography, useTheme } from '@mui/material'
+import { ArrowBackIosNew, EmojiEmotions, ExpandLess, ExpandMore, Inventory, MoreVert, People, Send, Star } from '@mui/icons-material';
+import { Avatar, Box, Chip, Grid, IconButton, InputAdornment, LinearProgress, Tab, Tabs, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material'
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components'
 import Broadcasts from '../components/group/Broadcasts';
 import { useEnv } from '../provider/EnvProvider';
+import TimeLine from '../components/group/TimeLine';
+import { StyledTextField } from '../utils/StyledTextField';
+import EmojiPicker from 'emoji-picker-react';
+import io from 'socket.io-client';
 
 
 const Group = (props) => {
 
   const { groupId } = useParams("groupId");
+  const [socket, setSocket] = useState(null)
   const [isLoading, setIsLoading] = useState(true);
   const [group, setGroup] = useState({});
   const [truncatedDesc, setTruncatedDesc] = useState("");
   const [lineCount, setLineCount] = useState(NaN);
   const [isExpanded, setIsExpanded] = useState(false);
   const [tabValue, setTabValue] = useState(0);
-  const { backendAccessPath } = useEnv();
+  const [chatHeight, setChatHeight] = useState("calc(100vh - 105px)");
+  const [chat, setChat] = useState("");
+  const [isEmoji, setIsEmoji] = useState(false);
+  const [chatBottom, setChatBottom] = useState(true); // チャット欄が要り番したまでスクロールされたかどうか(スクロールで変動:初回は下まで下げるのでtrue)
+  const { siteAssetsPath, backendAccessPath, socketPath } = useEnv();
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
   const theme = useTheme();
+  const chatRef = useRef();
+  const chatInputRef = useRef();
+  const emojiRef = useRef();
+  const emojiButtonRef = useRef();
 
   const formatNumber = (num) => {
     if (num >= 1000000) {
@@ -37,6 +51,77 @@ const Group = (props) => {
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}/${month}/${day}`;
   }
+
+  const handleEmojiClick = (e) => {
+    const emojiCode = e.unified.split("-");
+    let codeArray = [];
+    emojiCode.forEach((el) => codeArray.push("0x" + el));
+    const emoji = String.fromCodePoint(...codeArray);
+    if (chat.length <= 498) {
+        setChat((prev) => prev + emoji);
+    }
+  }
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter' && event.ctrlKey) {
+        event.preventDefault(); // Enter キーのデフォルトの動作をキャンセル
+        handleChatSend();
+    }
+}
+
+  const handleChatSend = () => {
+    if (chat.length === 0 || !socket) return;
+    socket.emit('groupChat', chat, groupId, props.currentUser);
+    setChat("");
+  }
+
+  const handleChatScroll = () => { // チャット欄のスクロールを検知
+    if (!chatRef.current) return;
+    const { scrollTop, scrollHeight, clientHeight } = chatRef.current;
+    if (scrollHeight - (scrollTop + clientHeight) <= 5) { // 誤差5px許容
+        setChatBottom(true); // 下までスクロールしたらtrue
+    } else {
+        setChatBottom(false); // でなければfalse
+    }
+}
+
+  useEffect(() => {
+    // チャット欄が一番下までスクロールされており、チャット欄が更新された場合、スクロールを最下部に更新
+    if (chatBottom && chatRef.current) {
+        chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    }
+  } , [group.chat]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (socket) {
+        // socketが設定されていることを確認しそのグループのルームに参加する
+        socket.emit("enterGroup", groupId);
+
+        // グループの更新された情報を取得
+        socket.on('newGroup', (newGroup) => {
+          setGroup(newGroup);
+        });
+
+        // クリーンアップ関数でイベントリスナーを削除する
+        return () => {
+            socket.off('enterGroup');
+            socket.off('newGroup');
+        };
+    }
+  }, [socket]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    const handleEmojiClose = (e) => {
+        if (emojiRef.current && emojiButtonRef.current && !emojiRef.current.contains(e.target) && !emojiButtonRef.current.contains(e.target)) {
+            setIsEmoji(false);
+        }
+    }
+    document.addEventListener('click', handleEmojiClose);
+
+    return () => {
+        document.removeEventListener('click', handleEmojiClose);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchGroup = async () => {
@@ -59,6 +144,41 @@ const Group = (props) => {
     }
   }, [group, isExpanded]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    const downChat = () => {
+      // 要素が存在しない場合は何もしない
+      if (!chatRef.current || !tabValue === 0) return;
+      // 要素のy座標のスクロール位置を最大まで下げる
+      setTimeout(() => {
+        if (chatRef.current) {
+          chatRef.current.scrollTop = chatRef.current.scrollHeight;
+        }
+      }, 1000);
+    }
+    downChat();
+  }, [chatHeight, tabValue]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    const calculateHeight = () => {
+      if (chatInputRef.current && emojiRef.current) {
+        const newHeight = isSmallScreen ? "fit-content" : `calc(100vh - ${chatInputRef.current.clientHeight + 105}px)`;
+        setChatHeight(newHeight);
+        }
+    };
+    // レンダリング後に高さを計算する(position: absoluteの絵文字部分のレンダリングを待つ)
+    setTimeout(calculateHeight, 0);
+  }, [isSmallScreen, tabValue, chat, chatInputRef.current]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    // サーバーとの接続を確立
+    const newSocket = io(socketPath);
+    setSocket(newSocket);
+    // クリーンアップ関数で接続を解除
+    return () => {
+        newSocket.disconnect();
+    };
+}, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <>
     {!isLoading ?
@@ -76,14 +196,14 @@ const Group = (props) => {
 
       <Grid container>
 
-        <Grid item xs={12} sm={12} md={6} lg={6} xl={6} style={{position: "stickey", top: "55px"}}>
+        <Grid height={isSmallScreen ? "fit-content" : "calc(100vh - 55px)" } item xs={12} sm={12} md={6} lg={6} xl={6} style={{position: "stickey", top: "55px", overflowY: isSmallScreen ? "visible" : "scroll"}}>
 
           <StyledGroupHeader theme={theme} backHeader={`${backendAccessPath}/uploads/groupHeaders/${group.header ? group.header : null}`}></StyledGroupHeader>
 
             <Box width="90%" margin="0 auto" display="flex" flexDirection="column" borderBottom={`solid 1px ${theme.palette.line.disable}`}>
               <Box display="flex" alignItems="center" width="100%" padding="30px 0" gap="25px">
                 <StyledAvatarZone>
-                  <Avatar variant='square' src={`${backendAccessPath}/uploads/groupIcons/${group.icon ? group.icon : null}`} sx={{width: "100%", height: "100%"}}/>
+                  <Avatar variant='square' src={group.icon ? `${backendAccessPath}/uploads/groupIcons/${group.icon}` : `${siteAssetsPath}/default_group_icons/${group.defaultIcon}`} sx={{width: "100%", height: "100%"}}/>
                 </StyledAvatarZone>
                 <Box display="flex" flexDirection="column" gap="10px" width="80%">
                   <Typography sx={{wordBreak: "break-all"}} variant='h5' color={theme.palette.text.main}>{group.name}</Typography>
@@ -120,14 +240,28 @@ const Group = (props) => {
         </Grid>
 
         <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-        <Box width="95%" margin="0 auto">
+        <Box width="100%" margin="0 auto">
           <StyledTabs value={tabValue} onChange={(e, newValue) => setTabValue(newValue)} indicatorColor='secondary' theme={theme}>
             <StyledTab theme={theme} label="タイムライン"></StyledTab>
             <StyledTab theme={theme} label="メンバー"></StyledTab>
             <StyledTab theme={theme} label="商品"></StyledTab>
             <StyledTab theme={theme} label="配信"></StyledTab>
           </StyledTabs>
-          {tabValue === 3 && <Broadcasts group={group} currentUser={props.currentUser}/>}
+          <Box ref={chatRef} onScroll={handleChatScroll} height={isSmallScreen ? "fit-content" : tabValue === 0 ? chatHeight : "calc(100vh - 105px)"} style={{overflowY: isSmallScreen ? "scroll" : "scroll"}}>
+            {tabValue === 0 && <TimeLine chatRef={chatRef} handleChatScroll={handleChatScroll} group={group} currentUser={props.currentUser}/>}
+            {tabValue === 3 && <Broadcasts group={group} currentUser={props.currentUser}/>}
+          </Box>
+          {tabValue === 0 &&
+            <Box position="relative" display="flex" gap="10px" justifyContent="center" alignItems="center" margin="0 auto" padding="15px 0" width="95%" ref={chatInputRef}>
+              <Tooltip title="絵文字" placement='top'><EmojiEmotions onClick={() => setIsEmoji((prev) => !prev)} ref={emojiButtonRef} style={{color: isEmoji ? theme.palette.secondary.main : theme.palette.text.sub, cursor: "pointer"}}/></Tooltip>
+              <StyledTextField onKeyDown={handleKeyDown} fullWidth value={chat} theme={theme} multiline inputProps={{maxLength: 500, placeholder: "チャットを入力"}} maxRows={5}
+                onChange={(e) => setChat(e.target.value)} InputProps={{endAdornment: (<InputAdornment position="end">{<Tooltip title="Ctrl + Enter" placement='top'><Send onClick={handleChatSend} style={{color: theme.palette.text.sub, cursor: "pointer"}}/></Tooltip>}</InputAdornment>)}}/>
+
+                <StyledEmojiArea $isSmallScreen={isSmallScreen} ref={emojiRef}>
+                  <EmojiPicker open={isEmoji} onEmojiClick={handleEmojiClick} theme={theme.palette.broadcast.emojiTheme}/>
+                </StyledEmojiArea>
+            </Box>
+          }
         </Box>
         </Grid>
 
@@ -214,7 +348,7 @@ const StyledTagChip = styled(Chip)`
 const StyledTabs = styled(Tabs)`
     && {
       width: 100%;
-      margin: 10px auto 0 auto;
+      margin: 0 auto;
       .MuiTabs-indicator {
         bottom: 0;
       }
@@ -225,12 +359,30 @@ const StyledTab = styled(Tab)`
     && {
       flex: 1 1 0;
       max-width: 25%;
+      height: 50px;
       color: ${(props) => props.theme.palette.text.sub};
       border-bottom: solid 1px ${(props) => props.theme.palette.line.tab};
 
       &.Mui-selected {
         color: ${(props) => props.theme.palette.text.main};
       }
+    }
+`
+
+const StyledEmojiArea = styled.div`
+    position: absolute;
+    ${(props) => props.$isSmallScreen ?
+      `
+      left: 0;
+      top: 0;
+      transform: translateY(-100%);
+      `
+      :
+      `
+      bottom: 0;
+      left: 0;
+      transform: translateX(-100%);
+      `
     }
 `
 

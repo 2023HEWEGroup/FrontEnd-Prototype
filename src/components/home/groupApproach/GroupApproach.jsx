@@ -14,7 +14,7 @@ const GroupApproach = () => {
 
     const [groups, setGroups] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const { backendAccessPath } = useEnv();
+    const { backendAccessPath, siteAssetsPath } = useEnv();
     const PAGE_SIZE = 10;
     const theme = useTheme();
 
@@ -62,7 +62,7 @@ const GroupApproach = () => {
                                 <StyledSlideInner theme={theme}>
                                     <StyledSlideHeader>
                                         <StyledGroupIconParent>
-                                            <StyledAvatar src={`${backendAccessPath}/uploads/groupIcons/${group.icon ? group.icon : null}`} variant="square"/>
+                                            <StyledAvatar src={group.icon ? `${backendAccessPath}/uploads/groupIcons/${group.icon}` : `${siteAssetsPath}/default_group_icons/${group.defaultIcon}`} variant="square"/>
                                         </StyledGroupIconParent>
                                         <StyledGroupName theme={theme}>{group.name}</StyledGroupName>
                                     </StyledSlideHeader>
