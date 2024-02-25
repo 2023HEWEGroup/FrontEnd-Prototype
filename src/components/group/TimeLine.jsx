@@ -39,7 +39,7 @@ const TimeLine = (props) => {
     return (
         <>
             {!isLoading ?
-            <Box display="flex" justifyContent="start" alignItems="center" flexDirection="column" gap="30px" width="95%" height="1000px" margin="0 auto" padding="25px 0">
+            <Box display="flex" justifyContent="start" alignItems="center" flexDirection="column" gap="30px" width="95%" margin="0 auto" padding="25px 0">
                 {props.group.chat.map((chat, index) => 
                     chat._id !== props.currentUser._id ?
                     <Box key={index} display="flex" justifyContent="start" alignItems="center" width="100%">

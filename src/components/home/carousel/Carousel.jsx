@@ -12,10 +12,7 @@ const Carousel = () => {
     const theme = useTheme();
 
     const slides = [
-        {id: 1, imageUrl: `${siteAssetsPath}/LMAP_logo.svg`, slideComment: "卵かけご飯最高"},
-        {id: 2, imageUrl: `${siteAssetsPath}/LMAP_logo_reversal.svg`, slideComment: "TKGTKGTKG"},
-        {id: 3, imageUrl: `${siteAssetsPath}/tanoc_header.png`, slideComment: "自分で作った回路に電気が流れてさ、チェストにものがどんどん貯まっていくってもうあり得ない快感なんだよね自分で作った回路に電気が流れてさ、チェストにものがどんどん貯まっていくってもうあり得ない快感なんだよね自分で作った回路に電気が流れてさ、チェストにものがどんどん貯まっていくってもうあり得ない快感なんだよね"},
-        {id: 4, imageUrl: `${siteAssetsPath}/iseebi.png`, slideComment: "朝っぱらから飲むEAAね、マジうまい"},
+        {imageUrl: `${siteAssetsPath}/lmapUngra.png`, slideComment: "2024/02/03 サイト名称とサイトロゴデザインが更新されました"},
     ];
 
     const CustomArrow = ({ onClick, theme, direction }) => {
@@ -43,8 +40,8 @@ const Carousel = () => {
 
     return (
         <StyledSlider {...slideSettings} theme={theme}>
-            {slides.map(slide =>
-            <StyledSlide key={slide.id} slideUrl={slide.imageUrl} theme={theme}>
+            {slides.map((slide, index) =>
+            <StyledSlide key={index} slideUrl={slide.imageUrl} theme={theme}>
                 <StyledSlideComment theme={theme} $isXsScreen={isXsScreen}>{slide.slideComment}</StyledSlideComment>
             </StyledSlide>
             )}

@@ -26,7 +26,7 @@ const Group = (props) => {
   const [chat, setChat] = useState("");
   const [isEmoji, setIsEmoji] = useState(false);
   const [chatBottom, setChatBottom] = useState(true); // チャット欄が要り番したまでスクロールされたかどうか(スクロールで変動:初回は下まで下げるのでtrue)
-  const { backendAccessPath, socketPath } = useEnv();
+  const { siteAssetsPath, backendAccessPath, socketPath } = useEnv();
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
   const theme = useTheme();
   const chatRef = useRef();
@@ -146,13 +146,13 @@ const Group = (props) => {
 
   useEffect(() => {
     const downChat = () => {
-      console.log(1)
       // 要素が存在しない場合は何もしない
       if (!chatRef.current || !tabValue === 0) return;
-      console.log(2)
       // 要素のy座標のスクロール位置を最大まで下げる
       setTimeout(() => {
-        chatRef.current.scrollTop = chatRef.current.scrollHeight;
+        if (chatRef.current) {
+          chatRef.current.scrollTop = chatRef.current.scrollHeight;
+        }
       }, 1000);
     }
     downChat();
@@ -203,7 +203,7 @@ const Group = (props) => {
             <Box width="90%" margin="0 auto" display="flex" flexDirection="column" borderBottom={`solid 1px ${theme.palette.line.disable}`}>
               <Box display="flex" alignItems="center" width="100%" padding="30px 0" gap="25px">
                 <StyledAvatarZone>
-                  <Avatar variant='square' src={`${backendAccessPath}/uploads/groupIcons/${group.icon ? group.icon : null}`} sx={{width: "100%", height: "100%"}}/>
+                  <Avatar variant='square' src={group.icon ? `${backendAccessPath}/uploads/groupIcons/${group.icon}` : `${siteAssetsPath}/default_group_icons/${group.defaultIcon}`} sx={{width: "100%", height: "100%"}}/>
                 </StyledAvatarZone>
                 <Box display="flex" flexDirection="column" gap="10px" width="80%">
                   <Typography sx={{wordBreak: "break-all"}} variant='h5' color={theme.palette.text.main}>{group.name}</Typography>

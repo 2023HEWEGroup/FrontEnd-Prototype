@@ -12,7 +12,7 @@ import { useEnv } from '../../provider/EnvProvider';
 const EstablishNyan = (props) => {
 
     const theme = useTheme();
-    const { backendAccessPath } = useEnv();
+    const { siteAssetsPath, backendAccessPath } = useEnv();
 
     useEffect(() => {
         // Topページがマウントされたときに限定して背景部分の色を変更する
@@ -50,7 +50,7 @@ const EstablishNyan = (props) => {
                     <div style={{width: "100vw", height: "100vh", zIndex: 10 }}>
                         <Link to={`/group/${props.group._id}`}>
                             <StyledProductAvatarZone theme={theme}>
-                                <StyledAvatar variant='square' src={props.group.icon ? `${backendAccessPath}/uploads/groupIcons/${props.group.icon}` : null}/>
+                                <StyledAvatar variant='square' src={props.group.icon ? `${backendAccessPath}/uploads/groupIcons/${props.group.icon}` : `${siteAssetsPath}/default_group_icons/${props.group.defaultIcon}`}/>
                             </StyledProductAvatarZone>
                         </Link>
                     </div>
