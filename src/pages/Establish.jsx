@@ -11,6 +11,8 @@ import axios from 'axios'
 import IsProgress from '../components/common/isProgress/IsProgress'
 import EstablishNyan from '../components/establish/EstablishNyan'
 import { useEnv } from '../provider/EnvProvider'
+import { setUser } from '../redux/features/userSlice'
+import { useDispatch } from 'react-redux'
 
 
 const Establish = (props) => {
@@ -49,6 +51,7 @@ const Establish = (props) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const theme = useTheme();
     const { siteAssetsPath, backendAccessPath } = useEnv();
+    const dispatch = useDispatch();
 
     const handleNameChange = (e) => {
         setGroup((prev) => ({...prev, name: e.target.value}));
@@ -161,6 +164,8 @@ const Establish = (props) => {
             }
             const response = await axios.post(`${backendAccessPath}/client/group/establish`, establishData);
             setNewGroup(response.data);
+            const newUser = await axios.get(`${backendAccessPath}/client/user/getById/${props.currentUser._id}`);
+            dispatch(setUser(newUser.data));
             setIsProgress(false);
             setNyan(true);
         } catch (err) {

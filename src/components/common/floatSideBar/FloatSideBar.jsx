@@ -45,7 +45,7 @@ const FloatSideBar = (props) => {
             <StyledDivider>
                 <StyledListTitle>グループ</StyledListTitle>
             </StyledDivider>
-            <GroupListSection />
+            <GroupListSection page={props.page}/>
 
             <Divider />
 
