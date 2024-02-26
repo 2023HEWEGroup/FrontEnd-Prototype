@@ -78,6 +78,7 @@ const EstablishHeaderTrimming = (props) => {
         // ズームと位置を初期化して閉じる。
         props.setHeaderCrop({x: 0, y: 0});
         props.setHeaderZoom(1);
+        if (props.setIsHeaderDelete) props.setIsHeaderDelete(false);
         props.setOpen(false);
 
         // キャンパス内の画像をバイナリアイコンとして登録

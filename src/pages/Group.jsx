@@ -1,5 +1,5 @@
 import { ArrowBackIosNew, EmojiEmotions, ExpandLess, ExpandMore, Inventory, MoreVert, People, Send, Star } from '@mui/icons-material';
-import { Avatar, Box, Chip, Grid, IconButton, InputAdornment, LinearProgress, Tab, Tabs, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { Avatar, Box, Chip, Grid, IconButton, InputAdornment, LinearProgress, Paper, Popper, Tab, Tabs, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material'
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
@@ -10,6 +10,9 @@ import TimeLine from '../components/group/TimeLine';
 import { StyledTextField } from '../utils/StyledTextField';
 import EmojiPicker from 'emoji-picker-react';
 import io from 'socket.io-client';
+import GroupFixModal from '../components/group/GroupFixModal';
+import ErrorSnack from '../components/common/errorSnack/ErrorSnack';
+import IsProgress from '../components/common/isProgress/IsProgress';
 
 
 const Group = (props) => {
@@ -26,6 +29,39 @@ const Group = (props) => {
   const [chat, setChat] = useState("");
   const [isEmoji, setIsEmoji] = useState(false);
   const [chatBottom, setChatBottom] = useState(true); // チャット欄が要り番したまでスクロールされたかどうか(スクロールで変動:初回は下まで下げるのでtrue)
+  const [isPopperOpen, setIsPopperOpen] = useState(false);
+  const [popperAnchorEl, setPopperAnchorEl] = useState(null);
+
+  const [isProgress, setIsProgress] = useState(false);
+  const [isFixModal, setIsFixModal] = useState(false);
+  const [fixInfo, setFixInfo] = useState({name: "", subTitle: "", desc: "", tags: []});
+  const [groupError, setGroupError] = useState({name: false, desc: false});
+  const [isErrorSnack, setIsErrorSnack] = useState(false);
+  const [snackWarning, setSnackWarning] = useState("");
+  const [tag, setTag] = useState("");
+  const [groupHelper, setGroupHelper] = useState({name: false, desc: false});
+  const [isIconDelete, setIsIconDelete] = useState(false);
+  const [isHeaderDelete, setIsHeaderDelete] = useState(false);
+  const [previewHeader, setPreviewHeader] = useState(""); // トリミング結果
+  const [originalHeader, setOriginalHeader] = useState(""); // オリジナルデータ(トリミング開始時に使用)
+  const [binaryHeader, setBinaryHeader] = useState(""); // バイナリデータ(送信に使用)
+  // これらはそれぞれの履歴。トリミング中にキャンセルが発生した場合、これらの履歴があれば適用する。
+  const [previewPrevHeader, setPreviewPrevHeader] = useState();
+  const [originalPrevHeader, setOriginalPrevHeader] = useState();
+  const [binaryPrevHeader, setBinaryPrevHeader] = useState();
+  const [headerCrop, setHeaderCrop] = useState({x: 0, y: 0});
+  const [headerZoom, setHeaderZoom] = useState(1);
+
+  const [previewIcon, setPreviewIcon] = useState(""); // トリミング結果
+  const [originalIcon, setOriginalIcon] = useState(""); // オリジナルデータ(トリミング開始時に使用)
+  const [binaryIcon, setBinaryIcon] = useState(""); // バイナリデータ(送信に使用)
+  // これらはそれぞれの履歴。トリミング中にキャンセルが発生した場合、これらの履歴があれば適用する。
+  const [previewPrevIcon, setPreviewPrevIcon] = useState();
+  const [originalPrevIcon, setOriginalPrevIcon] = useState();
+  const [binaryPrevIcon, setBinaryPrevIcon] = useState();
+  const [iconCrop, setIconCrop] = useState({x: 0, y: 0});
+  const [iconZoom, setIconZoom] = useState(1);
+
   const { siteAssetsPath, backendAccessPath, socketPath } = useEnv();
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
   const theme = useTheme();
@@ -33,6 +69,155 @@ const Group = (props) => {
   const chatInputRef = useRef();
   const emojiRef = useRef();
   const emojiButtonRef = useRef();
+  const popperRef = useRef();
+
+  const handleNameChange = (e) => {
+    setFixInfo((prev) => ({...prev, name: e.target.value}));
+    setGroupError((prev) => ({...prev, name: false}));
+    setGroupHelper((prev) => ({...prev, name: ""}));
+    if (e.target.value.length === 0) {
+        setGroupError((prev) => ({...prev, name: false}));
+        setGroupHelper((prev) => ({...prev, name: ""}));
+    } else if (e.target.value.trim() === "") {
+        setGroupError((prev) => ({...prev, name: true}));
+        setGroupHelper((prev) => ({...prev, name: "空白のみの入力はできません"}));
+    }
+};
+
+const handleSubTitleChange = (e) => {
+  setFixInfo((prev) => ({...prev, subTitle: e.target.value}));
+};
+
+const handleDescChange = (e) => {
+  setFixInfo((prev) => ({...prev, desc: e.target.value}));
+    setGroupError((prev) => ({...prev, desc: false}));
+    setGroupHelper((prev) => ({...prev, desc: ""}));
+    if (e.target.value.length === 0) {
+        setGroupError((prev) => ({...prev, desc: false}));
+        setGroupHelper((prev) => ({...prev, desc: ""}));
+    } else if (e.target.value.length < 5) {
+        setGroupError((prev) => ({...prev, desc: true}));
+        setGroupHelper((prev) => ({...prev, desc: "グループ説明は最低で5文字必要です"}));
+    } else if (e.target.value.trim() === "") {
+        setGroupError((prev) => ({...prev, desc: true}));
+        setGroupHelper((prev) => ({...prev, desc: "空白のみの入力はできません"}));
+    }
+};
+
+const handleTagAdd = () => {
+    const newTag = tag;
+    setFixInfo((prev) => ({...prev, tags: [...prev.tags, newTag]}));
+    setTag("");
+};
+
+const handleTagDelete = (index) => {
+    const updatedTags = fixInfo.tags.filter((tag, i) => i !== index);
+    setFixInfo((prev) => ({...prev, tags: updatedTags}));
+};
+
+const handleTagInput = (event) => {
+    const tagWithoutSpaces = event.target.value.replace(/\s/g, "");
+    setTag(tagWithoutSpaces);
+}
+
+const handleCheck = () => {
+    let flag = true;
+    if (fixInfo.name.length === 0) {
+        setGroupError((prev) => ({...prev, name: true}));
+        setGroupHelper((prev) => ({...prev, name: "グループ名を入力して下さい"}));
+        flag = false;
+    } else if (fixInfo.name.trim() === "") {
+        setGroupError((prev) => ({...prev, name: true}));
+        setGroupHelper((prev) => ({...prev, name: "空白のみの入力はできません"}));
+        flag = false;
+    }
+    if (fixInfo.desc.length === 0) {
+        setGroupError((prev) => ({...prev, desc: true}));
+        setGroupHelper((prev) => ({...prev, desc: "グループ説明を入力して下さい"}));
+        flag = false;
+    } else if (fixInfo.desc.length < 5) {
+        setGroupError((prev) => ({...prev, desc: true}));
+        setGroupHelper((prev) => ({...prev, desc: "グループ説明は最低で5文字必要です"}));
+        flag = false;
+    } else if (fixInfo.desc.trim() === "") {
+        setGroupError((prev) => ({...prev, desc: true}));
+        setGroupHelper((prev) => ({...prev, desc: "空白のみの入力はできません"}));
+        flag = false;
+    }
+    if (!flag) {
+        setSnackWarning("入力内容が誤っています。");
+        setIsErrorSnack(true);
+        return;
+    } else {
+      handleProfleUpdate();
+    }
+}
+
+const handleProfleUpdate = async () => {
+  try {
+      setIsProgress(true);
+      if (fixInfo.name !== group.name || fixInfo.desc !== group.desc || fixInfo.subTitle !== group.subTitle || fixInfo.tags !== group.tags) {
+          // 内容に変更があれば名前やプロフィールを更新
+          console.log("プロフィールアプデ")
+          await axios.put(`${backendAccessPath}/client/group/update/${group?._id}`, {name: fixInfo.name.trim(), desc: fixInfo.desc.trim(), subTitle: fixInfo.subTitle.trim(), tags: fixInfo.tags});
+      }
+      if (binaryIcon) {
+          // アイコンに変更があれば(props.binaryIcon: 送る実データがあれば)API実行
+          const formData = new FormData();
+          formData.append("groupIcon", binaryIcon);
+          await axios.put(`${backendAccessPath}/client/group/updateIcon/${group?._id}`, formData);
+          // // アイコン更新情報を初期化
+          setOriginalIcon();
+          setBinaryIcon();
+          console.log("アイコン変更")
+      }
+      if (binaryHeader) {
+          // ヘッダーに変更があれば(props.binaryHeader: 送る実データがあれば)API実行
+          const formData = new FormData();
+          formData.append("groupHeader", binaryHeader);
+          await axios.put(`${backendAccessPath}/client/group/updateHeader/${group?._id}`, formData);
+          // // アイコン更新情報を初期化
+          setOriginalHeader();
+          setBinaryHeader();
+          console.log("ヘッダー変更")
+      }
+      if (isIconDelete) {
+          // アイコンが削除されていたら実行
+          await axios.delete(`${backendAccessPath}/client/group/deleteIcon/${group?._id}`);
+          console.log("アイコンsakuzyo")
+      }
+      if (isHeaderDelete) {
+          // ヘッダーが削除されていたら実行
+          await axios.delete(`${backendAccessPath}/client/group/deleteHeader/${group?._id}`);
+          console.log("ヘッダーsakuzyo")
+      }
+      const newGroup = await axios.get(`${backendAccessPath}/client/group/getGroup/${group?._id}`);
+      setGroup(newGroup.data);
+      // setIsFixModal(false);
+      setIsProgress(false);
+  } catch (err) {
+      setIsProgress(false);
+      if (err.response) {
+          console.log(err);
+      } else if (err.request) {
+          setSnackWarning("サーバーとの通信がタイムアウトしました。");
+          setIsErrorSnack(true);
+      } else {
+          console.log(err);
+      }
+  }
+}
+
+  const handlePopper = (e) => {
+    e.preventDefault();
+    if (!isPopperOpen) {
+      setIsPopperOpen(true);
+      setPopperAnchorEl(e.currentTarget)
+    } else {
+      setIsPopperOpen(false);
+      setPopperAnchorEl(null);
+    }
+}
 
   const formatNumber = (num) => {
     if (num >= 1000000) {
@@ -84,6 +269,24 @@ const Group = (props) => {
         setChatBottom(false); // でなければfalse
     }
 }
+
+useEffect(() => {
+  setFixInfo({name: group?.name, subTitle: group?.subTitle, desc: group?.desc, tags: group?.tags})
+}, [group]);
+
+useEffect(() => {
+  const handlePopperClose = (e) => {
+      if (popperAnchorEl && !popperAnchorEl.contains(e.target) && !popperRef.current.contains(e.target)) {
+          setPopperAnchorEl(null);
+          setIsPopperOpen(false);
+      }
+  }
+  document.addEventListener('click', handlePopperClose);
+
+  return () => {
+      document.removeEventListener('click', handlePopperClose);
+  }
+}, [popperAnchorEl]);
 
   useEffect(() => {
     // チャット欄が一番下までスクロールされており、チャット欄が更新された場合、スクロールを最下部に更新
@@ -189,14 +392,20 @@ const Group = (props) => {
             <ArrowBackIosNew style={{color: "#fff"}} fontSize='small'/>
           </StyledIconButton>
         </Link>
-        <StyledIconButton theme={theme}>
+        <StyledIconButton theme={theme} onClick={handlePopper}>
           <MoreVert style={{color: "#fff"}} fontSize='small'/>
         </StyledIconButton>
+
+        <Popper sx={{zIndex: 60}} open={isPopperOpen} anchorEl={popperAnchorEl} placement="bottom-start" theme={theme} ref={popperRef}>
+          <StyledPopperPaper elevation={3} theme={theme}>
+              {props.currentUser._id === group.owner._id && <StyledPopperItem theme={theme} onClick={() => setIsFixModal(true)}>グループを編集</StyledPopperItem>}
+          </StyledPopperPaper>
+        </Popper>
       </StyledBox>
 
       <Grid container>
 
-        <Grid height={isSmallScreen ? "fit-content" : "calc(100vh - 55px)" } item xs={12} sm={12} md={6} lg={6} xl={6} style={{position: "stickey", top: "55px", overflowY: isSmallScreen ? "visible" : "scroll"}}>
+        <StyledGrid theme={theme} height={isSmallScreen ? "fit-content" : "calc(100vh - 55px)" } item xs={12} sm={12} md={6} lg={6} xl={6} style={{position: "stickey", top: "55px", overflowY: isSmallScreen ? "visible" : "scroll"}}>
 
           <StyledGroupHeader theme={theme} backHeader={`${backendAccessPath}/uploads/groupHeaders/${group.header ? group.header : null}`}></StyledGroupHeader>
 
@@ -237,7 +446,7 @@ const Group = (props) => {
                 <Typography sx={{wordBreak: "break-all"}} variant='body2' color={theme.palette.text.sub}>オーナー： {group.owner.username}</Typography>
               </Box>
             </Box>
-        </Grid>
+        </StyledGrid>
 
         <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
         <Box width="100%" margin="0 auto">
@@ -247,10 +456,10 @@ const Group = (props) => {
             <StyledTab theme={theme} label="商品"></StyledTab>
             <StyledTab theme={theme} label="配信"></StyledTab>
           </StyledTabs>
-          <Box ref={chatRef} onScroll={handleChatScroll} height={isSmallScreen ? "fit-content" : tabValue === 0 ? chatHeight : "calc(100vh - 105px)"} style={{overflowY: isSmallScreen ? "scroll" : "scroll"}}>
+          <StyledScrollBox theme={theme} ref={chatRef} onScroll={handleChatScroll} height={isSmallScreen ? "fit-content" : tabValue === 0 ? chatHeight : "calc(100vh - 105px)"} style={{overflowY: isSmallScreen ? "scroll" : "scroll"}}>
             {tabValue === 0 && <TimeLine chatRef={chatRef} handleChatScroll={handleChatScroll} group={group} currentUser={props.currentUser}/>}
             {tabValue === 3 && <Broadcasts group={group} currentUser={props.currentUser}/>}
-          </Box>
+          </StyledScrollBox>
           {tabValue === 0 &&
             <Box position="relative" display="flex" gap="10px" justifyContent="center" alignItems="center" margin="0 auto" padding="15px 0" width="95%" ref={chatInputRef}>
               <Tooltip title="絵文字" placement='top'><EmojiEmotions onClick={() => setIsEmoji((prev) => !prev)} ref={emojiButtonRef} style={{color: isEmoji ? theme.palette.secondary.main : theme.palette.text.sub, cursor: "pointer"}}/></Tooltip>
@@ -271,6 +480,29 @@ const Group = (props) => {
     :
     <LinearProgress color='secondary' style={{backgroundColor: "transparent"}}/>
     }
+
+    {isFixModal && <GroupFixModal open={isFixModal} setOpen={setIsFixModal} group={group} fixInfo={fixInfo} setFixInfo={setFixInfo} groupError={groupError} groupHelper={groupHelper}
+    
+    handleNameChange={handleNameChange} handleSubTitleChange={handleSubTitleChange} handleDescChange={handleDescChange}
+    handleTagAdd={handleTagAdd} handleTagDelete={handleTagDelete} handleTagInput={handleTagInput} tag={tag} handleCheck={handleCheck}
+
+    previewHeader={previewHeader} setPreviewHeader={setPreviewHeader} originalHeader={originalHeader} setOriginalHeader={setOriginalHeader}
+    binaryHeader={binaryHeader} setBinaryHeader={setBinaryHeader}
+    headerCrop={headerCrop} setHeaderCrop={setHeaderCrop} headerZoom={headerZoom} setHeaderZoom={setHeaderZoom}
+    originalPrevHeader={originalPrevHeader} setOriginalPrevHeader={setOriginalPrevHeader} previewPrevHeader={previewPrevHeader} setPreviewPrevHeader={setPreviewPrevHeader}
+    binaryPrevHeader={binaryPrevHeader} setBinaryPrevHeader={setBinaryPrevHeader}
+
+    previewIcon={previewIcon} setPreviewIcon={setPreviewIcon} originalIcon={originalIcon} setOriginalIcon={setOriginalIcon}
+    binaryIcon={binaryIcon} setBinaryIcon={setBinaryIcon}
+    iconCrop={iconCrop} setIconCrop={setIconCrop} iconZoom={iconZoom} setIconZoom={setIconZoom}
+    originalPrevIcon={originalPrevIcon} setOriginalPrevIcon={setOriginalPrevIcon} previewPrevIcon={previewPrevIcon} setPreviewPrevIcon={setPreviewPrevIcon}
+    binaryPrevIcon={binaryPrevIcon} setBinaryPrevIcon={setBinaryPrevIcon}
+    
+    isIconDelete={isIconDelete} setIsIconDelete={setIsIconDelete} isHeaderDelete={isHeaderDelete} setIsHeaderDelete={setIsHeaderDelete}/>}
+
+    <ErrorSnack open={isErrorSnack} onClose={() => setIsErrorSnack(false)} warning={snackWarning}/>
+
+    <IsProgress isProgress={isProgress} style={{zIndex: 9000}}/>
     </>
   )
 }
@@ -283,6 +515,34 @@ const StyledGroup = styled.div`
   max-width: 3000px;
   margin: 0 auto;
   overflow: hidden;
+`
+
+const StyledGrid = styled(Grid)`
+  && {
+    &::-webkit-scrollbar-thumb {
+      background-color: transparent;
+  }
+
+  &:hover {
+      &::-webkit-scrollbar-thumb {
+          background-color: ${(props) => props.theme.palette.background.scrollBar};
+      }
+  }
+  }
+`
+
+const StyledScrollBox = styled(Box)`
+  && {
+    &::-webkit-scrollbar-thumb {
+      background-color: transparent;
+  }
+
+  &:hover {
+      &::-webkit-scrollbar-thumb {
+          background-color: ${(props) => props.theme.palette.background.scrollBar};
+      }
+  }
+  }
 `
 
 const StyledGroupHeader = styled.div`
@@ -307,6 +567,32 @@ const StyledIconButton = styled(IconButton)`
   && {
     background-color: ${(props) => props.theme.palette.background.slideHover};
   }
+`
+
+
+const StyledPopperPaper = styled(Paper)`
+    && {
+        width: 150px;
+        padding: 5px 0;
+        border-radius: 10px;
+        color: ${(props) => props.theme.palette.text.main};
+        background-color: ${(props) => props.theme.palette.background.commandPop};
+    }
+`
+
+const StyledPopperItem = styled.div`
+    width: 95%;
+    margin: 0 auto;
+    padding: 7px 0 7px 3px;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: ${(props) => props.theme.palette.background.hover};
+    }
+    &:active {
+        background-color: transparent;
+    }
 `
 
 const StyledAvatarZone = styled.div`
