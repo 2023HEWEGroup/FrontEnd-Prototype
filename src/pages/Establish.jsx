@@ -1,5 +1,5 @@
-import { Avatar, Grid, Hidden, Tooltip, useTheme } from '@mui/material'
-import React, { useState } from 'react'
+import { Avatar, Box, Grid, Hidden, Tooltip, useTheme } from '@mui/material'
+import React, { useEffect, useRef, useState } from 'react'
 import EstablishPreview from '../components/establish/EstablishPreview'
 import EstablishInput from '../components/establish/EstablishInput'
 import styled from 'styled-components'
@@ -24,6 +24,8 @@ const Establish = (props) => {
     const [nyan, setNyan] = useState(false);
     const [newGroup, setNewGroup] = useState({});
     const [isProgress, setIsProgress] = useState(false);
+    const [isFixed, setIsFixed] = useState(false);
+    const [previewWidth, setPreviewWidth] = useState(NaN);
 
     const [previewHeader, setPreviewHeader] = useState(""); // トリミング結果
     const [originalHeader, setOriginalHeader] = useState(""); // オリジナルデータ(トリミング開始時に使用)
@@ -52,6 +54,7 @@ const Establish = (props) => {
     const theme = useTheme();
     const { siteAssetsPath, backendAccessPath } = useEnv();
     const dispatch = useDispatch();
+    const previewRef = useRef();
 
     const handleNameChange = (e) => {
         setGroup((prev) => ({...prev, name: e.target.value}));
@@ -181,6 +184,36 @@ const Establish = (props) => {
         }
     }
 
+    useEffect(() => {
+        const handleScroll = () => {
+        const element = previewRef.current;
+        if (!element) return;
+    
+        const { top } = element.getBoundingClientRect();
+        if (top <= 50) {
+            setIsFixed(true);
+        } else {
+            setIsFixed(false);
+        }
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+        window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+    useEffect(() => {
+        const resizeArea = () => { // 画面拡縮によりfixedにしたpreviewエリアのwidthが崩れるため、ここで更新(どうもfixed状態だとrefのcurrentが取得できない模様)
+            if (previewRef.current) {
+                setPreviewWidth(previewRef.current.clientWidth)
+            }
+        }
+        window.addEventListener('resize', resizeArea);
+        return () => {
+            window.removeEventListener('resize', resizeArea);
+        };
+    })
+
     return (
         <>
         {!nyan ?
@@ -202,8 +235,10 @@ const Establish = (props) => {
 
         <Grid container width="1450px" maxWidth="90vw" margin="0 auto 100px auto">
             <Hidden only={["xs", "sm"]}>
-                <Grid item xs={0} sm={0} md={6} lg={6} xl={6} padding="0 50px">
-                    <EstablishPreview group={group} isExpanded={isExpanded} setIsExpanded={setIsExpanded} previewHeader={previewHeader} previewIcon={previewIcon}/>
+                <Grid item xs={0} sm={0} md={6} lg={6} xl={6} padding="0 50px" ref={previewRef}>
+                    <Box padding={isFixed ? "50px 100px 0 0" : 0} width={isFixed ? previewWidth || previewRef.current?.clientWidth : "100%"} position={isFixed ? "fixed" : "static"} top="0">
+                        <EstablishPreview group={group} isExpanded={isExpanded} setIsExpanded={setIsExpanded} previewHeader={previewHeader} previewIcon={previewIcon}/>
+                    </Box>
                 </Grid>
             </Hidden>
             <Grid item xs={12} sm={12} md={6} lg={6} xl={6} padding="0 50px">

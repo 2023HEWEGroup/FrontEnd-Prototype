@@ -1,4 +1,4 @@
-import { ArrowBackIosNew, EmojiEmotions, ExpandLess, ExpandMore, Inventory, MoreVert, People, Send, Star } from '@mui/icons-material';
+import { ArrowBackIosNew, Chat, EmojiEmotions, ExpandLess, ExpandMore, Inventory, LiveTv, MoreVert, People, Send, Star, StarBorder } from '@mui/icons-material';
 import { Avatar, Box, Chip, Grid, IconButton, InputAdornment, LinearProgress, Paper, Popper, Tab, Tabs, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material'
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
@@ -7,12 +7,15 @@ import styled from 'styled-components'
 import Broadcasts from '../components/group/Broadcasts';
 import { useEnv } from '../provider/EnvProvider';
 import TimeLine from '../components/group/TimeLine';
+import GroupMember from '../components/group/GroupMember';
 import { StyledTextField } from '../utils/StyledTextField';
 import EmojiPicker from 'emoji-picker-react';
 import io from 'socket.io-client';
 import GroupFixModal from '../components/group/GroupFixModal';
 import ErrorSnack from '../components/common/errorSnack/ErrorSnack';
 import IsProgress from '../components/common/isProgress/IsProgress';
+import { debounce } from 'lodash';
+import VerifiedBadge from '../layouts/badges/VerifiedBadge';
 
 
 const Group = (props) => {
@@ -70,6 +73,14 @@ const Group = (props) => {
   const emojiRef = useRef();
   const emojiButtonRef = useRef();
   const popperRef = useRef();
+
+  const returnBadgeName = (owner) => {
+    if (owner.isAuthorized) {
+      return (<span style={{display: "flex", alignItems: "center", gap: "2px"}}><VerifiedBadge fontSize="small" />{owner.username}</span>)
+    } else {
+      return (<span style={{display: "flex", alignItems: "center", gap: "2px"}}>{owner.username}</span>)
+    }
+  }
 
   const handleNameChange = (e) => {
     setFixInfo((prev) => ({...prev, name: e.target.value}));
@@ -193,7 +204,7 @@ const handleProfleUpdate = async () => {
       }
       const newGroup = await axios.get(`${backendAccessPath}/client/group/getGroup/${group?._id}`);
       setGroup(newGroup.data);
-      // setIsFixModal(false);
+      setIsFixModal(false);
       setIsProgress(false);
   } catch (err) {
       setIsProgress(false);
@@ -255,8 +266,8 @@ const handleProfleUpdate = async () => {
 }
 
   const handleChatSend = () => {
-    if (chat.length === 0 || !socket) return;
-    socket.emit('groupChat', chat, groupId, props.currentUser);
+    if (chat.length === 0 || !socket || chat.trim('') === '') return;
+    socket.emit('groupChat', chat.trim(''), groupId, props.currentUser);
     setChat("");
   }
 
@@ -269,6 +280,39 @@ const handleProfleUpdate = async () => {
         setChatBottom(false); // でなければfalse
     }
 }
+
+const handleJoinGroup = debounce(async () => {
+  try {
+    const response = await axios.put(`${backendAccessPath}/client/group/join/${group?._id}`, {_id: props.currentUser._id});
+    setGroup(response.data);
+  } catch (err) {
+      if (err.response) {
+          console.log(err);
+      } else if (err.request) {
+          setSnackWarning("サーバーとの通信がタイムアウトしました。");
+          setIsErrorSnack(true);
+      } else {
+          console.log(err);
+      }
+  }
+}, 250);
+
+const handleStar = debounce(async () => {
+  try {
+    const response = await axios.put(`${backendAccessPath}/client/group/star/${group?._id}`, {_id: props.currentUser._id});
+    setGroup(response.data);
+  } catch (err) {
+    setIsProgress(false);
+      if (err.response) {
+          console.log(err);
+      } else if (err.request) {
+          setSnackWarning("サーバーとの通信がタイムアウトしました。");
+          setIsErrorSnack(true);
+      } else {
+          console.log(err);
+      }
+  }
+}, 250);
 
 useEffect(() => {
   setFixInfo({name: group?.name, subTitle: group?.subTitle, desc: group?.desc, tags: group?.tags})
@@ -350,10 +394,10 @@ useEffect(() => {
   useEffect(() => {
     const downChat = () => {
       // 要素が存在しない場合は何もしない
-      if (!chatRef.current || !tabValue === 0) return;
+      if (!chatRef.current || tabValue === 1 || tabValue === 2 || tabValue === 3) return;
       // 要素のy座標のスクロール位置を最大まで下げる
       setTimeout(() => {
-        if (chatRef.current) {
+        if (chatRef.current && tabValue !== 1 && tabValue !== 2 && tabValue !== 3) {
           chatRef.current.scrollTop = chatRef.current.scrollHeight;
         }
       }, 1000);
@@ -398,14 +442,17 @@ useEffect(() => {
 
         <Popper sx={{zIndex: 60}} open={isPopperOpen} anchorEl={popperAnchorEl} placement="bottom-start" theme={theme} ref={popperRef}>
           <StyledPopperPaper elevation={3} theme={theme}>
-              {props.currentUser._id === group.owner._id && <StyledPopperItem theme={theme} onClick={() => setIsFixModal(true)}>グループを編集</StyledPopperItem>}
+              {props.currentUser._id === group.owner._id && <StyledPopperItem theme={theme} onClick={() => setIsFixModal(true)} style={{color: theme.palette.text.main}}>グループを編集</StyledPopperItem>}
+              {props.currentUser._id !== group.owner._id && !group.member.find(member => member._id.toString() === props.currentUser._id) && <StyledPopperItem theme={theme} onClick={handleJoinGroup} style={{color: theme.palette.text.main}}>グループに参加</StyledPopperItem>}
+              {props.currentUser._id !== group.owner._id && group.member.find(member => member._id.toString() === props.currentUser._id) && <StyledPopperItem theme={theme} onClick={handleJoinGroup} style={{color: theme.palette.text.error}}>グループを離脱</StyledPopperItem>}
+              <StyledPopperItem theme={theme} onClick={handleStar} style={{color: theme.palette.text.main}}>{group.starUser.includes(props.currentUser._id) ? "お気に入り解除" : "お気に入り"}</StyledPopperItem>
           </StyledPopperPaper>
         </Popper>
       </StyledBox>
 
       <Grid container>
 
-        <StyledGrid theme={theme} height={isSmallScreen ? "fit-content" : "calc(100vh - 55px)" } item xs={12} sm={12} md={6} lg={6} xl={6} style={{position: "stickey", top: "55px", overflowY: isSmallScreen ? "visible" : "scroll"}}>
+        <StyledGrid theme={theme} height={isSmallScreen ? "fit-content" : "calc(100vh - 55px)" } item xs={12} sm={12} md={6} lg={6} xl={6} style={{position: "stickey", top: "55px", overflowY: isSmallScreen ? "visible" : "scroll", overflowX: "hidden"}}>
 
           <StyledGroupHeader theme={theme} backHeader={`${backendAccessPath}/uploads/groupHeaders/${group.header ? group.header : null}`}></StyledGroupHeader>
 
@@ -420,9 +467,11 @@ useEffect(() => {
                 </Box>
               </Box>
               <Box display="flex" justifyContent="end" gap="20px" paddingBottom="5px" color={theme.palette.text.main}>
-                <Box display="flex" gap="2px" sx={{cursor: "pointer"}}><People style={{color: theme.palette.icon.comment}} fontSize='small'/><div>{formatNumber(group.member.length)}</div></Box>
-                <Box display="flex" gap="2px" sx={{cursor: "pointer"}}><Inventory style={{color: theme.palette.icon.inventory}} fontSize='small'/><div>{formatNumber(group.products.length)}</div></Box>
-                <Box display="flex" gap="2px" sx={{cursor: "pointer"}}><Star style={{color: theme.palette.icon.star}} fontSize='small'/><div>{formatNumber(group.star)}</div></Box>
+                <Chat style={{color: theme.palette.icon.comment, cursor: "pointer"}} onClick={() => setTabValue(0)}/>
+                <Box display="flex" gap="2px" sx={{cursor: "pointer"}} onClick={() => setTabValue(1)}><People style={{color: theme.palette.icon.comment}} fontSize='small'/><div>{formatNumber(group.member.length)}</div></Box>
+                <Box display="flex" gap="2px" sx={{cursor: "pointer"}} onClick={() => setTabValue(2)}><Inventory style={{color: theme.palette.icon.inventory}} fontSize='small'/><div>{formatNumber(group.products.length)}</div></Box>
+                <Box display="flex" gap="2px" sx={{cursor: "pointer"}} onClick={handleStar}>{group.starUser.includes(props.currentUser._id) ? <Star style={{color: theme.palette.icon.star}} fontSize='small'/> : <StarBorder style={{color: theme.palette.text.sub}} fontSize='small'/>}<div>{formatNumber(group.starUser.length)}</div></Box>
+                <LiveTv style={{color: theme.palette.broadcast.main, cursor: "pointer", paddingBottom: "3px"}} onClick={() => setTabValue(3)}/>
               </Box>
             </Box>
 
@@ -443,7 +492,7 @@ useEffect(() => {
               </Box>
               <Box display="flex" flexDirection="column" alignItems="end">
                 <Typography sx={{wordBreak: "break-all"}} variant='body2' color={theme.palette.text.sub}>作成： {formatDate(group.createdAt)}</Typography>
-                <Typography sx={{wordBreak: "break-all"}} variant='body2' color={theme.palette.text.sub}>オーナー： {group.owner.username}</Typography>
+                <Typography sx={{wordBreak: "break-all", display: "flex", alignItems: "center"}} variant='body2' color={theme.palette.text.sub}>オーナー： {returnBadgeName(group.owner)}</Typography>
               </Box>
             </Box>
         </StyledGrid>
@@ -456,8 +505,9 @@ useEffect(() => {
             <StyledTab theme={theme} label="商品"></StyledTab>
             <StyledTab theme={theme} label="配信"></StyledTab>
           </StyledTabs>
-          <StyledScrollBox theme={theme} ref={chatRef} onScroll={handleChatScroll} height={isSmallScreen ? "fit-content" : tabValue === 0 ? chatHeight : "calc(100vh - 105px)"} style={{overflowY: isSmallScreen ? "scroll" : "scroll"}}>
+          <StyledScrollBox theme={theme} ref={chatRef} onScroll={handleChatScroll} height={isSmallScreen ? "fit-content" : tabValue === 0 ? chatHeight : "calc(100vh - 105px)"} style={{overflowY: isSmallScreen ? "scroll" : "scroll", overflowX: "hidden"}}>
             {tabValue === 0 && <TimeLine chatRef={chatRef} handleChatScroll={handleChatScroll} group={group} currentUser={props.currentUser}/>}
+            {tabValue === 1 && <GroupMember group={group} currentUser={props.currentUser} chatBottom={chatBottom}/>}
             {tabValue === 3 && <Broadcasts group={group} currentUser={props.currentUser}/>}
           </StyledScrollBox>
           {tabValue === 0 &&
@@ -575,7 +625,6 @@ const StyledPopperPaper = styled(Paper)`
         width: 150px;
         padding: 5px 0;
         border-radius: 10px;
-        color: ${(props) => props.theme.palette.text.main};
         background-color: ${(props) => props.theme.palette.background.commandPop};
     }
 `

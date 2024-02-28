@@ -99,7 +99,7 @@ const GroupFixModal = (props) => {
                                 <Tooltip title='ヘッダーを変更' placement='bottom'>
                                     <StyledIconButton theme={theme} ref={buttonRef} onClick={handleUploadClick}><StyledAddToPhotosOutlined theme={theme}/></StyledIconButton>
                                 </Tooltip>
-                                {props.previewHeader ? <Tooltip title='ヘッダーを削除' placement='bottom'><StyledIconButton theme={theme} onClick={handleUploadHeaderDelete}><StyledClear theme={theme}/></StyledIconButton></Tooltip> : null}
+                                {(props.group.header && !props.isHeaderDelete) || props.previewHeader ? <Tooltip title='ヘッダーを削除' placement='bottom'><StyledIconButton theme={theme} onClick={handleUploadHeaderDelete}><StyledClear theme={theme}/></StyledIconButton></Tooltip> : null}
                             </StyledHeaderIcons>
                         </StyledHeaderDarkness>
                     </StyledHeader>
@@ -119,7 +119,7 @@ const GroupFixModal = (props) => {
                         <Box display="flex" flexDirection="column" gap="10px" width="80%">
                             <StyledIconButtons>
                                 <StyledChangeButton onClick={handleUploadClick2} fullWidth variant="outlined" theme={theme} ref={buttonRef3} color='secondary'>アイコンを変更</StyledChangeButton>
-                                {props.previewIcon ? <StyledDeleteButton fullWidth variant="contained" theme={theme} onClick={handleUploadIconDelete}>アイコンを削除</StyledDeleteButton> : null}
+                                {(props.group.icon && !props.isIconDelete) || props.previewIcon ? <StyledDeleteButton fullWidth variant="contained" theme={theme} onClick={handleUploadIconDelete}>アイコンを削除</StyledDeleteButton> : null}
                             </StyledIconButtons>
                         </Box>
                     </Box>
