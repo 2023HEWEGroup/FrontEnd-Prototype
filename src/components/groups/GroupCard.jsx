@@ -44,7 +44,7 @@ const GroupCard = (props) => {
                     <Box display="flex" gap="10px">
                         <Box display="flex" gap="2px"><People style={{color: theme.palette.icon.comment}} fontSize='small'/><div>{formatNumber(props.group.member.length)}</div></Box>
                         <Box display="flex" gap="2px"><Inventory style={{color: theme.palette.icon.inventory}} fontSize='small'/><div>{formatNumber(props.group.products.length)}</div></Box>
-                        <Box display="flex" gap="2px"><Star style={{color: theme.palette.icon.star}} fontSize='small'/><div>{formatNumber(props.group.star)}</div></Box>
+                        <Box display="flex" gap="2px"><Star style={{color: theme.palette.icon.star}} fontSize='small'/><div>{formatNumber(props.group.starUser.length)}</div></Box>
                     </Box>
                     <AvatarGroup max={6} sx={{'& .MuiAvatar-root': { width: "30px", height: "30px", fontSize: 15 }}}>
                         <Avatar sx={{width: "30px", height: "30px"}}/>

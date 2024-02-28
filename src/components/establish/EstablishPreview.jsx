@@ -1,4 +1,4 @@
-import { ExpandLess, ExpandMore, Inventory, People, Star } from '@mui/icons-material';
+import { Chat, ExpandLess, ExpandMore, Inventory, LiveTv, People, Star } from '@mui/icons-material';
 import { Avatar, Box, Chip, Typography, useTheme } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
@@ -58,9 +58,11 @@ const EstablishPreview = (props) => {
             </Box>
         </Box>
         <Box display="flex" justifyContent="end" gap="20px" paddingBottom="5px" color={theme.palette.text.main}>
+            <Chat style={{color: theme.palette.icon.comment, cursor: "pointer"}}/>
             <Box display="flex" gap="2px"><People style={{color: theme.palette.icon.comment}} fontSize='small'/><div>{formatNumber(100)}</div></Box>
             <Box display="flex" gap="2px"><Inventory style={{color: theme.palette.icon.inventory}} fontSize='small'/><div>{formatNumber(300)}</div></Box>
             <Box display="flex" gap="2px" sx={{cursor: "pointer"}}><Star style={{color: theme.palette.icon.star}} fontSize='small'/><div>{formatNumber(13200)}</div></Box>
+            <LiveTv style={{color: theme.palette.broadcast.main, cursor: "pointer", paddingBottom: "3px"}}/>
         </Box>
         </Box>
 

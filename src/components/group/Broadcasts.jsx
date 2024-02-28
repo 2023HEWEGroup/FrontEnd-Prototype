@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Box, useTheme } from '@mui/material'
-import { Pause, Podcasts, Replay } from '@mui/icons-material'
+import { Box, CircularProgress, useTheme } from '@mui/material'
+import { LiveTv, Pause, Replay } from '@mui/icons-material'
 import BroadCastBox from './BroadCastBox'
 import { StyledTextField } from '../../utils/StyledTextField'
 import io from 'socket.io-client';
@@ -131,7 +131,7 @@ const Broadcasts = (props) => {
         <Box display="flex" alignItems="end" flexDirection="column" margin="0 auto" width="95%" justifyContent="center" gap="20px" padding="50px 0 20px 0">
             <StyledTextField theme={theme} value={room.name} autoComplete='new-off' fullWidth inputProps={{maxLength: 50, placeholder: "ルーム名 (1~50字)", fontSize: "0.9rem"}}
                 onChange={handleRoomChange} error={room.error} helperText={room.helper} size="small" sx={{"& input::placeholder": {fontSize: '0.8rem'}}}/>
-            <LoadingButton loading={isLoading} variant="contained" sx={{p: "10px 50px", fontSize: "1rem", fontWeight: "bold", background: isLiving || isParticipating ? theme.palette.broadcast.gradientStop : theme.palette.broadcast.gradient, color: "#fff"}} startIcon={isLiving ? <Pause /> : isParticipating ? <Replay /> : <Podcasts />} onClick={handleRoomCheck}>{isLiving ? "配信停止" : isParticipating ? "ルーム退出" : "配信開始"}</LoadingButton>
+            <LoadingButton loading={isLoading} variant="contained" sx={{p: "10px 50px", fontSize: "1rem", fontWeight: "bold", background: isLiving || isParticipating ? theme.palette.broadcast.gradientStop : theme.palette.broadcast.gradient, color: "#fff"}} startIcon={isLiving ? <Pause /> : isParticipating ? <Replay /> : <LiveTv />} onClick={handleRoomCheck}>{isLiving ? "配信停止" : isParticipating ? "ルーム退出" : "配信開始"}</LoadingButton>
         </Box>
         <StyledSection theme={theme}>配信一覧</StyledSection>
         {!isLoading ?
@@ -142,7 +142,9 @@ const Broadcasts = (props) => {
                 }
             </StyledBloadcasts>
             :
-            null
+            <Box display="flex" justifyContent="center" alignItems="center" height="75px">
+                <CircularProgress color='secondary' />
+            </Box>
         }
         </>
     )
