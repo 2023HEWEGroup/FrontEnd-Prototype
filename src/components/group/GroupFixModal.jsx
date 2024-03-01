@@ -93,7 +93,7 @@ const GroupFixModal = (props) => {
                         <StyledSaveButton theme={theme} color="text" variant="contained" onClick={props.handleCheck}>保存</StyledSaveButton>
                     </StyledModalHeader>
 
-                    <StyledHeader backHeader={props.isHeaderDelete ? null : props.previewHeader ? props.previewHeader : props.group.header ? `${backendAccessPath}/uploads/groupIcons/${props.group.header}` : null} theme={theme}>
+                    <StyledHeader backHeader={props.isHeaderDelete ? null : props.previewHeader ? props.previewHeader : props.group.header ? `${backendAccessPath}/uploads/groupHeaders/${props.group.header}` : null} theme={theme}>
                         <StyledHeaderDarkness>
                             <StyledHeaderIcons>
                                 <Tooltip title='ヘッダーを変更' placement='bottom'>

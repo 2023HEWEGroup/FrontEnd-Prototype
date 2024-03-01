@@ -13,6 +13,7 @@ const Carousel = () => {
 
     const slides = [
         {imageUrl: `${siteAssetsPath}/lmapUngra.png`, slideComment: "2024/02/03 サイト名称とサイトロゴデザインが更新されました"},
+        {imageUrl: `${siteAssetsPath}/robloxBackground.png`, slideComment: "2024/02/06 【アップデート情報】コミュニティ機能が実装されました"}
     ];
 
     const CustomArrow = ({ onClick, theme, direction }) => {

@@ -401,8 +401,8 @@ const StyledTextArea = styled.textarea`
     font-family:'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif;
 
     transition: background 0.1s ease;
-    ${StyledCommentArea}:hover & {
-        background: ${(props) => (!props.$isSmallScreen && !props.$isFullScreen) ? null : "rgba(0, 0, 0, 0.5)"};
+    ${StyledCommentArea}:hover && {
+        background: ${(props) => (props.$isSmallScreen || props.$isFullScreen) ? "rgba(0, 0, 0, 0.5)" : "rgba(0, 0, 0, 0)"};
     }
 
     &:focus-within {
