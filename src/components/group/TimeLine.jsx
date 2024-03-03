@@ -35,7 +35,7 @@ const TimeLine = (props) => {
             {!isLoading ?
             <Box display="flex" justifyContent="start" alignItems="center" flexDirection="column" width="95%" margin="0 auto" padding="25px 0">
                 {props.group.chat.map((chat, index) => 
-                    chat._id !== props.currentUser._id ?
+                    chat._id !== props.currentUser?._id ?
                     users[chat._id] ?
                     <Box key={index} display="flex" justifyContent="start" alignItems="center" width="100%" paddingTop={(index > 0 && chat._id === props.group.chat[index - 1]._id) ? "5px" : "30px"}>
                         <Box display="flex" gap="10px" justifyContent="start" alignItems="start" maxWidth="90%">
@@ -43,7 +43,7 @@ const TimeLine = (props) => {
                             <Box>
                                 {(index > 0 && chat._id === props.group.chat[index - 1]._id) ? null : <Typography variant="body1" color={theme.palette.text.sub} style={{paddingBottom: "5px"}}>{users[chat._id].username}</Typography>}
                                 <Box display="flex" alignItems="end" gap="5px">
-                                    <StyledComment currentId={props.currentUser._id} chatId={chat._id} theme={theme}>{chat.chat}</StyledComment>
+                                    <StyledComment currentId={props.currentUser?._id} chatId={chat._id} theme={theme}>{chat.chat}</StyledComment>
                                     <Typography variant='body2' color={theme.palette.text.sub} style={{fontSize: "0.8rem"}}>14:30</Typography>
                                 </Box>
                             </Box>
@@ -56,7 +56,7 @@ const TimeLine = (props) => {
                             <Box>
                                 {(index > 0 && chat._id === props.group.chat[index - 1]._id) ? null : <Typography variant="body1" color={theme.palette.text.sub} style={{paddingBottom: "5px"}}>退会したメンバー</Typography>}
                                 <Box display="flex" alignItems="end" gap="5px">
-                                    <StyledComment currentId={props.currentUser._id} chatId={chat._id} theme={theme}>{chat.chat}</StyledComment>
+                                    <StyledComment currentId={props.currentUser?._id} chatId={chat._id} theme={theme}>{chat.chat}</StyledComment>
                                     <Typography variant='body2' color={theme.palette.text.sub} style={{fontSize: "0.8rem"}}>14:30</Typography>
                                 </Box>
                             </Box>
@@ -72,7 +72,7 @@ const TimeLine = (props) => {
                             {(index > 0 && chat._id === props.group.chat[index - 1]._id) ? null : <Typography variant="body1" color={theme.palette.text.sub} style={{paddingBottom: "5px"}}>{users[chat._id].username}</Typography>}
                                 <Box display="flex" alignItems="end" gap="5px">
                                     <Typography variant='body2' color={theme.palette.text.sub} style={{fontSize: "0.8rem"}}>14:30</Typography>
-                                    <StyledComment currentId={props.currentUser._id} chatId={chat._id} theme={theme}>{chat.chat}</StyledComment>
+                                    <StyledComment currentId={props.currentUser?._id} chatId={chat._id} theme={theme}>{chat.chat}</StyledComment>
                                 </Box>
                             </Box>
                             {(index > 0 && chat._id === props.group.chat[index - 1]._id) ?  <Avatar style={{opacity: 0}} /> : <Link to={`/user/${chat._id}`} style={{textDecoration: "none"}}><Avatar src={users[chat._id].icon ? `${backendAccessPath}/uploads/userIcons/${users[chat._id].icon}` : `${siteAssetsPath}/default_icons/${users[chat._id].defaultIcon}`}/></Link>}
@@ -85,7 +85,7 @@ const TimeLine = (props) => {
                             {(index > 0 && chat._id === props.group.chat[index - 1]._id) ? null : <Typography variant="body1" color={theme.palette.text.sub} style={{paddingBottom: "5px"}}>退会したメンバー</Typography>}
                                 <Box display="flex" alignItems="end" gap="5px">
                                     <Typography variant='body2' color={theme.palette.text.sub} style={{fontSize: "0.8rem"}}>14:30</Typography>
-                                    <StyledComment currentId={props.currentUser._id} chatId={chat._id} theme={theme}>{chat.chat}</StyledComment>
+                                    <StyledComment currentId={props.currentUser?._id} chatId={chat._id} theme={theme}>{chat.chat}</StyledComment>
                                 </Box>
                             </Box>
                             {(index > 0 && chat._id === props.group.chat[index - 1]._id) ? <Avatar style={{opacity: 0}} /> : <Link to={`/user/${chat._id}`} style={{textDecoration: "none"}}><Avatar src={`${siteAssetsPath}/default_group_icons/${props.group.defaultIcon}`}/></Link>}

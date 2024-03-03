@@ -16,6 +16,7 @@ import ErrorSnack from '../components/common/errorSnack/ErrorSnack';
 import IsProgress from '../components/common/isProgress/IsProgress';
 import { debounce } from 'lodash';
 import VerifiedBadge from '../layouts/badges/VerifiedBadge';
+import LoginRequiredModal from '../components/common/loginRequiredModal/LoginRequiredModal';
 
 
 const Group = (props) => {
@@ -64,6 +65,8 @@ const Group = (props) => {
   const [binaryPrevIcon, setBinaryPrevIcon] = useState();
   const [iconCrop, setIconCrop] = useState({x: 0, y: 0});
   const [iconZoom, setIconZoom] = useState(1);
+
+  const [isLoginModal, setIsLoginModal] = useState(false);
 
   const { siteAssetsPath, backendAccessPath, socketPath } = useEnv();
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
@@ -266,6 +269,10 @@ const handleProfleUpdate = async () => {
 }
 
   const handleChatSend = () => {
+    if (!props.currentUser) {
+      setIsLoginModal(true);
+      return;
+    }
     if (chat.length === 0 || !socket || chat.trim('') === '') return;
     socket.emit('groupChat', chat.trim(''), groupId, props.currentUser);
     setChat("");
@@ -283,6 +290,7 @@ const handleProfleUpdate = async () => {
 
 const handleJoinGroup = debounce(async () => {
   try {
+    if (!props.currentUser) return;
     const response = await axios.put(`${backendAccessPath}/client/group/join/${group?._id}`, {_id: props.currentUser._id});
     setGroup(response.data);
   } catch (err) {
@@ -299,6 +307,7 @@ const handleJoinGroup = debounce(async () => {
 
 const handleStar = debounce(async () => {
   try {
+    if (!props.currentUser) return;
     const response = await axios.put(`${backendAccessPath}/client/group/star/${group?._id}`, {_id: props.currentUser._id});
     setGroup(response.data);
   } catch (err) {
@@ -436,10 +445,13 @@ useEffect(() => {
             <ArrowBackIosNew style={{color: "#fff"}} fontSize='small'/>
           </StyledIconButton>
         </Link>
-        <StyledIconButton theme={theme} onClick={handlePopper}>
-          <MoreVert style={{color: "#fff"}} fontSize='small'/>
-        </StyledIconButton>
+        {props.currentUser &&
+          <StyledIconButton theme={theme} onClick={handlePopper}>
+            <MoreVert style={{color: "#fff"}} fontSize='small'/>
+          </StyledIconButton>
+        }
 
+        {props.currentUser &&
         <Popper sx={{zIndex: 60}} open={isPopperOpen} anchorEl={popperAnchorEl} placement="bottom-start" theme={theme} ref={popperRef}>
           <StyledPopperPaper elevation={3} theme={theme}>
               {props.currentUser._id === group.owner._id && <StyledPopperItem theme={theme} onClick={() => setIsFixModal(true)} style={{color: theme.palette.text.main}}>グループを編集</StyledPopperItem>}
@@ -448,6 +460,7 @@ useEffect(() => {
               <StyledPopperItem theme={theme} onClick={handleStar} style={{color: theme.palette.text.main}}>{group.starUser.includes(props.currentUser._id) ? "お気に入り解除" : "お気に入り"}</StyledPopperItem>
           </StyledPopperPaper>
         </Popper>
+        }
       </StyledBox>
 
       <Grid container>
@@ -470,7 +483,7 @@ useEffect(() => {
                 <Chat style={{color: theme.palette.icon.comment, cursor: "pointer"}} onClick={() => setTabValue(0)}/>
                 <Box display="flex" gap="2px" sx={{cursor: "pointer"}} onClick={() => setTabValue(1)}><People style={{color: theme.palette.icon.comment}} fontSize='small'/><div>{formatNumber(group.member.length)}</div></Box>
                 <Box display="flex" gap="2px" sx={{cursor: "pointer"}} onClick={() => setTabValue(2)}><Inventory style={{color: theme.palette.icon.inventory}} fontSize='small'/><div>{formatNumber(group.products.length)}</div></Box>
-                <Box display="flex" gap="2px" sx={{cursor: "pointer"}} onClick={handleStar}>{group.starUser.includes(props.currentUser._id) ? <Star style={{color: theme.palette.icon.star}} fontSize='small'/> : <StarBorder style={{color: theme.palette.text.sub}} fontSize='small'/>}<div>{formatNumber(group.starUser.length)}</div></Box>
+                <Box display="flex" gap="2px" sx={{cursor: "pointer"}} onClick={handleStar}>{group.starUser.includes(props.currentUser?._id) ? <Star style={{color: theme.palette.icon.star}} fontSize='small'/> : <StarBorder style={{color: theme.palette.text.sub}} fontSize='small'/>}<div>{formatNumber(group.starUser.length)}</div></Box>
                 <LiveTv style={{color: theme.palette.broadcast.main, cursor: "pointer", paddingBottom: "3px"}} onClick={() => setTabValue(3)}/>
               </Box>
             </Box>
@@ -553,6 +566,8 @@ useEffect(() => {
     <ErrorSnack open={isErrorSnack} onClose={() => setIsErrorSnack(false)} warning={snackWarning}/>
 
     <IsProgress isProgress={isProgress} style={{zIndex: 9000}}/>
+
+    <LoginRequiredModal open={isLoginModal} onClose={setIsLoginModal} header="ログインが必要です。" desc={"グループチャットに参加しますか？ログインしてグループに参加しましょう！"}/>
     </>
   )
 }

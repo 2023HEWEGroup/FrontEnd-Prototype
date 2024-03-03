@@ -6,9 +6,10 @@ import GroupCard from '../components/groups/GroupCard'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useEnv } from '../provider/EnvProvider'
+import MyGroups from '../components/groups/MyGroups'
 
 
-const Groups = () => {
+const Groups = (props) => {
 
     const theme = useTheme();
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
@@ -17,6 +18,7 @@ const Groups = () => {
     const [barPosition, setBarPosition] = useState("static");
     const [isLoading, setIsLoading] =  useState(true);
     const [favoriteGroups, setFavoriteGroups] = useState(null);
+    const [open, setOpen] = useState(false);
     const { siteAssetsPath, backendAccessPath } = useEnv();
 
     useEffect(() => {
@@ -72,7 +74,7 @@ const Groups = () => {
                 <div></div>
                 }
                 <Box display="flex" gap="10px">
-                    <Button variant='contained' color='secondary' sx={{display: "flex", gap: "10px"}}><FolderSharedOutlined /><span>マイグループ</span></Button>
+                    <Button variant='contained' color='secondary' sx={{display: "flex", gap: "10px"}} onClick={() => setOpen(true)}><FolderSharedOutlined /><span>マイグループ</span></Button>
                     <Link to="/establish" style={{textDecoration: "none"}}><Button variant='contained' color='secondary' sx={{display: "flex", gap: "10px"}}><Add /><span>グループを作成</span></Button></Link>
                 </Box>
             </StyledBar>
@@ -95,6 +97,8 @@ const Groups = () => {
             }
 
         </StyledGroups>
+
+        {props.currentUser && <MyGroups open={open} setOpen={setOpen} currentUser={props.currentUser}/>}
         </>
     )
 }   
