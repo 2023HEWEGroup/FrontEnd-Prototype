@@ -45,15 +45,15 @@ const Routing = () => {
     <>
     <Routes>
       <Route path="/" element={<Top />} />
-      <Route path="/exhibit" element={user ? <Exhibit /> : <Navigate to="/?recommend=true&back=/" />} />
-      <Route path="/establish" element={user ? <Establish currentUser={user}/> : <Navigate to="/?recommend=true&back=/" />} />
-      <Route path="/broadcastLiver/:roomId" element={user ? <BroadcastRoomLiver currentUser={user}/> : <Navigate to="/?recommend=true&back=/" />} />
-      <Route path="/broadcastAudience/:roomId" element={user ? <BroadcastRoomAudience currentUser={user}/> : <Navigate to="/?recommend=true&back=/" />} />
+      <Route path="/exhibit" element={user ? <Exhibit /> : <Navigate to="/?recommend=true&back=/home" />} />
+      <Route path="/establish" element={user ? <Establish currentUser={user}/> : <Navigate to="/?recommend=true&back=/groups" />} />
+      <Route path="/broadcastLiver/:roomId" element={user ? <BroadcastRoomLiver currentUser={user}/> : <Navigate to="/?recommend=true&back=/home" />} />
+      <Route path="/broadcastAudience/:roomId" element={user ? <BroadcastRoomAudience currentUser={user}/> : <Navigate to="/?recommend=true&back=/home" />} />
 
       <Route path="/" element={<CommonLayouts currentUser={user}/>}>
         <Route path="home" element={<Home currentUser={user}/>} />
         <Route path="product/:productId" element={<Product currentUser={user}/>} />
-        <Route path="following" element={user ? <Following currentUser={user}/> : <Navigate to="/?recommend=true&back=/" />} />
+        <Route path="following" element={user ? <Following currentUser={user}/> : <Navigate to="/?recommend=true&back=/home" />} />
         <Route path="group/:groupId" element={<Group currentUser={user}/>} />
         <Route path="notify" element={<Notify />} />
         <Route path="user/:userId" element={<Profile />} />
@@ -61,12 +61,12 @@ const Routing = () => {
         <Route path="help" element={<Help />} />
         <Route path="products" element={<Products currentUser={user}/>} />
         <Route path="users" element={<Users />} />
-        <Route path="groups" element={<Groups />} />
+        <Route path="groups" element={<Groups currentUser={user}/>} />
         <Route path="settlementFin" element={<SettlementFin />} />
         <Route path="timeOut" element={<TimeOut />} />
         <Route path="notFound" element={<NotFound />} />
 
-        <Route path="setting" element={user ? <SettingLayout /> : <Navigate to="/?recommend=true&back=/" />}>
+        <Route path="setting" element={user ? <SettingLayout /> : <Navigate to="/?recommend=true&back=/home" />}>
           <Route index element={<SelectSetting />} />
           <Route path="account" element={<SelectAccountSetting currentUser={user}/>} />
           <Route path="account/accountInfo" element={<SelectAccountInfoSetting currentUser={user}/>} />

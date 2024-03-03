@@ -43,7 +43,7 @@ const FloatSideBar = (props) => {
             }
 
             <StyledDivider>
-                <StyledListTitle>グループ</StyledListTitle>
+                <StyledListTitle>{`グループ ${props.currentUser ? `(${props.currentUser.groupss.length})` : "(0)"}`}</StyledListTitle>
             </StyledDivider>
             <GroupListSection page={props.page}/>
 

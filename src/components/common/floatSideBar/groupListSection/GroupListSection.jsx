@@ -36,7 +36,7 @@ const GroupListSection = (props) => {
                 console.log(err);
             }
         }
-        fetchGroups();
+        if (props.currentUser) fetchGroups();
     }, [props.page]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (

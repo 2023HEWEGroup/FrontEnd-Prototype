@@ -7,6 +7,7 @@ import { StyledTextField } from '../../utils/StyledTextField'
 import io from 'socket.io-client';
 import { LoadingButton } from '@mui/lab'
 import { useEnv } from '../../provider/EnvProvider'
+import LoginRequiredModal from '../common/loginRequiredModal/LoginRequiredModal'
 
 
 const Broadcasts = (props) => {
@@ -17,6 +18,7 @@ const Broadcasts = (props) => {
     const [roomList, setRoomList] = useState();
     const [isLiving, setIsLiving] = useState(false); // ある配信を配信中かどうか(配信者の場合)
     const [isParticipating, setIsParticipating] = useState(false); // ある配信を視聴中かどうか
+    const [isLoginModal, setIsLoginModal] = useState(false);
     const theme = useTheme();
     const { socketPath } = useEnv();
 
@@ -47,6 +49,10 @@ const Broadcasts = (props) => {
     };
 
     const handleCreateRoom = () => {
+        if (!props.currentUser) {
+            setIsLoginModal(true);
+            return;
+        }
         if (isParticipating || isLiving) {
             // 配信に参加していた場合、オブジェクトIDをキーにsocketIdを特定し、ルームを退出させる
             socket.emit(`leaveRoom`, props.currentUser._id);
@@ -68,6 +74,10 @@ const Broadcasts = (props) => {
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleEnterRequest = (roomId, userId, groupId) => {
+        if (!props.currentUser) {
+            setIsLoginModal(true);
+            return;
+        }
         socket.emit('enterRoom', roomId, userId, groupId); // 配信ルームに参加するリクエスト
     }
 
@@ -146,6 +156,8 @@ const Broadcasts = (props) => {
                 <CircularProgress color='secondary' />
             </Box>
         }
+
+        <LoginRequiredModal open={isLoginModal} onClose={setIsLoginModal} header="ログインが必要です。" desc={"配信に参加しますか？ログインしてグループに参加しましょう！"}/>
         </>
     )
 }

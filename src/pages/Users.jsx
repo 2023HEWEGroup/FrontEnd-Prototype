@@ -31,7 +31,7 @@ const UserBadge = (user) => {
     };
 
 
-const Users = (props) => {
+const Users = () => {
 
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
@@ -45,7 +45,6 @@ const Users = (props) => {
     const navigate = useNavigate();
     const theme = useTheme();
     const dispatch = useDispatch();
-    const user = useSelector((state) => state.user.value);
     const isMiddleScreen = useMediaQuery((theme) => theme.breakpoints.down('lg'));
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('md'));
     const isXsScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
@@ -136,7 +135,7 @@ const Users = (props) => {
     const handlePageChange = async () => {
         try {
             setUsers(null);
-            const response = await axios.get(`${backendAccessPath}/client/user/searchAll/${user ? user._id : ""}?searchWord=${word ? word : ""}&page=${currentPage}&pageSize=${PAGE_SIZE}&mode=${modeQuery ? encodeURIComponent(modeQuery): ""}`);
+            const response = await axios.get(`${backendAccessPath}/client/user/searchAll?searchWord=${word ? word : ""}&page=${currentPage}&pageSize=${PAGE_SIZE}&mode=${modeQuery ? encodeURIComponent(modeQuery): ""}`);
             if (response.data) {
                 setUsers(response.data.users);
                 setNum(response.data.num);
@@ -153,7 +152,7 @@ const Users = (props) => {
         }
     }
     useEffect(() => {
-        handlePageChange();
+        if (word) handlePageChange();
     }, [currentPage]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleSearch = (e) => { // 検索バーからの検索
@@ -178,7 +177,7 @@ const Users = (props) => {
             try {
                 setUsers(null);
                 setCurrentPage(1); // 新しい検索ページ1から表示
-                const response = await axios.get(`${backendAccessPath}/client/user/searchAll//${user ? user._id : ""}?searchWord=${word ? word : ""}&page=${currentPage}&pageSize=${PAGE_SIZE}&mode=${modeQuery ? encodeURIComponent(modeQuery): ""}`);
+                const response = await axios.get(`${backendAccessPath}/client/user/searchAll?searchWord=${word ? word : ""}&page=${currentPage}&pageSize=${PAGE_SIZE}&mode=${modeQuery ? encodeURIComponent(modeQuery): ""}`);
                 setUsers(response.data.users);
                 setNum(response.data.num);
             } catch (err) {
@@ -192,7 +191,7 @@ const Users = (props) => {
                 }
             }
         }
-        accessSearch();
+        if (word) accessSearch();
     }, [word, modeQuery]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
